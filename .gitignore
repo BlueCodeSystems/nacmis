@@ -1,0 +1,14 @@
+# Settings folder for a django databases #
+##########################################
+nacmis-online/settings.py
+
+# private binary folders#
+##########################
+/__pycache__/
+
+# Logs and databases #
+######################
+*.log
+.static_storage/
+.media/
+local_settings.py
