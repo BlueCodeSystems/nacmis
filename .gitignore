@@ -1,6 +1,6 @@
 # Settings folder for a django databases #
 ##########################################
-nacmis-online/settings.py
+nacmis_online/settings.py
 
 # private binary folders#
 ##########################
