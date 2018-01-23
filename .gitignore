@@ -7,7 +7,7 @@ local_settings.py
 
 # Settings folder for a django databases #
 ##########################################
-nacmis_online/settings.py
+./nacmis_online/settings.py
 
 # private binary folders#
 ##########################
