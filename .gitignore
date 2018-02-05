@@ -1,3 +1,7 @@
+# Visual Studio folders and files #
+###################################
+.vscode/
+
 # Logs and databases #
 ######################
 *.log
@@ -11,5 +15,5 @@ nacmis_online/settings.py
 
 # private binary folders#
 ##########################
-*/__pycache__/
+nacmis_online/__pycache__/
 
