@@ -15,5 +15,5 @@ nacmis_online/settings.py
 
 # private binary folders#
 ##########################
-nacmis_online/__pycache__/
-
+*/__pycache__/
+nacmis_online/migrations/
