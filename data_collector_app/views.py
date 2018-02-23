@@ -1,12 +1,13 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 # Create your views here.
 
 def index(request):
     return HttpResponse("Hello, welcome to the nacmis index page")
 
-def  stake_holder(request)
-    return HttpResponse()
+def stake_holder(request):
+    return HttpResponse("Hello, stake holder. This is your page.")
     
 def report(request):
     return HttpResponse("Reporting form page.")
