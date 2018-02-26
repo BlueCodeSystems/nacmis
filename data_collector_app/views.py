@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import generic
 
 # Create your views here.
-
+'''
 class IndexView(generic.ListView):
     template_name = 'data_collector_app/index.html'
     context_object_name = 'test_list'
@@ -15,7 +15,7 @@ class IndexView(generic.ListView):
         fruit_list = ['Lemons', 'Apples', 'Oranges', 'Granadillas', 'Guavas']
         return fruit_list
 
-'''
+
 class StakeHolderView(generic.DetailView):
     return HttpResponse("Hello, stake holder. This is your page.")
     
@@ -28,3 +28,5 @@ class ParticipationView(generic.DetailView):
 class SituationRoomView(generic.DetailView):
     return HttpResponse("Reporting form page.")
 '''
+def index(request):
+    return HttpResponse("This is my index.")

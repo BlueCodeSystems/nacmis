@@ -16,4 +16,5 @@ nacmis_online/settings.py
 # private binary folders#
 ##########################
 */__pycache__/
-nacmis_online/data_collector_app/migrations/
+**/__pycache__/
+nacmis_online/data_collector_app/migrations/*
