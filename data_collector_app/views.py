@@ -9,6 +9,9 @@ class IndexView(generic.ListView):
     context_object_name = 'test_list'
 
     def get_queryset(self):
+        """
+        testing the index
+        """
         fruit_list = ['Lemons', 'Apples', 'Oranges', 'Granadillas', 'Guavas']
         return fruit_list
 
