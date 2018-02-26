@@ -1,19 +1,27 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views import generic
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse("Hello, welcome to the nacmis index page")
+class IndexView(generic.ListView):
+    template_name = 'data_collector_app/index.html'
+    context_object_name = 'test_list'
 
-def stake_holder(request):
+    def get_queryset(self):
+        fruit_list = ['Lemons', 'Apples', 'Oranges', 'Granadillas', 'Guavas']
+        return fruit_list
+
+'''
+class StakeHolderView(generic.DetailView):
     return HttpResponse("Hello, stake holder. This is your page.")
     
-def report(request):
+class ReportView(generic.DetailView):
     return HttpResponse("Reporting form page.")
 
-def participation(request):
+class ParticipationView(generic.DetailView):
     return HttpResponse("HIV activities organization participates in page.")
 
-def situation_room(request):
+class SituationRoomView(generic.DetailView):
     return HttpResponse("Reporting form page.")
+'''
