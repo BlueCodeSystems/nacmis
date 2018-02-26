@@ -17,4 +17,4 @@ nacmis_online/settings.py
 ##########################
 */__pycache__/
 **/__pycache__/
-nacmis_online/data_collector_app/migrations/*
+nacmis_online/data_collector_app/migrations/*.*
