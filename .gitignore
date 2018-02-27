@@ -22,4 +22,4 @@ nacmis_online/data_collector_app/migrations/*.*
 
 # private folders and files for local user #
 ##########################################
-data_collector_app/templates/data_collector_app/sources
+data_collector_app/static/data_collector_app/sources
