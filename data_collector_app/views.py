@@ -15,6 +15,11 @@ class IndexView(generic.ListView):
         fruit_list = ['Lemons', 'Apples', 'Oranges', 'Granadillas', 'Guavas']
         return fruit_list
 
+class Login(generic.DetailView):
+    template_name = 'data_collector_app/login.html'
+    def get_queryset(self):
+        return
+
 '''
 class StakeHolderView(generic.DetailView):
     return HttpResponse("Hello, stake holder. This is your page.")

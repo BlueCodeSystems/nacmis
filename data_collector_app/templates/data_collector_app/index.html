@@ -1,9 +1,41 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>NACMIS online</title>
+    <title>NACMIS online login</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <h1>Welcome new user</h1>
-    <p>This is a test</p>
+    <h1>Login Page</h1>
+    <form class="horizontal-form" role="form" action="#">
+        <div id="imgcontainer">
+            <img src="bluecode.png" alt="Bluecode logo" />
+        </div>
+
+        <div class=".form-group">
+            <label for="uname">Username</label>
+             <input type="text" placeholder="Enter your username" name="uname" required />
+        </div>
+
+        <div class=".form-group">
+            <label for="psw">Password</label>
+            <input type="password" placeholder="Enter Password" name="psw" required />
+        </div>
+        <!--
+        <button type="submit">Login</button>
+
+        <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+
+        <div class="container" style="background-color:#f1f1f1">
+            <button type="button" class="cancelbtn">Cancel</button>
+            <span class="psw">Forgot <a href="#">password?</a></span>
+        </div>
+        -->
+    </form>
+    <!-- Include all compiled plugins (below), or include individual
+    files as needed -->
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
