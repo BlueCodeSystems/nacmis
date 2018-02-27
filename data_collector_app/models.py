@@ -101,7 +101,7 @@ designated_systems
 # *************************************************
 
 # --> Basic details on the organization
-organization name
+organization_name
 start_year
 permanent_employee_female
 permanent_employee_male
@@ -140,7 +140,7 @@ resource_mobilization_sustainable_financing
 post_exposure_prophylaxis
 blood_safety
 poverty_alleviation_livelihoods
-food_nutrition security
+food_nutrition_security
 mainstreaming_hiv_into_capital_projects
 
 # --> Funding sources
