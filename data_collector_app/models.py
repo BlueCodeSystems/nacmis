@@ -18,6 +18,7 @@ class ReportDetail(models.Model):
 # *************************************************
 
 # --> Social behaviour change communication
+'''
 IEC_produced_num
 IEC_distributed_num
 
@@ -175,3 +176,4 @@ target_groups_traditional_leaders
 target_groups_truck_drivers
 target_groups_youth
 target_groups_others
+'''

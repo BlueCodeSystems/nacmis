@@ -4,3 +4,4 @@ from .models import ReportDetail
 
 # Register your models here.
 
+admin.site.register(ReportDetail)
