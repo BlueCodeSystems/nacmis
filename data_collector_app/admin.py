@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from .models import ReportDetail
+from .models import GeographicActivities
 
 # Register your models here.
 
 class ReportDetailAdmin(admin.ModelAdmin):
     fields = ['report_date', 'quarter', 'name', 'organization_type', 'location']
 
-admin.site.register(ReportDetail)
+admin.site.register(GeographicActivities)
 # admin.site.register(ReportDetail, ReportDetailAdmin)
