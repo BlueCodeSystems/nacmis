@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 
 # Create your models here.
 # list variables
@@ -128,6 +129,7 @@ ORGANIZATION_TARGET_LIST = (
     (target_others, 'Other target groups - please specify')
 )
 
+
 DISTRICT_AREA_LIST = () # Auto populated area tuple from, dependant on district 
 
 TYPE_OF_SUPPORT_LIST = (
@@ -155,7 +157,7 @@ IEC_MATERIALS = (
 #               STAKEHOLDER DIRECTORY
 # *************************************************
 
-class BasicDetails(models.Model):
+class BasicDetail(models.Model):
     # --> Basic details on the organization
     organization_name = models.CharField(max_length=200)
     start_year = models.DateTimeField('start_year')
@@ -167,7 +169,7 @@ class BasicDetails(models.Model):
     volunteer_employee_male = models.IntegerField(default=0)
     description = models.TextField()
 
-class ContactDetails(models.Model):
+class ContactDetail(models.Model):
     # --> Contact details
     contact_name = models.CharField(max_length=50)
     contact_organization = models.CharField(max_length=100)
@@ -177,38 +179,65 @@ class ContactDetails(models.Model):
     email = models.CharField(max_length=50)
     website = models.CharField(max_length=50)
     organization_type = models.CharField(max_length=100, choices=ORGANIZATION_TYPE_LIST, default='N/A')
-    organization_target = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
+    
+    # organization_target = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
+    #check box fileds the 'organization_target' attribute
+    plhiv = models.BooleanField('people living with HIV/ AIDS')
+    ovc = models.BooleanField('orphans and vulnerable children')
+    pregnant_women = models.BooleanField()
+    care_givers = models.BooleanField()
+    health_workers = models.BooleanField()
+    teachers = models.BooleanField()
+    children = models.BooleanField()
+    adolecents = models.BooleanField('adolecents/ youth')
+    old_people = models.BooleanField('old people/ pensioners')
+    disabled_people = models.BooleanField()
+    prisoners_wivies = models.BooleanField()
+    govt_workers = models.BooleanField('government workers (work place)')
+    sex_workers = models.BooleanField()
+    church_leaders = models.BooleanField()
+    employee_families = models.BooleanField('employees and/or employee families')
+    gdwg = models.BooleanField('guardians/ divorced/ widows/ grandparents')
+    idu = models.BooleanField('intravenous drug users (IDU)')
+    msm = models.BooleanField('men who have sex with men (MSM)')
+    mobile_population = models.BooleanField('migrants/ mobile population')
+    out_of_school_youth = models.BooleanField()
+    prisoners = models.BooleanField()
+    street_children = models.BooleanField()
+    traditional_healers = models.BooleanField()
+    traditional_leaders = models.BooleanField()
+    target_others = models.BooleanField('other target groups - please specify')
 
-class GeographicActivities(models.Model):
+class GeographicActivity(models.Model):
     # --> Geographic activities - High impact interventions
-    elimination_of_mother_child_transmission = models.BooleanField()
+    elimination_of_mother_child_transmission = models.BooleanField('elimination of mother-to-child transmission (eMTCT)')
     condom_programming = models.BooleanField()
-    voluntary_medical_male_circumcision = models.BooleanField()
-    hiv_counselling_testing = models.BooleanField()
-    social_behaviour_change = models.BooleanField()
-    anti_retroviral_treatment = models.BooleanField()
+    voluntary_medical_male_circumcision = models.BooleanField('voluntary medical male circumcision (VMMC) ')
+    hiv_counselling_testing = models.BooleanField('HIV counselling and testing (HCT)')
+    social_behaviour_change = models.BooleanField('social and behaviour change communication')
+    anti_retroviral_treatment = models.BooleanField('treatment through provision of Anti-Retroviral Treatment (ART)')
 
     # --> Geographic activities - Critical enablers
-    gender_equality_empowerment = models.BooleanField()
-    laws_legal_policies_practices = models.BooleanField()
-    leadership_commitment_good_governance = models.BooleanField()
-    resource_mobilization_sustainable_financing = models.BooleanField()
+    gender_equality_empowerment = models.BooleanField('gender equality and empowerment')
+    laws_legal_policies_practices = models.BooleanField('laws, legal policies and practices')
+    leadership_commitment_good_governance = models.BooleanField('leadership commitment and good governance')
+    resource_mobilization_sustainable_financing = models.BooleanField('resource mobilization and sustainable financing')
 
     # --> Geographic activities - Synergies with development sectors
-    post_exposure_prophylaxis = models.BooleanField()
-    blood_safety = models.BooleanField()
-    poverty_alleviation_livelihoods = models.BooleanField()
-    food_nutrition_security = models.BooleanField()
+    post_exposure_prophylaxis = models.BooleanField('post exposure prophylaxis (PEP)')
+    blood_safety = models.BooleanField('poverty alleviation and livelihoods')
+    poverty_alleviation_livelihoods = models.BooleanField('food and nutrition security')
+    food_nutrition_security = models.BooleanField('food and nutrition security')
     mainstreaming_hiv_into_capital_projects = models.BooleanField()
 
-class FundingSources(models.Model):
+class FundingSource(models.Model):
     # --> Funding sources
     funder_organization = models.CharField(max_length=100)
     funder_support_type = models.CharField(max_length=100, choices=ORGANIZATION_TYPE_LIST, default='N/A')
     amount = models.IntegerField()
     comment = models.TextField()
 
-class TargetGroupMessages(models.Model):
+class TargetGroupMessage(models.Model):
     # --> Target groups and prevention messages
     condom_use = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
     mc_information = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
@@ -221,7 +250,7 @@ class TargetGroupMessages(models.Model):
     gbv_information = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
     social_norms = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
     message_other = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-
+    # message_other = forms.ChoiceField(choices=ORGANIZATION_TARGET_LIST)
 
 # HIV ACTIVITIES ORGANIZATION PARTICIPATES IN FORM
 # *************************************************
