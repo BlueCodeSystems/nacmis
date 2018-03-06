@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import BasicDetail, ContactDetail, GeographicActivity, \
-    FundingSource, TargetGroupMessage
+    FundingSource, TargetGroupMessage, ActivityReportForm
 
 # Register your models here.
 
@@ -16,4 +16,5 @@ admin.site.register(FundingSource)
 admin.site.register(TargetGroupMessage)
 # admin.site.register(ReportDetail, ReportDetailAdmin)
 
-#
+# Register HIV Activities Organization Participates in
+admin.site.register(ActivityReportForm)
