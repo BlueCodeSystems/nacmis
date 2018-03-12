@@ -36,7 +36,7 @@ children = 'Children'
 adolecents = 'Adolecents/ Youth'
 old_people = 'Old people/ Pensioners'
 disabled_people = 'Disabled people'
-prisoners_wivies = 'Prisoners wivies' # form says 'Prisoners Widows' Confirm this
+inmates_wivies = 'Prisoners wivies' # form says 'Prisoners Widows' Confirm this
 govt_workers = 'Government workers (work place)'
 sex_workers = 'Sex workers'
 church_leaders = 'Church leaders'
@@ -46,7 +46,7 @@ idu = 'Intravenous drug users (IDU)'
 msm = 'Men who have sex with men (MSM)'
 mobile_population = 'Migrants/ Mobile population'
 out_of_school_youth = 'Out of school youth'
-prisoners = 'Prisoners'
+inmates = 'Inmates'
 street_children = 'Street children'
 traditional_healers = 'Traditional healers'
 traditional_leaders = 'Traditional leaders'
@@ -112,7 +112,7 @@ ORGANIZATION_TARGET_LIST = (
     (adolecents, 'Adolecents/ Youth'),
     (old_people, 'Old people/ Pensioners'),
     (disabled_people, 'Disabled people'),
-    (prisoners_wivies, 'Prisoners wivies'),
+    (inmates_wivies, 'Prisoners wivies'),
     (govt_workers, 'Government workers (work place)'),
     (sex_workers, 'Sex workers'),
     (church_leaders, 'Church leaders'),
@@ -122,7 +122,7 @@ ORGANIZATION_TARGET_LIST = (
     (msm, 'Men who have sex with men (MSM)'),
     (mobile_population, 'Migrants/ Mobile population'),
     (out_of_school_youth, 'Out of school youth'),
-    (prisoners, 'Prisoners'),
+    (inmates, 'Inmates'),
     (street_children, 'Street children'),
     (traditional_healers, 'Traditional healers'),
     (traditional_leaders, 'Traditional leaders'),
@@ -157,7 +157,7 @@ IEC_MATERIALS = (
 #               STAKEHOLDER DIRECTORY
 # *************************************************
 
-class BasicDetail(models.Model):
+class StakeHolderDirectory(models.Model):
     # --> Basic details on the organization
     organization_name = models.CharField(max_length=200)
     start_year = models.DateTimeField('start_year')
@@ -169,16 +169,15 @@ class BasicDetail(models.Model):
     volunteer_employee_male = models.IntegerField(default=0)
     description = models.TextField()
 
-class ContactDetail(models.Model):
     # --> Contact details
     contact_name = models.CharField(max_length=50)
     contact_organization = models.CharField(max_length=100)
     contact_address = models.CharField(max_length=200)
     phone = models.CharField(max_length=20)
     alternative_phone = models.CharField(max_length=20)
-    email = models.CharField(max_length=50)
-    website = models.CharField(max_length=50)
-    # to radio button
+    email = models.EmailField(max_length=254)
+    website = models.URLField(max_length=200)
+
     organization_type = models.CharField(max_length=100, choices=ORGANIZATION_TYPE_LIST, default='N/A')
     # organization_target = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
     #check box fileds the 'organization_target' attribute
@@ -192,7 +191,7 @@ class ContactDetail(models.Model):
     adolecents = models.BooleanField('adolecents/ youth')
     old_people = models.BooleanField('old people/ pensioners')
     disabled_people = models.BooleanField()
-    prisoners_wivies = models.BooleanField()
+    inmates_wivies = models.BooleanField()
     govt_workers = models.BooleanField('government workers (work place)')
     sex_workers = models.BooleanField()
     church_leaders = models.BooleanField()
@@ -202,13 +201,12 @@ class ContactDetail(models.Model):
     msm = models.BooleanField('men who have sex with men (MSM)')
     mobile_population = models.BooleanField('migrants/ mobile population')
     out_of_school_youth = models.BooleanField()
-    prisoners = models.BooleanField()
+    inmates = models.BooleanField()
     street_children = models.BooleanField()
     traditional_healers = models.BooleanField()
     traditional_leaders = models.BooleanField()
     target_others = models.BooleanField('other target groups - please specify')
 
-class GeographicActivity(models.Model):
     # --> Geographic activities - High impact interventions
     elimination_of_mother_child_transmission = models.BooleanField('elimination of mother-to-child transmission (eMTCT)')
     condom_programming = models.BooleanField()
@@ -230,14 +228,12 @@ class GeographicActivity(models.Model):
     food_nutrition_security = models.BooleanField('food and nutrition security')
     mainstreaming_hiv_into_capital_projects = models.BooleanField()
 
-class FundingSource(models.Model):
     # --> Funding sources
     funder_organization = models.CharField(max_length=100)
     funder_support_type = models.CharField(max_length=100, choices=ORGANIZATION_TYPE_LIST, default='N/A')
     amount = models.IntegerField()
     comment = models.TextField()
 
-class TargetGroupMessage(models.Model):
     # --> Target groups and prevention messages
     condom_use = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
     mc_information = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
@@ -258,27 +254,16 @@ class TargetGroupMessage(models.Model):
 # --> Social behaviour change communication
 class ActivityReportForm(models.Model):
 
-    IEC_produced_books_num = models.IntegerField(default=0)
-    IEC_produced_brochures_num = models.IntegerField(default=0)
-    IEC_produced_posters_num = models.IntegerField(default=0)
-    IEC_produced_t_shirts_num = models.IntegerField(default=0)
-    IEC_produced_tv_spots_num = models.IntegerField(default=0)
-    IEC_produced_radio_spots_num = models.IntegerField(default=0)
-    IEC_produced_e_spots_num = models.IntegerField(default=0)
-    IEC_produced_billboards_num = models.IntegerField(default=0)
-    IEC_produced_drama_num = models.IntegerField(default=0)
-    IEC_produced_other_num = models.IntegerField(default=0)
-
-    IEC_distributed_books_num = models.IntegerField(default=0)
-    IEC_distributed_brochures_num = models.IntegerField(default=0)
-    IEC_distributed_posters_num = models.IntegerField(default=0)
-    IEC_distributed_t_shirts_num = models.IntegerField(default=0)
-    IEC_distributed_tv_spots_num = models.IntegerField(default=0)
-    IEC_distributed_radio_spots_num = models.IntegerField(default=0)
-    IEC_distributed_e_spots_num = models.IntegerField(default=0)
-    IEC_distributed_billboards_num = models.IntegerField(default=0)
-    IEC_distributed_drama_num = models.IntegerField(default=0)
-    IEC_distributed_other_num = models.IntegerField(default=0)
+    IEC_distributed_books_num = models.IntegerField('books distributed', default=0)
+    IEC_distributed_brochures_num = models.IntegerField('brochures distributed', default=0)
+    IEC_distributed_posters_num = models.IntegerField('posters distributed', default=0)
+    IEC_distributed_t_shirts_num = models.IntegerField('t shirts distributed', default=0)
+    IEC_distributed_tv_spots_num = models.IntegerField('tv spots distributed', default=0)
+    IEC_distributed_radio_spots_num = models.IntegerField('radio spots distributed', default=0)
+    IEC_distributed_e_spots_num = models.IntegerField('e spots distributed', default=0)
+    IEC_distributed_billboards_num = models.IntegerField('billboards distributed', default=0)
+    IEC_distributed_drama_num = models.IntegerField('drama distributed', default=0)
+    IEC_distributed_other_num = models.IntegerField('Other distributed', default=0)
 
     localized_books = models.BooleanField()
     localized_brochures = models.BooleanField()
@@ -291,11 +276,12 @@ class ActivityReportForm(models.Model):
     localized_drama = models.BooleanField()
     localized_other = models.BooleanField()
 
+    # --> Social behaviour change communication for key populations
     # in_school
-    adolescents_female_num = models.IntegerField(default=0)
-    adolescents_female_10_14 = models.IntegerField(default=0)
-    adolescents_female_15_19 = models.IntegerField(default=0)
-    adolescents_female_20_24 = models.IntegerField(default=0)
+    adolescents_female_num = models.IntegerField('total number of females reached', default=0)
+    adolescents_female_10_14 = models.IntegerField('females of ages 10 to 14', default=0)
+    adolescents_female_15_19 = models.IntegerField('females of ages 15 to 19', default=0)
+    adolescents_female_20_24 = models.IntegerField('females of ages 20 to 24', default=0)
 
     adolescents_male_num = models.IntegerField(default=0)
     adolescents_male_10_14 = models.IntegerField(default=0)
@@ -335,56 +321,3 @@ class ActivityReportForm(models.Model):
 
     # men who have sex with men
     men_with_men = models.IntegerField(default=0)
-'''
-# --> Condom programming
-class CondomProgram(models.Model):
-    outlets_supplied = models.IntegerField(default=0)
-    condom_distributed
-    condom_distributed_female_num = models.IntegerField(default=0)
-    condom_distributed_male_num = models.IntegerField(default=0)
-
-
-# --> Critical enablers
-class CriticalEnabler(models.Model):
-    total_victim_per_quarter = models.IntegerField(default=0)
-
-    victim_less_fifteen
-    victim_less_fifteen_female_num = models.IntegerField(default=0)
-    victim_less_fifteen_male_num = models.IntegerField(default=0)
-
-    victim_more_fifteen
-    victim_more_fifteen_female_num = models.IntegerField(default=0)
-    victim_more_fifteen_male_num = models.IntegerField(default=0)
-
-    accessed_pep
-    accessed_pep_female_num = models.IntegerField(default=0)
-    accessed_pep_male_num = models.IntegerField(default=0)
-
-    funding_spent = models.IntegerField(default=0)
-
-# --> Synergies with other development sectors
-class Synernegy(models.Model):
-    action_plan = models.BooleanField('does your organization have a current HIV and AIDS action plan?')
-
-    work_programmes = models.BooleanField('does your organization have an HIV AIDS workplace programme?')
-
-    employees_reached
-    employees_reached_female_num = models.IntegerField(default=0)
-    employees_reached_male_num = models.IntegerField(default=0)
-
-    capital_projects = models.IntegerField('Number of capital projects mainstreaming HIV and AIDS \
-        programmes (Local Authorities Only) / Getting actual number of projects', default=0)
-
-# --> Community health systems
-plhiv_groups
-
-plhiv_female_num = models.IntegerField(default=0)
-plhiv_male_num = models.IntegerField(default=0)
-
-ovc_female_num = models.IntegerField(default=0)
-ovc_male_num = models.IntegerField(default=0)
-
-# --> Monitoring and Evaluation not needed
-# functional_systems
-# designated_systems
-'''
