@@ -61,15 +61,35 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
             'localized_billboards', 'localized_drama', 'localized_other')
         }),
         ('Social behaviour change communication for key populations', {
-            'fields':('adolescents_female_num', 'adolescents_female_10_14', 'adolescents_female_15_19', 
-            'adolescents_female_20_24', 'adolescents_male_num', 'adolescents_male_10_14', 
-            'adolescents_male_15_19', 'adolescents_male_20_24',
-            'out_school_female_num', 'out_school_female_10_14', 'out_school_female_15_19', 
-            'out_school_female_20_24', 'out_school_male_num', 'out_school_male_10_14', 
-            'out_school_male_15_19', 'out_school_male_20_24',
-            'sex_workers_female_num', 'sex_workers_male_num', 'inmates_female_num', 'inmates_male_num', 
-            'correctional_staff_female_num', 'correctional_staff_male_num', 'pwd_female_num', 
-            'pwd_male_num', 'mobile_workers_female_num', 'mobile_workers_male_num', 'men_with_men')
+            'fields':('adolescents_female_10_14', 'adolescents_female_15_19', 'adolescents_female_20_24', 
+                'adolescents_male_10_14', 'adolescents_male_15_19', 'adolescents_male_20_24',
+                'out_school_female_10_14', 'out_school_female_15_19', 'out_school_female_20_24', 
+                'out_school_male_10_14', 'out_school_male_15_19', 'out_school_male_20_24',
+                'sex_workers_female_num', 'sex_workers_male_num', 'inmates_female_num', 'inmates_male_num', 
+                'correctional_staff_female_num', 'correctional_staff_male_num', 'pwd_female_num', 
+                'pwd_male_num', 'mobile_workers_female_num', 'mobile_workers_male_num', 'men_with_men')
+        }),
+        ('Condom programming', {
+            'fields':('condom_dist_point_num', 'female_condom_distributed_num', 'male_condom_distributed_num')
+        }),
+        ('Crtical enablers', {
+            'fields':('accessed_pep_female_num', 'accessed_pep_male_num')
+        }),
+        ('Synergies with other development sectors', {
+            'fields':('employees_reached_female_num', 'employees_reached_male_num')
+        }),
+        ('Community health systems', {
+            'fields':('plhiv_female_num', 'plhiv_male_num', 'ovc_female_num', 'ovc_male_num', 
+            'ovc_care_support_0_9', 'ovc_care_support_10_14', 'ovc_care_support_15_19', 'ovc_care_support_20_24', 
+            'ovc_care_support_25_plus')
+        }),
+        ('Types of care and support organization provides', {
+            'fields':('food_and_nutrition', 'shelter_and_care', 'protection_and_legal_aid', 'healthcare', 
+                'psychosocial', 'social_support', 'spiritual_support', 'education_and_vocational_training', 
+                'economic_strengthening')
+        }),
+        ('Monitoring and Evaluation', {
+            'fields':('nacmis', 'hmis', 'datim', 'internal_system', 'systems_other')
         })
     )
 # Register StakeHolder models

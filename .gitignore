@@ -17,7 +17,7 @@ nacmis_online/settings.py
 # folder/** ignores all folders and files recursively
 ##########################
 */__pycache__/
-data_collector_app/migrations/*.*
+data_collector_app/migrations/
 
 # private folders and files for local user #
 ##########################################

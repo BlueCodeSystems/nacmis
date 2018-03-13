@@ -52,12 +52,15 @@ traditional_healers = 'Traditional healers'
 traditional_leaders = 'Traditional leaders'
 target_others = 'Other target groups - please specify' # change some kind of list later
 
-grants = 'Grants'
-technical_support = 'Technical support'
-infrastructure = 'Infrastructure'
-training = 'Training'
-materials = 'Materials'
-area_others = 'Other areas (please specify)'
+food_and_nutrition = 'Food and Nutrition'
+shelter_and_care = 'Shelter and Care'
+protection_and_legal_aid = 'Protection and Legal aid'
+healthcare = 'Healthcare'
+psychosocial = 'Psychosocial'
+social_support = 'Social support'
+spiritual_support = 'Spiritual support'
+education_and_vocational_training = 'Education and Vocational training'
+economic_strengthening = 'Economic strengthening'
 
 n_a = 'N/A'
 no = 'NO materials were distributed this quater'
@@ -70,7 +73,13 @@ radio_spots = 'Radio Spots'
 e_spots = 'E spot'
 billboards = 'Billboards'
 drama = 'Drama' # customized field
-other = 'Other' # Enter from keyboard -- customized field 
+material_other = 'Other' # Enter from keyboard -- customized field 
+
+nacmis = 'NAC-MIS'
+hmis = 'HMIS'
+datim = 'DATIM'
+internal_system = 'Internal system'
+systems_other = 'Other'
 
 QUARTER_LIST = (
     (Q1, 'Jan - Mar'),
@@ -133,12 +142,15 @@ ORGANIZATION_TARGET_LIST = (
 DISTRICT_AREA_LIST = () # Auto populated area tuple from, dependant on district 
 
 TYPE_OF_SUPPORT_LIST = (
-    (grants, 'Grants'),
-    (technical_support, 'Technical support'),
-    (infrastructure, 'Infrastructure'),
-    (training, 'Training'),
-    (materials, 'Materials'),
-    (area_others, 'Other areas (please specify)')
+    (food_and_nutrition, 'Food and Nutrition'),
+    (shelter_and_care, 'Shelter and Care'),
+    (protection_and_legal_aid, 'Protection and Legal aid'),
+    (healthcare, 'Healthcare'),
+    (psychosocial, 'Psychosocial'),
+    (social_support, 'Social support'),
+    (spiritual_support, 'Spiritual support'),
+    (education_and_vocational_training, 'Education and Vocational training'),
+    (economic_strengthening, 'Economic strengthening')
 )
 
 IEC_MATERIALS = (
@@ -151,9 +163,16 @@ IEC_MATERIALS = (
     (e_spots, 'E spot'),
     (billboards, 'Billboards'),
     (drama, 'Drama'),
-    (other, 'Other')
+    (material_other, 'Other')
 )
 
+SOURCES_OF_INFORMATION = (
+    (nacmis, 'NAC-MIS'),
+    (hmis, 'HMIS'),
+    (datim, 'DATIM'),
+    (internal_system, 'Internal system'),
+    (systems_other, 'Other')
+)
 #               STAKEHOLDER DIRECTORY
 # *************************************************
 
@@ -278,46 +297,93 @@ class ActivityReportForm(models.Model):
 
     # --> Social behaviour change communication for key populations
     # in_school
-    adolescents_female_num = models.IntegerField('total number of females reached', default=0)
-    adolescents_female_10_14 = models.IntegerField('females of ages 10 to 14', default=0)
-    adolescents_female_15_19 = models.IntegerField('females of ages 15 to 19', default=0)
-    adolescents_female_20_24 = models.IntegerField('females of ages 20 to 24', default=0)
+    adolescents_female_10_14 = models.IntegerField('female adolescents of ages 10 to 14', default=0)
+    adolescents_female_15_19 = models.IntegerField('female adolescents of ages 15 to 19', default=0)
+    adolescents_female_20_24 = models.IntegerField('female adolescents of ages 20 to 24', default=0)
 
-    adolescents_male_num = models.IntegerField(default=0)
-    adolescents_male_10_14 = models.IntegerField(default=0)
-    adolescents_male_15_19 = models.IntegerField(default=0)
-    adolescents_male_20_24 = models.IntegerField(default=0)
+    adolescents_male_10_14 = models.IntegerField('male adolescents of ages 10 to 14', default=0)
+    adolescents_male_15_19 = models.IntegerField('male adolescents of ages 15 to 19', default=0)
+    adolescents_male_20_24 = models.IntegerField('male adolescents of ages 20 to 24', default=0)
  
     # out_school
-    out_school_female_num = models.IntegerField(default=0)
-    out_school_female_10_14 = models.IntegerField(default=0)
-    out_school_female_15_19 = models.IntegerField(default=0)
-    out_school_female_20_24 = models.IntegerField(default=0)
+    out_school_female_10_14 = models.IntegerField('out of school females of ages 10 to 14', default=0)
+    out_school_female_15_19 = models.IntegerField('out of school females of ages 15 to 19', default=0)
+    out_school_female_20_24 = models.IntegerField('out of school females of ages 20 to 24', default=0)
 
-    out_school_male_num = models.IntegerField(default=0)
-    out_school_male_10_14 = models.IntegerField(default=0)
-    out_school_male_15_19 = models.IntegerField(default=0)
-    out_school_male_20_24 = models.IntegerField(default=0)
+    out_school_male_10_14 = models.IntegerField('out of school males of ages 10 to 14', default=0)
+    out_school_male_15_19 = models.IntegerField('out of school males of ages 15 to 19', default=0)
+    out_school_male_20_24 = models.IntegerField('out of school males of ages 20 to 24', default=0)
 
     # sex_workers
-    sex_workers_female_num = models.IntegerField(default=0)
-    sex_workers_male_num = models.IntegerField(default=0)
+    sex_workers_female_num = models.IntegerField('female sex workers reached', default=0)
+    sex_workers_male_num = models.IntegerField('male sex workers reached', default=0)
 
     # inmates
-    inmates_female_num = models.IntegerField(default=0)
-    inmates_male_num = models.IntegerField(default=0)
+    inmates_female_num = models.IntegerField('female inmates reached', default=0)
+    inmates_male_num = models.IntegerField('male inmates reached', default=0)
 
     # correctional facility staff
-    correctional_staff_female_num = models.IntegerField(default=0)
-    correctional_staff_male_num = models.IntegerField(default=0)
+    correctional_staff_female_num = models.IntegerField('female correctional facility staff reached', 
+        default=0)
+    correctional_staff_male_num = models.IntegerField('male correctional facility staff reached', 
+        default=0)
 
     # persons with disabilty
-    pwd_female_num = models.IntegerField(default=0)
-    pwd_male_num = models.IntegerField(default=0)
+    pwd_female_num = models.IntegerField('female persons with disabilities reached', default=0)
+    pwd_male_num = models.IntegerField('male persons with disabilities reached', default=0)
 
     # mobile workers
-    mobile_workers_female_num = models.IntegerField(default=0)
-    mobile_workers_male_num = models.IntegerField(default=0)
+    mobile_workers_female_num = models.IntegerField('female mobile workers reached', default=0)
+    mobile_workers_male_num = models.IntegerField('male mobile workers reached', default=0)
 
     # men who have sex with men
-    men_with_men = models.IntegerField(default=0)
+    men_with_men = models.IntegerField('men who have sex with men (MSM) reached', default=0)
+
+    # Condom programming
+    condom_dist_point_num = models.IntegerField('number of distribution points', default=0)
+    female_condom_distributed_num = models.IntegerField('female condoms distributed', default=0)
+    male_condom_distributed_num = models.IntegerField('male condoms distributed', default=0)
+
+    # Crtical enablers
+    accessed_pep_female_num = models.IntegerField('females who experienced physical or \
+        sexual violence, and accessed Post Exposure Prophylaxis (PEP)', default=0)
+    accessed_pep_male_num = models.IntegerField('males who experienced physical or sexual \
+        violence, and accessed Post Exposure Prophylaxis (PEP)', default=0)
+
+    # Synergies with other development sectors
+    employees_reached_female_num = models.IntegerField('female employees reached through \
+        workplace programmes', default=0)
+    employees_reached_male_num = models.IntegerField('male employees reached through workplace \
+        programmes', default=0)
+
+    # Community health systems
+    plhiv_female_num = models.IntegerField('female persons living with HIV (PLHIV) currently \
+        enrolled in active groups', default=0)
+    plhiv_male_num = models.IntegerField('male persons living with HIV (PLHIV) currently \
+        enrolled in active groups', default=0)
+
+    ovc_female_num = models.IntegerField('female vulnerable people', default=0)
+    ovc_male_num = models.IntegerField('male vulnerable people', default=0)
+    ovc_care_support_0_9 = models.IntegerField('vunerable people of ages 0 to 9', default=0)
+    ovc_care_support_10_14 = models.IntegerField('vunerable people of ages 10 to 14', default=0)
+    ovc_care_support_15_19 = models.IntegerField('vunerable people of ages 15 to 19', default=0)
+    ovc_care_support_20_24 = models.IntegerField('vunerable people of ages 20 to 24', default=0)
+    ovc_care_support_25_plus = models.IntegerField('vunerable people of ages 25 and above', default=0)
+
+    # Types of care and support organization provides
+    food_and_nutrition = models.BooleanField()
+    shelter_and_care = models.BooleanField()
+    protection_and_legal_aid = models.BooleanField()
+    healthcare = models.BooleanField()
+    psychosocial = models.BooleanField()
+    social_support = models.BooleanField()
+    spiritual_support = models.BooleanField()
+    education_and_vocational_training = models.BooleanField()
+    economic_strengthening = models.BooleanField()
+
+    # Monitoring and Evaluation
+    nacmis = models.BooleanField('NAC-MIS')
+    hmis = models.BooleanField('HMIS')
+    datim = models.BooleanField('DATIM')
+    internal_system = models.BooleanField('Internal system')
+    systems_other = models.BooleanField('Other')
