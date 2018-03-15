@@ -179,28 +179,35 @@ SOURCES_OF_INFORMATION = (
 class StakeHolderDirectory(models.Model):
     # --> Basic details on the organization
     organization_name = models.CharField(max_length=200)
-    start_year = models.DateTimeField('start_year')
-    permanent_employee_female = models.IntegerField(default=0)
-    permanent_employee_male = models.IntegerField(default=0)
-    temporary_employee_female = models.IntegerField(default=0)
-    temporary_employee_male = models.IntegerField(default=0)
-    volunteer_employee_female = models.IntegerField(default=0)
-    volunteer_employee_male = models.IntegerField(default=0)
-    description = models.TextField()
+    start_year = models.DateTimeField('which year did your organization start working in this district?')
+    permanent_employee_female = models.IntegerField('current number of permanent female employees', default=0)
+    permanent_employee_male = models.IntegerField('current number of permanent male employees', default=0)
+    temporary_employee_female = models.IntegerField('current number of temporary female employees', default=0)
+    temporary_employee_male = models.IntegerField('current number of temporary male employees', default=0)
+    volunteer_employee_female = models.IntegerField('current number of volunteer female employees', default=0)
+    volunteer_employee_male = models.IntegerField('current number of volunteer male employees', default=0)
+    description = models.TextField('Brief description of the organization (Please describe your \
+        organization in no more than 50 words)')
 
     # --> Contact details
-    contact_name = models.CharField(max_length=50)
-    contact_organization = models.CharField(max_length=100)
-    contact_address = models.CharField(max_length=200)
-    phone = models.CharField(max_length=20)
-    alternative_phone = models.CharField(max_length=20)
-    email = models.EmailField(max_length=254)
+    contact_name = models.CharField('Name of key contact person', max_length=50)
+    contact_organization = models.CharField('Position within the organization', max_length=100)
+    contact_address = models.CharField('Address of the organization', max_length=200)
+    phone = models.CharField('Telephone number', max_length=20)
+    alternative_phone = models.CharField('Telephone number alternative', max_length=20)
+    email = models.EmailField('Email address', max_length=254)
     website = models.URLField(max_length=200)
 
-    organization_type = models.CharField(max_length=100, choices=ORGANIZATION_TYPE_LIST, default='N/A')
+    organization_type = models.CharField('Which of the following \'types\' would best describe your \
+        organization(Please only tick one type of organization)', max_length=100, 
+        choices=ORGANIZATION_TYPE_LIST, default='N/A')
     # organization_target = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    #check box fileds the 'organization_target' attribute
-    plhiv = models.BooleanField('people living with HIV/ AIDS')
+    
+    # check box fileds the 'organization_target' attribute
+    # Which group(s) does your organization target? (Please tick as many different groups that 
+    # are targeted by your organization)
+    plhiv = models.BooleanField('people living with HIV/ AIDS', help_text="Which group(s) does your \
+    organization target? (Please tick as many different groups that are targeted by your organization)")
     ovc = models.BooleanField('orphans and vulnerable children')
     pregnant_women = models.BooleanField()
     care_givers = models.BooleanField()
@@ -227,6 +234,8 @@ class StakeHolderDirectory(models.Model):
     target_others = models.BooleanField('other target groups - please specify')
 
     # --> Geographic activities - High impact interventions
+    # What area(s) of support does your organization provide? (Please tick as many different areas that 
+    # are carried out by your organization)
     elimination_of_mother_child_transmission = models.BooleanField('elimination of mother-to-child transmission (eMTCT)')
     condom_programming = models.BooleanField()
     voluntary_medical_male_circumcision = models.BooleanField('voluntary medical male circumcision (VMMC) ')
@@ -248,12 +257,18 @@ class StakeHolderDirectory(models.Model):
     mainstreaming_hiv_into_capital_projects = models.BooleanField()
 
     # --> Funding sources
+    # Please provide details on the organization that provide funding to you, starting with the largest 
+    # partner/ donor. We also want to understand the types of support that the partners/donors provide to 
+    # your organization, and the funding each partner/ donor has given you 2016. (The information on funding 
+    # will not be published and only held at DAFT) 
     funder_organization = models.CharField(max_length=100)
     funder_support_type = models.CharField(max_length=100, choices=ORGANIZATION_TYPE_LIST, default='N/A')
-    amount = models.IntegerField()
-    comment = models.TextField()
+    amount = models.IntegerField('amount in Kwacha(ZMW)')
+    comment = models.TextField('period of use of funding')
 
     # --> Target groups and prevention messages
+    # Using the matrix below please hoghlight with a tick where your organization is/ will be providing 
+    # prevention messages to one or more of the target groups listed
     condom_use = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
     mc_information = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
     mcp_information = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
@@ -273,7 +288,8 @@ class StakeHolderDirectory(models.Model):
 # --> Social behaviour change communication
 class ActivityReportForm(models.Model):
 
-    IEC_distributed_books_num = models.IntegerField('books distributed', default=0)
+    IEC_distributed_books_num = models.IntegerField('books distributed', help_text="How many IEC materials \
+        were distributed by your organization this quarter?", default=0)
     IEC_distributed_brochures_num = models.IntegerField('brochures distributed', default=0)
     IEC_distributed_posters_num = models.IntegerField('posters distributed', default=0)
     IEC_distributed_t_shirts_num = models.IntegerField('t shirts distributed', default=0)
@@ -284,7 +300,8 @@ class ActivityReportForm(models.Model):
     IEC_distributed_drama_num = models.IntegerField('drama distributed', default=0)
     IEC_distributed_other_num = models.IntegerField('Other distributed', default=0)
 
-    localized_books = models.BooleanField()
+    localized_books = models.BooleanField(help_text="Which of your materials were localized (produced \
+        according to local condition, culture, language etc.)")
     localized_brochures = models.BooleanField()
     localized_posters = models.BooleanField()
     localized_t_shirts = models.BooleanField()
@@ -297,7 +314,9 @@ class ActivityReportForm(models.Model):
 
     # --> Social behaviour change communication for key populations
     # in_school
-    adolescents_female_10_14 = models.IntegerField('female adolescents of ages 10 to 14', default=0)
+    adolescents_female_10_14 = models.IntegerField('female adolescents of ages 10 to 14', 
+        help_text="Number of adolescents and young people aged 10-24 reached by IEC materials by your \
+        organization this quarter", default=0)
     adolescents_female_15_19 = models.IntegerField('female adolescents of ages 15 to 19', default=0)
     adolescents_female_20_24 = models.IntegerField('female adolescents of ages 20 to 24', default=0)
 
@@ -306,7 +325,9 @@ class ActivityReportForm(models.Model):
     adolescents_male_20_24 = models.IntegerField('male adolescents of ages 20 to 24', default=0)
  
     # out_school
-    out_school_female_10_14 = models.IntegerField('out of school females of ages 10 to 14', default=0)
+    out_school_female_10_14 = models.IntegerField('out of school females of ages 10 to 14',
+        help_text="Number of Out of School children and young people aged 10-24 years provided with life \
+            skills- based comprehensive sexuality education within this quarter", default=0)
     out_school_female_15_19 = models.IntegerField('out of school females of ages 15 to 19', default=0)
     out_school_female_20_24 = models.IntegerField('out of school females of ages 20 to 24', default=0)
 
@@ -315,54 +336,75 @@ class ActivityReportForm(models.Model):
     out_school_male_20_24 = models.IntegerField('out of school males of ages 20 to 24', default=0)
 
     # sex_workers
-    sex_workers_female_num = models.IntegerField('female sex workers reached', default=0)
+    sex_workers_female_num = models.IntegerField('female sex workers reached', help_text="How many \
+        sex workers were reached with HIV prevention programmes by your organization this quarter?", default=0)
     sex_workers_male_num = models.IntegerField('male sex workers reached', default=0)
 
     # inmates
-    inmates_female_num = models.IntegerField('female inmates reached', default=0)
+    inmates_female_num = models.IntegerField('female inmates reached', help_text="How many inmates \
+        were reached with HIV prevention programmes by your organization this quarter?", default=0)
     inmates_male_num = models.IntegerField('male inmates reached', default=0)
 
     # correctional facility staff
     correctional_staff_female_num = models.IntegerField('female correctional facility staff reached', 
-        default=0)
+        help_text="How many correctional facility staff were reached with HIV prevention programmes \
+        this quarter?", default=0)
     correctional_staff_male_num = models.IntegerField('male correctional facility staff reached', 
         default=0)
 
     # persons with disabilty
-    pwd_female_num = models.IntegerField('female persons with disabilities reached', default=0)
+    pwd_female_num = models.IntegerField('female persons with disabilities reached', help_text="How \
+        many persons with disability were reached with HIV prevention programmes by your \
+        organization this quarter?", default=0)
     pwd_male_num = models.IntegerField('male persons with disabilities reached', default=0)
 
     # mobile workers
-    mobile_workers_female_num = models.IntegerField('female mobile workers reached', default=0)
+    mobile_workers_female_num = models.IntegerField('female mobile workers reached', 
+        help_text="How many mobile workers were reached with HIV prevention programmes by your \
+        organization this quarter?", default=0)
     mobile_workers_male_num = models.IntegerField('male mobile workers reached', default=0)
 
     # men who have sex with men
-    men_with_men = models.IntegerField('men who have sex with men (MSM) reached', default=0)
+    men_with_men = models.IntegerField('men who have sex with men (MSM) reached', help_text="How \
+        many men who have sex with men (MSM) were reached with HIV prevention programmes by your \
+        organization this quarter?", default=0)
 
     # Condom programming
-    condom_dist_point_num = models.IntegerField('number of distribution points', default=0)
-    female_condom_distributed_num = models.IntegerField('female condoms distributed', default=0)
+    condom_dist_point_num = models.IntegerField('number of distribution points', help_text="How \
+        many condom service distribution points were supplied by your organization this quarter? \
+        (*excluding health facilities)", default=0)
+    female_condom_distributed_num = models.IntegerField('female condoms distributed', 
+        help_text="How many male and/or female condoms were distributed to end users by your \
+        organization this quarter (excluding health facilities)?", default=0)
     male_condom_distributed_num = models.IntegerField('male condoms distributed', default=0)
 
     # Crtical enablers
     accessed_pep_female_num = models.IntegerField('females who experienced physical or \
-        sexual violence, and accessed Post Exposure Prophylaxis (PEP)', default=0)
+        sexual violence, and accessed Post Exposure Prophylaxis (PEP)', help_text="Number of \
+        people who experienced physical or sexual violence and were referred for Post Exposure \
+        Prophylaxis (PEP) within 72 hours in accordance with national guidelines this quarter.", 
+        default=0)
     accessed_pep_male_num = models.IntegerField('males who experienced physical or sexual \
         violence, and accessed Post Exposure Prophylaxis (PEP)', default=0)
 
     # Synergies with other development sectors
     employees_reached_female_num = models.IntegerField('female employees reached through \
-        workplace programmes', default=0)
+        workplace programmes', help_text="How many employees were reached through workplace \
+        programmes by your organization this quarter? ", default=0)
     employees_reached_male_num = models.IntegerField('male employees reached through workplace \
         programmes', default=0)
 
     # Community health systems
+    plhiv_groups = models.IntegerField('PLHIV groups set up by your organization', help_text="How many \
+        PLHIV support groups set up by your organization are currently active?", default=0)
     plhiv_female_num = models.IntegerField('female persons living with HIV (PLHIV) currently \
-        enrolled in active groups', default=0)
+        enrolled in active groups', help_text="How many PLHIV are currently enrolled in the \
+        active PLHIV support groups by your organization?", default=0)
     plhiv_male_num = models.IntegerField('male persons living with HIV (PLHIV) currently \
         enrolled in active groups', default=0)
 
-    ovc_female_num = models.IntegerField('female vulnerable people', default=0)
+    ovc_female_num = models.IntegerField('female vulnerable people', help_text="How many vulnerable people \
+        in total received care and support from your organization this quarter?", default=0)
     ovc_male_num = models.IntegerField('male vulnerable people', default=0)
     ovc_care_support_0_9 = models.IntegerField('vunerable people of ages 0 to 9', default=0)
     ovc_care_support_10_14 = models.IntegerField('vunerable people of ages 10 to 14', default=0)
@@ -371,7 +413,8 @@ class ActivityReportForm(models.Model):
     ovc_care_support_25_plus = models.IntegerField('vunerable people of ages 25 and above', default=0)
 
     # Types of care and support organization provides
-    food_and_nutrition = models.BooleanField()
+    food_and_nutrition = models.BooleanField(help_text="What types of care and support does your organization \
+        provide? (select all that apply) ")
     shelter_and_care = models.BooleanField()
     protection_and_legal_aid = models.BooleanField()
     healthcare = models.BooleanField()
@@ -382,7 +425,8 @@ class ActivityReportForm(models.Model):
     economic_strengthening = models.BooleanField()
 
     # Monitoring and Evaluation
-    nacmis = models.BooleanField('NAC-MIS')
+    nacmis = models.BooleanField('NAC-MIS', help_text="Which sources of information does your organization \
+        utilize to inform HIV programing and decision-making? ")
     hmis = models.BooleanField('HMIS')
     datim = models.BooleanField('DATIM')
     internal_system = models.BooleanField('Internal system')
