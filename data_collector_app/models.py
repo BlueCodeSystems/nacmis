@@ -285,15 +285,13 @@ class StakeHolderDirectory(models.Model):
 # HIV ACTIVITIES ORGANIZATION PARTICIPATES IN FORM
 # *************************************************
 class IECMaterial(models.Model):
-    # help_text="How many IEC materials were distributed by your organization this quarter?"
-    material = models.CharField('distributed', max_length=100, choices=IEC_MATERIALS, default='N/A')
-
-class ActivityReportForm(models.Model):
     # --> Social behaviour change communication
-    iec_material_distributed = models.ForeignKey(IECMaterial, on_delete=models.CASCADE, null=True)
+    material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default='N/A')
     number_distributed = models.IntegerField('number of materials distributed', default=0)
     iec_localized = models.BooleanField('localized', default=False)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
+class ActivityReportForm(models.Model):
     # --> Social behaviour change communication for key populations
     # in_school
     adolescents_female_10_14 = models.IntegerField('female adolescents of ages 10 to 14', 
