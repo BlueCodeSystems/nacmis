@@ -284,33 +284,15 @@ class StakeHolderDirectory(models.Model):
 
 # HIV ACTIVITIES ORGANIZATION PARTICIPATES IN FORM
 # *************************************************
+class IECMaterial(models.Model):
+    # help_text="How many IEC materials were distributed by your organization this quarter?"
+    material = models.CharField('distributed', max_length=100, choices=IEC_MATERIALS, default='N/A')
 
-# --> Social behaviour change communication
 class ActivityReportForm(models.Model):
-
-    IEC_distributed_books_num = models.IntegerField('books distributed', help_text="How many IEC materials \
-        were distributed by your organization this quarter?", default=0)
-    IEC_distributed_brochures_num = models.IntegerField('brochures distributed', default=0)
-    IEC_distributed_posters_num = models.IntegerField('posters distributed', default=0)
-    IEC_distributed_t_shirts_num = models.IntegerField('t shirts distributed', default=0)
-    IEC_distributed_tv_spots_num = models.IntegerField('tv spots distributed', default=0)
-    IEC_distributed_radio_spots_num = models.IntegerField('radio spots distributed', default=0)
-    IEC_distributed_e_spots_num = models.IntegerField('e spots distributed', default=0)
-    IEC_distributed_billboards_num = models.IntegerField('billboards distributed', default=0)
-    IEC_distributed_drama_num = models.IntegerField('drama distributed', default=0)
-    IEC_distributed_other_num = models.IntegerField('Other distributed', default=0)
-
-    localized_books = models.BooleanField(help_text="Which of your materials were localized (produced \
-        according to local condition, culture, language etc.)")
-    localized_brochures = models.BooleanField()
-    localized_posters = models.BooleanField()
-    localized_t_shirts = models.BooleanField()
-    localized_tv_spots = models.BooleanField()
-    localized_radio_spots = models.BooleanField()
-    localized_e_spots = models.BooleanField()
-    localized_billboards = models.BooleanField()
-    localized_drama = models.BooleanField()
-    localized_other = models.BooleanField()
+    # --> Social behaviour change communication
+    iec_material_distributed = models.ForeignKey(IECMaterial, on_delete=models.CASCADE, null=True)
+    number_distributed = models.IntegerField('number of materials distributed', default=0)
+    iec_localized = models.BooleanField('localized', default=False)
 
     # --> Social behaviour change communication for key populations
     # in_school

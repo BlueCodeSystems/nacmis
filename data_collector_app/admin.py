@@ -1,9 +1,12 @@
 from django import forms
 from django.contrib import admin
 
-from .models import StakeHolderDirectory, ActivityReportForm
+from .models import StakeHolderDirectory, IECMaterial, ActivityReportForm
 
 # Register your models here.
+class MaterialInline(admin.StackedInline):
+    model = ActivityReportForm
+    extra = 3
 
 class StakeHolderDirectoryAdmin(admin.ModelAdmin):
 
@@ -52,13 +55,7 @@ class StakeHolderDirectoryAdmin(admin.ModelAdmin):
 class ActivityReportFormAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Social behaviour change communication', {
-            'fields':('IEC_distributed_books_num', 'IEC_distributed_brochures_num', 
-            'IEC_distributed_posters_num', 'IEC_distributed_t_shirts_num', 'IEC_distributed_tv_spots_num', 
-            'IEC_distributed_radio_spots_num', 'IEC_distributed_e_spots_num', 
-            'IEC_distributed_billboards_num', 'IEC_distributed_drama_num', 'IEC_distributed_other_num', 
-            'localized_books', 'localized_brochures', 'localized_posters', 'localized_t_shirts', 
-            'localized_tv_spots', 'localized_radio_spots', 'localized_e_spots', 
-            'localized_billboards', 'localized_drama', 'localized_other')
+            'fields':('iec_material_distributed', 'number_distributed', 'iec_localized')
         }),
         ('Social behaviour change communication for key populations', {
             'fields':('adolescents_female_10_14', 'adolescents_female_15_19', 'adolescents_female_20_24', 
@@ -91,7 +88,9 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         ('Monitoring and Evaluation', {
             'fields':('nacmis', 'hmis', 'datim', 'internal_system', 'systems_other')
         })
+        # inlines
     )
+
 # Register StakeHolder models
 admin.site.register(StakeHolderDirectory, StakeHolderDirectoryAdmin)
 
