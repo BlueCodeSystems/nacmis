@@ -291,8 +291,9 @@ class IECMaterial(models.Model):
     iec_localized = models.BooleanField('localized', default=False)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
-class ActivityReportForm(models.Model):
-    # --> Social behaviour change communication for key populations
+    
+class NameMeCorrectlyAfterTheQuestion(models.Model):
+     # --> Social behaviour change communication for key populations
     # in_school
     adolescents_female_10_14 = models.IntegerField('female adolescents of ages 10 to 14', 
         help_text="Number of adolescents and young people aged 10-24 reached by IEC materials by your \
@@ -303,6 +304,10 @@ class ActivityReportForm(models.Model):
     adolescents_male_10_14 = models.IntegerField('male adolescents of ages 10 to 14', default=0)
     adolescents_male_15_19 = models.IntegerField('male adolescents of ages 15 to 19', default=0)
     adolescents_male_20_24 = models.IntegerField('male adolescents of ages 20 to 24', default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+    
+    
+class ActivityReportForm(models.Model):
  
     # out_school
     out_school_female_10_14 = models.IntegerField('out of school females of ages 10 to 14',
