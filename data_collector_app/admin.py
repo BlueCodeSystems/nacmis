@@ -79,6 +79,8 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         
     )
 
+    inlines = [MaterialInline]
+
 class NameMeCorrectlyAfterTheQuestionAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Social behaviour change communication for key populations', {
@@ -99,8 +101,6 @@ class IECMaterialAdmin(admin.ModelAdmin):
         }),
     )
 
-    inlines = [MaterialInline]
-
 # using iteratable to store multiple models
 # model_list = [IECMaterial, NameMeCorrectlyAfterTheQuestion, ActivityReportForm]
 
@@ -112,5 +112,5 @@ admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
 # ERROR: 
 # admin.site.register(IECMaterial, IECMaterialAdmin)
-admin.site.register(IECMaterial)
+# admin.site.register(IECMaterial)
 # admin.site.register()
