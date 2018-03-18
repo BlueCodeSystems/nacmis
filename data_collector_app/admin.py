@@ -5,7 +5,7 @@ from .models import StakeHolderDirectory, IECMaterial, NameMeCorrectlyAfterTheQu
 
 # Register your models here.
 class MaterialInline(admin.StackedInline):
-    model = ActivityReportForm
+    model = IECMaterial
     extra = 3
 
 class StakeHolderDirectoryAdmin(admin.ModelAdmin):
@@ -95,12 +95,22 @@ class NameMeCorrectlyAfterTheQuestionAdmin(admin.ModelAdmin):
 class IECMaterialAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Social behaviour change communication', {
-            'fields':('iec_material_distributed', 'number_distributed', 'iec_localized')
+            'fields':('material_type', 'number_distributed', 'iec_localized')
         }),
     )
+
+    inlines = [MaterialInline]
+
+# using iteratable to store multiple models
+# model_list = [IECMaterial, NameMeCorrectlyAfterTheQuestion, ActivityReportForm]
 
 # Register StakeHolder models
 admin.site.register(StakeHolderDirectory, StakeHolderDirectoryAdmin)
 
 # Register HIV Activities Organization Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
+
+# ERROR: 
+# admin.site.register(IECMaterial, IECMaterialAdmin)
+admin.site.register(IECMaterial)
+# admin.site.register()
