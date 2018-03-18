@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 
-from .models import StakeHolderDirectory, IECMaterial, ActivityReportForm
+from .models import StakeHolderDirectory, IECMaterial, NameMeCorrectlyAfterTheQuestion, ActivityReportForm
 
 # Register your models here.
 class MaterialInline(admin.StackedInline):
@@ -54,18 +54,6 @@ class StakeHolderDirectoryAdmin(admin.ModelAdmin):
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
     fieldsets = (
-        ('Social behaviour change communication', {
-            'fields':('iec_material_distributed', 'number_distributed', 'iec_localized')
-        }),
-        ('Social behaviour change communication for key populations', {
-            'fields':('adolescents_female_10_14', 'adolescents_female_15_19', 'adolescents_female_20_24', 
-                'adolescents_male_10_14', 'adolescents_male_15_19', 'adolescents_male_20_24',
-                'out_school_female_10_14', 'out_school_female_15_19', 'out_school_female_20_24', 
-                'out_school_male_10_14', 'out_school_male_15_19', 'out_school_male_20_24',
-                'sex_workers_female_num', 'sex_workers_male_num', 'inmates_female_num', 'inmates_male_num', 
-                'correctional_staff_female_num', 'correctional_staff_male_num', 'pwd_female_num', 
-                'pwd_male_num', 'mobile_workers_female_num', 'mobile_workers_male_num', 'men_with_men')
-        }),
         ('Condom programming', {
             'fields':('condom_dist_point_num', 'female_condom_distributed_num', 'male_condom_distributed_num')
         }),
@@ -88,7 +76,27 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         ('Monitoring and Evaluation', {
             'fields':('nacmis', 'hmis', 'datim', 'internal_system', 'systems_other')
         })
-        # inlines
+        
+    )
+
+class NameMeCorrectlyAfterTheQuestionAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Social behaviour change communication for key populations', {
+            'fields':('adolescents_female_10_14', 'adolescents_female_15_19', 'adolescents_female_20_24', 
+                'adolescents_male_10_14', 'adolescents_male_15_19', 'adolescents_male_20_24',
+                'out_school_female_10_14', 'out_school_female_15_19', 'out_school_female_20_24', 
+                'out_school_male_10_14', 'out_school_male_15_19', 'out_school_male_20_24',
+                'sex_workers_female_num', 'sex_workers_male_num', 'inmates_female_num', 'inmates_male_num', 
+                'correctional_staff_female_num', 'correctional_staff_male_num', 'pwd_female_num', 
+                'pwd_male_num', 'mobile_workers_female_num', 'mobile_workers_male_num', 'men_with_men')
+        } )
+    )
+
+class IECMaterialAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Social behaviour change communication', {
+            'fields':('iec_material_distributed', 'number_distributed', 'iec_localized')
+        }),
     )
 
 # Register StakeHolder models

@@ -284,28 +284,6 @@ class StakeHolderDirectory(models.Model):
 
 # HIV ACTIVITIES ORGANIZATION PARTICIPATES IN FORM
 # *************************************************
-class IECMaterial(models.Model):
-    # --> Social behaviour change communication
-    material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default='N/A')
-    number_distributed = models.IntegerField('number of materials distributed', default=0)
-    iec_localized = models.BooleanField('localized', default=False)
-    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
-
-    
-class NameMeCorrectlyAfterTheQuestion(models.Model):
-     # --> Social behaviour change communication for key populations
-    # in_school
-    adolescents_female_10_14 = models.IntegerField('female adolescents of ages 10 to 14', 
-        help_text="Number of adolescents and young people aged 10-24 reached by IEC materials by your \
-        organization this quarter", default=0)
-    adolescents_female_15_19 = models.IntegerField('female adolescents of ages 15 to 19', default=0)
-    adolescents_female_20_24 = models.IntegerField('female adolescents of ages 20 to 24', default=0)
-
-    adolescents_male_10_14 = models.IntegerField('male adolescents of ages 10 to 14', default=0)
-    adolescents_male_15_19 = models.IntegerField('male adolescents of ages 15 to 19', default=0)
-    adolescents_male_20_24 = models.IntegerField('male adolescents of ages 20 to 24', default=0)
-    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
-    
     
 class ActivityReportForm(models.Model):
  
@@ -416,3 +394,25 @@ class ActivityReportForm(models.Model):
     datim = models.BooleanField('DATIM')
     internal_system = models.BooleanField('Internal system')
     systems_other = models.BooleanField('Other')
+
+class IECMaterial(models.Model):
+    # --> Social behaviour change communication
+    material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default='N/A')
+    number_distributed = models.IntegerField('number of materials distributed', default=0)
+    iec_localized = models.BooleanField('localized', default=False)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+    
+class NameMeCorrectlyAfterTheQuestion(models.Model):
+     # --> Social behaviour change communication for key populations
+    # in_school
+    adolescents_female_10_14 = models.IntegerField('female adolescents of ages 10 to 14', 
+        help_text="Number of adolescents and young people aged 10-24 reached by IEC materials by your \
+        organization this quarter", default=0)
+    adolescents_female_15_19 = models.IntegerField('female adolescents of ages 15 to 19', default=0)
+    adolescents_female_20_24 = models.IntegerField('female adolescents of ages 20 to 24', default=0)
+
+    adolescents_male_10_14 = models.IntegerField('male adolescents of ages 10 to 14', default=0)
+    adolescents_male_15_19 = models.IntegerField('male adolescents of ages 15 to 19', default=0)
+    adolescents_male_20_24 = models.IntegerField('male adolescents of ages 20 to 24', default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
