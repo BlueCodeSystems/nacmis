@@ -1,12 +1,51 @@
 from django import forms
 from django.contrib import admin
 
-from .models import StakeHolderDirectory, IECMaterial, NameMeCorrectlyAfterTheQuestion, ActivityReportForm
+from .models import (StakeHolderDirectory, IECMaterial, AdolecentsReached, ActivityReportForm,
+OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, 
+MenWithMen, CondomProgramming)
 
 # Register your models here.
-class MaterialInline(admin.StackedInline):
+class MaterialInline(admin.TabularInline):
     model = IECMaterial
     extra = 3
+
+class AdolencentsInline(admin.TabularInline):
+    model = AdolecentsReached
+    extra = 3
+
+class OutOfSchoolInline(admin.TabularInline):
+    model = OutOfSchool
+    extra = 3
+
+class SexWorkerInline(admin.TabularInline):
+    model = SexWorker
+    extra = 3
+
+class InmateInline(admin.TabularInline):
+    model = Inmate
+    extra = 3
+
+class CorrectionalFaciltyStaffInline(admin.TabularInline):
+    model = CorrectionalFaciltyStaff
+    extra = 3
+
+class PersonsWithDisabiltyInline(admin.TabularInline):
+    model = PersonsWithDisabilty
+    extra = 3
+
+class MobileWorkerInline(admin.TabularInline):
+    model = MobileWorker
+    extra = 3
+
+class MenWithMenInline(admin.TabularInline):
+    model = MenWithMen
+    extra = 1
+
+class CondomProgrammingInline(admin.TabularInline):
+    model = CondomProgramming
+    extra = 1
+
 
 class StakeHolderDirectoryAdmin(admin.ModelAdmin):
 
@@ -54,9 +93,6 @@ class StakeHolderDirectoryAdmin(admin.ModelAdmin):
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
     fieldsets = (
-        ('Condom programming', {
-            'fields':('condom_dist_point_num', 'female_condom_distributed_num', 'male_condom_distributed_num')
-        }),
         ('Crtical enablers', {
             'fields':('accessed_pep_female_num', 'accessed_pep_male_num')
         }),
@@ -79,27 +115,82 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         
     )
 
-    inlines = [MaterialInline]
-
-class NameMeCorrectlyAfterTheQuestionAdmin(admin.ModelAdmin):
-    fieldsets = (
-        ('Social behaviour change communication for key populations', {
-            'fields':('adolescents_female_10_14', 'adolescents_female_15_19', 'adolescents_female_20_24', 
-                'adolescents_male_10_14', 'adolescents_male_15_19', 'adolescents_male_20_24',
-                'out_school_female_10_14', 'out_school_female_15_19', 'out_school_female_20_24', 
-                'out_school_male_10_14', 'out_school_male_15_19', 'out_school_male_20_24',
-                'sex_workers_female_num', 'sex_workers_male_num', 'inmates_female_num', 'inmates_male_num', 
-                'correctional_staff_female_num', 'correctional_staff_male_num', 'pwd_female_num', 
-                'pwd_male_num', 'mobile_workers_female_num', 'mobile_workers_male_num', 'men_with_men')
-        } )
-    )
+    inlines = [MaterialInline, AdolencentsInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
+        CorrectionalFaciltyStaffInline, PersonsWithDisabiltyInline, MobileWorkerInline, MenWithMenInline,
+        CondomProgrammingInline]
 
 class IECMaterialAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Social behaviour change communication', {
             'fields':('material_type', 'number_distributed', 'iec_localized')
-        }),
+        })
     )
+
+class AdolecentsReachedAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Social behaviour change communication for key populations', {
+            'fields':('adolescents_female_10_14', 'adolescents_female_15_19', 'adolescents_female_20_24', 
+                'adolescents_male_10_14', 'adolescents_male_15_19', 'adolescents_male_20_24')
+        } )
+    )
+
+class OutOfSchoolAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields':('out_school_female_10_14', 'out_school_female_15_19', 'out_school_female_20_24', 
+                'out_school_male_10_14', 'out_school_male_15_19', 'out_school_male_20_24')
+        } )
+    )
+
+class SexWorkerAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields':('sex_workers_female_num', 'sex_workers_male_num')
+        })
+    )
+
+class InmateAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields':('inmates_female_num', 'inmates_male_num')
+        })
+    )
+
+class CorrectionalFaciltyStaffAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields':('correctional_staff_female_num', 'correctional_staff_male_num')
+        })
+    )
+
+class PersonsWithDisabiltyAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields':( 'pwd_female_num', 'pwd_male_num')
+        })
+    )
+
+class MobileWorkerAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields':('mobile_workers_female_num', 'mobile_workers_male_num')
+        })
+    )
+
+class MenWithMenAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields':('men_with_men')
+        })
+    )
+
+class CondomProgrammingAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Condom programming', {
+            'fields':('condom_dist_point_num', 'female_condom_distributed_num', 'male_condom_distributed_num')
+        })
+    )
+
 
 # using iteratable to store multiple models
 # model_list = [IECMaterial, NameMeCorrectlyAfterTheQuestion, ActivityReportForm]
