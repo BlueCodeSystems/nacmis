@@ -173,6 +173,11 @@ SOURCES_OF_INFORMATION = (
     (internal_system, 'Internal system'),
     (systems_other, 'Other')
 )
+class OrganizationTarget(models.Model):
+    # Which group(s) does your organization target? (Please tick as many different groups that 
+    # are targeted by your organization)
+    organization_target = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
+
 #               STAKEHOLDER DIRECTORY
 # *************************************************
 
@@ -201,13 +206,11 @@ class StakeHolderDirectory(models.Model):
     organization_type = models.CharField('Which of the following \'types\' would best describe your \
         organization(Please only tick one type of organization)', max_length=100, 
         choices=ORGANIZATION_TYPE_LIST, default='N/A')
-    # organization_target = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
+    organization_target_form = models.ManyToManyField(OrganizationTarget)
     
-    # check box fileds the 'organization_target' attribute
-    # Which group(s) does your organization target? (Please tick as many different groups that 
-    # are targeted by your organization)
-    plhiv = models.BooleanField('people living with HIV/ AIDS', help_text="Which group(s) does your \
-    organization target? (Please tick as many different groups that are targeted by your organization)")
+    #plhiv = models.BooleanField('people living with HIV/ AIDS', help_text="<b style = \"font-size: 14px; \">Which group(s) does your \
+    #    organization target? (Please tick as many different groups that are targeted by your organization<b>)")
+    plhiv = models.BooleanField('people living with HIV/ AIDS')
     ovc = models.BooleanField('orphans and vulnerable children')
     pregnant_women = models.BooleanField()
     care_givers = models.BooleanField()
@@ -286,6 +289,8 @@ class StakeHolderDirectory(models.Model):
 # *************************************************
     
 class ActivityReportForm(models.Model):
+    # Stake holder directory to SARF ---> one-to-many relationship
+    stake_holder_directory_form = models.ForeignKey(StakeHolderDirectory, on_delete=models.CASCADE, null=True)
 
     # Types of care and support organization provides
     food_and_nutrition = models.BooleanField(help_text="What types of care and support does your organization \

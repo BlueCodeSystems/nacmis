@@ -6,7 +6,11 @@ OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, PersonsWithDisabilty, 
 MenWithMen, CondomProgramming, SynergyDevelopmentSector, CommunityHealthSystems, 
 VulnerablePeople)
 
-# Register your models here.
+# INLINES FOR STAKEHOLDER DIRECTORY ADMIN
+# *************************************************
+
+# INLINES FOR ACTIVITY REPORT FORM ADMIN
+# *************************************************
 class MaterialInline(admin.TabularInline):
     model = IECMaterial
     extra = 3
@@ -59,27 +63,28 @@ class VulnerablePeopleInline(admin.TabularInline):
     model = VulnerablePeople
     extra = 3
 
-
+# ADMIN CLASSES
+# *************************************************
 class StakeHolderDirectoryAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Basic details on the organization', {
-            'fields': ('organization_name', 'start_year', 'permanent_employee_female', 
+            'fields': ('organization_name', 'start_year', ('permanent_employee_female', 
             'permanent_employee_male', 'temporary_employee_female', 'temporary_employee_male', 
-            'volunteer_employee_female', 'volunteer_employee_male', 'description')
+            'volunteer_employee_female', 'volunteer_employee_male'), 'description')
         }),
         ('Contact details', {
             'fields': ('contact_name', 'contact_organization', 'contact_address', 
             'phone', 'alternative_phone', 'email', 'website' )
         }),
         ('Organization classification', {
-            'fields':('organization_type', 'plhiv', 'ovc', 'pregnant_women', 
-            'care_givers', 'health_workers', 'teachers', 'children', 'adolecents', 
-            'old_people', 'disabled_people', 'inmates_wivies', 'govt_workers', 
-            'sex_workers', 'church_leaders', 'employee_families', 'gdwg', 
-            'idu', 'msm', 'mobile_population', 'out_of_school_youth', 'inmates', 
-            'street_children', 'traditional_healers', 'traditional_leaders', 
-            'target_others' )
+            'fields':( 'organization_type', 'organization_target_form', 'plhiv', ('ovc', 'pregnant_women', 
+            'care_givers', 'health_workers'), ('teachers', 'children', 'adolecents', 
+            'old_people', 'disabled_people', 'inmates_wivies'), ('govt_workers', 
+            'sex_workers', 'church_leaders', 'employee_families'),('gdwg', 
+            'idu', 'msm'), ('mobile_population', 'out_of_school_youth', 'inmates', 
+            'street_children', 'traditional_healers'), ('traditional_leaders', 
+            'target_others') )
         }),
         ('Geographic activities - High impact interventions', {
             'fields':('elimination_of_mother_child_transmission', 'condom_programming', 
@@ -122,6 +127,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         CondomProgrammingInline, SynergyDevelopmentSectorInline, CommunityHealthSystemsInline, 
         VulnerablePeopleInline]
 
+'''
 class IECMaterialAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Social behaviour change communication', {
@@ -221,9 +227,7 @@ class VulnerablePeopleAdmin(admin.ModelAdmin):
             'ovc_care_support_20_24', 'ovc_care_support_25_plus')
         })
     )
-    
-# using iteratable to store multiple models
-# model_list = [IECMaterial, NameMeCorrectlyAfterTheQuestion, ActivityReportForm]
+'''
 
 # Register StakeHolder models
 admin.site.register(StakeHolderDirectory, StakeHolderDirectoryAdmin)
