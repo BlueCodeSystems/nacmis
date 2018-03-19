@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import (StakeHolderDirectory, IECMaterial, AdolecentsReached, ActivityReportForm,
 OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, 
 MenWithMen, CondomProgramming, SynergyDevelopmentSector, CommunityHealthSystems, 
-VulnerablePeople)
+VulnerablePeople, OrganizationTarget)
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -78,13 +78,7 @@ class StakeHolderDirectoryAdmin(admin.ModelAdmin):
             'phone', 'alternative_phone', 'email', 'website' )
         }),
         ('Organization classification', {
-            'fields':( 'organization_type', 'organization_target_form', 'plhiv', ('ovc', 'pregnant_women', 
-            'care_givers', 'health_workers'), ('teachers', 'children', 'adolecents', 
-            'old_people', 'disabled_people', 'inmates_wivies'), ('govt_workers', 
-            'sex_workers', 'church_leaders', 'employee_families'),('gdwg', 
-            'idu', 'msm'), ('mobile_population', 'out_of_school_youth', 'inmates', 
-            'street_children', 'traditional_healers'), ('traditional_leaders', 
-            'target_others') )
+            'fields':( 'organization_type', 'organization_target_form' )
         }),
         ('Geographic activities - High impact interventions', {
             'fields':('elimination_of_mother_child_transmission', 'condom_programming', 
@@ -126,6 +120,18 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         CorrectionalFaciltyStaffInline, PersonsWithDisabiltyInline, MobileWorkerInline, MenWithMenInline,
         CondomProgrammingInline, SynergyDevelopmentSectorInline, CommunityHealthSystemsInline, 
         VulnerablePeopleInline]
+
+class OrganizationTargetAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Organization Target', {
+            'fields': ('plhiv', 'ovc', 'pregnant_women', 'care_givers', 'health_workers', 'teachers', 
+                'children', 'adolecents', 'old_people', 'disabled_people', 'inmates_wivies', 
+                'govt_workers', 'sex_workers', 'church_leaders', 'employee_families','gdwg', 
+                'idu', 'msm', 'mobile_population', 'out_of_school_youth', 'inmates', 
+                'street_children', 'traditional_healers', 'traditional_leaders', 'target_others')
+        }) 
+    
+    )
 
 '''
 class IECMaterialAdmin(admin.ModelAdmin):
@@ -228,7 +234,7 @@ class VulnerablePeopleAdmin(admin.ModelAdmin):
         })
     )
 '''
-
+myList = [StakeHolderDirectory, OrganizationTarget]
 # Register StakeHolder models
 admin.site.register(StakeHolderDirectory, StakeHolderDirectoryAdmin)
 

@@ -176,12 +176,13 @@ SOURCES_OF_INFORMATION = (
 class OrganizationTarget(models.Model):
     # Which group(s) does your organization target? (Please tick as many different groups that 
     # are targeted by your organization)
-    organization_target = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
+    organization_target = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST)
 
 #               STAKEHOLDER DIRECTORY
 # *************************************************
 
 class StakeHolderDirectory(models.Model):
+    organization_target_form = models.ManyToManyField(OrganizationTarget)
     # --> Basic details on the organization
     organization_name = models.CharField(max_length=200)
     start_year = models.DateTimeField('which year did your organization start working in this district?')
@@ -206,10 +207,10 @@ class StakeHolderDirectory(models.Model):
     organization_type = models.CharField('Which of the following \'types\' would best describe your \
         organization(Please only tick one type of organization)', max_length=100, 
         choices=ORGANIZATION_TYPE_LIST, default='N/A')
-    organization_target_form = models.ManyToManyField(OrganizationTarget)
     
     #plhiv = models.BooleanField('people living with HIV/ AIDS', help_text="<b style = \"font-size: 14px; \">Which group(s) does your \
     #    organization target? (Please tick as many different groups that are targeted by your organization<b>)")
+    '''
     plhiv = models.BooleanField('people living with HIV/ AIDS')
     ovc = models.BooleanField('orphans and vulnerable children')
     pregnant_women = models.BooleanField()
@@ -235,6 +236,7 @@ class StakeHolderDirectory(models.Model):
     traditional_healers = models.BooleanField()
     traditional_leaders = models.BooleanField()
     target_others = models.BooleanField('other target groups - please specify')
+    '''
 
     # --> Geographic activities - High impact interventions
     # What area(s) of support does your organization provide? (Please tick as many different areas that 
