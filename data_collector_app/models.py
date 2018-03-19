@@ -286,39 +286,6 @@ class StakeHolderDirectory(models.Model):
 # *************************************************
     
 class ActivityReportForm(models.Model):
-    # Crtical enablers
-    accessed_pep_female_num = models.IntegerField('females who experienced physical or \
-        sexual violence, and accessed Post Exposure Prophylaxis (PEP)', help_text="Number of \
-        people who experienced physical or sexual violence and were referred for Post Exposure \
-        Prophylaxis (PEP) within 72 hours in accordance with national guidelines this quarter.", 
-        default=0)
-    accessed_pep_male_num = models.IntegerField('males who experienced physical or sexual \
-        violence, and accessed Post Exposure Prophylaxis (PEP)', default=0)
-
-    # Synergies with other development sectors
-    employees_reached_female_num = models.IntegerField('female employees reached through \
-        workplace programmes', help_text="How many employees were reached through workplace \
-        programmes by your organization this quarter? ", default=0)
-    employees_reached_male_num = models.IntegerField('male employees reached through workplace \
-        programmes', default=0)
-
-    # Community health systems
-    plhiv_groups = models.IntegerField('PLHIV groups set up by your organization', help_text="How many \
-        PLHIV support groups set up by your organization are currently active?", default=0)
-    plhiv_female_num = models.IntegerField('female persons living with HIV (PLHIV) currently \
-        enrolled in active groups', help_text="How many PLHIV are currently enrolled in the \
-        active PLHIV support groups by your organization?", default=0)
-    plhiv_male_num = models.IntegerField('male persons living with HIV (PLHIV) currently \
-        enrolled in active groups', default=0)
-
-    ovc_female_num = models.IntegerField('female vulnerable people', help_text="How many vulnerable people \
-        in total received care and support from your organization this quarter?", default=0)
-    ovc_male_num = models.IntegerField('male vulnerable people', default=0)
-    ovc_care_support_0_9 = models.IntegerField('vunerable people of ages 0 to 9', default=0)
-    ovc_care_support_10_14 = models.IntegerField('vunerable people of ages 10 to 14', default=0)
-    ovc_care_support_15_19 = models.IntegerField('vunerable people of ages 15 to 19', default=0)
-    ovc_care_support_20_24 = models.IntegerField('vunerable people of ages 20 to 24', default=0)
-    ovc_care_support_25_plus = models.IntegerField('vunerable people of ages 25 and above', default=0)
 
     # Types of care and support organization provides
     food_and_nutrition = models.BooleanField(help_text="What types of care and support does your organization \
@@ -426,4 +393,46 @@ class CondomProgramming(models.Model):
     condom_dist_point_num = models.IntegerField('number of distribution points', default=0)
     female_condom_distributed_num = models.IntegerField('female condoms distributed', default=0)
     male_condom_distributed_num = models.IntegerField('male condoms distributed', default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class CriticalEnabler(models.Model):
+    
+    # Crtical enablers
+    #  Number of people who experienced physical or sexual violence and were referred for Post 
+    # Exposure Prophylaxis (PEP) within 72 hours in accordance with national guidelines this quarter.
+    accessed_pep_female_num = models.IntegerField('females who experienced physical or \
+        sexual violence, and accessed Post Exposure Prophylaxis (PEP)', default=0)
+    accessed_pep_male_num = models.IntegerField('males who experienced physical or sexual \
+        violence, and accessed Post Exposure Prophylaxis (PEP)', default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SynergyDevelopmentSector(models.Model):
+    # Synergies with other development sectors
+    # How many employees were reached through workplace programmes by your organization this quarter?
+    employees_reached_female_num = models.IntegerField('female employees reached through \
+        workplace programmes', default=0)
+    employees_reached_male_num = models.IntegerField('male employees reached through \
+        workplace programmes', default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class CommunityHealthSystems(models.Model):
+    # Community health systems
+    # 1. How many PLHIV support groups set up by your organization are currently active?
+    # 2. How many PLHIV are currently enrolled in the active PLHIV support groups by your organization?
+    plhiv_groups = models.IntegerField('PLHIV groups set up by your organization', default=0)
+    plhiv_female_num = models.IntegerField('female persons living with HIV (PLHIV) currently \
+        enrolled in active groups', default=0)
+    plhiv_male_num = models.IntegerField('male persons living with HIV (PLHIV) currently \
+        enrolled in active groups', default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class VulnerablePeople(models.Model):
+    # How many vulnerable people in total received care and support from your organization this quarter?
+    ovc_female_num = models.IntegerField('female vulnerable people', default=0)
+    ovc_male_num = models.IntegerField('male vulnerable people', default=0)
+    ovc_care_support_0_9 = models.IntegerField('vunerable people of ages 0 to 9', default=0)
+    ovc_care_support_10_14 = models.IntegerField('vunerable people of ages 10 to 14', default=0)
+    ovc_care_support_15_19 = models.IntegerField('vunerable people of ages 15 to 19', default=0)
+    ovc_care_support_20_24 = models.IntegerField('vunerable people of ages 20 to 24', default=0)
+    ovc_care_support_25_plus = models.IntegerField('vunerable people of ages 25 and above', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)

@@ -3,7 +3,8 @@ from django.contrib import admin
 
 from .models import (StakeHolderDirectory, IECMaterial, AdolecentsReached, ActivityReportForm,
 OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, 
-MenWithMen, CondomProgramming)
+MenWithMen, CondomProgramming, SynergyDevelopmentSector, CommunityHealthSystems, 
+VulnerablePeople)
 
 # Register your models here.
 class MaterialInline(admin.TabularInline):
@@ -45,6 +46,18 @@ class MenWithMenInline(admin.TabularInline):
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
     extra = 1
+
+class SynergyDevelopmentSectorInline(admin.TabularInline):
+    model = SynergyDevelopmentSector
+    extra = 3
+
+class CommunityHealthSystemsInline(admin.TabularInline):
+    model = CommunityHealthSystems
+    extra = 3
+
+class VulnerablePeopleInline(admin.TabularInline):
+    model = VulnerablePeople
+    extra = 3
 
 
 class StakeHolderDirectoryAdmin(admin.ModelAdmin):
@@ -93,17 +106,6 @@ class StakeHolderDirectoryAdmin(admin.ModelAdmin):
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
     fieldsets = (
-        ('Crtical enablers', {
-            'fields':('accessed_pep_female_num', 'accessed_pep_male_num')
-        }),
-        ('Synergies with other development sectors', {
-            'fields':('employees_reached_female_num', 'employees_reached_male_num')
-        }),
-        ('Community health systems', {
-            'fields':('plhiv_female_num', 'plhiv_male_num', 'ovc_female_num', 'ovc_male_num', 
-            'ovc_care_support_0_9', 'ovc_care_support_10_14', 'ovc_care_support_15_19', 'ovc_care_support_20_24', 
-            'ovc_care_support_25_plus')
-        }),
         ('Types of care and support organization provides', {
             'fields':('food_and_nutrition', 'shelter_and_care', 'protection_and_legal_aid', 'healthcare', 
                 'psychosocial', 'social_support', 'spiritual_support', 'education_and_vocational_training', 
@@ -117,7 +119,8 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
 
     inlines = [MaterialInline, AdolencentsInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
         CorrectionalFaciltyStaffInline, PersonsWithDisabiltyInline, MobileWorkerInline, MenWithMenInline,
-        CondomProgrammingInline]
+        CondomProgrammingInline, SynergyDevelopmentSectorInline, CommunityHealthSystemsInline, 
+        VulnerablePeopleInline]
 
 class IECMaterialAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -191,7 +194,34 @@ class CondomProgrammingAdmin(admin.ModelAdmin):
         })
     )
 
+class CriticalEnablerAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Crtical enablers', {
+            'fields':('accessed_pep_female_num', 'accessed_pep_male_num')
+        })
+    )
+class SynergyDevelopmentSectorAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Synergies with other development sectors', {
+            'fields':('employees_reached_female_num', 'employees_reached_male_num')
+        })
+    )
 
+class CommunityHealthSystemsAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Community health systems', {
+            'fields':('plhiv_female_num', 'plhiv_male_num', 'ovc_female_num', 'ovc_male_num')
+        })
+    )
+# also under community systems
+class VulnerablePeopleAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('', {
+            'fields':('ovc_care_support_0_9', 'ovc_care_support_10_14', 'ovc_care_support_15_19', 
+            'ovc_care_support_20_24', 'ovc_care_support_25_plus')
+        })
+    )
+    
 # using iteratable to store multiple models
 # model_list = [IECMaterial, NameMeCorrectlyAfterTheQuestion, ActivityReportForm]
 
