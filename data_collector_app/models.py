@@ -153,6 +153,14 @@ TYPE_OF_SUPPORT_LIST = (
     (economic_strengthening, 'Economic strengthening')
 )
 
+PREVENTION_MESSAGES_LIST = (
+    ('Condom use','Condom use'),
+    ('MC information','MC information'),
+    ('MCP information','MCP information'),
+    ('PMTCT Promotion','PMTCT Promotion'),
+    ('VCT/ HCT Promotion','PMTCT Promotion')
+)
+
 IEC_MATERIALS = (
     (books, 'Books'),
     (brochures, 'Brochures'),
@@ -173,43 +181,55 @@ SOURCES_OF_INFORMATION = (
     (internal_system, 'Internal system'),
     (systems_other, 'Other')
 )
+AREA_OF_SUPPORT = (
+    ("High impact interventions", (
+        ('condom_programming', 'Condom Programming'),
+        ('hiv_conselling_and_testing', 'HIV Conselling and Testing'),
+    )
+    ),
+    ("Critical enablers", (
+        ('gender_equality_and_empowerment', 'Gender equality and Empowerment'),
+        ('leadership_commitment_and_good_governance', 'Leadership Commitment and Good Governance'),
+    )
+    )
+)
 
-# Helper class for stakeholder directory
+PROVINCE_DISTRICTS = (
+    ("Muchinga", (
+        ('Chama', 'Chama'),
+        ('Chinsali', 'Chinsali'),
+        ('Isoka', 'Isoka')
+    )
+    ),
+    ("Lusaka", (
+        ('Lusaka', 'Lusaka'),
+        ('Chilanga', 'Chilanga'),
+        ('Kafue', 'Kafue')
+    )
+    )
+)
+
+
+#               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
+# *********************************************************************
+class OrganizationType(models.Model):
+    organization_type_option = models.CharField(max_length=100, default="")
+
+    def __str__(self):
+        return self.organization_type_option
+
 class OrganizationTarget(models.Model):
     # Which group(s) does your organization target? (Please tick as many different groups that 
     # are targeted by your organization)
-    # organization_target = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST)
-    plhiv = models.BooleanField('people living with HIV/ AIDS', default=False)
-    ovc = models.BooleanField('orphans and vulnerable children', default=False)
-    pregnant_women = models.BooleanField(default=False)
-    care_givers = models.BooleanField(default=False)
-    health_workers = models.BooleanField(default=False)
-    teachers = models.BooleanField(default=False)
-    children = models.BooleanField(default=False)
-    adolecents = models.BooleanField('adolecents/ youth', default=False)
-    old_people = models.BooleanField('old people/ pensioners', default=False)
-    disabled_people = models.BooleanField(default=False)
-    inmates_wivies = models.BooleanField(default=False)
-    govt_workers = models.BooleanField('government workers (work place)', default=False)
-    sex_workers = models.BooleanField(default=False)
-    church_leaders = models.BooleanField(default=False)
-    employee_families = models.BooleanField('employees and/or employee families', default=False)
-    gdwg = models.BooleanField('guardians/ divorced/ widows/ grandparents', default=False)
-    idu = models.BooleanField('intravenous drug users (IDU)', default=False)
-    msm = models.BooleanField('men who have sex with men (MSM)', default=False)
-    mobile_population = models.BooleanField('migrants/ mobile population', default=False)
-    out_of_school_youth = models.BooleanField(default=False)
-    inmates = models.BooleanField(default=False)
-    street_children = models.BooleanField(default=False)
-    traditional_healers = models.BooleanField(default=False)
-    traditional_leaders = models.BooleanField(default=False)
-    target_others = models.BooleanField('other target groups - please specify', default=False)
+    organization_target_option = models.CharField(max_length=100, default="")   # removed choice for more flexibility
 
-#               STAKEHOLDER DIRECTORY
-# *************************************************
+    def __str__(self):
+        return self.organization_target_option
 
-class StakeHolderDirectory(models.Model):
-    organization_target_form = models.ManyToManyField(OrganizationTarget)
+#                   STAKEHOLDER DIRECTORY
+# ************************************************************
+
+class StakeHolder(models.Model):
     # --> Basic details on the organization
     organization_name = models.CharField(max_length=200)
     start_year = models.DateTimeField('which year did your organization start working in this district?')
@@ -219,107 +239,79 @@ class StakeHolderDirectory(models.Model):
     temporary_employee_male = models.IntegerField('current number of temporary male employees', default=0)
     volunteer_employee_female = models.IntegerField('current number of volunteer female employees', default=0)
     volunteer_employee_male = models.IntegerField('current number of volunteer male employees', default=0)
-    description = models.TextField('Brief description of the organization (Please describe your \
+    description_of_organization = models.TextField('Brief description of the organization (Please describe your \
         organization in no more than 50 words)')
 
     # --> Contact details
-    contact_name = models.CharField('Name of key contact person', max_length=50)
-    contact_organization = models.CharField('Position within the organization', max_length=100)
-    contact_address = models.CharField('Address of the organization', max_length=200)
-    phone = models.CharField('Telephone number', max_length=20)
-    alternative_phone = models.CharField('Telephone number alternative', max_length=20)
-    email = models.EmailField('Email address', max_length=254)
+    key_contact_name = models.CharField('Name of key contact person', max_length=50)
+    position_within_organization = models.CharField(max_length=50)
+    organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
+    organization_address = models.CharField('Street address of the organization', max_length=100)
+    telephone_number = models.CharField('Telephone number', max_length=20)
+    telephone_number_alternative = models.CharField('Telephone number alternative', max_length=20)
+    email_address = models.EmailField('Email address', max_length=254)
     website = models.URLField(max_length=200)
 
-    organization_type = models.CharField('Which of the following \'types\' would best describe your \
-        organization(Please only tick one type of organization)', max_length=100, 
-        choices=ORGANIZATION_TYPE_LIST, default='N/A')
+    organization_type = models.CharField(max_length=100, choices=ORGANIZATION_TYPE_LIST)
     
-    #plhiv = models.BooleanField('people living with HIV/ AIDS', help_text="<b style = \"font-size: 14px; \">Which group(s) does your \
-    #    organization target? (Please tick as many different groups that are targeted by your organization<b>)")
-    '''
-    plhiv = models.BooleanField('people living with HIV/ AIDS')
-    ovc = models.BooleanField('orphans and vulnerable children')
-    pregnant_women = models.BooleanField()
-    care_givers = models.BooleanField()
-    health_workers = models.BooleanField()
-    teachers = models.BooleanField()
-    children = models.BooleanField()
-    adolecents = models.BooleanField('adolecents/ youth')
-    old_people = models.BooleanField('old people/ pensioners')
-    disabled_people = models.BooleanField()
-    inmates_wivies = models.BooleanField()
-    govt_workers = models.BooleanField('government workers (work place)')
-    sex_workers = models.BooleanField()
-    church_leaders = models.BooleanField()
-    employee_families = models.BooleanField('employees and/or employee families')
-    gdwg = models.BooleanField('guardians/ divorced/ widows/ grandparents')
-    idu = models.BooleanField('intravenous drug users (IDU)')
-    msm = models.BooleanField('men who have sex with men (MSM)')
-    mobile_population = models.BooleanField('migrants/ mobile population')
-    out_of_school_youth = models.BooleanField()
-    inmates = models.BooleanField()
-    street_children = models.BooleanField()
-    traditional_healers = models.BooleanField()
-    traditional_leaders = models.BooleanField()
-    target_others = models.BooleanField('other target groups - please specify')
-    '''
+    organization_target = models.ManyToManyField(OrganizationTarget)
+
+    def __str__(self):
+        return self.organization_name + ' - ' + self.organization_district + ' - ' + self.telephone_number
 
     # --> Geographic activities - High impact interventions
     # What area(s) of support does your organization provide? (Please tick as many different areas that 
     # are carried out by your organization)
-    elimination_of_mother_child_transmission = models.BooleanField('elimination of mother-to-child transmission (eMTCT)')
-    condom_programming = models.BooleanField()
-    voluntary_medical_male_circumcision = models.BooleanField('voluntary medical male circumcision (VMMC) ')
-    hiv_counselling_testing = models.BooleanField('HIV counselling and testing (HCT)')
-    social_behaviour_change = models.BooleanField('social and behaviour change communication')
-    anti_retroviral_treatment = models.BooleanField('treatment through provision of Anti-Retroviral Treatment (ART)')
-
-    # --> Geographic activities - Critical enablers
-    gender_equality_empowerment = models.BooleanField('gender equality and empowerment')
-    laws_legal_policies_practices = models.BooleanField('laws, legal policies and practices')
-    leadership_commitment_good_governance = models.BooleanField('leadership commitment and good governance')
-    resource_mobilization_sustainable_financing = models.BooleanField('resource mobilization and sustainable financing')
-
-    # --> Geographic activities - Synergies with development sectors
-    post_exposure_prophylaxis = models.BooleanField('post exposure prophylaxis (PEP)')
-    blood_safety = models.BooleanField('poverty alleviation and livelihoods')
-    poverty_alleviation_livelihoods = models.BooleanField('food and nutrition security')
-    food_nutrition_security = models.BooleanField('food and nutrition security')
-    mainstreaming_hiv_into_capital_projects = models.BooleanField()
 
     # --> Funding sources
     # Please provide details on the organization that provide funding to you, starting with the largest 
     # partner/ donor. We also want to understand the types of support that the partners/donors provide to 
     # your organization, and the funding each partner/ donor has given you 2016. (The information on funding 
     # will not be published and only held at DAFT) 
-    funder_organization = models.CharField(max_length=100)
-    funder_support_type = models.CharField(max_length=100, choices=ORGANIZATION_TYPE_LIST, default='N/A')
-    amount = models.IntegerField('amount in Kwacha(ZMW)')
-    comment = models.TextField('period of use of funding')
 
     # --> Target groups and prevention messages
     # Using the matrix below please hoghlight with a tick where your organization is/ will be providing 
     # prevention messages to one or more of the target groups listed
-    condom_use = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    mc_information = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    mcp_information = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    pmtct_promotion = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    vct_hct_promotion = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    pep_information = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    sti_information = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    tb_information = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    gbv_information = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    social_norms = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    message_other = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default='N/A')
-    # message_other = forms.ChoiceField(choices=ORGANIZATION_TARGET_LIST)
+
+class GeographicActivity(models.Model):
+    area_of_support = models.CharField(max_length=100, choices=AREA_OF_SUPPORT, default="")
+    location = models.CharField(max_length=100, choices=PROVINCE_DISTRICTS, default="")
+    organization = models.ForeignKey(StakeHolder, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.area_of_support + '-' + self.location
+
+class TargetGroupPreventionMessages(models.Model):
+    target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default="")
+    prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, default="")
+    organization = models.ForeignKey(StakeHolder, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.target_group + " " + self.prevention_message
+
+class FundingSources(models.Model):
+    name_of_organization =  models.CharField(max_length=100, default="")
+    funding_amount =  models.IntegerField()
+    organization = models.ForeignKey(StakeHolder, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name_of_organization
+
+
+class TypesOfFundingSupport(models.Model):
+    support_option =  models.CharField(max_length=100, default="")
+    funding_source = models.ForeignKey(FundingSources, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.support_option
+
 
 # HIV ACTIVITIES ORGANIZATION PARTICIPATES IN FORM
 # *************************************************
     
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
-    stake_holder_directory_form = models.ForeignKey(StakeHolderDirectory, on_delete=models.CASCADE, null=True)
+    stake_holder_directory_form = models.ForeignKey(StakeHolder, on_delete=models.CASCADE, null=True)
 
     # Types of care and support organization provides
     food_and_nutrition = models.BooleanField(help_text="What types of care and support does your organization \
