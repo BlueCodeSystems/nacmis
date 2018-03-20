@@ -173,10 +173,37 @@ SOURCES_OF_INFORMATION = (
     (internal_system, 'Internal system'),
     (systems_other, 'Other')
 )
+
+# Helper class for stakeholder directory
 class OrganizationTarget(models.Model):
     # Which group(s) does your organization target? (Please tick as many different groups that 
     # are targeted by your organization)
-    organization_target = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST)
+    # organization_target = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST)
+    plhiv = models.BooleanField('people living with HIV/ AIDS', default=False)
+    ovc = models.BooleanField('orphans and vulnerable children', default=False)
+    pregnant_women = models.BooleanField(default=False)
+    care_givers = models.BooleanField(default=False)
+    health_workers = models.BooleanField(default=False)
+    teachers = models.BooleanField(default=False)
+    children = models.BooleanField(default=False)
+    adolecents = models.BooleanField('adolecents/ youth', default=False)
+    old_people = models.BooleanField('old people/ pensioners', default=False)
+    disabled_people = models.BooleanField(default=False)
+    inmates_wivies = models.BooleanField(default=False)
+    govt_workers = models.BooleanField('government workers (work place)', default=False)
+    sex_workers = models.BooleanField(default=False)
+    church_leaders = models.BooleanField(default=False)
+    employee_families = models.BooleanField('employees and/or employee families', default=False)
+    gdwg = models.BooleanField('guardians/ divorced/ widows/ grandparents', default=False)
+    idu = models.BooleanField('intravenous drug users (IDU)', default=False)
+    msm = models.BooleanField('men who have sex with men (MSM)', default=False)
+    mobile_population = models.BooleanField('migrants/ mobile population', default=False)
+    out_of_school_youth = models.BooleanField(default=False)
+    inmates = models.BooleanField(default=False)
+    street_children = models.BooleanField(default=False)
+    traditional_healers = models.BooleanField(default=False)
+    traditional_leaders = models.BooleanField(default=False)
+    target_others = models.BooleanField('other target groups - please specify', default=False)
 
 #               STAKEHOLDER DIRECTORY
 # *************************************************

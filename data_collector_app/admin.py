@@ -63,6 +63,11 @@ class VulnerablePeopleInline(admin.TabularInline):
     model = VulnerablePeople
     extra = 3
 
+class OrganizationTargetInline(admin.StackedInline):
+    # Wont' work... this is for one to one relationship
+    model = OrganizationTarget
+    extra = 1
+
 # ADMIN CLASSES
 # *************************************************
 class StakeHolderDirectoryAdmin(admin.ModelAdmin):
@@ -129,8 +134,7 @@ class OrganizationTargetAdmin(admin.ModelAdmin):
                 'govt_workers', 'sex_workers', 'church_leaders', 'employee_families','gdwg', 
                 'idu', 'msm', 'mobile_population', 'out_of_school_youth', 'inmates', 
                 'street_children', 'traditional_healers', 'traditional_leaders', 'target_others')
-        }) 
-    
+        }),
     )
 
 '''
@@ -241,7 +245,4 @@ admin.site.register(StakeHolderDirectory, StakeHolderDirectoryAdmin)
 # Register HIV Activities Organization Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
-# ERROR: 
-# admin.site.register(IECMaterial, IECMaterialAdmin)
-# admin.site.register(IECMaterial)
-# admin.site.register()
+admin.site.register(OrganizationTarget, OrganizationTargetAdmin)
