@@ -232,7 +232,7 @@ class OrganizationTarget(models.Model):
 class StakeHolder(models.Model):
     # --> Basic details on the organization
     organization_name = models.CharField(max_length=200)
-    start_year = models.DateTimeField('which year did your organization start working in this district?')
+    start_year = models.DateField('which year did your organization start working in this district?')
     permanent_employee_female = models.IntegerField('current number of permanent female employees', default=0)
     permanent_employee_male = models.IntegerField('current number of permanent male employees', default=0)
     temporary_employee_female = models.IntegerField('current number of temporary female employees', default=0)
@@ -311,7 +311,13 @@ class TypesOfFundingSupport(models.Model):
     
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
-    stake_holder_directory_form = models.ForeignKey(StakeHolder, on_delete=models.CASCADE, null=True)
+    stake_holder = models.ForeignKey(StakeHolder, on_delete=models.SET_NULL, null=True)
+    report_date = models.DateField(null=True)
+    quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)
+    name = models.CharField(max_length=50)
+    telephone_number = models.CharField('Telephone number', max_length=20)
+    email_address = models.EmailField('Email address', max_length=2)
+
 
     # Types of care and support organization provides
     food_and_nutrition = models.BooleanField(help_text="What types of care and support does your organization \
@@ -337,7 +343,7 @@ class IECMaterial(models.Model):
     # --> Social behaviour change communication
     material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default='N/A')
     number_distributed = models.IntegerField('number of materials distributed', default=0)
-    iec_localized = models.BooleanField('localized', default=False)
+    localized = models.BooleanField(default=False)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 # --> Social behaviour change communication for key populations

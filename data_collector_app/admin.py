@@ -1,13 +1,11 @@
 from django import forms
 from django.contrib import admin
 
-from .models import (StakeHolder, OrganizationTarget, GeographicActivity, FundingSources,
+from .models import (ActivityReportForm, StakeHolder, OrganizationTarget, GeographicActivity, FundingSources,
 TargetGroupPreventionMessages)
-
-from .models import (MaterialInline, AdolencentsInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
-        CorrectionalFaciltyStaffInline, PersonsWithDisabiltyInline, MobileWorkerInline, MenWithMenInline,
-        CondomProgrammingInline, SynergyDevelopmentSectorInline, CommunityHealthSystemsInline, 
-        VulnerablePeopleInline)
+from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
+PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
+CommunityHealthSystems, VulnerablePeople)
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -26,6 +24,57 @@ class TargetGroupPreventionMessagesInline(admin.TabularInline):
 
 # INLINES FOR ACTIVITY REPORT FORM ADMIN
 # *************************************************
+class MaterialInline(admin.TabularInline):
+    model = IECMaterial
+    extra = 3
+
+class AdolencentsInline(admin.TabularInline):
+    model = AdolecentsReached
+    extra = 3
+
+class OutOfSchoolInline(admin.TabularInline):
+    model = OutOfSchool
+    extra = 3
+
+class SexWorkerInline(admin.TabularInline):
+    model = SexWorker
+    extra = 3
+
+class InmateInline(admin.TabularInline):
+    model = Inmate
+    extra = 3
+
+class CorrectionalFaciltyStaffInline(admin.TabularInline):
+    model = CorrectionalFaciltyStaff
+    extra = 3
+
+class PersonsWithDisabiltyInline(admin.TabularInline):
+    model = PersonsWithDisabilty
+    extra = 3
+
+class MobileWorkerInline(admin.TabularInline):
+    model = MobileWorker
+    extra = 3
+
+class MenWithMenInline(admin.TabularInline):
+    model = MenWithMen
+    extra = 1
+
+class CondomProgrammingInline(admin.TabularInline):
+    model = CondomProgramming
+    extra = 1
+
+class SynergyDevelopmentSectorInline(admin.TabularInline):
+    model = SynergyDevelopmentSector
+    extra = 3
+
+class CommunityHealthSystemsInline(admin.TabularInline):
+    model = CommunityHealthSystems
+    extra = 3
+
+class VulnerablePeopleInline(admin.TabularInline):
+    model = VulnerablePeople
+    extra = 3
 
 # ADMIN CLASSES
 # *************************************************
@@ -50,18 +99,7 @@ class StakeHolderAdmin(admin.ModelAdmin):
 
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
-    fieldsets = (
-        ('Types of care and support organization provides', {
-            'fields':('food_and_nutrition', 'shelter_and_care', 'protection_and_legal_aid', 'healthcare', 
-                'psychosocial', 'social_support', 'spiritual_support', 'education_and_vocational_training', 
-                'economic_strengthening')
-        }),
-        ('Monitoring and Evaluation', {
-            'fields':('nacmis', 'hmis', 'datim', 'internal_system', 'systems_other')
-        })
-        
-    )
-
+    
     inlines = [MaterialInline, AdolencentsInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
         CorrectionalFaciltyStaffInline, PersonsWithDisabiltyInline, MobileWorkerInline, MenWithMenInline,
         CondomProgrammingInline, SynergyDevelopmentSectorInline, CommunityHealthSystemsInline, 
@@ -79,7 +117,7 @@ class OrganizationTargetAdmin(admin.ModelAdmin):
 admin.site.register(StakeHolder, StakeHolderAdmin)
 
 # Register HIV Activities Organization Participates in
-#admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
+admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
 admin.site.register(OrganizationTarget, OrganizationTargetAdmin)
 admin.site.register(GeographicActivity)
