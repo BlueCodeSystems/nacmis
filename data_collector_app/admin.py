@@ -3,9 +3,10 @@ from django.contrib import admin
 
 from .models import (ActivityReportForm, StakeHolder, OrganizationTarget, GeographicActivity, FundingSources,
 TargetGroupPreventionMessages)
+
 from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
 PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
-CommunityHealthSystems, VulnerablePeople)
+CommunityHealthSystem, VulnerablePeople)
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -26,35 +27,35 @@ class TargetGroupPreventionMessagesInline(admin.TabularInline):
 # *************************************************
 class MaterialInline(admin.TabularInline):
     model = IECMaterial
-    extra = 3
+    extra = 1
 
 class AdolencentsInline(admin.TabularInline):
     model = AdolecentsReached
-    extra = 3
+    extra = 1
 
 class OutOfSchoolInline(admin.TabularInline):
     model = OutOfSchool
-    extra = 3
+    extra = 1
 
 class SexWorkerInline(admin.TabularInline):
     model = SexWorker
-    extra = 3
+    extra = 1
 
 class InmateInline(admin.TabularInline):
     model = Inmate
-    extra = 3
+    extra = 1
 
 class CorrectionalFaciltyStaffInline(admin.TabularInline):
     model = CorrectionalFaciltyStaff
-    extra = 3
+    extra = 1
 
 class PersonsWithDisabiltyInline(admin.TabularInline):
     model = PersonsWithDisabilty
-    extra = 3
+    extra = 1
 
 class MobileWorkerInline(admin.TabularInline):
     model = MobileWorker
-    extra = 3
+    extra = 1
 
 class MenWithMenInline(admin.TabularInline):
     model = MenWithMen
@@ -66,43 +67,40 @@ class CondomProgrammingInline(admin.TabularInline):
 
 class SynergyDevelopmentSectorInline(admin.TabularInline):
     model = SynergyDevelopmentSector
-    extra = 3
+    extra = 1
 
-class CommunityHealthSystemsInline(admin.TabularInline):
-    model = CommunityHealthSystems
-    extra = 3
+class CommunityHealthSystemInline(admin.TabularInline):
+    model = CommunityHealthSystem
+    extra = 1
 
 class VulnerablePeopleInline(admin.TabularInline):
     model = VulnerablePeople
-    extra = 3
+    extra = 1
 
 # ADMIN CLASSES
 # *************************************************
-'''
- ('Geographic activities - High impact interventions', {
-            'fields':('elimination_of_mother_child_transmission', 'condom_programming', 
-            'voluntary_medical_male_circumcision', 'hiv_counselling_testing', 
-            'social_behaviour_change', 'anti_retroviral_treatment')
-        }),
-        ('Geographic activities - Critical enablers', {
-            'fields':('gender_equality_empowerment', 'laws_legal_policies_practices', 
-            'leadership_commitment_good_governance', 'resource_mobilization_sustainable_financing' )
-        }),
-        ('Geographic activities - Synergies with development sectors', {
-            'fields':('post_exposure_prophylaxis', 'blood_safety', 'poverty_alleviation_livelihoods',
-            'food_nutrition_security', 'mainstreaming_hiv_into_capital_projects')
-        }),
-'''
 class StakeHolderAdmin(admin.ModelAdmin):
 
     inlines = [GeographicActivityInline, FundingSourcesInline, TargetGroupPreventionMessagesInline]
 
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
-    
+    AdolencentsInline.max_num = 1
+    OutOfSchoolInline.max_num = 1
+    SexWorkerInline.max_num = 1
+    InmateInline.max_num = 1
+    CorrectionalFaciltyStaffInline.max_num = 1
+    PersonsWithDisabiltyInline.max_num = 1
+    MobileWorkerInline.max_num = 1
+    MenWithMenInline.max_num = 1
+    CondomProgrammingInline.max_num = 1
+    SynergyDevelopmentSectorInline.max_num = 1
+    CommunityHealthSystemInline.max_num = 1
+    VulnerablePeopleInline.max_num = 1
+
     inlines = [MaterialInline, AdolencentsInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
         CorrectionalFaciltyStaffInline, PersonsWithDisabiltyInline, MobileWorkerInline, MenWithMenInline,
-        CondomProgrammingInline, SynergyDevelopmentSectorInline, CommunityHealthSystemsInline, 
+        CondomProgrammingInline, SynergyDevelopmentSectorInline, CommunityHealthSystemInline, 
         VulnerablePeopleInline]
 
 class OrganizationTargetAdmin(admin.ModelAdmin):
@@ -119,5 +117,5 @@ admin.site.register(StakeHolder, StakeHolderAdmin)
 # Register HIV Activities Organization Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
-admin.site.register(OrganizationTarget, OrganizationTargetAdmin)
-admin.site.register(GeographicActivity)
+# admin.site.register(OrganizationTarget, OrganizationTargetAdmin)
+# admin.site.register(GeographicActivity)

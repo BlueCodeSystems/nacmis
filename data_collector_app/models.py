@@ -315,8 +315,8 @@ class ActivityReportForm(models.Model):
     report_date = models.DateField(null=True)
     quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)
     name = models.CharField(max_length=50)
-    telephone_number = models.CharField('Telephone number', max_length=20)
-    email_address = models.EmailField('Email address', max_length=2)
+    telephone_number = models.CharField(max_length=20)
+    email_address = models.EmailField(max_length=2)
 
 
     # Types of care and support organization provides
@@ -447,7 +447,7 @@ class SynergyDevelopmentSector(models.Model):
         workplace programmes', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
-class CommunityHealthSystems(models.Model):
+class CommunityHealthSystem(models.Model):
     # Community health systems
     # 1. How many PLHIV support groups set up by your organization are currently active?
     # 2. How many PLHIV are currently enrolled in the active PLHIV support groups by your organization?
