@@ -80,6 +80,19 @@ class VulnerablePeopleInline(admin.TabularInline):
 # ADMIN CLASSES
 # *************************************************
 class StakeHolderAdmin(admin.ModelAdmin):
+    
+    fieldsets = (
+        (None, {
+            'fields': ('organization_name', 'start_year', 'permanent_employee_female', 
+            'permanent_employee_male', 'temporary_employee_female', 'temporary_employee_male', 
+            'volunteer_employee_female', 'volunteer_employee_male', 'description_of_organization')
+        }),
+        ('Contact details', {
+            'fields': ('key_contact_name', 'position_within_organization', 'organization_district', 
+            'organization_address', 'telephone_number', 'telephone_number_alternative', 'email_address', 
+            'organization_type', 'organization_target')
+        })
+    )
 
     inlines = [GeographicActivityInline, FundingSourcesInline, TargetGroupPreventionMessagesInline]
 
@@ -117,5 +130,7 @@ admin.site.register(StakeHolder, StakeHolderAdmin)
 # Register HIV Activities Organization Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
+# note: uncomment to have a user be flexible to enter there own targets to the list
 # admin.site.register(OrganizationTarget, OrganizationTargetAdmin)
+
 # admin.site.register(GeographicActivity)

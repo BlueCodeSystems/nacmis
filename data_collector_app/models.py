@@ -221,7 +221,7 @@ class OrganizationType(models.Model):
 class OrganizationTarget(models.Model):
     # Which group(s) does your organization target? (Please tick as many different groups that 
     # are targeted by your organization)
-    organization_target_option = models.CharField(max_length=100, default="")   # removed choice for more flexibility
+    organization_target_option = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default="")   # removed choice for more flexibility
 
     def __str__(self):
         return self.organization_target_option
@@ -243,13 +243,13 @@ class StakeHolder(models.Model):
         organization in no more than 50 words)')
 
     # --> Contact details
-    key_contact_name = models.CharField('Name of key contact person', max_length=50)
+    key_contact_name = models.CharField('name of key contact person', max_length=50)
     position_within_organization = models.CharField(max_length=50)
     organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
-    organization_address = models.CharField('Street address of the organization', max_length=100)
-    telephone_number = models.CharField('Telephone number', max_length=20)
+    organization_address = models.CharField('street address of the organization', max_length=100)
+    telephone_number = models.CharField('telephone number', max_length=20)
     telephone_number_alternative = models.CharField('Telephone number alternative', max_length=20)
-    email_address = models.EmailField('Email address', max_length=254)
+    email_address = models.EmailField('email address', max_length=254)
     website = models.URLField(max_length=200)
 
     organization_type = models.CharField(max_length=100, choices=ORGANIZATION_TYPE_LIST)
