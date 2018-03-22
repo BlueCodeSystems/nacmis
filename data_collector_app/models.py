@@ -461,11 +461,11 @@ class CommunityHealthSystem(models.Model):
 
 class VulnerablePeople(models.Model):
     # How many vulnerable people in total received care and support from your organization this quarter?
-    ovc_female_num = models.IntegerField('female vulnerable people', default=0)
-    ovc_male_num = models.IntegerField('male vulnerable people', default=0)
-    ovc_care_support_0_9 = models.IntegerField('vunerable people of ages 0 to 9', default=0)
-    ovc_care_support_10_14 = models.IntegerField('vunerable people of ages 10 to 14', default=0)
-    ovc_care_support_15_19 = models.IntegerField('vunerable people of ages 15 to 19', default=0)
-    ovc_care_support_20_24 = models.IntegerField('vunerable people of ages 20 to 24', default=0)
-    ovc_care_support_25_plus = models.IntegerField('vunerable people of ages 25 and above', default=0)
+    ovc_female_num = models.IntegerField('female', default=0)
+    ovc_male_num = models.IntegerField('male',default=0)
+    ovc_care_support_0_9 = models.IntegerField('0 to 9', default=0)
+    ovc_care_support_10_14 = models.IntegerField('10 to 14', default=0)
+    ovc_care_support_15_19 = models.IntegerField('15 to 19', default=0)
+    ovc_care_support_20_24 = models.IntegerField('20 to 24', default=0)
+    ovc_care_support_25_plus = models.IntegerField('25 and above', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
