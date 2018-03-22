@@ -316,12 +316,11 @@ class ActivityReportForm(models.Model):
     quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)
     name = models.CharField(max_length=50)
     telephone_number = models.CharField(max_length=20)
-    email_address = models.EmailField(max_length=2)
+    email_address = models.EmailField(max_length=50)
 
 
     # Types of care and support organization provides
-    food_and_nutrition = models.BooleanField(help_text="What types of care and support does your organization \
-        provide? (select all that apply) ")
+    food_and_nutrition = models.BooleanField()
     shelter_and_care = models.BooleanField()
     protection_and_legal_aid = models.BooleanField()
     healthcare = models.BooleanField()
@@ -332,8 +331,7 @@ class ActivityReportForm(models.Model):
     economic_strengthening = models.BooleanField()
 
     # Monitoring and Evaluation
-    nacmis = models.BooleanField('NAC-MIS', help_text="Which sources of information does your organization \
-        utilize to inform HIV programing and decision-making? ")
+    nacmis = models.BooleanField('NAC-MIS')
     hmis = models.BooleanField('HMIS')
     datim = models.BooleanField('DATIM')
     internal_system = models.BooleanField('Internal system')
