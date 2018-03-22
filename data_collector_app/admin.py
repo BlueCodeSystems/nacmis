@@ -31,38 +31,47 @@ class MaterialInline(admin.TabularInline):
 
 class AdolencentsInline(admin.TabularInline):
     model = AdolecentsReached
+    verbose_name_plural = "Number of adolescents reached"
     extra = 1
 
 class OutOfSchoolInline(admin.TabularInline):
     model = OutOfSchool
+    verbose_name_plural = "Out of school children reached"
     extra = 1
 
 class SexWorkerInline(admin.TabularInline):
     model = SexWorker
+    verbose_name_plural = "Number of sex workers reached"
     extra = 1
 
 class InmateInline(admin.TabularInline):
     model = Inmate
+    verbose_name_plural = "Number of inmates reached"
     extra = 1
 
 class CorrectionalFaciltyStaffInline(admin.TabularInline):
     model = CorrectionalFaciltyStaff
+    verbose_name_plural = "Number of correctional faciilty staff reached"
     extra = 1
 
 class PersonsWithDisabiltyInline(admin.TabularInline):
     model = PersonsWithDisabilty
+    verbose_name_plural = "Number of persons with disabilties reached"
     extra = 1
 
 class MobileWorkerInline(admin.TabularInline):
     model = MobileWorker
+    verbose_name_plural = "Number of mobile workers reached"
     extra = 1
 
 class MenWithMenInline(admin.TabularInline):
     model = MenWithMen
+    verbose_name_plural = "Number of MSM reached"
     extra = 1
 
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
+    verbose_name_plural = "Condom programming"
     extra = 1
 
 class SynergyDevelopmentSectorInline(admin.TabularInline):
@@ -117,5 +126,5 @@ admin.site.register(StakeHolder, StakeHolderAdmin)
 # Register HIV Activities Organization Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
-# admin.site.register(OrganizationTarget, OrganizationTargetAdmin)
+admin.site.register(OrganizationTarget)
 # admin.site.register(GeographicActivity)
