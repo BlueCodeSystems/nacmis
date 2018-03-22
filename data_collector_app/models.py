@@ -313,10 +313,11 @@ class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
     stake_holder = models.ForeignKey(StakeHolder, on_delete=models.SET_NULL, null=True)
     report_date = models.DateField(null=True)
+    #types_of_support = models.CharField(max_length=200, choices=TYPES_OF_SUPPORT_LIST)
     quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)
     name = models.CharField(max_length=50)
     telephone_number = models.CharField(max_length=20)
-    email_address = models.EmailField(max_length=2)
+    email_address = models.EmailField(max_length=50)
 
 
     # Types of care and support organization provides
