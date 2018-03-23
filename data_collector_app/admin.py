@@ -33,57 +33,93 @@ class MaterialInline(admin.TabularInline):
 
 class AdolencentsInline(admin.TabularInline):
     model = AdolecentsReached
+<<<<<<< HEAD
     verbose_name_plural = 'Number of adolescents and young people aged 10-24 reached by IEC materials \
         by your organization this quarter'
+=======
+    verbose_name_plural = "Number of adolescents reached"
+>>>>>>> 3f29dccf352fe207cf7641c63c9c9e89dd3592ed
     extra = 1
 
 class OutOfSchoolInline(admin.TabularInline):
     model = OutOfSchool
+<<<<<<< HEAD
     verbose_name_plural = 'Number of Out of School children and young people aged 10-24 years provided \
         with life skills- based comprehensive sexuality education within this quarter'
+=======
+    verbose_name_plural = "Out of school children reached"
+>>>>>>> 3f29dccf352fe207cf7641c63c9c9e89dd3592ed
     extra = 1
 
 class SexWorkerInline(admin.TabularInline):
     model = SexWorker
+<<<<<<< HEAD
     verbose_name_plural = 'How many sex workers were reached with HIV prevention programmes by your \
         organization this quarter?'
+=======
+    verbose_name_plural = "Number of sex workers reached"
+>>>>>>> 3f29dccf352fe207cf7641c63c9c9e89dd3592ed
     extra = 1
 
 class InmateInline(admin.TabularInline):
     model = Inmate
+<<<<<<< HEAD
     verbose_name_plural = 'How many inmates were reached with HIV prevention programmes by your organization \
         this quarter?'
+=======
+    verbose_name_plural = "Number of inmates reached"
+>>>>>>> 3f29dccf352fe207cf7641c63c9c9e89dd3592ed
     extra = 1
 
 class CorrectionalFaciltyStaffInline(admin.TabularInline):
     model = CorrectionalFaciltyStaff
+<<<<<<< HEAD
     verbose_name_plural = 'How many correctional facility staff were reached with HIV prevention programmes \
         this quarter?'
+=======
+    verbose_name_plural = "Number of correctional faciilty staff reached"
+>>>>>>> 3f29dccf352fe207cf7641c63c9c9e89dd3592ed
     extra = 1
 
 class PersonsWithDisabiltyInline(admin.TabularInline):
     model = PersonsWithDisabilty
+<<<<<<< HEAD
     verbose_name_plural = 'How many persons with disability were reached with HIV prevention programmes by your \
         organization this quarter?'
+=======
+    verbose_name_plural = "Number of persons with disabilties reached"
+>>>>>>> 3f29dccf352fe207cf7641c63c9c9e89dd3592ed
     extra = 1
 
 class MobileWorkerInline(admin.TabularInline):
     model = MobileWorker
+<<<<<<< HEAD
     verbose_name_plural = 'How many mobile workers were reached with HIV prevention programmes by your organization \
         this quarter?'
+=======
+    verbose_name_plural = "Number of mobile workers reached"
+>>>>>>> 3f29dccf352fe207cf7641c63c9c9e89dd3592ed
     extra = 1
 
 class MenWithMenInline(admin.TabularInline):
     model = MenWithMen
+<<<<<<< HEAD
     verbose_name_plural = 'How many men who have sex with men (MSM) were reached with HIV prevention programmes by \
         your organization this quarter?'
+=======
+    verbose_name_plural = "Number of MSM reached"
+>>>>>>> 3f29dccf352fe207cf7641c63c9c9e89dd3592ed
     extra = 1
 
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
+<<<<<<< HEAD
     verbose_name_plural = 'How many condom service distribution points were supplied by your organization this \
         quarter? (*excluding health facilities) How many male and/or female condoms were distributed to end users by \
         your organization this quarter (*excluding health facilities)?'
+=======
+    verbose_name_plural = "Condom programming"
+>>>>>>> 3f29dccf352fe207cf7641c63c9c9e89dd3592ed
     extra = 1
 
 class CriticalEnablerInline(admin.TabularInline):
@@ -184,7 +220,11 @@ admin.site.register(StakeHolder, StakeHolderAdmin)
 # Register HIV Activities Organization Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
+<<<<<<< HEAD
 # note: uncomment to have a user be flexible to enter there own targets to the list
 # admin.site.register(OrganizationTarget, OrganizationTargetAdmin)
 
+=======
+admin.site.register(OrganizationTarget)
+>>>>>>> 3f29dccf352fe207cf7641c63c9c9e89dd3592ed
 # admin.site.register(GeographicActivity)
