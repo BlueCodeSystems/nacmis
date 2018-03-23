@@ -119,6 +119,16 @@ class StakeHolderAdmin(admin.ModelAdmin):
             'permanent_employee_male', 'temporary_employee_female', 'temporary_employee_male', 
             'volunteer_employee_female', 'volunteer_employee_male', 'description_of_organization')
         }),
+    MenWithMenInline.max_num = 1
+    CondomProgrammingInline.max_num = 1
+    CriticalEnablerInline.max_num = 1
+    SynergyDevelopmentSectorInline.max_num = 1
+    CommunityHealthSystemInline.max_num = 1
+    MenWithMenInline.max_num = 1
+    CondomProgrammingInline.max_num = 1
+    CriticalEnablerInline.max_num = 1
+    SynergyDevelopmentSectorInline.max_num = 1
+    CommunityHealthSystemInline.max_nu
         ('Contact details', {
             'fields': ('key_contact_name', 'position_within_organization', 'organization_district', 
             'organization_address', 'telephone_number', 'telephone_number_alternative', 'email_address', 
