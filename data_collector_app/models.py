@@ -244,35 +244,30 @@ class StakeHolder(models.Model):
 
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
-    position_within_organization = models.CharField(max_length=50)
+    position_within_organization = models.CharField('position within the organization',max_length=50)
     organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
-    organization_address = models.CharField('street address of the organization', max_length=100)
+    organization_address = models.CharField('address of the organization', max_length=100)
     telephone_number = models.CharField('telephone number', max_length=20)
-    telephone_number_alternative = models.CharField('Telephone number alternative', max_length=20)
+    telephone_number_alternative = models.CharField('telephone number alternative', max_length=20)
     email_address = models.EmailField('email address', max_length=254)
     website = models.URLField(max_length=200)
 
-    organization_type = models.CharField(max_length=100, choices=ORGANIZATION_TYPE_LIST)
-    
-    organization_target = models.ManyToManyField(OrganizationTarget)
+    # --> Organization Classification
+    organization_type = models.CharField('which of the following \'types\' would best describe your \
+        organization? (Please only tick one type of organization)', max_length=100, choices=ORGANIZATION_TYPE_LIST)
+    organization_target = models.ManyToManyField(OrganizationTarget, verbose_name='which group(s) does your organization? (please tick as many \
+        different groups that are targeted by your organization)')
 
     def __str__(self):
-        return self.organization_name + ' - ' + self.organization_district + ' - ' + self.telephone_number
-
-    # --> Geographic activities - High impact interventions
-    # What area(s) of support does your organization provide? (Please tick as many different areas that 
-    # are carried out by your organization)
-
-    # --> Funding sources
-    # Please provide details on the organization that provide funding to you, starting with the largest 
-    # partner/ donor. We also want to understand the types of support that the partners/donors provide to 
-    # your organization, and the funding each partner/ donor has given you 2016. (The information on funding 
-    # will not be published and only held at DAFT) 
+        return self.organization_name + ' - ' + self.organization_district + ' - ' + self.telephone_number 
 
     # --> Target groups and prevention messages
     # Using the matrix below please hoghlight with a tick where your organization is/ will be providing 
     # prevention messages to one or more of the target groups listed
 
+# --> Geographic activities - High impact interventions
+# What area(s) of support does your organization provide? (Please tick as many different areas that 
+# are carried out by your organization)
 class GeographicActivity(models.Model):
     area_of_support = models.CharField(max_length=100, choices=AREA_OF_SUPPORT, default="")
     location = models.CharField(max_length=100, choices=PROVINCE_DISTRICTS, default="")
@@ -281,14 +276,11 @@ class GeographicActivity(models.Model):
     def __str__(self):
         return self.area_of_support + '-' + self.location
 
-class TargetGroupPreventionMessages(models.Model):
-    target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default="")
-    prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, default="")
-    organization = models.ForeignKey(StakeHolder, on_delete=models.SET_NULL, null=True)
-
-    def __str__(self):
-        return self.target_group + " " + self.prevention_message
-
+# --> Funding sources
+    # Please provide details on the organization that provide funding to you, starting with the largest 
+    # partner/ donor. We also want to understand the types of support that the partners/donors provide to 
+    # your organization, and the funding each partner/ donor has given you 2016. (The information on funding 
+    # will not be published and only held at DAFT)
 class FundingSources(models.Model):
     name_of_organization =  models.CharField(max_length=100, default="")
     funding_amount =  models.IntegerField()
@@ -297,6 +289,13 @@ class FundingSources(models.Model):
     def __str__(self):
         return self.name_of_organization
 
+class TargetGroupPreventionMessages(models.Model):
+    target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default="")
+    prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, default="")
+    organization = models.ForeignKey(StakeHolder, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.target_group + " " + self.prevention_message
 
 class TypesOfFundingSupport(models.Model):
     support_option =  models.CharField(max_length=100, default="")
@@ -311,7 +310,7 @@ class TypesOfFundingSupport(models.Model):
     
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
-    stake_holder = models.ForeignKey(StakeHolder, on_delete=models.SET_NULL, null=True)
+    stake_holder = models.ForeignKey(StakeHolder, verbose_name='stakeholder form', on_delete=models.SET_NULL, null=True)
     report_date = models.DateField(null=True)
     #types_of_support = models.CharField(max_length=200, choices=TYPES_OF_SUPPORT_LIST)
     quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)

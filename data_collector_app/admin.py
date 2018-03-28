@@ -12,6 +12,7 @@ CommunityHealthSystem, VulnerablePeople)
 # *************************************************
 class GeographicActivityInline(admin.TabularInline):
     model = GeographicActivity
+    verbose_name_plural = 'Geographic Activities'
     extra = 1
 
 class FundingSourcesInline(admin.TabularInline):
@@ -48,7 +49,7 @@ class OutOfSchoolInline(admin.TabularInline):
 class SexWorkerInline(admin.TabularInline):
     model = SexWorker
     verbose_name_plural = 'How many sex workers were reached with HIV prevention programmes by your \
-        organization this quarter
+        organization this quarter'
     extra = 1
 
 class InmateInline(admin.TabularInline):
@@ -113,13 +114,6 @@ class VulnerablePeopleInline(admin.TabularInline):
 # ADMIN CLASSES
 # *************************************************
 class StakeHolderAdmin(admin.ModelAdmin):
-    
-    fieldsets = (
-        (None, {
-            'fields': ('organization_name', 'start_year', 'permanent_employee_female', 
-            'permanent_employee_male', 'temporary_employee_female', 'temporary_employee_male', 
-            'volunteer_employee_female', 'volunteer_employee_male', 'description_of_organization')
-        }),
     MenWithMenInline.max_num = 1
     CondomProgrammingInline.max_num = 1
     CriticalEnablerInline.max_num = 1
@@ -129,11 +123,21 @@ class StakeHolderAdmin(admin.ModelAdmin):
     CondomProgrammingInline.max_num = 1
     CriticalEnablerInline.max_num = 1
     SynergyDevelopmentSectorInline.max_num = 1
-    CommunityHealthSystemInline.max_nu
+    CommunityHealthSystemInline.max_num = 1
+    
+    fieldsets = (
+        ('Basic details on the organization', {
+            'fields': ('organization_name', 'start_year', 'permanent_employee_female', 
+            'permanent_employee_male', 'temporary_employee_female', 'temporary_employee_male', 
+            'volunteer_employee_female', 'volunteer_employee_male', 'description_of_organization')
+        }),
         ('Contact details', {
             'fields': ('key_contact_name', 'position_within_organization', 'organization_district', 
-            'organization_address', 'telephone_number', 'telephone_number_alternative', 'email_address', 
-            'organization_type', 'organization_target')
+            'organization_address', 'telephone_number', 'telephone_number_alternative', 
+            'email_address')
+        }),
+        ('Organization Classification', {
+            'fields': ('organization_type', 'organization_target')
         })
     )
 
@@ -185,11 +189,7 @@ admin.site.register(StakeHolder, StakeHolderAdmin)
 # Register HIV Activities Organization Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
-<<<<<<< HEAD
 # note: uncomment to have a user be flexible to enter there own targets to the list
-# admin.site.register(OrganizationTarget, OrganizationTargetAdmin)
-
-=======
 admin.site.register(OrganizationTarget)
->>>>>>> 3f29dccf352fe207cf7641c63c9c9e89dd3592ed
+# admin.site.register(OrganizationTarget, OrganizationTargetAdmin)
 # admin.site.register(GeographicActivity)
