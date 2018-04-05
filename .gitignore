@@ -22,3 +22,4 @@ nacmis_online/settings.py
 # private folders and files for local user #
 ##########################################
 data_entry/static/data_entry/sources
+*.pyc
