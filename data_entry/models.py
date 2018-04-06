@@ -231,7 +231,9 @@ class OrganizationTarget(models.Model):
 
 class StakeholderDirectory(models.Model):
 
-    verbose_name_plural = 'Stakeholder directories'
+    class Meta:
+        verbose_name_plural = 'Stakeholder directories'
+
     # --> Basic details on the organization
     organization_name = models.CharField(max_length=200)
     start_year = models.DateField('which year did your organization start working in this district?')
@@ -242,7 +244,7 @@ class StakeholderDirectory(models.Model):
     volunteer_employee_female = models.IntegerField('current number of volunteer female employees', default=0)
     volunteer_employee_male = models.IntegerField('current number of volunteer male employees', default=0)
     description_of_organization = models.TextField('Brief description of the organization (Please describe your \
-        organization in no more than 50 words)')
+        organization in no more than 250 words)')
 
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
