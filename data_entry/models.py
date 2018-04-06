@@ -285,7 +285,7 @@ class GeographicActivity(models.Model):
     # partner/ donor. We also want to understand the types of support that the partners/donors provide to 
     # your organization, and the funding each partner/ donor has given you 2016. (The information on funding 
     # will not be published and only held at DAFT)
-class FundingSources(models.Model):
+class FundingSource(models.Model):
     name_of_organization =  models.CharField(max_length=100, default="")
     funding_amount =  models.IntegerField()
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
@@ -293,7 +293,7 @@ class FundingSources(models.Model):
     def __str__(self):
         return self.name_of_organization
 
-class TargetGroupPreventionMessages(models.Model):
+class TargetGroupPreventionMessage(models.Model):
     target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default="")
     prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, default="")
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
@@ -303,7 +303,7 @@ class TargetGroupPreventionMessages(models.Model):
 
 class TypesOfFundingSupport(models.Model):
     support_option =  models.CharField(max_length=100, default="")
-    funding_source = models.ForeignKey(FundingSources, on_delete=models.CASCADE, null=True)
+    funding_source = models.ForeignKey(FundingSource, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.support_option

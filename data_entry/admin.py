@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib import admin
 
-from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSources,
-TargetGroupPreventionMessages)
+from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSource,
+TargetGroupPreventionMessage)
 
 from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
 PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
@@ -15,12 +15,12 @@ class GeographicActivityInline(admin.TabularInline):
     verbose_name_plural = 'Geographic Activities'
     extra = 1
 
-class FundingSourcesInline(admin.TabularInline):
-    model = FundingSources
+class FundingSourceInline(admin.TabularInline):
+    model = FundingSource
     extra = 1
 
-class TargetGroupPreventionMessagesInline(admin.TabularInline):
-    model = TargetGroupPreventionMessages
+class TargetGroupPreventionMessageInline(admin.TabularInline):
+    model = TargetGroupPreventionMessage
     extra = 1
 
 
@@ -141,7 +141,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         })
     )
 
-    inlines = [GeographicActivityInline, FundingSourcesInline, TargetGroupPreventionMessagesInline]
+    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline]
 
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
