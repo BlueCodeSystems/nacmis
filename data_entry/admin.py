@@ -114,6 +114,8 @@ class VulnerablePeopleInline(admin.TabularInline):
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
+
+    list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
     MenWithMenInline.max_num = 1
     CondomProgrammingInline.max_num = 1
     CriticalEnablerInline.max_num = 1
