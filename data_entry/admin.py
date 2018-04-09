@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 
 from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSource,
-TargetGroupPreventionMessage)
+TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion)
 
 from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
 PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
@@ -23,6 +23,13 @@ class TargetGroupPreventionMessageInline(admin.TabularInline):
     model = TargetGroupPreventionMessage
     extra = 1
 
+class OtherQuestionInline(admin.StackedInline):
+    model = OtherQuestion
+    extra = 1
+
+class EndOfYearQuestionInline(admin.StackedInline):
+    model = EndOfYearQuestion
+    extra = 1
 
 # INLINES FOR ACTIVITY REPORT FORM ADMIN
 # *************************************************
@@ -147,7 +154,8 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         })
     )
 
-    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline]
+    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline, 
+        OtherQuestionInline, EndOfYearQuestionInline]
 
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
