@@ -116,6 +116,8 @@ class VulnerablePeopleInline(admin.TabularInline):
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
     list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
+    # filter_horizontal = ('organization_target',)
+
     MenWithMenInline.max_num = 1
     CondomProgrammingInline.max_num = 1
     CriticalEnablerInline.max_num = 1
@@ -129,14 +131,16 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Basic details on the organization', {
-            'fields': ('organization_name', 'start_year', 'permanent_employee_female', 
-            'permanent_employee_male', 'temporary_employee_female', 'temporary_employee_male', 
-            'volunteer_employee_female', 'volunteer_employee_male', 'description_of_organization')
+            #'classes':('collapse',),
+            'fields': ('organization_name', 'start_year', ('permanent_employee_female', 
+            'permanent_employee_male'), ('temporary_employee_female', 'temporary_employee_male'), 
+            ('volunteer_employee_female', 'volunteer_employee_male'), 'description_of_organization')
         }),
         ('Contact details', {
             'fields': ('key_contact_name', 'position_within_organization', 'organization_district', 
             'organization_address', 'telephone_number', 'telephone_number_alternative', 
-            'email_address')
+            'email_address'),
+            #'description':('Contact details of a person, preferably leader at specific location')
         }),
         ('Organization Classification', {
             'fields': ('organization_type', 'organization_target')
