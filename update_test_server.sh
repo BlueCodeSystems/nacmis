@@ -3,6 +3,6 @@
 cd /home/ubuntu/nacmis
 git checkout master
 git pull origin
-python manage.py makemigtations data_entry
-python manage.py migrate
+/home/ubuntu/.virtualenvs/nacmis/bin/python3 manage.py makemigrations --noinput
+/home/ubuntu/.virtualenvs/nacmis/bin/python3  manage.py migrate
 sudo service apache2 restart
