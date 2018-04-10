@@ -149,7 +149,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         ('Contact details', {
             'fields': ('key_contact_name', 'position_within_organization', 'organization_district', 
             'organization_address', 'telephone_number', 'telephone_number_alternative', 
-            'email_address'),
+            'email_address', 'website'),
             #'description':('Contact details of a person, preferably leader at specific location')
         }),
         ('Organization classification', {
