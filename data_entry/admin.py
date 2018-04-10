@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 
 from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSource,
-TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion)
+TargetGroupPreventionMessage)
 
 from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
 PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
@@ -14,6 +14,9 @@ class GeographicActivityInline(admin.TabularInline):
     model = GeographicActivity
     verbose_name_plural = 'Geographic Activities'
     extra = 1
+    insert_after = 'organization_target'
+    
+    change_form_template = 'admin/custom/change_form.html'
 
 class FundingSourceInline(admin.TabularInline):
     model = FundingSource
@@ -22,7 +25,7 @@ class FundingSourceInline(admin.TabularInline):
 class TargetGroupPreventionMessageInline(admin.TabularInline):
     model = TargetGroupPreventionMessage
     extra = 1
-
+'''
 class OtherQuestionInline(admin.StackedInline):
     model = OtherQuestion
     extra = 1
@@ -30,7 +33,7 @@ class OtherQuestionInline(admin.StackedInline):
 class EndOfYearQuestionInline(admin.StackedInline):
     model = EndOfYearQuestion
     extra = 1
-
+'''
 # INLINES FOR ACTIVITY REPORT FORM ADMIN
 # *************************************************
 class MaterialInline(admin.TabularInline):
@@ -149,13 +152,18 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
             'email_address'),
             #'description':('Contact details of a person, preferably leader at specific location')
         }),
-        ('Organization Classification', {
+        ('Organization classification', {
             'fields': ('organization_type', 'organization_target')
+        }),
+        ('Other questions', {
+            'fields': ('action_plan', 'workplace_programme', 'sources_of_information', 'm_and_person')
+        }),
+        ('End of year questions', {
+            'fields':('funding', 'number_of_meetings_daft', 'number_of_meetings_paft')
         })
     )
 
-    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline, 
-        OtherQuestionInline, EndOfYearQuestionInline]
+    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline]
 
 
 class ActivityReportFormAdmin(admin.ModelAdmin):

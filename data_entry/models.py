@@ -271,6 +271,23 @@ class StakeholderDirectory(models.Model):
     organization_target = models.ManyToManyField(OrganizationTarget, verbose_name='which group(s) does your organization target? (please tick as many \
         different groups that are targeted by your organization)')
 
+    # --> Other Questions
+    action_plan = models.CharField('Does you organization hava a current HIV and AIDS action plan?', max_length=100, 
+        choices=YES_OR_NO, default="");
+    workplace_programme = models.CharField('Does your organization have a current and active HIV and AIDS workplace \
+        programme?', max_length=20, choices=YES_OR_NO, default="")
+    sources_of_information = models.CharField('which sources of information does your \organization utilize to inform \
+        HIV programming and decision making?', max_length=20, choices=SOURCES_OF_INFORMATION, default="")
+    m_and_person = models.CharField('Does your organization have a designated M and E person?', max_length=20, choices=YES_OR_NO, default="")
+
+    # --> End Of Year Question
+    funding = models.IntegerField('How much funding(in kwacha) was spent on HIV & \
+        AIDS activities this year?', default=0)
+    number_of_meetings_daft = models.IntegerField('How many DAFT meetings did your organization have \
+        this year?', default=0)
+    number_of_meetings_paft = models.IntegerField('How many PAFT meetings did your organization have \
+        this year?', default=0)
+
     def __str__(self):
         return self.organization_name + ' - ' + self.organization_district + ' - ' + self.telephone_number 
 
@@ -316,7 +333,7 @@ class TypesOfFundingSupport(models.Model):
 
     def __str__(self):
         return self.support_option
-
+'''
 class OtherQuestion(models.Model):
     action_plan = models.CharField('Does you organization hava a current HIV and \
         AIDS action plan?', max_length=100, choices=YES_OR_NO);
@@ -337,7 +354,7 @@ class EndOfYearQuestion(models.Model):
     number_of_meetings_paft = models.IntegerField('How many PAFT meetings did your organization have \
         this year?')
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
-
+'''
 # HIV ACTIVITIES ORGANIZATION PARTICIPATES IN FORM
 # *************************************************
     
