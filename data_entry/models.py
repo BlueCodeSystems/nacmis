@@ -81,6 +81,9 @@ datim = 'DATIM'
 internal_system = 'Internal system'
 systems_other = 'Other'
 
+yes = 'Yes'
+no = 'No'
+
 QUARTER_LIST = (
     (Q1, 'Jan - Mar'),
     (Q2, 'Apr - Jun'),
@@ -195,20 +198,26 @@ AREA_OF_SUPPORT = (
 )
 
 PROVINCE_DISTRICTS = (
-    ("Muchinga", (
-        ('Chama', 'Chama'),
-        ('Chinsali', 'Chinsali'),
-        ('Isoka', 'Isoka')
-    )
+    (
+        "Muchinga", (
+            ('Chama', 'Chama'),
+            ('Chinsali', 'Chinsali'),
+            ('Isoka', 'Isoka')
+        )
     ),
-    ("Lusaka", (
-        ('Lusaka', 'Lusaka'),
-        ('Chilanga', 'Chilanga'),
-        ('Kafue', 'Kafue')
-    )
+    (
+        "Lusaka", (
+            ('Lusaka', 'Lusaka'),
+            ('Chilanga', 'Chilanga'),
+            ('Kafue', 'Kafue')
+        )
     )
 )
 
+YES_OR_NO = (
+    (yes, 'Yes'),
+    (no, 'No')
+)
 
 #               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
 # *********************************************************************
@@ -231,7 +240,9 @@ class OrganizationTarget(models.Model):
 
 class StakeholderDirectory(models.Model):
 
-    verbose_name_plural = 'Stakeholder directories'
+    class Meta:
+        verbose_name_plural = 'Stakeholder directories'
+
     # --> Basic details on the organization
     organization_name = models.CharField(max_length=200)
     start_year = models.DateField('which year did your organization start working in this district?')
@@ -242,7 +253,7 @@ class StakeholderDirectory(models.Model):
     volunteer_employee_female = models.IntegerField('current number of volunteer female employees', default=0)
     volunteer_employee_male = models.IntegerField('current number of volunteer male employees', default=0)
     description_of_organization = models.TextField('Brief description of the organization (Please describe your \
-        organization in no more than 50 words)')
+        organization in no more than 250 words)')
 
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
@@ -259,6 +270,23 @@ class StakeholderDirectory(models.Model):
         organization? (Please only tick one type of organization)', max_length=100, choices=ORGANIZATION_TYPE_LIST)
     organization_target = models.ManyToManyField(OrganizationTarget, verbose_name='which group(s) does your organization target? (please tick as many \
         different groups that are targeted by your organization)')
+
+    # --> Other Questions
+    action_plan = models.CharField('Does you organization hava a current HIV and AIDS action plan?', max_length=100, 
+        choices=YES_OR_NO, default="");
+    workplace_programme = models.CharField('Does your organization have a current and active HIV and AIDS workplace \
+        programme?', max_length=20, choices=YES_OR_NO, default="")
+    sources_of_information = models.CharField('which sources of information does your \organization utilize to inform \
+        HIV programming and decision making?', max_length=20, choices=SOURCES_OF_INFORMATION, default="")
+    m_and_person = models.CharField('Does your organization have a designated M and E person?', max_length=20, choices=YES_OR_NO, default="")
+
+    # --> End Of Year Question
+    funding = models.IntegerField('How much funding(in kwacha) was spent on HIV & \
+        AIDS activities this year?', default=0)
+    number_of_meetings_daft = models.IntegerField('How many DAFT meetings did your organization have \
+        this year?', default=0)
+    number_of_meetings_paft = models.IntegerField('How many PAFT meetings did your organization have \
+        this year?', default=0)
 
     def __str__(self):
         return self.organization_name + ' - ' + self.organization_district + ' - ' + self.telephone_number 
@@ -283,7 +311,7 @@ class GeographicActivity(models.Model):
     # partner/ donor. We also want to understand the types of support that the partners/donors provide to 
     # your organization, and the funding each partner/ donor has given you 2016. (The information on funding 
     # will not be published and only held at DAFT)
-class FundingSources(models.Model):
+class FundingSource(models.Model):
     name_of_organization =  models.CharField(max_length=100, default="")
     funding_amount =  models.IntegerField()
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
@@ -291,7 +319,7 @@ class FundingSources(models.Model):
     def __str__(self):
         return self.name_of_organization
 
-class TargetGroupPreventionMessages(models.Model):
+class TargetGroupPreventionMessage(models.Model):
     target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default="")
     prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, default="")
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
@@ -301,12 +329,32 @@ class TargetGroupPreventionMessages(models.Model):
 
 class TypesOfFundingSupport(models.Model):
     support_option =  models.CharField(max_length=100, default="")
-    funding_source = models.ForeignKey(FundingSources, on_delete=models.CASCADE, null=True)
+    funding_source = models.ForeignKey(FundingSource, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.support_option
+'''
+class OtherQuestion(models.Model):
+    action_plan = models.CharField('Does you organization hava a current HIV and \
+        AIDS action plan?', max_length=100, choices=YES_OR_NO);
+    workplace_programme = models.CharField('Does your organization have a current \
+        and active HIV and AIDS workplace programme?', max_length=20, choices=YES_OR_NO)
+    sources_of_information = models.CharField('which sources of information does your \
+        organization utilize to inform HIV programming and decision making?', max_length=20,
+        choices=SOURCES_OF_INFORMATION)
+    m_and_person = models.CharField('Does your organization have a designated M and E person?', 
+        max_length=20, choices=YES_OR_NO)
+    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
-
+class EndOfYearQuestion(models.Model):
+    funding = models.IntegerField('How much funding(in kwacha) was spent on HIV & \
+        AIDS activities this year?')
+    number_of_meetings_daft = models.IntegerField('How many DAFT meetings did your organization have \
+        this year?')
+    number_of_meetings_paft = models.IntegerField('How many PAFT meetings did your organization have \
+        this year?')
+    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
+'''
 # HIV ACTIVITIES ORGANIZATION PARTICIPATES IN FORM
 # *************************************************
     

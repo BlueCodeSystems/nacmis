@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib import admin
 
-from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSources,
-TargetGroupPreventionMessages)
+from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSource,
+TargetGroupPreventionMessage)
 
 from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
 PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
@@ -14,16 +14,26 @@ class GeographicActivityInline(admin.TabularInline):
     model = GeographicActivity
     verbose_name_plural = 'Geographic Activities'
     extra = 1
+    insert_after = 'organization_target'
+    
+    change_form_template = 'admin/custom/change_form.html'
 
-class FundingSourcesInline(admin.TabularInline):
-    model = FundingSources
+class FundingSourceInline(admin.TabularInline):
+    model = FundingSource
     extra = 1
 
-class TargetGroupPreventionMessagesInline(admin.TabularInline):
-    model = TargetGroupPreventionMessages
+class TargetGroupPreventionMessageInline(admin.TabularInline):
+    model = TargetGroupPreventionMessage
+    extra = 1
+'''
+class OtherQuestionInline(admin.StackedInline):
+    model = OtherQuestion
     extra = 1
 
-
+class EndOfYearQuestionInline(admin.StackedInline):
+    model = EndOfYearQuestion
+    extra = 1
+'''
 # INLINES FOR ACTIVITY REPORT FORM ADMIN
 # *************************************************
 class MaterialInline(admin.TabularInline):
@@ -114,6 +124,10 @@ class VulnerablePeopleInline(admin.TabularInline):
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
+
+    list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
+    # filter_horizontal = ('organization_target',)
+
     MenWithMenInline.max_num = 1
     CondomProgrammingInline.max_num = 1
     CriticalEnablerInline.max_num = 1
@@ -127,21 +141,29 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Basic details on the organization', {
-            'fields': ('organization_name', 'start_year', 'permanent_employee_female', 
-            'permanent_employee_male', 'temporary_employee_female', 'temporary_employee_male', 
-            'volunteer_employee_female', 'volunteer_employee_male', 'description_of_organization')
+            #'classes':('collapse',),
+            'fields': ('organization_name', 'start_year', ('permanent_employee_female', 
+            'permanent_employee_male'), ('temporary_employee_female', 'temporary_employee_male'), 
+            ('volunteer_employee_female', 'volunteer_employee_male'), 'description_of_organization')
         }),
         ('Contact details', {
             'fields': ('key_contact_name', 'position_within_organization', 'organization_district', 
             'organization_address', 'telephone_number', 'telephone_number_alternative', 
-            'email_address')
+            'email_address'),
+            #'description':('Contact details of a person, preferably leader at specific location')
         }),
-        ('Organization Classification', {
+        ('Organization classification', {
             'fields': ('organization_type', 'organization_target')
+        }),
+        ('Other questions', {
+            'fields': ('action_plan', 'workplace_programme', 'sources_of_information', 'm_and_person')
+        }),
+        ('End of year questions', {
+            'fields':('funding', 'number_of_meetings_daft', 'number_of_meetings_paft')
         })
     )
 
-    inlines = [GeographicActivityInline, FundingSourcesInline, TargetGroupPreventionMessagesInline]
+    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline]
 
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
