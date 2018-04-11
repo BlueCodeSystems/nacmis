@@ -380,13 +380,6 @@ class ActivityReportForm(models.Model):
     education_and_vocational_training = models.BooleanField()
     economic_strengthening = models.BooleanField()
 
-    # Monitoring and Evaluation
-    nacmis = models.BooleanField('NAC-MIS')
-    hmis = models.BooleanField('HMIS')
-    datim = models.BooleanField('DATIM')
-    internal_system = models.BooleanField('Internal system')
-    systems_other = models.BooleanField('Other')
-
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
     material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default='N/A')
