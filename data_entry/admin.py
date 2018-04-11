@@ -187,9 +187,6 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
             'psychosocial', 'social_support', 'spiritual_support', 'education_and_vocational_training',
             'economic_strengthening'),
         }),
-        ('Monitoring and Evaluation', {
-            'fields': ('nacmis', 'hmis', 'datim', 'internal_system', 'systems_other'),
-        })
     )
 
     inlines = [MaterialInline, AdolencentsInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
