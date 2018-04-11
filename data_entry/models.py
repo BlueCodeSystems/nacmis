@@ -387,6 +387,12 @@ class ActivityReportForm(models.Model):
     internal_system = models.BooleanField('Internal system')
     systems_other = models.BooleanField('Other')
 
+    def __str__(self):
+        if self.stake_holder :
+            return self.stake_holder
+        else :
+            return "Format stakeholder - district - quarter"
+
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
     material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default='N/A')
