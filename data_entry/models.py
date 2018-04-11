@@ -261,9 +261,9 @@ class StakeholderDirectory(models.Model):
     organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
     organization_address = models.CharField('address of the organization', max_length=100)
     telephone_number = models.CharField('telephone number', max_length=20)
-    telephone_number_alternative = models.CharField('telephone number alternative', max_length=20)
+    telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
     email_address = models.EmailField('email address', max_length=254)
-    website = models.URLField(max_length=200)
+    website = models.URLField(max_length=200, blank=True)
 
     # --> Organization Classification
     organization_type = models.CharField('which of the following \'types\' would best describe your \
