@@ -333,7 +333,7 @@ class TypesOfFundingSupport(models.Model):
 
     def __str__(self):
         return self.support_option
-'''
+
 class OtherQuestion(models.Model):
     action_plan = models.CharField('Does you organization hava a current HIV and \
         AIDS action plan?', max_length=100, choices=YES_OR_NO);
@@ -354,7 +354,7 @@ class EndOfYearQuestion(models.Model):
     number_of_meetings_paft = models.IntegerField('How many PAFT meetings did your organization have \
         this year?')
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
-'''
+
 # HIV ACTIVITIES ORGANIZATION PARTICIPATES IN FORM
 # *************************************************
     

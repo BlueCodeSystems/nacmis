@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 
 from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSource,
-TargetGroupPreventionMessage)
+TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion)
 
 from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
 PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
@@ -25,7 +25,7 @@ class FundingSourceInline(admin.TabularInline):
 class TargetGroupPreventionMessageInline(admin.TabularInline):
     model = TargetGroupPreventionMessage
     extra = 1
-'''
+
 class OtherQuestionInline(admin.StackedInline):
     model = OtherQuestion
     extra = 1
@@ -33,7 +33,7 @@ class OtherQuestionInline(admin.StackedInline):
 class EndOfYearQuestionInline(admin.StackedInline):
     model = EndOfYearQuestion
     extra = 1
-'''
+
 # INLINES FOR ACTIVITY REPORT FORM ADMIN
 # *************************************************
 class MaterialInline(admin.TabularInline):
@@ -155,15 +155,10 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         ('Organization classification', {
             'fields': ('organization_type', 'organization_target')
         }),
-        ('Other questions', {
-            'fields': ('action_plan', 'workplace_programme', 'sources_of_information', 'm_and_person')
-        }),
-        ('End of year questions', {
-            'fields':('funding', 'number_of_meetings_daft', 'number_of_meetings_paft')
-        })
     )
 
-    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline]
+    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
+        OtherQuestionInline, EndOfYearQuestionInline]
 
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
