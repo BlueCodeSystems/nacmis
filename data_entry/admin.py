@@ -178,7 +178,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('', {
-            'fields':('report_date', 'quarter_been_reported_on', 'name', 'telephone_number', 'email_address'),
+            'fields':('stake_holder', 'report_date', 'quarter_been_reported_on', 'name', 'telephone_number', 'email_address'),
         }),
         ('What types of care and support does your organization provide? (select all that apply)', {
             'fields': ('food_and_nutrition', 'shelter_and_care', 'protection_and_legal_aid', 'healthcare', 
