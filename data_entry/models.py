@@ -261,9 +261,9 @@ class StakeholderDirectory(models.Model):
     organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
     organization_address = models.CharField('address of the organization', max_length=100)
     telephone_number = models.CharField('telephone number', max_length=20)
-    telephone_number_alternative = models.CharField('telephone number alternative', max_length=20)
+    telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
     email_address = models.EmailField('email address', max_length=254)
-    website = models.URLField(max_length=200)
+    website = models.URLField(max_length=200, blank=True)
 
     # --> Organization Classification
     organization_type = models.CharField('which of the following \'types\' would best describe your \
@@ -333,7 +333,7 @@ class TypesOfFundingSupport(models.Model):
 
     def __str__(self):
         return self.support_option
-'''
+
 class OtherQuestion(models.Model):
     action_plan = models.CharField('Does you organization hava a current HIV and \
         AIDS action plan?', max_length=100, choices=YES_OR_NO);
@@ -354,7 +354,7 @@ class EndOfYearQuestion(models.Model):
     number_of_meetings_paft = models.IntegerField('How many PAFT meetings did your organization have \
         this year?')
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
-'''
+
 # HIV ACTIVITIES ORGANIZATION PARTICIPATES IN FORM
 # *************************************************
     
@@ -379,19 +379,6 @@ class ActivityReportForm(models.Model):
     spiritual_support = models.BooleanField()
     education_and_vocational_training = models.BooleanField()
     economic_strengthening = models.BooleanField()
-
-    # Monitoring and Evaluation
-    nacmis = models.BooleanField('NAC-MIS')
-    hmis = models.BooleanField('HMIS')
-    datim = models.BooleanField('DATIM')
-    internal_system = models.BooleanField('Internal system')
-    systems_other = models.BooleanField('Other')
-
-    def __str__(self):
-        if self.stake_holder :
-            return self.stake_holder
-        else :
-            return "Format stakeholder - district - quarter"
 
 class IECMaterial(models.Model):
     # --> Social behaviour change communication

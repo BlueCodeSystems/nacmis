@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 
 from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSource,
-TargetGroupPreventionMessage)
+TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion)
 
 from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
 PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
@@ -25,7 +25,7 @@ class FundingSourceInline(admin.TabularInline):
 class TargetGroupPreventionMessageInline(admin.TabularInline):
     model = TargetGroupPreventionMessage
     extra = 1
-'''
+
 class OtherQuestionInline(admin.StackedInline):
     model = OtherQuestion
     extra = 1
@@ -33,7 +33,7 @@ class OtherQuestionInline(admin.StackedInline):
 class EndOfYearQuestionInline(admin.StackedInline):
     model = EndOfYearQuestion
     extra = 1
-'''
+
 # INLINES FOR ACTIVITY REPORT FORM ADMIN
 # *************************************************
 class MaterialInline(admin.TabularInline):
@@ -149,21 +149,16 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         ('Contact details', {
             'fields': ('key_contact_name', 'position_within_organization', 'organization_district', 
             'organization_address', 'telephone_number', 'telephone_number_alternative', 
-            'email_address'),
+            'email_address', 'website'),
             #'description':('Contact details of a person, preferably leader at specific location')
         }),
         ('Organization classification', {
             'fields': ('organization_type', 'organization_target')
         }),
-        ('Other questions', {
-            'fields': ('action_plan', 'workplace_programme', 'sources_of_information', 'm_and_person')
-        }),
-        ('End of year questions', {
-            'fields':('funding', 'number_of_meetings_daft', 'number_of_meetings_paft')
-        })
     )
 
-    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline]
+    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
+        OtherQuestionInline, EndOfYearQuestionInline]
 
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
@@ -187,9 +182,6 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
             'psychosocial', 'social_support', 'spiritual_support', 'education_and_vocational_training',
             'economic_strengthening'),
         }),
-        ('Monitoring and Evaluation', {
-            'fields': ('nacmis', 'hmis', 'datim', 'internal_system', 'systems_other'),
-        })
     )
 
     inlines = [MaterialInline, AdolencentsInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
