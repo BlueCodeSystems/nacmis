@@ -380,6 +380,8 @@ class ActivityReportForm(models.Model):
     education_and_vocational_training = models.BooleanField()
     economic_strengthening = models.BooleanField()
 
+    def __str__(self):
+        return self.name + " - " + self.quarter_been_reported_on
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
     material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default='N/A')
