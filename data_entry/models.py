@@ -271,29 +271,8 @@ class StakeholderDirectory(models.Model):
     organization_target = models.ManyToManyField(OrganizationTarget, verbose_name='which group(s) does your organization target? (please tick as many \
         different groups that are targeted by your organization)')
 
-    # --> Other Questions
-    action_plan = models.CharField('Does you organization hava a current HIV and AIDS action plan?', max_length=100, 
-        choices=YES_OR_NO, default="");
-    workplace_programme = models.CharField('Does your organization have a current and active HIV and AIDS workplace \
-        programme?', max_length=20, choices=YES_OR_NO, default="")
-    sources_of_information = models.CharField('which sources of information does your \organization utilize to inform \
-        HIV programming and decision making?', max_length=20, choices=SOURCES_OF_INFORMATION, default="")
-    m_and_person = models.CharField('Does your organization have a designated M and E person?', max_length=20, choices=YES_OR_NO, default="")
-
-    # --> End Of Year Question
-    funding = models.IntegerField('How much funding(in kwacha) was spent on HIV & \
-        AIDS activities this year?', default=0)
-    number_of_meetings_daft = models.IntegerField('How many DAFT meetings did your organization have \
-        this year?', default=0)
-    number_of_meetings_paft = models.IntegerField('How many PAFT meetings did your organization have \
-        this year?', default=0)
-
     def __str__(self):
         return self.organization_name + ' - ' + self.organization_district + ' - ' + self.telephone_number 
-
-    # --> Target groups and prevention messages
-    # Using the matrix below please hoghlight with a tick where your organization is/ will be providing 
-    # prevention messages to one or more of the target groups listed
 
 # --> Geographic activities - High impact interventions
 # What area(s) of support does your organization provide? (Please tick as many different areas that 
@@ -307,10 +286,10 @@ class GeographicActivity(models.Model):
         return self.area_of_support + '-' + self.location
 
 # --> Funding sources
-    # Please provide details on the organization that provide funding to you, starting with the largest 
-    # partner/ donor. We also want to understand the types of support that the partners/donors provide to 
-    # your organization, and the funding each partner/ donor has given you 2016. (The information on funding 
-    # will not be published and only held at DAFT)
+# Please provide details on the organization that provide funding to you, starting with the largest 
+# partner/ donor. We also want to understand the types of support that the partners/donors provide to 
+# your organization, and the funding each partner/ donor has given you 2016. (The information on funding 
+# will not be published and only held at DAFT)
 class FundingSource(models.Model):
     name_of_organization =  models.CharField(max_length=100, default="")
     funding_amount =  models.IntegerField()
@@ -319,6 +298,9 @@ class FundingSource(models.Model):
     def __str__(self):
         return self.name_of_organization
 
+# --> Target groups and prevention messages
+# Using the matrix below please hoghlight with a tick where your organization is/ will be providing 
+# prevention messages to one or more of the target groups listed
 class TargetGroupPreventionMessage(models.Model):
     target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default="")
     prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, default="")
@@ -362,12 +344,10 @@ class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
     stake_holder = models.ForeignKey(StakeholderDirectory, verbose_name='stakeholder form', on_delete=models.SET_NULL, null=True)
     report_date = models.DateField(null=True)
-    #types_of_support = models.CharField(max_length=200, choices=TYPES_OF_SUPPORT_LIST)
     quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)
     name = models.CharField(max_length=50)
     telephone_number = models.CharField(max_length=20)
     email_address = models.EmailField(max_length=50)
-
 
     # Types of care and support organization provides
     food_and_nutrition = models.BooleanField()
@@ -380,8 +360,11 @@ class ActivityReportForm(models.Model):
     education_and_vocational_training = models.BooleanField()
     economic_strengthening = models.BooleanField()
 
+    # organization_name_from_stakeholder = self.stake_holder.organization_name
     def __str__(self):
-        return self.name + " - " + self.quarter_been_reported_on
+        return self.stake_holder.organization_name + " - " + self.quarter_been_reported_on + \
+            " - " + self.name
+    
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
     material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default='N/A')
@@ -389,8 +372,7 @@ class IECMaterial(models.Model):
     localized = models.BooleanField(default=False)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
-# --> Social behaviour change communication for key populations
-  
+# --> Social behaviour change communication for key populations  
 class AdolecentsReached(models.Model):
     # in_school
     # Number of adolescents and young people aged 10-24 reached by IEC materials by your 
