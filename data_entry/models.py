@@ -360,9 +360,10 @@ class ActivityReportForm(models.Model):
     education_and_vocational_training = models.BooleanField()
     economic_strengthening = models.BooleanField()
 
+    # organization_name_from_stakeholder = self.stake_holder.organization_name
     def __str__(self):
-        return self.name + " - " + self.quarter_been_reported_on + \
-            " - " + "test"
+        return self.stake_holder.organization_name + " - " + self.quarter_been_reported_on + \
+            " - " + self.name
     
 class IECMaterial(models.Model):
     # --> Social behaviour change communication

@@ -162,6 +162,9 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
+
+    # list_display = ('organization_name_from_stakeholder', 'name', 'quarter_been_reported_on')
+
     AdolencentsInline.max_num = 1
     OutOfSchoolInline.max_num = 1
     SexWorkerInline.max_num = 1
