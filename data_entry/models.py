@@ -342,9 +342,11 @@ class EndOfYearQuestion(models.Model):
     
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
-    stake_holder = models.ForeignKey(StakeholderDirectory, verbose_name='stakeholder form', on_delete=models.SET_NULL, null=True)
     report_date = models.DateField(null=True)
     quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)
+    stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='stakeholder form', \
+        on_delete=models.SET_NULL, null=True)
+    
     name = models.CharField(max_length=50)
     telephone_number = models.CharField(max_length=20)
     email_address = models.EmailField(max_length=50)
