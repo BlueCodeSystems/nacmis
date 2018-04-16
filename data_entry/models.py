@@ -403,8 +403,8 @@ class ActivityReportForm(models.Model):
         on_delete=models.SET_NULL, null=True)
     
     # Location and Report Compilation section
-    location_district = models.CharField('district', max_length=100, choices=PROVINCES_ZAMBIA, default="")
-    location_province = models.CharField('province', max_length=100, choices=PROVINCE_DISTRICTS, default="")
+    location_province = models.CharField('province', max_length=100, choices=PROVINCES_ZAMBIA, default="")
+    location_district = models.CharField('district', max_length=100, choices=PROVINCE_DISTRICTS, default="")
     name = models.CharField(max_length=50)
     telephone_number = models.CharField(max_length=20)
     email_address = models.EmailField(max_length=50)
@@ -423,8 +423,8 @@ class ActivityReportForm(models.Model):
     # organization_name_from_stakeholder = self.stake_holder.organization_name
     def __str__(self):
         if self.stake_holder_name.organization_name:
-            return self.stake_holder_name.organization_name + " - " + self.quarter_been_reported_on + \
-                " - " + self.name
+            return self.stake_holder_name.organization_name + " - " + self.location_district + \
+            " - " + self.quarter_been_reported_on
         else:
             return "unset stakeholder name"
     

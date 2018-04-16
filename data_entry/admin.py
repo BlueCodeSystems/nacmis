@@ -164,7 +164,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
 
-    # list_display = ('organization_name_from_stakeholder', 'name', 'quarter_been_reported_on')
+    # list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported_on')
 
     AdolencentsInline.max_num = 1
     OutOfSchoolInline.max_num = 1
@@ -183,7 +183,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     fieldsets = (
         ('contact details', {
             'fields':('report_date', 'quarter_been_reported_on', 'stake_holder_name', 
-            ('location_district', 'location_province'), ('name', 'telephone_number', 'email_address')
+            ('location_province', 'location_district'), ('name', 'telephone_number', 'email_address')
             ),
         }),
         ('What types of care and support does your organization provide? (select all that apply)', {
