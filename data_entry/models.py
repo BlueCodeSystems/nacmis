@@ -187,7 +187,7 @@ PROVINCE_DISTRICTS = (
 )
 
 # Auto populated ward area tuple from, dependant on district
-DISTRICT_AREA_LIST = (
+DISTRICT_WARD_LIST = (
     (
         'Mporokoso', (
             ('Chimpolonge', 'Chimpolonge'),
