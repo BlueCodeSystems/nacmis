@@ -185,6 +185,65 @@ PROVINCE_DISTRICTS = (
         )
     )
 )
+
+# Auto populated ward area tuple from, dependant on district
+DISTRICT_WARD_LIST = (
+    (
+        'Mporokoso', (
+            ('Chimpolonge', 'Chimpolonge'),
+            ('Muchinga', 'Muchinga')
+        )
+    ),
+    (
+        'Kasama', (
+            ('Julia Chikamoneka', 'Julia Chikamoneka'),
+            ('Lualuo', 'Lualuo')
+        )
+    ),
+    (
+        'Mpulungu', (
+            ('Isoko', 'Isoko'),
+            ('Kapembwa', 'Kapembwa')
+        )
+    ),
+    (
+        'Lusaka', (
+            ('Rapheal Chota', 'Rapheal Chota'),
+            ('Roma', 'Roma')
+        )
+    ),
+    (
+        'Chilanga', (
+            ('Nakachenje', 'Nakachenje'),
+            ('Miteta', 'Miteta')
+        )
+    ),
+    (
+        'Kafue', (
+            ('Chikupi', 'Chikupi'),
+            ('Kasenje', 'Kasenje')
+        )
+    ),
+    (
+        'Monze', (
+            ('Mwanza West', 'Mwanza West'),
+            ('Hatontola', 'Hatontola')
+        )
+    ),
+    (
+        'Kazungula', (
+            ('Ngwezi', 'ward1'),
+            ('Sikaunzwe', 'Sikaunzwe')
+        )
+    ),
+    (
+        'Gwembe', (
+            ('Jumbo', 'Jumbo'),
+            ('Siampande', 'Siampande')
+        )
+    )
+)  
+
 ORGANIZATION_TARGET_LIST = (
     (plhiv, 'People living with HIV/ AIDS'),
     (ovc, 'Orphans and Vulnerable Children'),
@@ -212,9 +271,6 @@ ORGANIZATION_TARGET_LIST = (
     (traditional_leaders, 'Traditional leaders'),
     (target_others, 'Other target groups - please specify')
 )
-
-
-DISTRICT_AREA_LIST = () # Auto populated area tuple from, dependant on district 
 
 TYPE_OF_SUPPORT_LIST = (
     (food_and_nutrition, 'Food and Nutrition'),
@@ -334,7 +390,7 @@ class StakeholderDirectory(models.Model):
 # are carried out by your organization)
 class GeographicActivity(models.Model):
     area_of_support = models.CharField(max_length=100, choices=AREA_OF_SUPPORT, default="")
-    location = models.CharField(max_length=100, choices=PROVINCE_DISTRICTS, default="")
+    location = models.CharField(max_length=100, choices=DISTRICT_AREA_LIST, default="")
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):

@@ -181,7 +181,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     VulnerablePeopleInline.max_num = 1
 
     fieldsets = (
-        ('contact details', {
+        ('Contact details', {
             'fields':('report_date', 'quarter_been_reported_on', 'stake_holder_name', 
             ('location_province', 'location_district'), ('name', 'telephone_number', 'email_address')
             ),
