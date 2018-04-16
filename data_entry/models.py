@@ -11,15 +11,15 @@ government = 'Government Organization'
 private = 'Private Organization'
 org_others = 'Other organization / group - please specify'  # change some kind of list later
 
-lsk = 'Lusaka Province'
-cop = 'Copperbelt Province'
-east = 'Easten Province'
-lua = 'Luapula Province'
-much = 'Muchinga Province'
-nwest = 'North Westen Province'
-north = 'Northern Province'
-south = 'Southern Province'
-west = 'Western Province'
+lusaka = 'Lusaka Province'
+copperbelt = 'Copperbelt Province'
+eastern = 'Easten Province'
+luapula = 'Luapula Province'
+muchinga = 'Muchinga Province'
+north_western = 'North Westen Province'
+northern = 'Northern Province'
+southern = 'Southern Province'
+western = 'Western Province'
 
 Q1 = 'Quarter 1'
 Q2 = 'Quarter 2'
@@ -102,17 +102,89 @@ ORGANIZATION_TYPE_LIST = (
 )
 
 PROVINCES_ZAMBIA = (
-    (lsk, 'Lusaka Province'),
-    (cop, 'Copperbelt Province'),
-    (east, 'Easten Province'),
-    (lua, 'Luapula Province'),
-    (much, 'Muchinga Province'),
-    (nwest, 'North Westen Province'),
-    (north, 'Northern Province'),
-    (south, 'Southern Province'),
-    (west, 'Western Province')
+    (lusaka, 'Lusaka Province'),
+    (copperbelt, 'Copperbelt Province'),
+    (eastern, 'Easten Province'),
+    (luapula, 'Luapula Province'),
+    (muchinga, 'Muchinga Province'),
+    (north_western, 'North Westen Province'),
+    (northern, 'Northern Province'),
+    (southern, 'Southern Province'),
+    (western, 'Western Province')
 )
 
+PROVINCE_DISTRICTS = (
+    (
+        muchinga, (
+            ('Chama', 'Chama'),
+            ('Chinsali', 'Chinsali'),
+            ('Isoka', 'Isoka')
+        )
+    ),
+    (
+        lusaka, (
+            ('Lusaka', 'Lusaka'),
+            ('Chilanga', 'Chilanga'),
+            ('Kafue', 'Kafue')
+        )
+    ),
+    (
+        luapula,(
+            ('Samfya', 'Samfya'),
+            ('Mansa', 'Mansa'),
+            ('Mwansabombwe', 'Mwansabombwe')
+        )
+    ),
+    (
+        copperbelt,(
+            ('Ndola', 'Ndola'),
+            ('Lufwanyama', 'Lufwanyama'),
+            ('Mpongwe', 'Mpongwe')
+        )
+    ),
+    (
+        eastern,(
+            ('Nyimba', 'Nyimba'),
+            ('Vubwa', 'Vubwa'),
+            ('Lundazi', 'Lundazi')
+        )
+    ),
+    (
+        muchinga,(
+            ('Mpika', 'Mpika'),
+            ('Chinsali', 'Chinsali'),
+            ('Mafinga', 'Mafinga')
+        )
+    ),
+    (
+        north_western,(
+            ('Solwezi', 'Solwezi'),
+            ('Mufumbwe', 'Mufumbwe'),
+            ('Zambezi', 'Zambezi')
+        )
+    ),
+    (
+        northern,(
+            ('Mporokoso', 'Mporokoso'),
+            ('Kasama', 'Kasama'),
+            ('Mpulungu', 'Mpulungu')
+        )
+    ),
+    (
+        southern,(
+            ('Monze', 'Monze'),
+            ('Kazungula', 'Kazungula'),
+            ('Gwembe', 'Gwembe')
+        )
+    ),
+    (
+        western,(
+            ('Mongu', 'Mongu'),
+            ('Sikongo', 'Sikongo'),
+            ('Sesheke', 'Sesheke')
+        )
+    )
+)
 ORGANIZATION_TARGET_LIST = (
     (plhiv, 'People living with HIV/ AIDS'),
     (ovc, 'Orphans and Vulnerable Children'),
@@ -194,23 +266,6 @@ AREA_OF_SUPPORT = (
         ('gender_equality_and_empowerment', 'Gender equality and Empowerment'),
         ('leadership_commitment_and_good_governance', 'Leadership Commitment and Good Governance'),
     )
-    )
-)
-
-PROVINCE_DISTRICTS = (
-    (
-        "Muchinga", (
-            ('Chama', 'Chama'),
-            ('Chinsali', 'Chinsali'),
-            ('Isoka', 'Isoka')
-        )
-    ),
-    (
-        "Lusaka", (
-            ('Lusaka', 'Lusaka'),
-            ('Chilanga', 'Chilanga'),
-            ('Kafue', 'Kafue')
-        )
     )
 )
 
@@ -342,9 +397,14 @@ class EndOfYearQuestion(models.Model):
     
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
-    stake_holder = models.ForeignKey(StakeholderDirectory, verbose_name='stakeholder form', on_delete=models.SET_NULL, null=True)
     report_date = models.DateField(null=True)
     quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)
+    stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organization', \
+        on_delete=models.SET_NULL, null=True)
+    
+    # Location and Report Compilation section
+    location_district = models.CharField('district', max_length=100, choices=PROVINCES_ZAMBIA, default="")
+    location_province = models.CharField('province', max_length=100, choices=PROVINCE_DISTRICTS, default="")
     name = models.CharField(max_length=50)
     telephone_number = models.CharField(max_length=20)
     email_address = models.EmailField(max_length=50)
@@ -362,8 +422,11 @@ class ActivityReportForm(models.Model):
 
     # organization_name_from_stakeholder = self.stake_holder.organization_name
     def __str__(self):
-        return self.stake_holder.organization_name + " - " + self.quarter_been_reported_on + \
-            " - " + self.name
+        if self.stake_holder_name.organization_name:
+            return self.stake_holder_name.organization_name + " - " + self.quarter_been_reported_on + \
+                " - " + self.name
+        else:
+            return "unset stakeholder name"
     
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
