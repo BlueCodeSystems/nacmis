@@ -38,6 +38,7 @@ class EndOfYearQuestionInline(admin.StackedInline):
 # *************************************************
 class MaterialInline(admin.TabularInline):
     model = IECMaterial
+    verbose_name = 'IEC Material'
     verbose_name_plural = 'How many IEC materials were distributed by your organization this quarter? \
         Which of your materials were localized (produced according to local condition, culture, language etc.)? '
     extra = 1
