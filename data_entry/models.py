@@ -390,7 +390,7 @@ class StakeholderDirectory(models.Model):
 # are carried out by your organization)
 class GeographicActivity(models.Model):
     area_of_support = models.CharField(max_length=100, choices=AREA_OF_SUPPORT, default="")
-    location = models.CharField(max_length=100, choices=DISTRICT_AREA_LIST, default="")
+    location = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST, default="")
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
