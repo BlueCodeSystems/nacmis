@@ -186,17 +186,62 @@ PROVINCE_DISTRICTS = (
     )
 )
 
-# Auto populated area tuple from, dependant on district
+# Auto populated ward area tuple from, dependant on district
 DISTRICT_AREA_LIST = (
-    ('Mporokoso', 'Mporokoso'),
-    ('Kasama', 'Kasama'),
-    ('Mpulungu', 'Mpulungu'),
-    ('Lusaka', 'Lusaka'),
-    ('Chilanga', 'Chilanga'),
-    ('Kafue', 'Kafue'),
-    ('Monze', 'Monze'),
-    ('Kazungula', 'Kazungula'),
-    ('Gwembe', 'Gwembe')
+    (
+        'Mporokoso', (
+            ('Chimpolonge', 'Chimpolonge'),
+            ('Muchinga', 'Muchinga')
+        )
+    ),
+    (
+        'Kasama', (
+            ('Julia Chikamoneka', 'Julia Chikamoneka'),
+            ('Lualuo', 'Lualuo')
+        )
+    ),
+    (
+        'Mpulungu', (
+            ('Isoko', 'Isoko'),
+            ('Kapembwa', 'Kapembwa')
+        )
+    ),
+    (
+        'Lusaka', (
+            ('Rapheal Chota', 'Rapheal Chota'),
+            ('Roma', 'Roma')
+        )
+    ),
+    (
+        'Chilanga', (
+            ('Nakachenje', 'Nakachenje'),
+            ('Miteta', 'Miteta')
+        )
+    ),
+    (
+        'Kafue', (
+            ('Chikupi', 'Chikupi'),
+            ('Kasenje', 'Kasenje')
+        )
+    ),
+    (
+        'Monze', (
+            ('Mwanza West', 'Mwanza West'),
+            ('Hatontola', 'Hatontola')
+        )
+    ),
+    (
+        'Kazungula', (
+            ('Ngwezi', 'ward1'),
+            ('Sikaunzwe', 'Sikaunzwe')
+        )
+    ),
+    (
+        'Gwembe', (
+            ('Jumbo', 'Jumbo'),
+            ('Siampande', 'Siampande')
+        )
+    )
 )  
 
 ORGANIZATION_TARGET_LIST = (
