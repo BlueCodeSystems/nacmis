@@ -461,6 +461,7 @@ class ActivityReportForm(models.Model):
     # Location and Report Compilation section
     location_province = models.CharField('province', max_length=100, choices=PROVINCES_ZAMBIA, default="")
     location_district = models.CharField('district', max_length=100, choices=PROVINCE_DISTRICTS, default="")
+    location_ward = models.CharField('ward', max_length=100, choices=DISTRICT_WARD_LIST, default="")
     name = models.CharField(max_length=50)
     telephone_number = models.CharField(max_length=20)
     email_address = models.EmailField(max_length=50)
