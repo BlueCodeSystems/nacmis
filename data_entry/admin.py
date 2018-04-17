@@ -42,19 +42,31 @@ class MaterialInline(admin.TabularInline):
         Which of your materials were localized (produced according to local condition, culture, language etc.)? '
     extra = 1
 
-class AdolencentsInline(admin.TabularInline):
+class AdolencentsInline(admin.StackedInline):
     model = AdolecentsReached
     verbose_name_plural = 'Number of adolescents and young people aged 10-24 reached by IEC materials \
         by your organization this quarter'
-
     extra = 1
+    
+    fieldsets =(
+        ( None, {
+            'fields':( ('adolescents_female_10_14', 'adolescents_male_10_14'), ('adolescents_female_15_19', 
+            'adolescents_male_15_19'), ('adolescents_female_20_24', 'adolescents_male_20_24') )
+        } ),
+    )
 
-class OutOfSchoolInline(admin.TabularInline):
+class OutOfSchoolInline(admin.StackedInline):
     model = OutOfSchool
     verbose_name_plural = 'Number of Out of School children and young people aged 10-24 years provided \
         with life skills- based comprehensive sexuality education within this quarter'
-
     extra = 1
+
+    fieldsets =(
+        ( None, {
+            'fields':( ('out_school_female_10_14', 'out_school_male_10_14'), ('out_school_female_15_19', 
+            'out_school_male_15_19'), ('out_school_female_20_24', 'out_school_male_20_24') )
+        } ),
+    )
 
 class SexWorkerInline(admin.TabularInline):
     model = SexWorker
