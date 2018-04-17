@@ -139,6 +139,8 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     CriticalEnablerInline.max_num = 1
     SynergyDevelopmentSectorInline.max_num = 1
     CommunityHealthSystemInline.max_num = 1
+    OtherQuestionInline.max_num = 1
+    EndOfYearQuestionInline.max_num = 1
     
     fieldsets = (
         ('Basic details on the organization', {
