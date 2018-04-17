@@ -11,8 +11,6 @@ CommunityHealthSystem, VulnerablePeople)
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
 class GeographicActivityInline(admin.TabularInline):
-    list_filter = ('location',)
-    
     model = GeographicActivity
     verbose_name_plural = 'Geographic Activities'
     extra = 1
