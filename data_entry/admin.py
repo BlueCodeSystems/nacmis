@@ -11,12 +11,11 @@ CommunityHealthSystem, VulnerablePeople)
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
 class GeographicActivityInline(admin.TabularInline):
+    list_filter = ('location',)
+    
     model = GeographicActivity
     verbose_name_plural = 'Geographic Activities'
     extra = 1
-    insert_after = 'organization_target'
-    
-    change_form_template = 'admin/custom/change_form.html'
 
 class FundingSourceInline(admin.TabularInline):
     model = FundingSource
@@ -165,7 +164,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
-
+    list_filter = ('location_province', 'location_district')
     # list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported_on')
 
     AdolencentsInline.max_num = 1
