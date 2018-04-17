@@ -11,8 +11,6 @@ CommunityHealthSystem, VulnerablePeople)
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
 class GeographicActivityInline(admin.TabularInline):
-    list_filter = ('location',)
-    
     model = GeographicActivity
     verbose_name_plural = 'Geographic Activities'
     extra = 1
@@ -25,11 +23,11 @@ class TargetGroupPreventionMessageInline(admin.TabularInline):
     model = TargetGroupPreventionMessage
     extra = 1
 
-class OtherQuestionInline(admin.StackedInline):
+class OtherQuestionInline(admin.TabularInline):
     model = OtherQuestion
     extra = 1
 
-class EndOfYearQuestionInline(admin.StackedInline):
+class EndOfYearQuestionInline(admin.TabularInline):
     model = EndOfYearQuestion
     extra = 1
 
@@ -47,29 +45,13 @@ class AdolencentsInline(admin.TabularInline):
     verbose_name_plural = 'Number of adolescents and young people aged 10-24 reached by IEC materials \
         by your organization this quarter'
     extra = 1
-    '''
-    fieldsets =(
-        ( None, {
-            'fields':( ('adolescents_female_10_14', 'adolescents_male_10_14'), ('adolescents_female_15_19', 
-            'adolescents_male_15_19'), ('adolescents_female_20_24', 'adolescents_male_20_24') )
-        } ),
-    )
-    '''
+    
 
 class OutOfSchoolInline(admin.TabularInline):
     model = OutOfSchool
     verbose_name_plural = 'Number of Out of School children and young people aged 10-24 years provided \
         with life skills- based comprehensive sexuality education within this quarter'
     extra = 1
-
-    '''
-    fieldsets =(
-        ( None, {
-            'fields':( ('out_school_female_10_14', 'out_school_male_10_14'), ('out_school_female_15_19', 
-            'out_school_male_15_19'), ('out_school_female_20_24', 'out_school_male_20_24') )
-        } ),
-    )
-    '''
 
 class SexWorkerInline(admin.TabularInline):
     model = SexWorker
