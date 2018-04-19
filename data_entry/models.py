@@ -241,6 +241,12 @@ DISTRICT_WARD_LIST = (
             ('Jumbo', 'Jumbo'),
             ('Siampande', 'Siampande')
         )
+    ),
+    (
+        'Solwezi', (
+            ('Kapijimpanga', 'Kapijimpanga'),
+            ('Tumvwanganai', 'Tumvwanganai')
+        )
     )
 )  
 
