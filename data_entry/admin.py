@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 
 from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSource,
-TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion)
+TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment)
 
 from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
 PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
@@ -29,6 +29,10 @@ class OtherQuestionInline(admin.TabularInline):
 
 class EndOfYearQuestionInline(admin.TabularInline):
     model = EndOfYearQuestion
+    extra = 1
+
+class GeneralCommentInline(admin.StackedInline):
+    model = GeneralComment
     extra = 1
 
 # INLINES FOR ACTIVITY REPORT FORM ADMIN
@@ -137,6 +141,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     CommunityHealthSystemInline.max_num = 1
     OtherQuestionInline.max_num = 1
     EndOfYearQuestionInline.max_num = 1
+    GeneralCommentInline.max_num = 1
     
     fieldsets = (
         ('Basic details on the organization', {
@@ -153,11 +158,11 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         }),
         ('Organization classification', {
             'fields': ('organization_type', 'organization_target')
-        }),
+        })
     )
 
     inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
-        OtherQuestionInline, EndOfYearQuestionInline]
+        OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
