@@ -4,7 +4,7 @@
 {% block field_sets %}
     {% for fieldset in adminform %}
         {#  Custom fieldsets template #}
-        {% include "admin/includes/fieldset.html" with inline_admin_formsets=inline_admin_formsets %}
+        {% include "admin/custom/fieldset.html" with inline_admin_formsets=inline_admin_formsets %}
     {% endfor %}
 {% endblock %}
 

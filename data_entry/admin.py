@@ -15,7 +15,7 @@ class GeographicActivityInline(admin.TabularInline):
     verbose_name_plural = 'Geographic Activities'
     extra = 1
 
-    # insert_after = 'organization_type'
+    insert_after = 'organization_type'
 
 class FundingSourceInline(admin.TabularInline):
     model = FundingSource
