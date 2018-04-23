@@ -15,6 +15,8 @@ class GeographicActivityInline(admin.TabularInline):
     verbose_name_plural = 'Geographic Activities'
     extra = 1
 
+    # insert_after = 'organization_type'
+
 class FundingSourceInline(admin.TabularInline):
     model = FundingSource
     extra = 1
@@ -164,6 +166,12 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
         OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
+    change_form_template = 'admin/custom/change_form.html'
+
+    class Meta:
+        css = {
+            'all':('css/admin.css',)
+        }
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
     list_filter = ('location_province', 'location_district', 'location_ward')
