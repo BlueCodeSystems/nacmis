@@ -24,12 +24,6 @@
                         <div class="help">{{ field.field.help_text|safe }}</div>
                     {% endif %}
                 </div>
-                {# Insert inlines after the field #}
-                {% for inline_admin_formset in inline_admin_formsets %}
-                        {% if inline_admin_formset.opts.insert_after == field.field.name %}
-                            {% include inline_admin_formset.opts.template %}
-                    {% endif %}
-                {% endfor %}
             {% endfor %}
         </div>
     {% endfor %}

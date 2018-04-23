@@ -8,11 +8,8 @@
     {% endfor %}
 {% endblock %}
 
-{# Filter inlines that where already rendered to avoid duplication #}
 {% block inline_field_sets %}
     {% for inline_admin_formset in inline_admin_formsets %}
-        {% if not inline_admin_formset.opts.insert_after %}
-            {% include inline_admin_formset.opts.template %}
-        {% endif %}
+        {% include inline_admin_formset.opts.template %}
     {% endfor %}
 {% endblock %}
