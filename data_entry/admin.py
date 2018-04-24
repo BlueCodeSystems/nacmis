@@ -1,12 +1,14 @@
 from django import forms
 from django.contrib import admin
 
-from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSource,
-TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment)
+from .models import ActivityReportForm, StakeholderDirectory, OrganizationTarget, \
+GeographicActivity, FundingSource, TargetGroupPreventionMessage, OtherQuestion, \
+EndOfYearQuestion, GeneralComment
 
-from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
-PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
-CommunityHealthSystem, VulnerablePeople)
+from .models import IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
+CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, MenWithMen, \
+CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, CommunityHealthSystem, \
+VulnerablePeople
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -125,7 +127,7 @@ class VulnerablePeopleInline(admin.TabularInline):
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
-    #list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
+    list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
     # filter_horizontal = ('organization_target',)
 
     MenWithMenInline.max_num = 1
@@ -163,15 +165,10 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
         OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
-    class Meta:
-        css = {
-            'all':('css/admin.css',)
-        }
-
 class ActivityReportFormAdmin(admin.ModelAdmin):
-    # list_filter = ('location_province', 'location_district', 'location_ward')
-    # list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported_on')
-
+    list_filter = ('location_province', 'location_district', 'location_ward')
+    list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported_on')
+    
     AdolencentsInline.max_num = 1
     OutOfSchoolInline.max_num = 1
     SexWorkerInline.max_num = 1

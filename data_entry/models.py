@@ -506,6 +506,9 @@ class IECMaterial(models.Model):
     localized = models.BooleanField(default=False)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.material_type
+
 # --> Social behaviour change communication for key populations  
 class AdolecentsReached(models.Model):
     # in_school
