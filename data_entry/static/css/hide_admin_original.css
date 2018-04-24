@@ -1,3 +1,11 @@
 .form-row .inline-group {
     margin-top: 30px;
 }
+
+td.original p {
+    visibility: hidden
+}
+  
+.inline-group .tabular tr.has_original td {
+    padding-top: 5px;
+}
