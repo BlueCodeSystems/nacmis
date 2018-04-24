@@ -125,7 +125,7 @@ class VulnerablePeopleInline(admin.TabularInline):
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
-    list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
+    #list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
     # filter_horizontal = ('organization_target',)
 
     MenWithMenInline.max_num = 1
@@ -163,15 +163,13 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
         OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
-    change_form_template = 'admin/custom/change_form.html'
-
     class Meta:
         css = {
             'all':('css/admin.css',)
         }
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
-    list_filter = ('location_province', 'location_district', 'location_ward')
+    # list_filter = ('location_province', 'location_district', 'location_ward')
     # list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported_on')
 
     AdolencentsInline.max_num = 1
