@@ -49,7 +49,6 @@ class AdolencentsInline(admin.TabularInline):
     verbose_name_plural = 'Number of adolescents and young people aged 10-24 reached by IEC materials \
         by your organization this quarter'
     extra = 1
-    
 
 class OutOfSchoolInline(admin.TabularInline):
     model = OutOfSchool
