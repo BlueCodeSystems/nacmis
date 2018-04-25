@@ -125,16 +125,11 @@ class VulnerablePeopleInline(admin.TabularInline):
 
 # ADMIN CLASSES
 # *************************************************
-<<<<<<< HEAD:data_collector_app/admin.py
-class StakeHolderAdmin(admin.ModelAdmin):
-    
-=======
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
     list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
     # filter_horizontal = ('organization_target',)
 
->>>>>>> bd0a7bd2d9130ca62427d077c54a41381e780b9f:data_entry/admin.py
     MenWithMenInline.max_num = 1
     CondomProgrammingInline.max_num = 1
     CriticalEnablerInline.max_num = 1
@@ -145,20 +140,9 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     CriticalEnablerInline.max_num = 1
     SynergyDevelopmentSectorInline.max_num = 1
     CommunityHealthSystemInline.max_num = 1
-<<<<<<< HEAD
-<<<<<<< HEAD:data_collector_app/admin.py
-
-    fieldsets = (
-        (None, {
-            'fields': ('organization_name', 'start_year', 'permanent_employee_female', 
-            'permanent_employee_male', 'temporary_employee_female', 'temporary_employee_male', 
-            'volunteer_employee_female', 'volunteer_employee_male', 'description_of_organization')
-=======
-=======
     OtherQuestionInline.max_num = 1
     EndOfYearQuestionInline.max_num = 1
     GeneralCommentInline.max_num = 1
->>>>>>> 5d8d3e1cc4928c4fdce184bd1dbca403dbd0f65e
     
     fieldsets = (
         ('Basic details on the organization', {
@@ -166,7 +150,6 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
             'fields': ('organization_name', 'start_year', ('permanent_employee_female', 
             'permanent_employee_male'), ('temporary_employee_female', 'temporary_employee_male'), 
             ('volunteer_employee_female', 'volunteer_employee_male'), 'description_of_organization')
->>>>>>> bd0a7bd2d9130ca62427d077c54a41381e780b9f:data_entry/admin.py
         }),
         ('Contact details', {
             'fields': ('key_contact_name', 'position_within_organization', 'organization_district', 
@@ -239,10 +222,5 @@ admin.site.register(StakeholderDirectory, StakeholderDirectoryAdmin)
 # Register HIV Activities Organization Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
-<<<<<<< HEAD:data_collector_app/admin.py
-admin.site.register(OrganizationTarget)
-# admin.site.register(GeographicActivity)
-=======
 # note: uncomment to have a user be flexible to enter there own targets to the list
 admin.site.register(OrganizationTarget)
->>>>>>> bd0a7bd2d9130ca62427d077c54a41381e780b9f:data_entry/admin.py
