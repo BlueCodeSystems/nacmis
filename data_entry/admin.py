@@ -1,12 +1,14 @@
 from django import forms
 from django.contrib import admin
 
-from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSource,
-TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment)
+from .models import ActivityReportForm, StakeholderDirectory, OrganizationTarget, \
+GeographicActivity, FundingSource, TargetGroupPreventionMessage, OtherQuestion, \
+EndOfYearQuestion, GeneralComment
 
-from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
-PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
-CommunityHealthSystem, VulnerablePeople)
+from .models import IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
+CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, MenWithMen, \
+CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, CommunityHealthSystem, \
+VulnerablePeople
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -49,7 +51,6 @@ class AdolencentsInline(admin.TabularInline):
     verbose_name_plural = 'Number of adolescents and young people aged 10-24 reached by IEC materials \
         by your organization this quarter'
     extra = 1
-    
 
 class OutOfSchoolInline(admin.TabularInline):
     model = OutOfSchool
@@ -164,11 +165,13 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
         OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
+    class Media:
+        css = { "all" : ("css/hide_admin_original.css",) }
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
     list_filter = ('location_province', 'location_district', 'location_ward')
-    # list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported_on')
-
+    list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported_on')
+    
     AdolencentsInline.max_num = 1
     OutOfSchoolInline.max_num = 1
     SexWorkerInline.max_num = 1
@@ -201,6 +204,9 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         CorrectionalFaciltyStaffInline, PersonsWithDisabiltyInline, MobileWorkerInline, MenWithMenInline,
         CondomProgrammingInline, CriticalEnablerInline, SynergyDevelopmentSectorInline, CommunityHealthSystemInline, 
         VulnerablePeopleInline]
+
+    class Media:
+        css = { "all" : ("css/hide_admin_original.css",) }
 
 class OrganizationTargetAdmin(admin.ModelAdmin):
     fieldsets = (

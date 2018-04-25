@@ -319,15 +319,18 @@ SOURCES_OF_INFORMATION = (
     (systems_other, 'Other')
 )
 AREA_OF_SUPPORT = (
-    ("High impact interventions", (
-        ('condom_programming', 'Condom Programming'),
-        ('hiv_conselling_and_testing', 'HIV Conselling and Testing'),
-    )
+    (
+        "High impact interventions", (
+            ('condom_programming', 'Condom Programming'),
+            ('hiv_conselling_and_testing', 'HIV Conselling and Testing'),
+        )
     ),
-    ("Critical enablers", (
-        ('gender_equality_and_empowerment', 'Gender equality and Empowerment'),
-        ('leadership_commitment_and_good_governance', 'Leadership Commitment and Good Governance'),
-    )
+    (
+        "Critical enablers", (
+            ('gender_equality_and_empowerment', 'Gender equality and Empowerment'),
+            ('leadership_commitment_and_good_governance', 
+                'Leadership Commitment and Good Governance'),
+        )
     )
 )
 
@@ -502,6 +505,9 @@ class IECMaterial(models.Model):
     number_distributed = models.IntegerField('number of materials distributed', default=0)
     localized = models.BooleanField(default=False)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.material_type
 
 # --> Social behaviour change communication for key populations  
 class AdolecentsReached(models.Model):
