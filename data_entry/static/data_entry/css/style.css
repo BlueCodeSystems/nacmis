@@ -18,6 +18,11 @@ h1 {
     margin-bottom: 30px
 }
 
+p.working {
+    color: green;
+    font-family: dehasta_momentos;
+}
+
 #imgcontainer {
     text-align: center;
     margin: 24px 0 12px 0;

@@ -1,12 +1,14 @@
 from django import forms
 from django.contrib import admin
 
-from .models import (ActivityReportForm, StakeholderDirectory, OrganizationTarget, GeographicActivity, FundingSource,
-TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion)
+from .models import ActivityReportForm, StakeholderDirectory, OrganizationTarget, \
+GeographicActivity, FundingSource, TargetGroupPreventionMessage, OtherQuestion, \
+EndOfYearQuestion, GeneralComment
 
-from .models import(IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, CorrectionalFaciltyStaff, 
-PersonsWithDisabilty, MobileWorker, MenWithMen, CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, 
-CommunityHealthSystem, VulnerablePeople)
+from .models import IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
+CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, MenWithMen, \
+CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, CommunityHealthSystem, \
+VulnerablePeople
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -14,9 +16,6 @@ class GeographicActivityInline(admin.TabularInline):
     model = GeographicActivity
     verbose_name_plural = 'Geographic Activities'
     extra = 1
-    insert_after = 'organization_target'
-    
-    change_form_template = 'admin/custom/change_form.html'
 
 class FundingSourceInline(admin.TabularInline):
     model = FundingSource
@@ -26,18 +25,23 @@ class TargetGroupPreventionMessageInline(admin.TabularInline):
     model = TargetGroupPreventionMessage
     extra = 1
 
-class OtherQuestionInline(admin.StackedInline):
+class OtherQuestionInline(admin.TabularInline):
     model = OtherQuestion
     extra = 1
 
-class EndOfYearQuestionInline(admin.StackedInline):
+class EndOfYearQuestionInline(admin.TabularInline):
     model = EndOfYearQuestion
+    extra = 1
+
+class GeneralCommentInline(admin.StackedInline):
+    model = GeneralComment
     extra = 1
 
 # INLINES FOR ACTIVITY REPORT FORM ADMIN
 # *************************************************
 class MaterialInline(admin.TabularInline):
     model = IECMaterial
+    verbose_name = 'IEC Material'
     verbose_name_plural = 'How many IEC materials were distributed by your organization this quarter? \
         Which of your materials were localized (produced according to local condition, culture, language etc.)? '
     extra = 1
@@ -46,14 +50,12 @@ class AdolencentsInline(admin.TabularInline):
     model = AdolecentsReached
     verbose_name_plural = 'Number of adolescents and young people aged 10-24 reached by IEC materials \
         by your organization this quarter'
-
     extra = 1
 
 class OutOfSchoolInline(admin.TabularInline):
     model = OutOfSchool
     verbose_name_plural = 'Number of Out of School children and young people aged 10-24 years provided \
         with life skills- based comprehensive sexuality education within this quarter'
-
     extra = 1
 
 class SexWorkerInline(admin.TabularInline):
@@ -143,6 +145,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     CriticalEnablerInline.max_num = 1
     SynergyDevelopmentSectorInline.max_num = 1
     CommunityHealthSystemInline.max_num = 1
+<<<<<<< HEAD
 <<<<<<< HEAD:data_collector_app/admin.py
 
     fieldsets = (
@@ -151,6 +154,11 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
             'permanent_employee_male', 'temporary_employee_female', 'temporary_employee_male', 
             'volunteer_employee_female', 'volunteer_employee_male', 'description_of_organization')
 =======
+=======
+    OtherQuestionInline.max_num = 1
+    EndOfYearQuestionInline.max_num = 1
+    GeneralCommentInline.max_num = 1
+>>>>>>> 5d8d3e1cc4928c4fdce184bd1dbca403dbd0f65e
     
     fieldsets = (
         ('Basic details on the organization', {
@@ -168,17 +176,19 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         }),
         ('Organization classification', {
             'fields': ('organization_type', 'organization_target')
-        }),
+        })
     )
 
     inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
-        OtherQuestionInline, EndOfYearQuestionInline]
+        OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
+    class Media:
+        css = { "all" : ("css/hide_admin_original.css",) }
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
-
-    # list_display = ('organization_name_from_stakeholder', 'name', 'quarter_been_reported_on')
-
+    list_filter = ('location_province', 'location_district', 'location_ward')
+    list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported_on')
+    
     AdolencentsInline.max_num = 1
     OutOfSchoolInline.max_num = 1
     SexWorkerInline.max_num = 1
@@ -194,8 +204,11 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     VulnerablePeopleInline.max_num = 1
 
     fieldsets = (
-        ('', {
-            'fields':('stake_holder', 'report_date', 'quarter_been_reported_on', 'name', 'telephone_number', 'email_address'),
+        ('Contact details', {
+            'fields':('report_date', 'quarter_been_reported_on', 'stake_holder_name', 
+            ('location_province', 'location_district', 'location_ward'), ('name', 
+            'telephone_number', 'email_address')
+            ),
         }),
         ('What types of care and support does your organization provide? (select all that apply)', {
             'fields': ('food_and_nutrition', 'shelter_and_care', 'protection_and_legal_aid', 'healthcare', 
@@ -208,6 +221,9 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         CorrectionalFaciltyStaffInline, PersonsWithDisabiltyInline, MobileWorkerInline, MenWithMenInline,
         CondomProgrammingInline, CriticalEnablerInline, SynergyDevelopmentSectorInline, CommunityHealthSystemInline, 
         VulnerablePeopleInline]
+
+    class Media:
+        css = { "all" : ("css/hide_admin_original.css",) }
 
 class OrganizationTargetAdmin(admin.ModelAdmin):
     fieldsets = (

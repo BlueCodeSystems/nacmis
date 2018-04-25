@@ -11,15 +11,15 @@ government = 'Government Organization'
 private = 'Private Organization'
 org_others = 'Other organization / group - please specify'  # change some kind of list later
 
-lsk = 'Lusaka Province'
-cop = 'Copperbelt Province'
-east = 'Easten Province'
-lua = 'Luapula Province'
-much = 'Muchinga Province'
-nwest = 'North Westen Province'
-north = 'Northern Province'
-south = 'Southern Province'
-west = 'Western Province'
+lusaka = 'Lusaka Province'
+copperbelt = 'Copperbelt Province'
+eastern = 'Easten Province'
+luapula = 'Luapula Province'
+muchinga = 'Muchinga Province'
+north_western = 'North Westen Province'
+northern = 'Northern Province'
+southern = 'Southern Province'
+western = 'Western Province'
 
 Q1 = 'Quarter 1'
 Q2 = 'Quarter 2'
@@ -102,16 +102,153 @@ ORGANIZATION_TYPE_LIST = (
 )
 
 PROVINCES_ZAMBIA = (
-    (lsk, 'Lusaka Province'),
-    (cop, 'Copperbelt Province'),
-    (east, 'Easten Province'),
-    (lua, 'Luapula Province'),
-    (much, 'Muchinga Province'),
-    (nwest, 'North Westen Province'),
-    (north, 'Northern Province'),
-    (south, 'Southern Province'),
-    (west, 'Western Province')
+    (lusaka, 'Lusaka Province'),
+    (copperbelt, 'Copperbelt Province'),
+    (eastern, 'Easten Province'),
+    (luapula, 'Luapula Province'),
+    (muchinga, 'Muchinga Province'),
+    (north_western, 'North Westen Province'),
+    (northern, 'Northern Province'),
+    (southern, 'Southern Province'),
+    (western, 'Western Province')
 )
+
+PROVINCE_DISTRICTS = (
+    (
+        muchinga, (
+            ('Chama', 'Chama'),
+            ('Chinsali', 'Chinsali'),
+            ('Isoka', 'Isoka')
+        )
+    ),
+    (
+        lusaka, (
+            ('Lusaka', 'Lusaka'),
+            ('Chilanga', 'Chilanga'),
+            ('Kafue', 'Kafue')
+        )
+    ),
+    (
+        luapula,(
+            ('Samfya', 'Samfya'),
+            ('Mansa', 'Mansa'),
+            ('Mwansabombwe', 'Mwansabombwe')
+        )
+    ),
+    (
+        copperbelt,(
+            ('Ndola', 'Ndola'),
+            ('Lufwanyama', 'Lufwanyama'),
+            ('Mpongwe', 'Mpongwe')
+        )
+    ),
+    (
+        eastern,(
+            ('Nyimba', 'Nyimba'),
+            ('Vubwa', 'Vubwa'),
+            ('Lundazi', 'Lundazi')
+        )
+    ),
+    (
+        muchinga,(
+            ('Mpika', 'Mpika'),
+            ('Chinsali', 'Chinsali'),
+            ('Mafinga', 'Mafinga')
+        )
+    ),
+    (
+        north_western,(
+            ('Solwezi', 'Solwezi'),
+            ('Mufumbwe', 'Mufumbwe'),
+            ('Zambezi', 'Zambezi')
+        )
+    ),
+    (
+        northern,(
+            ('Mporokoso', 'Mporokoso'),
+            ('Kasama', 'Kasama'),
+            ('Mpulungu', 'Mpulungu')
+        )
+    ),
+    (
+        southern,(
+            ('Monze', 'Monze'),
+            ('Kazungula', 'Kazungula'),
+            ('Gwembe', 'Gwembe')
+        )
+    ),
+    (
+        western,(
+            ('Mongu', 'Mongu'),
+            ('Sikongo', 'Sikongo'),
+            ('Sesheke', 'Sesheke')
+        )
+    )
+)
+
+# Auto populated ward area tuple from, dependant on district
+DISTRICT_WARD_LIST = (
+    (
+        'Mporokoso', (
+            ('Chimpolonge', 'Chimpolonge'),
+            ('Muchinga', 'Muchinga')
+        )
+    ),
+    (
+        'Kasama', (
+            ('Julia Chikamoneka', 'Julia Chikamoneka'),
+            ('Lualuo', 'Lualuo')
+        )
+    ),
+    (
+        'Mpulungu', (
+            ('Isoko', 'Isoko'),
+            ('Kapembwa', 'Kapembwa')
+        )
+    ),
+    (
+        'Lusaka', (
+            ('Rapheal Chota', 'Rapheal Chota'),
+            ('Roma', 'Roma')
+        )
+    ),
+    (
+        'Chilanga', (
+            ('Nakachenje', 'Nakachenje'),
+            ('Miteta', 'Miteta')
+        )
+    ),
+    (
+        'Kafue', (
+            ('Chikupi', 'Chikupi'),
+            ('Kasenje', 'Kasenje')
+        )
+    ),
+    (
+        'Monze', (
+            ('Mwanza West', 'Mwanza West'),
+            ('Hatontola', 'Hatontola')
+        )
+    ),
+    (
+        'Kazungula', (
+            ('Ngwezi', 'ward1'),
+            ('Sikaunzwe', 'Sikaunzwe')
+        )
+    ),
+    (
+        'Gwembe', (
+            ('Jumbo', 'Jumbo'),
+            ('Siampande', 'Siampande')
+        )
+    ),
+    (
+        'Solwezi', (
+            ('Kapijimpanga', 'Kapijimpanga'),
+            ('Tumvwanganai', 'Tumvwanganai')
+        )
+    )
+)  
 
 ORGANIZATION_TARGET_LIST = (
     (plhiv, 'People living with HIV/ AIDS'),
@@ -140,9 +277,6 @@ ORGANIZATION_TARGET_LIST = (
     (traditional_leaders, 'Traditional leaders'),
     (target_others, 'Other target groups - please specify')
 )
-
-
-DISTRICT_AREA_LIST = () # Auto populated area tuple from, dependant on district 
 
 TYPE_OF_SUPPORT_LIST = (
     (food_and_nutrition, 'Food and Nutrition'),
@@ -185,31 +319,17 @@ SOURCES_OF_INFORMATION = (
     (systems_other, 'Other')
 )
 AREA_OF_SUPPORT = (
-    ("High impact interventions", (
-        ('condom_programming', 'Condom Programming'),
-        ('hiv_conselling_and_testing', 'HIV Conselling and Testing'),
-    )
-    ),
-    ("Critical enablers", (
-        ('gender_equality_and_empowerment', 'Gender equality and Empowerment'),
-        ('leadership_commitment_and_good_governance', 'Leadership Commitment and Good Governance'),
-    )
-    )
-)
-
-PROVINCE_DISTRICTS = (
     (
-        "Muchinga", (
-            ('Chama', 'Chama'),
-            ('Chinsali', 'Chinsali'),
-            ('Isoka', 'Isoka')
+        "High impact interventions", (
+            ('condom_programming', 'Condom Programming'),
+            ('hiv_conselling_and_testing', 'HIV Conselling and Testing'),
         )
     ),
     (
-        "Lusaka", (
-            ('Lusaka', 'Lusaka'),
-            ('Chilanga', 'Chilanga'),
-            ('Kafue', 'Kafue')
+        "Critical enablers", (
+            ('gender_equality_and_empowerment', 'Gender equality and Empowerment'),
+            ('leadership_commitment_and_good_governance', 
+                'Leadership Commitment and Good Governance'),
         )
     )
 )
@@ -279,7 +399,7 @@ class StakeholderDirectory(models.Model):
 # are carried out by your organization)
 class GeographicActivity(models.Model):
     area_of_support = models.CharField(max_length=100, choices=AREA_OF_SUPPORT, default="")
-    location = models.CharField(max_length=100, choices=PROVINCE_DISTRICTS, default="")
+    location = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST, blank=True)
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -337,14 +457,25 @@ class EndOfYearQuestion(models.Model):
         this year?')
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
+class GeneralComment(models.Model):
+    #general comment at bottom of field
+    general_comment = models.TextField(default="")
+    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
+
 # HIV ACTIVITIES ORGANIZATION PARTICIPATES IN FORM
 # *************************************************
     
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
-    stake_holder = models.ForeignKey(StakeholderDirectory, verbose_name='stakeholder form', on_delete=models.SET_NULL, null=True)
     report_date = models.DateField(null=True)
     quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)
+    stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organization', \
+        on_delete=models.SET_NULL, null=True)
+    
+    # Location and Report Compilation section
+    location_province = models.CharField('province', max_length=100, choices=PROVINCES_ZAMBIA, default="")
+    location_district = models.CharField('district', max_length=100, choices=PROVINCE_DISTRICTS, default="")
+    location_ward = models.CharField('ward', max_length=100, choices=DISTRICT_WARD_LIST, default="")
     name = models.CharField(max_length=50)
     telephone_number = models.CharField(max_length=20)
     email_address = models.EmailField(max_length=50)
@@ -362,8 +493,11 @@ class ActivityReportForm(models.Model):
 
     # organization_name_from_stakeholder = self.stake_holder.organization_name
     def __str__(self):
-        return self.stake_holder.organization_name + " - " + self.quarter_been_reported_on + \
-            " - " + self.name
+        if self.stake_holder_name:
+            return self.stake_holder_name.organization_name + " - " + self.location_district + \
+            " - " + self.quarter_been_reported_on
+        else:
+            return "unset stakeholder name"
     
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
@@ -371,6 +505,9 @@ class IECMaterial(models.Model):
     number_distributed = models.IntegerField('number of materials distributed', default=0)
     localized = models.BooleanField(default=False)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.material_type
 
 # --> Social behaviour change communication for key populations  
 class AdolecentsReached(models.Model):
