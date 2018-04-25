@@ -165,6 +165,9 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
         OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
+    class Media:
+        css = { "all" : ("css/hide_admin_original.css",) }
+
 class ActivityReportFormAdmin(admin.ModelAdmin):
     list_filter = ('location_province', 'location_district', 'location_ward')
     list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported_on')
@@ -201,6 +204,9 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         CorrectionalFaciltyStaffInline, PersonsWithDisabiltyInline, MobileWorkerInline, MenWithMenInline,
         CondomProgrammingInline, CriticalEnablerInline, SynergyDevelopmentSectorInline, CommunityHealthSystemInline, 
         VulnerablePeopleInline]
+
+    class Media:
+        css = { "all" : ("css/hide_admin_original.css",) }
 
 class OrganizationTargetAdmin(admin.ModelAdmin):
     fieldsets = (
