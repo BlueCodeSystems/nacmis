@@ -366,12 +366,12 @@ class StakeholderDirectory(models.Model):
     # --> Basic details on the organization
     organization_name = models.CharField(max_length=200)
     start_year = models.DateField('which year did your organization start working in this district?')
-    permanent_employee_female = models.IntegerField('current number of permanent female employees', default=0)
-    permanent_employee_male = models.IntegerField('current number of permanent male employees', default=0)
-    temporary_employee_female = models.IntegerField('current number of temporary female employees', default=0)
-    temporary_employee_male = models.IntegerField('current number of temporary male employees', default=0)
-    volunteer_employee_female = models.IntegerField('current number of volunteer female employees', default=0)
-    volunteer_employee_male = models.IntegerField('current number of volunteer male employees', default=0)
+    permanent_employee_female = models.PositiveIntegerField('current number of permanent female employees', default=0)
+    permanent_employee_male = models.PositiveIntegerField('current number of permanent male employees', default=0)
+    temporary_employee_female = models.PositiveIntegerField('current number of temporary female employees', default=0)
+    temporary_employee_male = models.PositiveIntegerField('current number of temporary male employees', default=0)
+    volunteer_employee_female = models.PositiveIntegerField('current number of volunteer female employees', default=0)
+    volunteer_employee_male = models.PositiveIntegerField('current number of volunteer male employees', default=0)
     description_of_organization = models.TextField('Brief description of the organization (Please describe your \
         organization in no more than 250 words)')
 
@@ -412,7 +412,7 @@ class GeographicActivity(models.Model):
 # will not be published and only held at DAFT)
 class FundingSource(models.Model):
     name_of_organization =  models.CharField(max_length=100, default="")
-    funding_amount =  models.IntegerField()
+    funding_amount =  models.PositiveIntegerField()
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -449,11 +449,11 @@ class OtherQuestion(models.Model):
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
 class EndOfYearQuestion(models.Model):
-    funding = models.IntegerField('How much funding(in kwacha) was spent on HIV & \
+    funding = models.PositiveIntegerField('How much funding(in kwacha) was spent on HIV & \
         AIDS activities this year?')
-    number_of_meetings_daft = models.IntegerField('How many DAFT meetings did your organization have \
+    number_of_meetings_daft = models.PositiveIntegerField('How many DAFT meetings did your organization have \
         this year?')
-    number_of_meetings_paft = models.IntegerField('How many PAFT meetings did your organization have \
+    number_of_meetings_paft = models.PositiveIntegerField('How many PAFT meetings did your organization have \
         this year?')
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
@@ -502,7 +502,7 @@ class ActivityReportForm(models.Model):
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
     material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default='N/A')
-    number_distributed = models.IntegerField('number of materials distributed', default=0)
+    number_distributed = models.PositiveIntegerField('number of materials distributed', default=0)
     localized = models.BooleanField(default=False)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
@@ -514,68 +514,68 @@ class AdolecentsReached(models.Model):
     # in_school
     # Number of adolescents and young people aged 10-24 reached by IEC materials by your 
     # organization this quarter
-    adolescents_female_10_14 = models.IntegerField('female adolescents of ages 10 to 14', default=0)
-    adolescents_female_15_19 = models.IntegerField('female adolescents of ages 15 to 19', default=0)
-    adolescents_female_20_24 = models.IntegerField('female adolescents of ages 20 to 24', default=0)
+    adolescents_female_10_14 = models.PositiveIntegerField('female adolescents of ages 10 to 14', default=0)
+    adolescents_female_15_19 = models.PositiveIntegerField('female adolescents of ages 15 to 19', default=0)
+    adolescents_female_20_24 = models.PositiveIntegerField('female adolescents of ages 20 to 24', default=0)
 
-    adolescents_male_10_14 = models.IntegerField('male adolescents of ages 10 to 14', default=0)
-    adolescents_male_15_19 = models.IntegerField('male adolescents of ages 15 to 19', default=0)
-    adolescents_male_20_24 = models.IntegerField('male adolescents of ages 20 to 24', default=0)
+    adolescents_male_10_14 = models.PositiveIntegerField('male adolescents of ages 10 to 14', default=0)
+    adolescents_male_15_19 = models.PositiveIntegerField('male adolescents of ages 15 to 19', default=0)
+    adolescents_male_20_24 = models.PositiveIntegerField('male adolescents of ages 20 to 24', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class OutOfSchool(models.Model):
     # out_school
     # Number of Out of School children and young people aged 10-24 years provided with life
     # skills- based comprehensive sexuality education within this quarter
-    out_school_female_10_14 = models.IntegerField('out of school females of ages 10 to 14', default=0)
-    out_school_female_15_19 = models.IntegerField('out of school females of ages 15 to 19', default=0)
-    out_school_female_20_24 = models.IntegerField('out of school females of ages 20 to 24', default=0)
+    out_school_female_10_14 = models.PositiveIntegerField('out of school females of ages 10 to 14', default=0)
+    out_school_female_15_19 = models.PositiveIntegerField('out of school females of ages 15 to 19', default=0)
+    out_school_female_20_24 = models.PositiveIntegerField('out of school females of ages 20 to 24', default=0)
 
-    out_school_male_10_14 = models.IntegerField('out of school males of ages 10 to 14', default=0)
-    out_school_male_15_19 = models.IntegerField('out of school males of ages 15 to 19', default=0)
-    out_school_male_20_24 = models.IntegerField('out of school males of ages 20 to 24', default=0)
+    out_school_male_10_14 = models.PositiveIntegerField('out of school males of ages 10 to 14', default=0)
+    out_school_male_15_19 = models.PositiveIntegerField('out of school males of ages 15 to 19', default=0)
+    out_school_male_20_24 = models.PositiveIntegerField('out of school males of ages 20 to 24', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class SexWorker(models.Model):
     # sex_workers
     # How many sex workers were reached with HIV prevention programmes by your organization this quarter?
-    sex_workers_female_num = models.IntegerField('female sex workers reached', default=0)
-    sex_workers_male_num = models.IntegerField('male sex workers reached', default=0)
+    sex_workers_female_num = models.PositiveIntegerField('female sex workers reached', default=0)
+    sex_workers_male_num = models.PositiveIntegerField('male sex workers reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class Inmate(models.Model):
     # inmates
     # How many inmates were reached with HIV prevention programmes by your organization this quarter?
-    inmates_female_num = models.IntegerField('female inmates reached', default=0)
-    inmates_male_num = models.IntegerField('male inmates reached', default=0)
+    inmates_female_num = models.PositiveIntegerField('female inmates reached', default=0)
+    inmates_male_num = models.PositiveIntegerField('male inmates reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class CorrectionalFaciltyStaff(models.Model):
     # correctional facility staff
     # How many correctional facility staff were reached with HIV prevention programmes this quarter?
-    correctional_staff_female_num = models.IntegerField('female correctional facility staff reached', default=0)
-    correctional_staff_male_num = models.IntegerField('male correctional facility staff reached', default=0)
+    correctional_staff_female_num = models.PositiveIntegerField('female correctional facility staff reached', default=0)
+    correctional_staff_male_num = models.PositiveIntegerField('male correctional facility staff reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class PersonsWithDisabilty(models.Model):
     # persons with disabilty
     # How many persons with disability were reached with HIV prevention programmes by your organization this quarter?"
-    pwd_female_num = models.IntegerField('female persons with disabilities reached', default=0)
-    pwd_male_num = models.IntegerField('male persons with disabilities reached', default=0)
+    pwd_female_num = models.PositiveIntegerField('female persons with disabilities reached', default=0)
+    pwd_male_num = models.PositiveIntegerField('male persons with disabilities reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MobileWorker(models.Model):
     # mobile workers
     # How many mobile workers were reached with HIV prevention programmes by your organization this quarter?
-    mobile_workers_female_num = models.IntegerField('female mobile workers reached', default=0)
-    mobile_workers_male_num = models.IntegerField('male mobile workers reached', default=0)
+    mobile_workers_female_num = models.PositiveIntegerField('female mobile workers reached', default=0)
+    mobile_workers_male_num = models.PositiveIntegerField('male mobile workers reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MenWithMen(models.Model):
     # men who have sex with men
     # How many men who have sex with men (MSM) were reached with HIV prevention programmes by your 
     # organization this quarter?
-    men_with_men = models.IntegerField('men who have sex with men (MSM) reached', default=0)
+    men_with_men = models.PositiveIntegerField('men who have sex with men (MSM) reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class CondomProgramming(models.Model):
@@ -584,9 +584,9 @@ class CondomProgramming(models.Model):
     # quarter? (*excluding health facilities)
     # 2. How many male and/or female condoms were distributed to end users by your organization 
     # this quarter (excluding health facilities)?
-    condom_dist_point_num = models.IntegerField('number of distribution points', default=0)
-    female_condom_distributed_num = models.IntegerField('female condoms distributed', default=0)
-    male_condom_distributed_num = models.IntegerField('male condoms distributed', default=0)
+    condom_dist_point_num = models.PositiveIntegerField('number of distribution points', default=0)
+    female_condom_distributed_num = models.PositiveIntegerField('female condoms distributed', default=0)
+    male_condom_distributed_num = models.PositiveIntegerField('male condoms distributed', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class CriticalEnabler(models.Model):
@@ -594,18 +594,18 @@ class CriticalEnabler(models.Model):
     # Crtical enablers
     #  Number of people who experienced physical or sexual violence and were referred for Post 
     # Exposure Prophylaxis (PEP) within 72 hours in accordance with national guidelines this quarter.
-    accessed_pep_female_num = models.IntegerField('females who experienced physical or \
+    accessed_pep_female_num = models.PositiveIntegerField('females who experienced physical or \
         sexual violence, and accessed Post Exposure Prophylaxis (PEP)', default=0)
-    accessed_pep_male_num = models.IntegerField('males who experienced physical or sexual \
+    accessed_pep_male_num = models.PositiveIntegerField('males who experienced physical or sexual \
         violence, and accessed Post Exposure Prophylaxis (PEP)', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class SynergyDevelopmentSector(models.Model):
     # Synergies with other development sectors
     # How many employees were reached through workplace programmes by your organization this quarter?
-    employees_reached_female_num = models.IntegerField('female employees reached through \
+    employees_reached_female_num = models.PositiveIntegerField('female employees reached through \
         workplace programmes', default=0)
-    employees_reached_male_num = models.IntegerField('male employees reached through \
+    employees_reached_male_num = models.PositiveIntegerField('male employees reached through \
         workplace programmes', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
@@ -613,20 +613,20 @@ class CommunityHealthSystem(models.Model):
     # Community health systems
     # 1. How many PLHIV support groups set up by your organization are currently active?
     # 2. How many PLHIV are currently enrolled in the active PLHIV support groups by your organization?
-    plhiv_groups = models.IntegerField('PLHIV groups set up by your organization', default=0)
-    plhiv_female_num = models.IntegerField('female persons living with HIV (PLHIV) currently \
+    plhiv_groups = models.PositiveIntegerField('PLHIV groups set up by your organization', default=0)
+    plhiv_female_num = models.PositiveIntegerField('female persons living with HIV (PLHIV) currently \
         enrolled in active groups', default=0)
-    plhiv_male_num = models.IntegerField('male persons living with HIV (PLHIV) currently \
+    plhiv_male_num = models.PositiveIntegerField('male persons living with HIV (PLHIV) currently \
         enrolled in active groups', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class VulnerablePeople(models.Model):
     # How many vulnerable people in total received care and support from your organization this quarter?
-    ovc_female_num = models.IntegerField('female', default=0)
-    ovc_male_num = models.IntegerField('male',default=0)
-    ovc_care_support_0_9 = models.IntegerField('0 to 9', default=0)
-    ovc_care_support_10_14 = models.IntegerField('10 to 14', default=0)
-    ovc_care_support_15_19 = models.IntegerField('15 to 19', default=0)
-    ovc_care_support_20_24 = models.IntegerField('20 to 24', default=0)
-    ovc_care_support_25_plus = models.IntegerField('25 and above', default=0)
+    ovc_female_num = models.PositiveIntegerField('female', default=0)
+    ovc_male_num = models.PositiveIntegerField('male',default=0)
+    ovc_care_support_0_9 = models.PositiveIntegerField('0 to 9', default=0)
+    ovc_care_support_10_14 = models.PositiveIntegerField('10 to 14', default=0)
+    ovc_care_support_15_19 = models.PositiveIntegerField('15 to 19', default=0)
+    ovc_care_support_20_24 = models.PositiveIntegerField('20 to 24', default=0)
+    ovc_care_support_25_plus = models.PositiveIntegerField('25 and above', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
