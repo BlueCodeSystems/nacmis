@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import generic
+
+from .forms import StakeholderDirectoryModelForm
 
 # Create your views here.
 
@@ -34,3 +36,15 @@ class SituationRoomView(generic.DetailView):
     return HttpResponse("Reporting form page.")
 
 '''
+def add_clean_model(request):
+    if request.method == POST:
+        form = StakeholderDirectoryModelForm(request.POST)
+        if form.is_valid():
+            # commit=False means the form doesn't save at this time.
+            # commit defaults to True which means it normally saves.
+            model_instance = form.save(commit=False)
+            return redirect('next_page.html')
+        else:
+            form = StakeholderDirectoryModelForm()
+    
+    return render(request, 'my_template.html', {'form': form})
