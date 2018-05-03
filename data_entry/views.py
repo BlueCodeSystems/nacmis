@@ -37,14 +37,16 @@ class SituationRoomView(generic.DetailView):
 
 '''
 def add_clean_model(request):
-    if request.method == POST:
+    if request.method == 'POST':
         form = StakeholderDirectoryModelForm(request.POST)
         if form.is_valid():
             # commit=False means the form doesn't save at this time.
             # commit defaults to True which means it normally saves.
             model_instance = form.save(commit=False)
-            return redirect('next_page.html')
+            return redirect('data_entry/next_page.html')
         else:
             form = StakeholderDirectoryModelForm()
+    else:
+        form = StakeholderDirectoryModelForm()
     
-    return render(request, 'my_template.html', {'form': form})
+    return render(request, 'data_entry/index.html', {'form': form})

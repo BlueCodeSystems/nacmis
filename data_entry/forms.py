@@ -1,4 +1,5 @@
 from django.forms import ModelForm
+from django import forms
 
 import datetime 
 from django.core.exceptions import ValidationError
@@ -21,4 +22,4 @@ class StakeholderDirectoryModelForm(ModelForm):
 
     class Meta:
         model = StakeholderDirectory
-        fields = ['start_year']
+        fields = ['start_year', 'organization_district']
