@@ -319,24 +319,24 @@ IEC_MATERIALS = (
 )
 
 SOURCES_OF_INFORMATION = (
-    (nacmis, 'NAC-MIS'),
-    (hmis, 'HMIS'),
     (datim, 'DATIM'),
+    (hmis, 'HMIS'),
     (internal_system, 'Internal system'),
+    (nacmis, 'NAC-MIS'),
     (systems_other, 'Other')
 )
 AREA_OF_SUPPORT = (
-    (
-        "High impact interventions", (
-            ('condom_programming', 'Condom Programming'),
-            ('hiv_conselling_and_testing', 'HIV Conselling and Testing'),
-        )
-    ),
     (
         "Critical enablers", (
             ('gender_equality_and_empowerment', 'Gender equality and Empowerment'),
             ('leadership_commitment_and_good_governance', 
                 'Leadership Commitment and Good Governance'),
+        )
+    ),
+    (
+        "High impact interventions", (
+            ('condom_programming', 'Condom Programming'),
+            ('hiv_conselling_and_testing', 'HIV Conselling and Testing'),
         )
     )
 )
