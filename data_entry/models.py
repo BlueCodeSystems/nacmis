@@ -190,39 +190,15 @@ PROVINCE_DISTRICTS = (
 # Auto populated ward area tuple from, dependant on district
 DISTRICT_WARD_LIST = (
     (
-        'Mporokoso', (
-            ('Chimpolonge', 'Chimpolonge'),
-            ('Muchinga', 'Muchinga')
-        )
-    ),
-    (
-        'Kasama', (
-            ('Julia Chikamoneka', 'Julia Chikamoneka'),
-            ('Lualuo', 'Lualuo')
-        )
-    ),
-    (
-        'Mpulungu', (
-            ('Isoko', 'Isoko'),
-            ('Kapembwa', 'Kapembwa')
-        )
-    ),
-    (
-        'Lusaka', (
-            ('Rapheal Chota', 'Rapheal Chota'),
-            ('Roma', 'Roma')
-        )
-    ),
-    (
         'Chilanga', (
             ('Nakachenje', 'Nakachenje'),
             ('Miteta', 'Miteta')
         )
     ),
     (
-        'Kafue', (
-            ('Chikupi', 'Chikupi'),
-            ('Kasenje', 'Kasenje')
+        'Gwembe', (
+            ('Jumbo', 'Jumbo'),
+            ('Siampande', 'Siampande')
         )
     ),
     (
@@ -232,9 +208,15 @@ DISTRICT_WARD_LIST = (
         )
     ),
     (
-        'Monze', (
-            ('Mwanza West', 'Mwanza West'),
-            ('Hatontola', 'Hatontola')
+        'Kafue', (
+            ('Chikupi', 'Chikupi'),
+            ('Kasenje', 'Kasenje')
+        )
+    ),
+    (
+        'Kasama', (
+            ('Julia Chikamoneka', 'Julia Chikamoneka'),
+            ('Lualuo', 'Lualuo')
         )
     ),
     (
@@ -244,9 +226,27 @@ DISTRICT_WARD_LIST = (
         )
     ),
     (
-        'Gwembe', (
-            ('Jumbo', 'Jumbo'),
-            ('Siampande', 'Siampande')
+        'Lusaka', (
+            ('Rapheal Chota', 'Rapheal Chota'),
+            ('Roma', 'Roma')
+        )
+    ),
+    (
+        'Monze', (
+            ('Mwanza West', 'Mwanza West'),
+            ('Hatontola', 'Hatontola')
+        )
+    ),
+    (
+        'Mporokoso', (
+            ('Chimpolonge', 'Chimpolonge'),
+            ('Muchinga', 'Muchinga')
+        )
+    ),
+    (
+        'Mpulungu', (
+            ('Isoko', 'Isoko'),
+            ('Kapembwa', 'Kapembwa')
         )
     ),
     (
