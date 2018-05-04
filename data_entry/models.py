@@ -384,7 +384,7 @@ class StakeholderDirectory(models.Model):
 
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
-    position_within_organization = models.CharField('position within the organization',max_length=50)
+    position_within_organization = models.CharField('position within the organization', max_length=50)
     organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
     organization_address = models.CharField('address of the organization', max_length=100)
     telephone_number = models.CharField('telephone number', max_length=20)
@@ -458,9 +458,9 @@ class OtherQuestion(models.Model):
 class EndOfYearQuestion(models.Model):
     funding = models.PositiveIntegerField('How much funding(in kwacha) was spent on HIV & \
         AIDS activities this year?')
-    number_of_meetings_daft = models.PositiveIntegerField('How many DAFT meetings did your organization have \
+    number_of_meetings_daft = models.PositiveIntegerField('How many DATIF meetings did your organization have \
         this year?')
-    number_of_meetings_paft = models.PositiveIntegerField('How many PAFT meetings did your organization have \
+    number_of_meetings_paft = models.PositiveIntegerField('How many PATIF meetings did your organization have \
         this year?')
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
