@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib import admin
 
-from .models import ActivityReportForm, StakeholderDirectory, OrganizationTarget, \
-GeographicActivity, FundingSource, TargetGroupPreventionMessage, OtherQuestion, \
-EndOfYearQuestion, GeneralComment
+from .models import NationalOrganization, ActivityReportForm, StakeholderDirectory, \
+OrganizationTarget, GeographicActivity, FundingSource, TargetGroupPreventionMessage, \
+OtherQuestion, EndOfYearQuestion, GeneralComment
 
 from .models import IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
 CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, MenWithMen, \
@@ -214,6 +214,8 @@ class OrganizationTargetAdmin(admin.ModelAdmin):
         }),
     )
 
+# Register National Organization models
+admin.site.register(NationalOrganization)
 
 # Register StakeHolder models
 admin.site.register(StakeholderDirectory, StakeholderDirectoryAdmin)

@@ -346,6 +346,13 @@ YES_OR_NO = (
     (no, 'No')
 )
 
+#                       NATIONAL ORGANIZATION
+# *********************************************************************
+class NationalOrganization(models.Model):
+    organization_name = models.CharField(max_length=100, default="")
+    organization_address = models.CharField('address of the organization', max_length=100)
+    organization_contact_email = models.EmailField(max_length=254)
+
 #               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
 # *********************************************************************
 class OrganizationType(models.Model):
@@ -397,6 +404,9 @@ class StakeholderDirectory(models.Model):
         organization? (Please only tick one type of organization)', max_length=100, choices=ORGANIZATION_TYPE_LIST)
     organization_target = models.ManyToManyField(OrganizationTarget, verbose_name='which group(s) does your organization target? (please tick as many \
         different groups that are targeted by your organization)')
+
+    # list of names to use as filters from ActivityReport forms
+
 
     def __str__(self):
         return self.organization_name + ' - ' + self.organization_district + ' - ' + self.telephone_number 
