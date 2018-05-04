@@ -258,43 +258,43 @@ DISTRICT_WARD_LIST = (
 )  
 
 ORGANIZATION_TARGET_LIST = (
-    (plhiv, 'People living with HIV/ AIDS'),
-    (ovc, 'Orphans and Vulnerable Children'),
-    (pregnant_women, 'Pregnant Women'),
-    (care_givers, 'Care givers'),
-    (health_workers, 'Heath workers'),
-    (teachers, 'Teachers'),
-    (children, 'Children'),
     (adolecents, 'Adolecents/ Youth'),
-    (old_people, 'Old people/ Pensioners'),
-    (disabled_people, 'Disabled people'),
-    (inmates_wivies, 'Prisoners wivies'),
-    (govt_workers, 'Government workers (work place)'),
-    (sex_workers, 'Sex workers'),
+    (care_givers, 'Care givers'),
+    (children, 'Children'),
     (church_leaders, 'Church leaders'),
+    (disabled_people, 'Disabled people'),
     (employee_families, 'Employees and/or Employee families'),
     (gdwg, 'Guardians/ Divorced/ Widows/ Grandparents'),
+    (govt_workers, 'Government workers (work place)'),
+    (health_workers, 'Heath workers'),
     (idu, 'Intravenous drug users (IDU)'),
-    (msm, 'Men who have sex with men (MSM)'),
-    (mobile_population, 'Migrants/ Mobile population'),
-    (out_of_school_youth, 'Out of school youth'),
     (inmates, 'Inmates'),
+    (inmates_wivies, 'Inmates wivies'),
+    (mobile_population, 'Migrants/ Mobile population'),
+    (msm, 'Men who have sex with men (MSM)'),
+    (old_people, 'Old people/ Pensioners'),
+    (out_of_school_youth, 'Out of school youth'),
+    (ovc, 'Orphans and Vulnerable Children'),
+    (plhiv, 'People living with HIV/ AIDS'),
+    (pregnant_women, 'Pregnant Women'),
+    (sex_workers, 'Sex workers'),
     (street_children, 'Street children'),
+    (teachers, 'Teachers'),
     (traditional_healers, 'Traditional healers'),
     (traditional_leaders, 'Traditional leaders'),
     (target_others, 'Other target groups - please specify')
 )
 
 TYPE_OF_SUPPORT_LIST = (
-    (food_and_nutrition, 'Food and Nutrition'),
-    (shelter_and_care, 'Shelter and Care'),
-    (protection_and_legal_aid, 'Protection and Legal aid'),
-    (healthcare, 'Healthcare'),
-    (psychosocial, 'Psychosocial'),
-    (social_support, 'Social support'),
-    (spiritual_support, 'Spiritual support'),
+    (economic_strengthening, 'Economic strengthening'),
     (education_and_vocational_training, 'Education and Vocational training'),
-    (economic_strengthening, 'Economic strengthening')
+    (food_and_nutrition, 'Food and Nutrition'),
+    (healthcare, 'Healthcare'),
+    (protection_and_legal_aid, 'Protection and Legal aid'),
+    (psychosocial, 'Psychosocial'),
+    (shelter_and_care, 'Shelter and Care'),
+    (social_support, 'Social support'),
+    (spiritual_support, 'Spiritual support')
 )
 
 PREVENTION_MESSAGES_LIST = (
@@ -302,7 +302,7 @@ PREVENTION_MESSAGES_LIST = (
     ('MC information','MC information'),
     ('MCP information','MCP information'),
     ('PMTCT Promotion','PMTCT Promotion'),
-    ('VCT/ HCT Promotion','PMTCT Promotion')
+    ('VCT/ HCT Promotion','VCT/ HCT Promotion')
 )
 
 IEC_MATERIALS = (
@@ -431,8 +431,7 @@ class FundingSource(models.Model):
 class TargetGroupPreventionMessage(models.Model):
     target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, null=True)
     prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, null=True)
-    # organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
-    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
+    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.target_group + " " + self.prevention_message
