@@ -11,6 +11,7 @@ private = 'Private Organization'
 org_others = 'Other organization / group - please specify'  # change some kind of list later
 
 lusaka = 'Lusaka Province'
+central = 'Central Province'
 copperbelt = 'Copperbelt Province'
 eastern = 'Easten Province'
 luapula = 'Luapula Province'
@@ -93,15 +94,16 @@ QUARTER_LIST = (
 ORGANIZATION_TYPE_LIST = (
     (cbo, 'Community Based Organization'),
     (fbo, 'Faith Based Organization'),
-    (local_ngo, 'Local Non Governmental Organization'),
-    (inter_ngo, 'International Non Governmental Organization'),
     (government, 'Government Organization'),
+    (inter_ngo, 'International Non Governmental Organization'),
+    (local_ngo, 'Local Non Governmental Organization'),
     (private, 'Private Organization'),
     (org_others, 'Other organization / group - please specify')
 )
 
 PROVINCES_ZAMBIA = (
     (lusaka, 'Lusaka Province'),
+    (central, 'Central Province'),
     (copperbelt, 'Copperbelt Province'),
     (eastern, 'Easten Province'),
     (luapula, 'Luapula Province'),
@@ -114,24 +116,10 @@ PROVINCES_ZAMBIA = (
 
 PROVINCE_DISTRICTS = (
     (
-        muchinga, (
-            ('Chama', 'Chama'),
-            ('Chinsali', 'Chinsali'),
-            ('Isoka', 'Isoka')
-        )
-    ),
-    (
-        lusaka, (
-            ('Lusaka', 'Lusaka'),
-            ('Chilanga', 'Chilanga'),
-            ('Kafue', 'Kafue')
-        )
-    ),
-    (
-        luapula,(
-            ('Samfya', 'Samfya'),
-            ('Mansa', 'Mansa'),
-            ('Mwansabombwe', 'Mwansabombwe')
+        central, (
+            ('Ben Kafupi', 'Ben Kafupi'),
+            ('Justine Kabwe', 'Justine Kabwe'),
+            ('Munyama', 'Munyama')
         )
     ),
     (
@@ -149,6 +137,20 @@ PROVINCE_DISTRICTS = (
         )
     ),
     (
+        luapula,(
+            ('Samfya', 'Samfya'),
+            ('Mansa', 'Mansa'),
+            ('Mwansabombwe', 'Mwansabombwe')
+        )
+    ),
+    (
+        lusaka, (
+            ('Lusaka', 'Lusaka'),
+            ('Chilanga', 'Chilanga'),
+            ('Kafue', 'Kafue')
+        )
+    ),
+    (
         muchinga,(
             ('Mpika', 'Mpika'),
             ('Chinsali', 'Chinsali'),
@@ -156,17 +158,17 @@ PROVINCE_DISTRICTS = (
         )
     ),
     (
-        north_western,(
-            ('Solwezi', 'Solwezi'),
-            ('Mufumbwe', 'Mufumbwe'),
-            ('Zambezi', 'Zambezi')
-        )
-    ),
-    (
         northern,(
             ('Mporokoso', 'Mporokoso'),
             ('Kasama', 'Kasama'),
             ('Mpulungu', 'Mpulungu')
+        )
+    ),
+    (
+        north_western,(
+            ('Solwezi', 'Solwezi'),
+            ('Mufumbwe', 'Mufumbwe'),
+            ('Zambezi', 'Zambezi')
         )
     ),
     (
@@ -221,6 +223,12 @@ DISTRICT_WARD_LIST = (
         'Kafue', (
             ('Chikupi', 'Chikupi'),
             ('Kasenje', 'Kasenje')
+        )
+    ),
+    (
+        'Kabwe', (
+            ('Highridge', 'Highridge'),
+            ('Luansase', 'Luansase')
         )
     ),
     (
@@ -299,14 +307,14 @@ PREVENTION_MESSAGES_LIST = (
 
 IEC_MATERIALS = (
     (books, 'Books'),
-    (brochures, 'Brochures'),
-    (posters, 'Posters'),
-    (t_shirts, 'T-Shirts'),
-    (tv_spots, 'TV Spots'),
-    (radio_spots, 'Radio Spots'),
-    (e_spots, 'E spot'),
     (billboards, 'Billboards'),
+    (brochures, 'Brochures'),
     (drama, 'Drama'),
+    (e_spots, 'E spot'),
+    (posters, 'Posters'),
+    (radio_spots, 'Radio Spots'),
+    (tv_spots, 'TV Spots'),
+    (t_shirts, 'T-Shirts'),
     (material_other, 'Other')
 )
 
@@ -397,7 +405,7 @@ class StakeholderDirectory(models.Model):
 # What area(s) of support does your organization provide? (Please tick as many different areas that 
 # are carried out by your organization)
 class GeographicActivity(models.Model):
-    area_of_support = models.CharField(max_length=100, choices=AREA_OF_SUPPORT, default="")
+    area_of_support = models.CharField(max_length=100, choices=AREA_OF_SUPPORT, null=True)
     location = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST, blank=True)
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
@@ -421,9 +429,10 @@ class FundingSource(models.Model):
 # Using the matrix below please hoghlight with a tick where your organization is/ will be providing 
 # prevention messages to one or more of the target groups listed
 class TargetGroupPreventionMessage(models.Model):
-    target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default="")
-    prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, default="")
-    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
+    target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, null=True)
+    prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, null=True)
+    # organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
+    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.target_group + " " + self.prevention_message
