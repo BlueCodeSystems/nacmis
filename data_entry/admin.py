@@ -146,7 +146,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic details on the organization', {
             #'classes':('collapse',),
-            'fields': ('organization_name', 'start_year', ('permanent_employee_female', 
+            'fields': ('national_orgnaization_name','organization_name', 'start_year', ('permanent_employee_female', 
             'permanent_employee_male'), ('temporary_employee_female', 'temporary_employee_male'), 
             ('volunteer_employee_female', 'volunteer_employee_male'), 'description_of_organization')
         }),
