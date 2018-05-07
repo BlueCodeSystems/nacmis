@@ -126,7 +126,7 @@ class VulnerablePeopleInline(admin.TabularInline):
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
-    list_filter = ('organization_name',)
+    list_filter = ('national_orgnaization_name', 'organization_district')
     list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
 
     MenWithMenInline.max_num = 1
