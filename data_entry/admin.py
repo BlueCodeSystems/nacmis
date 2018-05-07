@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib import admin
 
-from .models import ActivityReportForm, StakeholderDirectory, OrganizationTarget, \
-GeographicActivity, FundingSource, TargetGroupPreventionMessage, OtherQuestion, \
-EndOfYearQuestion, GeneralComment
+from .models import NationalOrganization, ActivityReportForm, StakeholderDirectory, \
+OrganizationTarget, GeographicActivity, FundingSource, TargetGroupPreventionMessage, \
+OtherQuestion, EndOfYearQuestion, GeneralComment
 
 from .models import IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
 CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, MenWithMen, \
@@ -146,7 +146,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic details on the organization', {
             #'classes':('collapse',),
-            'fields': ('organization_name', 'start_year', ('permanent_employee_female', 
+            'fields': ('national_orgnaization_name','organization_name', 'start_year', ('permanent_employee_female', 
             'permanent_employee_male'), ('temporary_employee_female', 'temporary_employee_male'), 
             ('volunteer_employee_female', 'volunteer_employee_male'), 'description_of_organization')
         }),
@@ -214,6 +214,8 @@ class OrganizationTargetAdmin(admin.ModelAdmin):
         }),
     )
 
+# Register National Organization models
+admin.site.register(NationalOrganization)
 
 # Register StakeHolder models
 admin.site.register(StakeholderDirectory, StakeholderDirectoryAdmin)
