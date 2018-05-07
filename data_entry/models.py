@@ -411,7 +411,7 @@ class StakeholderDirectory(models.Model):
         different groups that are targeted by your organization)')
 
     # list of names to use as filters from ActivityReport forms
-
+    area_of_support_extract = 'GeographicActivity.objects.all()'    # query-list brings error - we want a field
 
     def __str__(self):
         return self.organization_name + ' - ' + self.organization_district + ' - ' + self.telephone_number 
