@@ -150,15 +150,17 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic details on the organization', {
             #'classes':('collapse',),
-            'fields': ('national_orgnaization_name','organization_name', 'start_year', ('permanent_employee_female', 
-            'permanent_employee_male'), ('temporary_employee_female', 'temporary_employee_male'), 
-            ('volunteer_employee_female', 'volunteer_employee_male'), 'description_of_organization')
+            'fields': ('national_orgnaization_name','organization_name', 'organization_district', 
+            'organization_address', 'start_year', 'gps', 'website', 'description_of_organization')
         }),
         ('Contact details', {
-            'fields': ('key_contact_name', 'position_within_organization', 'organization_district', 
-            'organization_address', 'telephone_number', 'telephone_number_alternative', 
-            'email_address', 'website'),
+            'fields': ('key_contact_name', 'position_within_organization', 'telephone_number', 
+            'telephone_number_alternative', 'email_address'),
             #'description':('Contact details of a person, preferably leader at specific location')
+        }),
+        ('Staff details', {
+            'fields': (('permanent_employee_female', 'permanent_employee_male'), ('temporary_employee_female', 
+            'temporary_employee_male'), ('volunteer_employee_female', 'volunteer_employee_male') )
         }),
         ('Organization classification', {
             'fields': ('organization_type', 'organization_target')
