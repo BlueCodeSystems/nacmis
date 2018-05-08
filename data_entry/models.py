@@ -398,7 +398,7 @@ class StakeholderDirectory(models.Model):
     key_contact_name = models.CharField('name of key contact person', max_length=50)
     position_within_organization = models.CharField('position within the organization', max_length=50)
     organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
-    organization_address = models.CharField('address of the organization', max_length=100)
+    organization_address = models.CharField('address of the organization', max_length=100, blank=True)
     telephone_number = models.CharField('telephone number', max_length=20)
     telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
     email_address = models.EmailField('email address', max_length=254)
