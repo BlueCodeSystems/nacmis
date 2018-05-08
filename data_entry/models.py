@@ -380,29 +380,31 @@ class StakeholderDirectory(models.Model):
     class Meta:
         verbose_name_plural = 'Stakeholder directories'
 
-    national_orgnaization_name = models.ForeignKey(NationalOrganization, on_delete=models.CASCADE, null=True)
-
     # --> Basic details on the organization
+    national_orgnaization_name = models.ForeignKey(NationalOrganization, on_delete=models.CASCADE, null=True)
     organization_name = models.CharField(max_length=200)
+    organization_address = models.CharField('address of the organization', max_length=100, blank=True)
+    organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
     start_year = models.DateField('which year did your organization start working in this district?')
-    permanent_employee_female = models.PositiveIntegerField('current number of permanent female employees', default=0)
-    permanent_employee_male = models.PositiveIntegerField('current number of permanent male employees', default=0)
-    temporary_employee_female = models.PositiveIntegerField('current number of temporary female employees', default=0)
-    temporary_employee_male = models.PositiveIntegerField('current number of temporary male employees', default=0)
-    volunteer_employee_female = models.PositiveIntegerField('current number of volunteer female employees', default=0)
-    volunteer_employee_male = models.PositiveIntegerField('current number of volunteer male employees', default=0)
+    gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
+    website = models.URLField(max_length=200, blank=True)
     description_of_organization = models.TextField('Brief description of the organization (Please describe your \
         organization in no more than 250 words)')
 
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
     position_within_organization = models.CharField('position within the organization', max_length=50)
-    organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
-    organization_address = models.CharField('address of the organization', max_length=100, blank=True)
     telephone_number = models.CharField('telephone number', max_length=20)
     telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
     email_address = models.EmailField('email address', max_length=254)
-    website = models.URLField(max_length=200, blank=True)
+
+    # --> Staff details
+    permanent_employee_female = models.PositiveIntegerField('current number of permanent female employees', default=0)
+    permanent_employee_male = models.PositiveIntegerField('current number of permanent male employees', default=0)
+    temporary_employee_female = models.PositiveIntegerField('current number of temporary female employees', default=0)
+    temporary_employee_male = models.PositiveIntegerField('current number of temporary male employees', default=0)
+    volunteer_employee_female = models.PositiveIntegerField('current number of volunteer female employees', default=0)
+    volunteer_employee_male = models.PositiveIntegerField('current number of volunteer male employees', default=0)
 
     # --> Organization Classification
     organization_type = models.CharField('which of the following \'types\' would best describe your \
