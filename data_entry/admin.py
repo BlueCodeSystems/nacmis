@@ -10,6 +10,8 @@ CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, MenWithMen, \
 CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, CommunityHealthSystem, \
 VulnerablePeople
 
+from .forms import StakeholderDirectoryModelForm
+
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
 class GeographicActivityInline(admin.TabularInline):
@@ -128,6 +130,8 @@ class VulnerablePeopleInline(admin.TabularInline):
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
     list_filter = ('national_orgnaization_name', 'organization_district')
     list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
+
+    form = StakeholderDirectoryModelForm
 
     MenWithMenInline.max_num = 1
     CondomProgrammingInline.max_num = 1
