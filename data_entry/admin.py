@@ -128,8 +128,8 @@ class VulnerablePeopleInline(admin.TabularInline):
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
-    list_filter = ('national_orgnaization_name', 'organization_district')
-    list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
+    list_filter = ('national_organization', 'organization_district')
+    list_display = ('organization', 'key_contact_name', 'telephone_number', 'start_year')
 
     form = StakeholderDirectoryModelForm
 
@@ -150,7 +150,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic details on the organization', {
             #'classes':('collapse',),
-            'fields': ('national_orgnaization_name','organization_name', 'organization_district', 
+            'fields': ('national_organization','organization', 'organization_district', 
             'organization_address', 'start_year', 'gps', 'website', 'description_of_organization')
         }),
         ('Contact details', {

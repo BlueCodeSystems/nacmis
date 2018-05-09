@@ -403,8 +403,8 @@ class StakeholderDirectory(models.Model):
         verbose_name_plural = 'Stakeholder directories'
 
     # --> Basic details on the organization
-    national_orgnaization_name = models.ForeignKey(NationalOrganization, on_delete=models.CASCADE, null=True)
-    organization_name = models.CharField(max_length=200)
+    national_organization = models.ForeignKey(NationalOrganization, on_delete=models.CASCADE, null=True)
+    organization = models.CharField(max_length=200)
     organization_address = models.CharField('address of the organization', max_length=100, blank=True)
     organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
     start_year = models.DateField('which year did your organization start working in this district?')
@@ -438,7 +438,7 @@ class StakeholderDirectory(models.Model):
 
 
     def __str__(self):
-        return self.organization_name + ' - ' + self.organization_district + ' - ' + self.telephone_number 
+        return self.organization + ' - ' + self.organization_district + ' - ' + self.telephone_number 
 
 # --> Geographic activities - High impact interventions
 # What area(s) of support does your organization provide? (Please tick as many different areas that 
