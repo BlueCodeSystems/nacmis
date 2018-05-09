@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 
 from .models import NationalOrganization, ActivityReportForm, StakeholderDirectory, \
-OrganizationTarget, GeographicActivity, FundingSource, TargetGroupPreventionMessage, \
+OrganizationTarget, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
 OtherQuestion, EndOfYearQuestion, GeneralComment
 
 from .models import IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
@@ -14,9 +14,9 @@ from .forms import StakeholderDirectoryModelForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
-class GeographicActivityInline(admin.TabularInline):
-    model = GeographicActivity
-    verbose_name_plural = 'Geographic Activities'
+class ProgramActivityInline(admin.TabularInline):
+    model = ProgramActivity
+    verbose_name_plural = 'Program activities by geographic area'
     extra = 1
 
 class FundingSourceInline(admin.TabularInline):
@@ -172,7 +172,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         })
     )
 
-    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
+    inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
         OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
     class Media:

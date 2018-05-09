@@ -328,17 +328,39 @@ SOURCES_OF_INFORMATION = (
 AREA_OF_SUPPORT = (
     (
         "Critical enablers", (
-            ('gender_equality_and_empowerment', 'Gender equality and Empowerment'),
-            ('leadership_commitment_and_good_governance', 
-                'Leadership Commitment and Good Governance'),
+            ('gender_equality_equity_and_empowerment', 'Gender Equality, Equity and Empowerment'),
+            ('leadership_commitment_and_good_governance', 'Leadership Commitment and Good Governance'),
+            ('policy_laws_and_human_rights', 'Policy, laws and human rights'),
+            ('elimination_of_stigma_and_discrimination', 'Elimination of Stigma and Discrimination'),
+            ('resource_mobilization_and_sustainable_financing', 'Resource Mobilization and Sustainable Financing'),
+            ('positive_health_dignity_and_prevention', 'Positive Health Dignity and Prevention')
         )
     ),
     (
         "High impact interventions", (
             ('condom_programming', 'Condom Programming'),
-            ('hiv_conselling_and_testing', 'HIV Conselling and Testing'),
+            ('elimination_of_mother_to_child_transmission', 'Elimination of Mother to Child Transmission(eMTCT)'),
+            ('voluntary_medical_male_circumcision', 'Voluntary Medical Male Circumcision(VMMC)'),
+            ('hiv_testing_services', 'HIV Testing Services'),
+            ('social_and_behaiviour_change_communication', 'Social and Behaiviour Change Communication'),
+            ('hiv_tb_co_infection_treatment', 'HIV/TB Co-infection treatment'),
+            ('provision_of_preexposure_prophylaxis', 'Provision of Pre-exposure Prophylaxis(PrEP)'),
+            ('sti_screening_and_treatment', 'STI Screening and Treatment'),
+            ('treatment_optimization', 'Treatment Optimization'),
+            ('treatment_of_hiv_aids_sti_and_tb', 'Treatment of HIV/AIDS/STIs and TB')
         )
-    )
+    ),
+    (
+        "Synergies with development sectors", (
+            ('post_exposure_prophylaxis', 'Post Exposure Prophylaxis(PEP)'),
+        )
+    ),
+    (
+        "HIV and AIDS intergration and system strengthening", (
+            ('integration_of_hiv_and_other_services', 
+                'Integration of HIV/AIDS, Sexual reproduction Health and Other Services'),
+        )
+    ),
 )
 
 YES_OR_NO = (
@@ -421,9 +443,9 @@ class StakeholderDirectory(models.Model):
 # --> Geographic activities - High impact interventions
 # What area(s) of support does your organization provide? (Please tick as many different areas that 
 # are carried out by your organization)
-class GeographicActivity(models.Model):
+class ProgramActivity(models.Model):
+    location = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST)
     area_of_support = models.CharField(max_length=100, choices=AREA_OF_SUPPORT, null=True)
-    location = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST, blank=True)
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
