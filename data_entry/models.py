@@ -458,7 +458,7 @@ class ProgramActivity(models.Model):
 # will not be published and only held at DAFT)
 class FundingSource(models.Model):
     name_of_organization =  models.CharField(max_length=100, default="")
-    funding_amount =  models.PositiveIntegerField('Funding Amount(In Zambian Kwacha)')
+    funding_amount =  models.PositiveIntegerField('Funding Amount(In US Dollars)')
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
     def __str__(self):
