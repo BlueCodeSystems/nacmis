@@ -156,11 +156,16 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         ('Contact details', {
             'fields': ('key_contact_name', 'position_within_organization', 'telephone_number', 
             'telephone_number_alternative', 'email_address'),
-            #'description':('Contact details of a person, preferably leader at specific location')
         }),
         ('Staff details', {
-            'fields': (('permanent_employee_female', 'permanent_employee_male'), ('temporary_employee_female', 
-            'temporary_employee_male'), ('volunteer_employee_female', 'volunteer_employee_male') )
+            'fields': ( ('permanent_employee_female', 'permanent_employee_male'), ('temporary_employee_female', 
+                'temporary_employee_male'), ('volunteer_employee_female', 'volunteer_employee_male') ),
+            'description':('<b><p class="description_fit_in">Employee\'s fall in different groups. Permanent employees \
+                are those who is hired to work without any time frame for his/her exit. Temporary employees are those that \
+                are hired for a limited period of time. <br/>They are usually hired on a casual, part-time, or full-time \
+                basis, but the employment is temporary. Volunteer employees donate their time and energy without receiving \
+                financial gain. These employees <br/>usually do not displace any other employee types and usually not \
+                entitled to many benefits as compared to other employee types.</p></b>'),
         }),
         ('Organization classification', {
             'fields': ('organization_type', 'organization_target')
