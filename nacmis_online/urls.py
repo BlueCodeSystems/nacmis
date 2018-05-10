@@ -17,6 +17,7 @@ from django.urls import include, path
 from django.contrib import admin
 
 urlpatterns = [
-    path('data_entry/', include('data_entry.data_urls')),
     path('admin/', admin.site.urls),
+    path('data_entry/', include('data_entry.data_urls')),
+    path('select2/', include('django_select2.urls'))    # for select2
 ]
