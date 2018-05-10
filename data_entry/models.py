@@ -11,6 +11,7 @@ private = 'Private Organization'
 org_others = 'Other organization / group - please specify'  # change some kind of list later
 
 lusaka = 'Lusaka Province'
+central = 'Central Province'
 copperbelt = 'Copperbelt Province'
 eastern = 'Easten Province'
 luapula = 'Luapula Province'
@@ -93,15 +94,16 @@ QUARTER_LIST = (
 ORGANIZATION_TYPE_LIST = (
     (cbo, 'Community Based Organization'),
     (fbo, 'Faith Based Organization'),
-    (local_ngo, 'Local Non Governmental Organization'),
-    (inter_ngo, 'International Non Governmental Organization'),
     (government, 'Government Organization'),
+    (inter_ngo, 'International Non Governmental Organization'),
+    (local_ngo, 'Local Non Governmental Organization'),
     (private, 'Private Organization'),
     (org_others, 'Other organization / group - please specify')
 )
 
 PROVINCES_ZAMBIA = (
     (lusaka, 'Lusaka Province'),
+    (central, 'Central Province'),
     (copperbelt, 'Copperbelt Province'),
     (eastern, 'Easten Province'),
     (luapula, 'Luapula Province'),
@@ -114,24 +116,10 @@ PROVINCES_ZAMBIA = (
 
 PROVINCE_DISTRICTS = (
     (
-        muchinga, (
-            ('Chama', 'Chama'),
-            ('Chinsali', 'Chinsali'),
-            ('Isoka', 'Isoka')
-        )
-    ),
-    (
-        lusaka, (
-            ('Lusaka', 'Lusaka'),
-            ('Chilanga', 'Chilanga'),
-            ('Kafue', 'Kafue')
-        )
-    ),
-    (
-        luapula,(
-            ('Samfya', 'Samfya'),
-            ('Mansa', 'Mansa'),
-            ('Mwansabombwe', 'Mwansabombwe')
+        central, (
+            ('Ben Kafupi', 'Ben Kafupi'),
+            ('Justine Kabwe', 'Justine Kabwe'),
+            ('Munyama', 'Munyama')
         )
     ),
     (
@@ -149,6 +137,20 @@ PROVINCE_DISTRICTS = (
         )
     ),
     (
+        luapula,(
+            ('Samfya', 'Samfya'),
+            ('Mansa', 'Mansa'),
+            ('Mwansabombwe', 'Mwansabombwe')
+        )
+    ),
+    (
+        lusaka, (
+            ('Lusaka', 'Lusaka'),
+            ('Chilanga', 'Chilanga'),
+            ('Kafue', 'Kafue')
+        )
+    ),
+    (
         muchinga,(
             ('Mpika', 'Mpika'),
             ('Chinsali', 'Chinsali'),
@@ -156,17 +158,17 @@ PROVINCE_DISTRICTS = (
         )
     ),
     (
-        north_western,(
-            ('Solwezi', 'Solwezi'),
-            ('Mufumbwe', 'Mufumbwe'),
-            ('Zambezi', 'Zambezi')
-        )
-    ),
-    (
         northern,(
             ('Mporokoso', 'Mporokoso'),
             ('Kasama', 'Kasama'),
             ('Mpulungu', 'Mpulungu')
+        )
+    ),
+    (
+        north_western,(
+            ('Solwezi', 'Solwezi'),
+            ('Mufumbwe', 'Mufumbwe'),
+            ('Zambezi', 'Zambezi')
         )
     ),
     (
@@ -188,33 +190,21 @@ PROVINCE_DISTRICTS = (
 # Auto populated ward area tuple from, dependant on district
 DISTRICT_WARD_LIST = (
     (
-        'Mporokoso', (
-            ('Chimpolonge', 'Chimpolonge'),
-            ('Muchinga', 'Muchinga')
-        )
-    ),
-    (
-        'Kasama', (
-            ('Julia Chikamoneka', 'Julia Chikamoneka'),
-            ('Lualuo', 'Lualuo')
-        )
-    ),
-    (
-        'Mpulungu', (
-            ('Isoko', 'Isoko'),
-            ('Kapembwa', 'Kapembwa')
-        )
-    ),
-    (
-        'Lusaka', (
-            ('Rapheal Chota', 'Rapheal Chota'),
-            ('Roma', 'Roma')
-        )
-    ),
-    (
         'Chilanga', (
             ('Nakachenje', 'Nakachenje'),
             ('Miteta', 'Miteta')
+        )
+    ),
+    (
+        'Gwembe', (
+            ('Jumbo', 'Jumbo'),
+            ('Siampande', 'Siampande')
+        )
+    ),
+    (
+        'Kabwe', (
+            ('Highridge', 'Highridge'),
+            ('Luansase', 'Luansase')
         )
     ),
     (
@@ -224,9 +214,9 @@ DISTRICT_WARD_LIST = (
         )
     ),
     (
-        'Monze', (
-            ('Mwanza West', 'Mwanza West'),
-            ('Hatontola', 'Hatontola')
+        'Kasama', (
+            ('Julia Chikamoneka', 'Julia Chikamoneka'),
+            ('Lualuo', 'Lualuo')
         )
     ),
     (
@@ -236,9 +226,27 @@ DISTRICT_WARD_LIST = (
         )
     ),
     (
-        'Gwembe', (
-            ('Jumbo', 'Jumbo'),
-            ('Siampande', 'Siampande')
+        'Lusaka', (
+            ('Rapheal Chota', 'Rapheal Chota'),
+            ('Roma', 'Roma')
+        )
+    ),
+    (
+        'Monze', (
+            ('Mwanza West', 'Mwanza West'),
+            ('Hatontola', 'Hatontola')
+        )
+    ),
+    (
+        'Mporokoso', (
+            ('Chimpolonge', 'Chimpolonge'),
+            ('Muchinga', 'Muchinga')
+        )
+    ),
+    (
+        'Mpulungu', (
+            ('Isoko', 'Isoko'),
+            ('Kapembwa', 'Kapembwa')
         )
     ),
     (
@@ -250,43 +258,43 @@ DISTRICT_WARD_LIST = (
 )  
 
 ORGANIZATION_TARGET_LIST = (
-    (plhiv, 'People living with HIV/ AIDS'),
-    (ovc, 'Orphans and Vulnerable Children'),
-    (pregnant_women, 'Pregnant Women'),
-    (care_givers, 'Care givers'),
-    (health_workers, 'Heath workers'),
-    (teachers, 'Teachers'),
-    (children, 'Children'),
     (adolecents, 'Adolecents/ Youth'),
-    (old_people, 'Old people/ Pensioners'),
-    (disabled_people, 'Disabled people'),
-    (inmates_wivies, 'Prisoners wivies'),
-    (govt_workers, 'Government workers (work place)'),
-    (sex_workers, 'Sex workers'),
+    (care_givers, 'Care givers'),
+    (children, 'Children'),
     (church_leaders, 'Church leaders'),
+    (disabled_people, 'Disabled people'),
     (employee_families, 'Employees and/or Employee families'),
     (gdwg, 'Guardians/ Divorced/ Widows/ Grandparents'),
+    (govt_workers, 'Government workers (work place)'),
+    (health_workers, 'Heath workers'),
     (idu, 'Intravenous drug users (IDU)'),
-    (msm, 'Men who have sex with men (MSM)'),
-    (mobile_population, 'Migrants/ Mobile population'),
-    (out_of_school_youth, 'Out of school youth'),
     (inmates, 'Inmates'),
+    (inmates_wivies, 'Inmates wivies'),
+    (mobile_population, 'Migrants/ Mobile population'),
+    (msm, 'Men who have sex with men (MSM)'),
+    (old_people, 'Old people/ Pensioners'),
+    (out_of_school_youth, 'Out of school youth'),
+    (ovc, 'Orphans and Vulnerable Children'),
+    (plhiv, 'People living with HIV/ AIDS'),
+    (pregnant_women, 'Pregnant Women'),
+    (sex_workers, 'Sex workers'),
     (street_children, 'Street children'),
+    (teachers, 'Teachers'),
     (traditional_healers, 'Traditional healers'),
     (traditional_leaders, 'Traditional leaders'),
     (target_others, 'Other target groups - please specify')
 )
 
 TYPE_OF_SUPPORT_LIST = (
-    (food_and_nutrition, 'Food and Nutrition'),
-    (shelter_and_care, 'Shelter and Care'),
-    (protection_and_legal_aid, 'Protection and Legal aid'),
-    (healthcare, 'Healthcare'),
-    (psychosocial, 'Psychosocial'),
-    (social_support, 'Social support'),
-    (spiritual_support, 'Spiritual support'),
+    (economic_strengthening, 'Economic strengthening'),
     (education_and_vocational_training, 'Education and Vocational training'),
-    (economic_strengthening, 'Economic strengthening')
+    (food_and_nutrition, 'Food and Nutrition'),
+    (healthcare, 'Healthcare'),
+    (protection_and_legal_aid, 'Protection and Legal aid'),
+    (psychosocial, 'Psychosocial'),
+    (shelter_and_care, 'Shelter and Care'),
+    (social_support, 'Social support'),
+    (spiritual_support, 'Spiritual support')
 )
 
 PREVENTION_MESSAGES_LIST = (
@@ -294,43 +302,65 @@ PREVENTION_MESSAGES_LIST = (
     ('MC information','MC information'),
     ('MCP information','MCP information'),
     ('PMTCT Promotion','PMTCT Promotion'),
-    ('VCT/ HCT Promotion','PMTCT Promotion')
+    ('VCT/ HCT Promotion','VCT/ HCT Promotion')
 )
 
 IEC_MATERIALS = (
     (books, 'Books'),
-    (brochures, 'Brochures'),
-    (posters, 'Posters'),
-    (t_shirts, 'T-Shirts'),
-    (tv_spots, 'TV Spots'),
-    (radio_spots, 'Radio Spots'),
-    (e_spots, 'E spot'),
     (billboards, 'Billboards'),
+    (brochures, 'Brochures'),
     (drama, 'Drama'),
+    (e_spots, 'E spot'),
+    (posters, 'Posters'),
+    (radio_spots, 'Radio Spots'),
+    (tv_spots, 'TV Spots'),
+    (t_shirts, 'T-Shirts'),
     (material_other, 'Other')
 )
 
 SOURCES_OF_INFORMATION = (
-    (nacmis, 'NAC-MIS'),
-    (hmis, 'HMIS'),
     (datim, 'DATIM'),
+    (hmis, 'HMIS'),
     (internal_system, 'Internal system'),
+    (nacmis, 'NAC-MIS'),
     (systems_other, 'Other')
 )
 AREA_OF_SUPPORT = (
     (
-        "High impact interventions", (
-            ('condom_programming', 'Condom Programming'),
-            ('hiv_conselling_and_testing', 'HIV Conselling and Testing'),
+        "Critical enablers", (
+            ('gender_equality_equity_and_empowerment', 'Gender Equality, Equity and Empowerment'),
+            ('leadership_commitment_and_good_governance', 'Leadership Commitment and Good Governance'),
+            ('policy_laws_and_human_rights', 'Policy, laws and human rights'),
+            ('elimination_of_stigma_and_discrimination', 'Elimination of Stigma and Discrimination'),
+            ('resource_mobilization_and_sustainable_financing', 'Resource Mobilization and Sustainable Financing'),
+            ('positive_health_dignity_and_prevention', 'Positive Health Dignity and Prevention')
         )
     ),
     (
-        "Critical enablers", (
-            ('gender_equality_and_empowerment', 'Gender equality and Empowerment'),
-            ('leadership_commitment_and_good_governance', 
-                'Leadership Commitment and Good Governance'),
+        "High impact interventions", (
+            ('condom_programming', 'Condom Programming'),
+            ('elimination_of_mother_to_child_transmission', 'Elimination of Mother to Child Transmission(eMTCT)'),
+            ('voluntary_medical_male_circumcision', 'Voluntary Medical Male Circumcision(VMMC)'),
+            ('hiv_testing_services', 'HIV Testing Services'),
+            ('social_and_behaiviour_change_communication', 'Social and Behaiviour Change Communication'),
+            ('hiv_tb_co_infection_treatment', 'HIV/TB Co-infection treatment'),
+            ('provision_of_preexposure_prophylaxis', 'Provision of Pre-exposure Prophylaxis(PrEP)'),
+            ('sti_screening_and_treatment', 'STI Screening and Treatment'),
+            ('treatment_optimization', 'Treatment Optimization'),
+            ('treatment_of_hiv_aids_sti_and_tb', 'Treatment of HIV/AIDS/STIs and TB')
         )
-    )
+    ),
+    (
+        "Synergies with development sectors", (
+            ('post_exposure_prophylaxis', 'Post Exposure Prophylaxis(PEP)'),
+        )
+    ),
+    (
+        "HIV and AIDS intergration and system strengthening", (
+            ('integration_of_hiv_and_other_services', 
+                'Integration of HIV/AIDS, Sexual reproduction Health and Other Services'),
+        )
+    ),
 )
 
 YES_OR_NO = (
@@ -338,10 +368,20 @@ YES_OR_NO = (
     (no, 'No')
 )
 
+#                       NATIONAL ORGANIZATION
+# *********************************************************************
+class NationalOrganization(models.Model):
+    organization_name = models.CharField(max_length=200)
+    organization_address = models.CharField('address of the organization', max_length=100)
+    organization_contact_email = models.EmailField(max_length=254)
+
+    def __str__(self):
+        return self.organization_name + " - " + self.organization_contact_email
+
 #               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
 # *********************************************************************
 class OrganizationType(models.Model):
-    organization_type_option = models.CharField(max_length=100, default="")
+    organization_type_option = models.CharField(max_length=100, null=False)
 
     def __str__(self):
         return self.organization_type_option
@@ -363,26 +403,30 @@ class StakeholderDirectory(models.Model):
         verbose_name_plural = 'Stakeholder directories'
 
     # --> Basic details on the organization
-    organization_name = models.CharField(max_length=200)
+    national_organization = models.ForeignKey(NationalOrganization, on_delete=models.CASCADE, null=True)
+    organization = models.CharField(max_length=200)
+    organization_address = models.CharField('address of the organization', max_length=100, blank=True)
+    organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
     start_year = models.DateField('which year did your organization start working in this district?')
+    gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
+    website = models.URLField(max_length=200, blank=True)
+    description_of_organization = models.TextField('Brief description of the organization (Please describe your \
+        organization in no more than 250 words)')
+
+    # --> Contact details
+    key_contact_name = models.CharField('name of key contact person', max_length=50)
+    position_within_organization = models.CharField('position within the organization', max_length=50)
+    telephone_number = models.CharField('telephone number', max_length=20)
+    telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
+    email_address = models.EmailField('email address', max_length=254)
+
+    # --> Staff details
     permanent_employee_female = models.PositiveIntegerField('current number of permanent female employees', default=0)
     permanent_employee_male = models.PositiveIntegerField('current number of permanent male employees', default=0)
     temporary_employee_female = models.PositiveIntegerField('current number of temporary female employees', default=0)
     temporary_employee_male = models.PositiveIntegerField('current number of temporary male employees', default=0)
     volunteer_employee_female = models.PositiveIntegerField('current number of volunteer female employees', default=0)
     volunteer_employee_male = models.PositiveIntegerField('current number of volunteer male employees', default=0)
-    description_of_organization = models.TextField('Brief description of the organization (Please describe your \
-        organization in no more than 250 words)')
-
-    # --> Contact details
-    key_contact_name = models.CharField('name of key contact person', max_length=50)
-    position_within_organization = models.CharField('position within the organization',max_length=50)
-    organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
-    organization_address = models.CharField('address of the organization', max_length=100)
-    telephone_number = models.CharField('telephone number', max_length=20)
-    telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
-    email_address = models.EmailField('email address', max_length=254)
-    website = models.URLField(max_length=200, blank=True)
 
     # --> Organization Classification
     organization_type = models.CharField('which of the following \'types\' would best describe your \
@@ -390,15 +434,18 @@ class StakeholderDirectory(models.Model):
     organization_target = models.ManyToManyField(OrganizationTarget, verbose_name='which group(s) does your organization target? (please tick as many \
         different groups that are targeted by your organization)')
 
+    # list of names to use as filters from ActivityReport forms
+
+
     def __str__(self):
-        return self.organization_name + ' - ' + self.organization_district + ' - ' + self.telephone_number 
+        return self.organization + ' - ' + self.organization_district + ' - ' + self.telephone_number 
 
 # --> Geographic activities - High impact interventions
 # What area(s) of support does your organization provide? (Please tick as many different areas that 
 # are carried out by your organization)
-class GeographicActivity(models.Model):
-    area_of_support = models.CharField(max_length=100, choices=AREA_OF_SUPPORT, default="")
-    location = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST, blank=True)
+class ProgramActivity(models.Model):
+    location = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST)
+    area_of_support = models.CharField(max_length=100, choices=AREA_OF_SUPPORT, null=True)
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -411,7 +458,7 @@ class GeographicActivity(models.Model):
 # will not be published and only held at DAFT)
 class FundingSource(models.Model):
     name_of_organization =  models.CharField(max_length=100, default="")
-    funding_amount =  models.PositiveIntegerField()
+    funding_amount =  models.PositiveIntegerField('Funding Amount(In US Dollars)')
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -421,8 +468,8 @@ class FundingSource(models.Model):
 # Using the matrix below please hoghlight with a tick where your organization is/ will be providing 
 # prevention messages to one or more of the target groups listed
 class TargetGroupPreventionMessage(models.Model):
-    target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default="")
-    prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, default="")
+    target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, null=True)
+    prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, null=True)
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -450,9 +497,9 @@ class OtherQuestion(models.Model):
 class EndOfYearQuestion(models.Model):
     funding = models.PositiveIntegerField('How much funding(in kwacha) was spent on HIV & \
         AIDS activities this year?')
-    number_of_meetings_daft = models.PositiveIntegerField('How many DAFT meetings did your organization have \
+    number_of_meetings_daft = models.PositiveIntegerField('How many DATIF meetings did your organization have \
         this year?')
-    number_of_meetings_paft = models.PositiveIntegerField('How many PAFT meetings did your organization have \
+    number_of_meetings_paft = models.PositiveIntegerField('How many PATIF meetings did your organization have \
         this year?')
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 

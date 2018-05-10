@@ -1,20 +1,22 @@
 from django import forms
 from django.contrib import admin
 
-from .models import ActivityReportForm, StakeholderDirectory, OrganizationTarget, \
-GeographicActivity, FundingSource, TargetGroupPreventionMessage, OtherQuestion, \
-EndOfYearQuestion, GeneralComment
+from .models import NationalOrganization, ActivityReportForm, StakeholderDirectory, \
+OrganizationTarget, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
+OtherQuestion, EndOfYearQuestion, GeneralComment
 
 from .models import IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
 CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, MenWithMen, \
 CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, CommunityHealthSystem, \
 VulnerablePeople
 
+from .forms import StakeholderDirectoryModelForm
+
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
-class GeographicActivityInline(admin.TabularInline):
-    model = GeographicActivity
-    verbose_name_plural = 'Geographic Activities'
+class ProgramActivityInline(admin.TabularInline):
+    model = ProgramActivity
+    verbose_name_plural = 'Program activities by geographic area'
     extra = 1
 
 class FundingSourceInline(admin.TabularInline):
@@ -126,9 +128,10 @@ class VulnerablePeopleInline(admin.TabularInline):
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
+    list_filter = ('national_organization', 'organization_district')
+    list_display = ('organization', 'key_contact_name', 'telephone_number', 'start_year')
 
-    list_display = ('organization_name', 'key_contact_name', 'telephone_number', 'start_year')
-    # filter_horizontal = ('organization_target',)
+    form = StakeholderDirectoryModelForm
 
     MenWithMenInline.max_num = 1
     CondomProgrammingInline.max_num = 1
@@ -147,22 +150,29 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic details on the organization', {
             #'classes':('collapse',),
-            'fields': ('organization_name', 'start_year', ('permanent_employee_female', 
-            'permanent_employee_male'), ('temporary_employee_female', 'temporary_employee_male'), 
-            ('volunteer_employee_female', 'volunteer_employee_male'), 'description_of_organization')
+            'fields': ('national_organization','organization', 'organization_district', 
+            'organization_address', 'start_year', 'gps', 'website', 'description_of_organization')
         }),
         ('Contact details', {
-            'fields': ('key_contact_name', 'position_within_organization', 'organization_district', 
-            'organization_address', 'telephone_number', 'telephone_number_alternative', 
-            'email_address', 'website'),
-            #'description':('Contact details of a person, preferably leader at specific location')
+            'fields': ('key_contact_name', 'position_within_organization', 'telephone_number', 
+            'telephone_number_alternative', 'email_address'),
+        }),
+        ('Staff details', {
+            'fields': ( ('permanent_employee_female', 'permanent_employee_male'), ('temporary_employee_female', 
+                'temporary_employee_male'), ('volunteer_employee_female', 'volunteer_employee_male') ),
+            'description':('<b><p class="description_fit_in">Employee\'s fall in different groups. Permanent employees \
+                are those who is hired to work without any time frame for his/her exit. Temporary employees are those that \
+                are hired for a limited period of time. <br/>They are usually hired on a casual, part-time, or full-time \
+                basis, but the employment is temporary. Volunteer employees donate their time and energy without receiving \
+                financial gain. These employees <br/>usually do not displace any other employee types and usually not \
+                entitled to many benefits as compared to other employee types.</p></b>'),
         }),
         ('Organization classification', {
             'fields': ('organization_type', 'organization_target')
         })
     )
 
-    inlines = [GeographicActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
+    inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
         OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
     class Media:
@@ -215,6 +225,8 @@ class OrganizationTargetAdmin(admin.ModelAdmin):
         }),
     )
 
+# Register National Organization models
+admin.site.register(NationalOrganization)
 
 # Register StakeHolder models
 admin.site.register(StakeholderDirectory, StakeholderDirectoryAdmin)
