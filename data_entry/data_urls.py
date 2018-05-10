@@ -9,6 +9,6 @@ from . import views
 
 urlpatterns = [
     # path('', views.add_clean_model, name='index'),
-    path('', views.add_clean_model, name='index'),
+    path('', views.myform_test, name='index'),
     path('login/', views.Login.as_view(), name='login'),
 ]

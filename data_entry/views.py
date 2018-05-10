@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import generic
 
-from .forms import StakeholderDirectoryModelForm
+from .forms import StakeholderDirectoryModelForm, MyForm
 
 # Create your views here.
 
@@ -50,3 +50,7 @@ def add_clean_model(request):
         form = StakeholderDirectoryModelForm()
     
     return render(request, 'data_entry/index.html', {'form': form})
+
+def myform_test(request):
+    formsample = MyForm()
+    return render(request, 'data_entry/index.html', {'the_insert': formsample} )

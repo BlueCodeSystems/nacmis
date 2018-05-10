@@ -3,6 +3,7 @@ from django import forms
 
 from .models import StakeholderDirectory
 from .models import ActivityReportForm
+from django_select2.forms import Select2MultipleWidget
 
 class StakeholderDirectoryModelForm(forms.ModelForm):
 
@@ -15,3 +16,6 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
             'start_year' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD'}),
             'organization_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
         }
+
+class MyForm(forms.Form):
+    stakes = forms.ModelChoiceField( queryset=StakeholderDirectory.objects.all(), widget=Select2MultipleWidget)

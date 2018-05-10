@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>NACMIS online</title>
+    {{ form.media.css }}
     <link rel="stylesheet" type="text/css" href="{% static 'data_entry/css/style.css' %}" />
 </head>
 <body>
@@ -11,9 +12,10 @@
 
     <form action="/your-name/" method="post">
         {% csrf_token %}
-        {{ form }}
+        {{ the_insert }}
         <br>
         <input type="submit" value="Submit" />
     </form>
+    {{ form.media.js }}
 </body>
 </html>
