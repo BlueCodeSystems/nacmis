@@ -10,13 +10,14 @@ CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, MenWithMen, \
 CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, CommunityHealthSystem, \
 VulnerablePeople
 
-from .forms import StakeholderDirectoryModelForm
+from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
 class ProgramActivityInline(admin.TabularInline):
     model = ProgramActivity
     verbose_name_plural = 'Program activities by geographic area'
+    form = ProgramActivityModelForm
     extra = 1
 
 class FundingSourceInline(admin.TabularInline):
