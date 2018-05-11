@@ -10,7 +10,7 @@ CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, MenWithMen, \
 CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, CommunityHealthSystem, \
 VulnerablePeople
 
-from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm
+from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, TargetGroupPreventionMessageModelForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -25,6 +25,7 @@ class FundingSourceInline(admin.TabularInline):
 
 class TargetGroupPreventionMessageInline(admin.TabularInline):
     model = TargetGroupPreventionMessage
+    form = TargetGroupPreventionMessageModelForm
     extra = 1
 
 class OtherQuestionInline(admin.TabularInline):

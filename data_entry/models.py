@@ -475,12 +475,13 @@ class FundingSource(models.Model):
 # Using the matrix below please hoghlight with a tick where your organization is/ will be providing 
 # prevention messages to one or more of the target groups listed
 class TargetGroupPreventionMessage(models.Model):
-    target_group = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, null=True)
     prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, null=True)
+    target_group = models.ManyToManyField(OrganizationTarget)
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.target_group + " " + self.prevention_message
+        #return self.target_group + " " + self.prevention_message
+        return self.prevention_message
 
 class TypesOfFundingSupport(models.Model):
     support_option =  models.CharField(max_length=100, default="")

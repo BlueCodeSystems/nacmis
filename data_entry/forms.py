@@ -1,7 +1,7 @@
 from django import forms
 
 
-from .models import StakeholderDirectory, ProgramActivity
+from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage
 from .models import ActivityReportForm
 from django_select2.forms import Select2MultipleWidget
 
@@ -27,5 +27,14 @@ class ProgramActivityModelForm(forms.ModelForm):
             'area_of_support': Select2MultipleWidget,
         }
 
+class TargetGroupPreventionMessageModelForm(forms.ModelForm):
+
+    class Meta:
+        model = TargetGroupPreventionMessage
+        fields = '__all__'
+        
+        widgets = {
+            'target_group': Select2MultipleWidget,
+        }
 class MyForm(forms.Form):
     stakes = forms.ModelChoiceField( queryset=StakeholderDirectory.objects.all(), widget=Select2MultipleWidget)
