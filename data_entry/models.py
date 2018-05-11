@@ -544,10 +544,9 @@ class ActivityReportForm(models.Model):
     education_and_vocational_training = models.BooleanField()
     economic_strengthening = models.BooleanField()
 
-    # organization_name_from_stakeholder = self.stake_holder.organization_name
     def __str__(self):
         if self.stake_holder_name:
-            return self.stake_holder_name.organization_name + " - " + self.location_district + \
+            return self.stake_holder_name.organization + " - " + self.location_district + \
             " - " + self.quarter_been_reported_on
         else:
             return "unset stakeholder name"
