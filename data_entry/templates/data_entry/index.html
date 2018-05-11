@@ -3,15 +3,19 @@
 <html>
 <head>
     <title>NACMIS online</title>
+    {{ form.media.css }}
     <link rel="stylesheet" type="text/css" href="{% static 'data_entry/css/style.css' %}" />
 </head>
 <body>
     <h1>Welcome new user</h1>
     <p class=working>This is a test</p>
 
-    <form>
-        {{form}}
-        <input type="submit" value="Submit form" />
+    <form action="/your-name/" method="post">
+        {% csrf_token %}
+        {{ the_insert }}
+        <br>
+        <input type="submit" value="Submit" />
     </form>
+    {{ form.media.js }}
 </body>
 </html>
