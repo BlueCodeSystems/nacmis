@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 
 from .models import NationalOrganization, ActivityReportForm, StakeholderDirectory, \
-OrganizationTarget, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
+OrganizationTarget, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
 OtherQuestion, EndOfYearQuestion, GeneralComment
 
 from .models import IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
@@ -16,7 +16,6 @@ from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm
 # *************************************************
 class ProgramActivityInline(admin.TabularInline):
     model = ProgramActivity
-    verbose_name_plural = 'Program activities by geographic area'
     form = ProgramActivityModelForm
     extra = 1
 
@@ -237,3 +236,5 @@ admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
 # note: uncomment to have a user be flexible to enter there own targets to the list
 admin.site.register(OrganizationTarget)
+
+admin.site.register(SupportField)
