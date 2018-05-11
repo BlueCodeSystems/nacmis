@@ -440,16 +440,23 @@ class StakeholderDirectory(models.Model):
     def __str__(self):
         return self.organization + ' - ' + self.organization_district + ' - ' + self.telephone_number 
 
+class SupportField(models.Model):
+    area_of_support = models.CharField(max_length=100, null=True)
+
+    def __str__(self):
+        return self.area_of_support
+
 # --> Geographic activities - High impact interventions
 # What area(s) of support does your organization provide? (Please tick as many different areas that 
 # are carried out by your organization)
 class ProgramActivity(models.Model):
     location = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST)
-    area_of_support = models.CharField(max_length=100, choices=AREA_OF_SUPPORT, null=True)
+    area_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.area_of_support + '-' + self.location
+        #return self.area_of_support.all() + '-' + self.location
+        return self.location
 
 # --> Funding sources
 # Please provide details on the organization that provide funding to you, starting with the largest 
