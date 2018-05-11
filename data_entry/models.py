@@ -389,7 +389,7 @@ class OrganizationType(models.Model):
 class OrganizationTarget(models.Model):
     # Which group(s) does your organization target? (Please tick as many different groups that 
     # are targeted by your organization)
-    organization_target_option = models.CharField(max_length=100, choices=ORGANIZATION_TARGET_LIST, default="")   # removed choice for more flexibility
+    organization_target_option = models.CharField(max_length=100, default="")
 
     def __str__(self):
         return self.organization_target_option
