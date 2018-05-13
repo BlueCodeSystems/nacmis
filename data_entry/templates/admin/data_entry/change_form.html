@@ -1,0 +1,17 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <style type="text/css">
+        /* add an asterisk using CSS */
+        .required::after {
+            content: " *" !important;
+            color:red;
+        }
+
+        .description_fit_in {
+            font-style: italic;
+        }
+    </style>
+{% endblock %}
