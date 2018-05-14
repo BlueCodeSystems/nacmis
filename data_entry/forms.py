@@ -36,5 +36,6 @@ class TargetGroupPreventionMessageModelForm(forms.ModelForm):
         widgets = {
             'target_group': Select2MultipleWidget,
         }
+
 class MyForm(forms.Form):
     stakes = forms.ModelChoiceField( queryset=StakeholderDirectory.objects.all(), widget=Select2MultipleWidget)

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import generic
+from dal import autocomplete
 
 from .forms import StakeholderDirectoryModelForm, MyForm
 
@@ -54,3 +55,17 @@ def add_clean_model(request):
 def myform_test(request):
     formsample = MyForm()
     return render(request, 'data_entry/index.html', {'the_insert': formsample} )
+
+# https://stackoverflow.com/questions/13967428/importerror-no-module-named-six
+# depends on module 'six'... pip install six
+class StakeholderDirectoryAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        if not self.request.user.is_authenticated():
+            return StakeholderDirectory.objects.none()
+
+        qs = StakeholderDirectory.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+        return qs
