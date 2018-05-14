@@ -38,4 +38,4 @@ class TargetGroupPreventionMessageModelForm(forms.ModelForm):
         }
 
 class MyForm(forms.Form):
-    stakes = forms.ModelChoiceField( queryset=StakeholderDirectory.objects.all(), widget=Select2MultipleWidget)
+    stakes = forms.ModelChoiceField(queryset=StakeholderDirectory.objects.all(), widget=Select2MultipleWidget)
