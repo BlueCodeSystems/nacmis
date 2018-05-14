@@ -16,6 +16,7 @@ from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, Targ
 # *************************************************
 class ProgramActivityInline(admin.TabularInline):
     model = ProgramActivity
+    verbose_name_plural = 'Program activities'
     form = ProgramActivityModelForm
     extra = 1
 
