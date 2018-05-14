@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.urls import include, path
 from django.contrib import admin
-from data_entry.views import SupportFieldAutocomplete
+from data_entry.views import SupportFieldAutocomplete, OrganizationTargetAutocomplete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('data_entry/', include('data_entry.data_urls')),
     path('select2/', include('django_select2.urls')),    # for select2
     path('supportfield-autocomplete/', SupportFieldAutocomplete.as_view(), 
-        name='supportfield-autocomplete')
+        name='supportfield-autocomplete'),
+    path('organizationtarget-autocomplete/', OrganizationTargetAutocomplete.as_view(), 
+        name='organizationtarget-autocomplete') 
 ]

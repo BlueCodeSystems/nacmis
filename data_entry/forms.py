@@ -25,8 +25,7 @@ class ProgramActivityModelForm(forms.ModelForm):
         fields = '__all__'
         
         widgets = {
-            'area_of_support': Select2MultipleWidget,
-            'area_of_support': autocomplete.ModelSelect2(url='supportfield-autocomplete'),
+            'area_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
         }
 
 class TargetGroupPreventionMessageModelForm(forms.ModelForm):
@@ -36,7 +35,7 @@ class TargetGroupPreventionMessageModelForm(forms.ModelForm):
         fields = '__all__'
         
         widgets = {
-            'target_group': Select2MultipleWidget,
+            'target_group': autocomplete.ModelSelect2Multiple(url='organizationtarget-autocomplete'),
         }
 
 class MyForm(forms.Form):
