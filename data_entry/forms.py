@@ -39,12 +39,5 @@ class TargetGroupPreventionMessageModelForm(forms.ModelForm):
         }
 
 class MyForm(forms.Form):
-    #stakes = forms.ModelChoiceField( queryset=StakeholderDirectory.objects.all(), widget=Select2MultipleWidget)
-    
-    stakes = forms.ModelChoiceField(queryset=StakeholderDirectory.objects.all(), 
-        widget=autocomplete.ModelSelect2(url='stakeholderdirectory-autocomplete'))
-
-    class Meta:
-        model: ProgramActivity
-        fields: ('__all__')
+    stakes = forms.ModelChoiceField( queryset=StakeholderDirectory.objects.all(), widget=Select2MultipleWidget)
     

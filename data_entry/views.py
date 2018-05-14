@@ -66,7 +66,7 @@ class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
         qs = SupportField.objects.all()
 
         if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+            qs = qs.filter(area_of_support__istartswith=self.q)
         return qs
 
 class OrganizationTargetAutocomplete(autocomplete.Select2QuerySetView):
@@ -78,5 +78,5 @@ class OrganizationTargetAutocomplete(autocomplete.Select2QuerySetView):
         qs = OrganizationTarget.objects.all()
 
         if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+            qs = qs.filter(organization_target_option__istartswith=self.q)
         return qs
