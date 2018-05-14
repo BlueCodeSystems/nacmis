@@ -4,6 +4,7 @@ from django import forms
 from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage
 from .models import ActivityReportForm
 from django_select2.forms import Select2MultipleWidget
+from dal import autocomplete
 
 class StakeholderDirectoryModelForm(forms.ModelForm):
 
@@ -25,6 +26,7 @@ class ProgramActivityModelForm(forms.ModelForm):
         
         widgets = {
             'area_of_support': Select2MultipleWidget,
+            'area_of_support': autocomplete.ModelSelect2(url='supportfield-autocomplete'),
         }
 
 class TargetGroupPreventionMessageModelForm(forms.ModelForm):
@@ -38,4 +40,12 @@ class TargetGroupPreventionMessageModelForm(forms.ModelForm):
         }
 
 class MyForm(forms.Form):
-    stakes = forms.ModelChoiceField(queryset=StakeholderDirectory.objects.all(), widget=Select2MultipleWidget)
+    #stakes = forms.ModelChoiceField( queryset=StakeholderDirectory.objects.all(), widget=Select2MultipleWidget)
+    
+    stakes = forms.ModelChoiceField(queryset=StakeholderDirectory.objects.all(), 
+        widget=autocomplete.ModelSelect2(url='stakeholderdirectory-autocomplete'))
+
+    class Meta:
+        model: ProgramActivity
+        fields: ('__all__')
+    

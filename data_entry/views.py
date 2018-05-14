@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.views import generic
 from dal import autocomplete
 
-from .forms import StakeholderDirectoryModelForm, MyForm
+from .models import SupportField
+from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
 
@@ -58,13 +59,13 @@ def myform_test(request):
 
 # https://stackoverflow.com/questions/13967428/importerror-no-module-named-six
 # depends on module 'six'... pip install six
-class StakeholderDirectoryAutocomplete(autocomplete.Select2QuerySetView):
+class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated():
-            return StakeholderDirectory.objects.none()
+        #if not self.request.user.is_authenticated():
+        #    return SupportField.objects.none()
 
-        qs = StakeholderDirectory.objects.all()
+        qs = SupportField.objects.all()
 
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
