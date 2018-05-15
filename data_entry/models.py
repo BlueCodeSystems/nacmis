@@ -382,6 +382,13 @@ class NationalOrganization(models.Model):
 
 #               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
 # *********************************************************************
+class District(models.Model):
+    province = models.CharField(max_length=50, choices=PROVINCES_ZAMBIA, default="")
+    name = models.CharField(max_length=50, choices=PROVINCE_DISTRICTS)
+
+    def __str__(self):
+        return name
+
 class OrganizationType(models.Model):
     organization_type_option = models.CharField(max_length=100, null=False)
 
@@ -408,7 +415,7 @@ class StakeholderDirectory(models.Model):
     national_organization = models.ForeignKey(NationalOrganization, on_delete=models.CASCADE, null=True)
     organization = models.CharField(max_length=200)
     organization_address = models.CharField('address of the organization', max_length=100, blank=True)
-    organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
+    organization_district = models.ManyToManyField(District)
     start_year = models.DateField('which year did your organization start working in this district?')
     gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)

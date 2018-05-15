@@ -80,3 +80,15 @@ class OrganizationTargetAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(organization_target_option__istartswith=self.q)
         return qs
+
+class DistrictAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        #if not self.request.user.is_authenticated():
+        #    return District.objects.none()
+
+        qs = District.objects.all()   # Why we need a district class here
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+        return qs

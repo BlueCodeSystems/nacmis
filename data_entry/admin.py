@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 
-from .models import NationalOrganization, ActivityReportForm, StakeholderDirectory, \
+from .models import NationalOrganization, ActivityReportForm, StakeholderDirectory, District, \
 OrganizationTarget, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
 OtherQuestion, EndOfYearQuestion, GeneralComment
 
@@ -236,7 +236,8 @@ admin.site.register(StakeholderDirectory, StakeholderDirectoryAdmin)
 # Register HIV Activities Organization Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
-# note: uncomment to have a user be flexible to enter there own targets to the list
 admin.site.register(OrganizationTarget)
 
 admin.site.register(SupportField)
+
+admin.site.register(District)
