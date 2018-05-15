@@ -1,3 +1,5 @@
+from phonenumber_field.modelfields import PhoneNumberField
+
 from django.db import models
 
 # Create your models here.
@@ -416,8 +418,10 @@ class StakeholderDirectory(models.Model):
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
     position_within_organization = models.CharField('position within the organization', max_length=50)
-    telephone_number = models.CharField('telephone number', max_length=20)
-    telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
+    #telephone_number = models.CharField('telephone number', max_length=20)
+    telephone_number = PhoneNumberField()
+    #telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
+    telephone_number_alternative = PhoneNumberField(blank=True)
     email_address = models.EmailField('email address', max_length=254)
 
     # --> Staff details
@@ -438,7 +442,8 @@ class StakeholderDirectory(models.Model):
 
 
     def __str__(self):
-        return self.organization + ' - ' + self.organization_district + ' - ' + self.telephone_number 
+        #return self.organization + ' - ' + self.organization_district + ' - ' + self.telephone_number
+        return self.organization + ' - ' + self.organization_district 
 
 class SupportField(models.Model):
     area_of_support = models.CharField(max_length=100, null=True)
@@ -531,7 +536,7 @@ class ActivityReportForm(models.Model):
     location_district = models.CharField('district', max_length=100, choices=PROVINCE_DISTRICTS, default="")
     location_ward = models.CharField('ward', max_length=100, choices=DISTRICT_WARD_LIST, default="")
     name = models.CharField(max_length=50)
-    telephone_number = models.CharField(max_length=20)
+    telephone_number = PhoneNumberField()
     email_address = models.EmailField(max_length=50)
 
     # Types of care and support organization provides
