@@ -536,7 +536,7 @@ class ActivityReportForm(models.Model):
     location_district = models.CharField('district', max_length=100, choices=PROVINCE_DISTRICTS, default="")
     location_ward = models.CharField('ward', max_length=100, choices=DISTRICT_WARD_LIST, default="")
     name = models.CharField(max_length=50)
-    telephone_number = models.CharField(max_length=20)
+    telephone_number = PhoneNumberField()
     email_address = models.EmailField(max_length=50)
 
     # Types of care and support organization provides
