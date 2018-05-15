@@ -387,7 +387,7 @@ class District(models.Model):
     name = models.CharField(max_length=50, choices=PROVINCE_DISTRICTS)
 
     def __str__(self):
-        return name
+        return self.name
 
 class OrganizationType(models.Model):
     organization_type_option = models.CharField(max_length=100, null=False)
