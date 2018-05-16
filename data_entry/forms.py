@@ -40,8 +40,7 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
         widgets = {
             'start_year' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD'}),
             'organization_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
-            'organization_district' : autocomplete.ModelSelect2(url='district-autocomplete', 
-                forward=['province']), 
+            'organization_district' : autocomplete.ModelSelect2(url='district-autocomplete'), 
         }
 
 class ProgramActivityModelForm(forms.ModelForm):
@@ -52,6 +51,7 @@ class ProgramActivityModelForm(forms.ModelForm):
         
         widgets = {
             'area_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
+            'ward':  autocomplete.ModelSelect2(url='ward-autocomplete', forward=['organization_district'])
         }
 
 class TargetGroupPreventionMessageModelForm(forms.ModelForm):
