@@ -29,29 +29,20 @@ Q3 = 'Quarter 3'
 Q4 = 'Quarter 4'
 
 plhiv = 'People living with HIV/ AIDS (PLHIV)'
-ovc = 'Orphans and Vulnerable Children (OVC)'
+vp = 'Vulnerable People'
 pregnant_women = 'Pregnant Women'
 care_givers = 'Care givers'
 health_workers = 'Heath workers'
 teachers = 'Teachers'
-children = 'Children'
 adolecents = 'Adolecents/ Youth'
-old_people = 'Old people/ Pensioners'
-disabled_people = 'Disabled people'
-inmates_wivies = 'Prisoners wivies' # form says 'Prisoners Widows' Confirm this
+elderly = 'Elderly/ Pensioners'
+persons_with_disabilities = 'Persons with Disabilities'
 govt_workers = 'Government workers (work place)'
 sex_workers = 'Sex workers'
-church_leaders = 'Church leaders'
-employee_families = 'Employees and/or Employee families'
-gdwg = 'Guardians/ Divorced/ Widows/ Grandparents'
-idu = 'Intravenous drug users (IDU)'
-msm = 'Men who have sex with men (MSM)'
-mobile_population = 'Migrants/ Mobile population'
-out_of_school_youth = 'Out of school youth'
+widows = 'Widows'
+pwid = 'People who Inject Drugs (PWID)'
+msm = 'Men who have Sex with Men (MSM)'
 inmates = 'Inmates'
-street_children = 'Street children'
-traditional_healers = 'Traditional healers'
-traditional_leaders = 'Traditional leaders'
 target_others = 'Other target groups - please specify' # change some kind of list later
 
 food_and_nutrition = 'Food and Nutrition'
@@ -263,27 +254,18 @@ ORGANIZATION_TARGET_LIST = (
     (adolecents, 'Adolecents/ Youth'),
     (care_givers, 'Care givers'),
     (children, 'Children'),
-    (church_leaders, 'Church leaders'),
-    (disabled_people, 'Disabled people'),
-    (employee_families, 'Employees and/or Employee families'),
-    (gdwg, 'Guardians/ Divorced/ Widows/ Grandparents'),
+    (persons_with_disabilities, 'Persons with Disabilities'),
     (govt_workers, 'Government workers (work place)'),
     (health_workers, 'Heath workers'),
-    (idu, 'Intravenous drug users (IDU)'),
+    (widows, 'Widows'),
     (inmates, 'Inmates'),
-    (inmates_wivies, 'Inmates wivies'),
-    (mobile_population, 'Migrants/ Mobile population'),
     (msm, 'Men who have sex with men (MSM)'),
-    (old_people, 'Old people/ Pensioners'),
-    (out_of_school_youth, 'Out of school youth'),
-    (ovc, 'Orphans and Vulnerable Children'),
+    (elderly, 'Elderly/ Pensioners'),
+    (vp, 'Vulnerable People'),
     (plhiv, 'People living with HIV/ AIDS'),
     (pregnant_women, 'Pregnant Women'),
     (sex_workers, 'Sex workers'),
-    (street_children, 'Street children'),
     (teachers, 'Teachers'),
-    (traditional_healers, 'Traditional healers'),
-    (traditional_leaders, 'Traditional leaders'),
     (target_others, 'Other target groups - please specify')
 )
 
@@ -415,7 +397,7 @@ class StakeholderDirectory(models.Model):
     national_organization = models.ForeignKey(NationalOrganization, on_delete=models.CASCADE, null=True)
     organization = models.CharField(max_length=200)
     organization_address = models.CharField('address of the organization', max_length=100, blank=True)
-    organization_district = models.ManyToManyField(District)
+    organization_district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
     start_year = models.DateField('which year did your organization start working in this district?')
     gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
@@ -425,9 +407,7 @@ class StakeholderDirectory(models.Model):
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
     position_within_organization = models.CharField('position within the organization', max_length=50)
-    #telephone_number = models.CharField('telephone number', max_length=20)
     telephone_number = PhoneNumberField()
-    #telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
     telephone_number_alternative = PhoneNumberField(blank=True)
     email_address = models.EmailField('email address', max_length=254)
 
@@ -450,7 +430,7 @@ class StakeholderDirectory(models.Model):
 
     def __str__(self):
         #return self.organization + ' - ' + self.organization_district + ' - ' + self.telephone_number
-        return self.organization + ' - ' + self.organization_district 
+        return self.organization + ' - as stakeholder'
 
 class SupportField(models.Model):
     area_of_support = models.CharField(max_length=100, null=True)

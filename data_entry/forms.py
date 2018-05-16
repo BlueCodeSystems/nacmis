@@ -30,18 +30,8 @@ PROVINCES_ZAMBIA = (
     (western, 'Western Province')
 )
 
-DISTRICTS = (
-    ('Ben Kafupi', 'Ben Kafupi'),
-    ('Justine Kabwe', 'Justine Kabwe'),
-    ('Munyama', 'Munyama'),
-    ('Ndola', 'Ndola'),
-    ('Lufwanyama', 'Lufwanyama'),
-    ('Mpongwe', 'Mpongwe')
-)
-
-class StakeholderDirectoryModelForm(forms.ModelForm):
-    district = forms.ChoiceField(choices=DISTRICTS)
-
+class StakeholderDirectoryModelForm(forms.ModelForm):  
+    province = forms.ChoiceField(choices=PROVINCES_ZAMBIA)
     class Meta:
         model = StakeholderDirectory
         #fields = '__all__' # including all fields of model
@@ -50,7 +40,8 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
         widgets = {
             'start_year' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD'}),
             'organization_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
-            'organization_district' : autocomplete.ModelSelect2Multiple(url='district-autocomplete'), 
+            'organization_district' : autocomplete.ModelSelect2(url='district-autocomplete', 
+                forward=['province']), 
         }
 
 class ProgramActivityModelForm(forms.ModelForm):

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import generic
 from dal import autocomplete
 
-from .models import OrganizationTarget, SupportField
+from .models import District, OrganizationTarget, SupportField
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
@@ -88,6 +88,11 @@ class DistrictAutocomplete(autocomplete.Select2QuerySetView):
         #    return District.objects.none()
 
         qs = District.objects.all()   # Why we need a district class here
+
+        province = self.forwarded.get('province', None)
+
+        if province:
+            qs = qs.filter(province=province)
 
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
