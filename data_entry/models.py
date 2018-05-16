@@ -37,6 +37,7 @@ teachers = 'Teachers'
 adolecents = 'Adolecents/ Youth'
 elderly = 'Elderly/ Pensioners'
 persons_with_disabilities = 'Persons with Disabilities'
+health_workers = 'Heath workers'
 govt_workers = 'Government workers (work place)'
 sex_workers = 'Sex workers'
 widows = 'Widows'
@@ -253,7 +254,6 @@ DISTRICT_WARD_LIST = (
 ORGANIZATION_TARGET_LIST = (
     (adolecents, 'Adolecents/ Youth'),
     (care_givers, 'Care givers'),
-    (children, 'Children'),
     (persons_with_disabilities, 'Persons with Disabilities'),
     (govt_workers, 'Government workers (work place)'),
     (health_workers, 'Heath workers'),
@@ -514,7 +514,7 @@ class GeneralComment(models.Model):
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
     report_date = models.DateField(null=True)
-    quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)
+    quarter_been_reported = models.CharField(max_length=20, choices=QUARTER_LIST)
     stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organization', \
         on_delete=models.SET_NULL, null=True)
     
@@ -540,7 +540,7 @@ class ActivityReportForm(models.Model):
     def __str__(self):
         if self.stake_holder_name:
             return self.stake_holder_name.organization + " - " + self.location_district + \
-            " - " + self.quarter_been_reported_on
+            " - " + self.quarter_been_reported
         else:
             return "unset stakeholder name"
     

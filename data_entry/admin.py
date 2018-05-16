@@ -182,7 +182,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
     list_filter = ('location_province', 'location_district', 'location_ward')
-    list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported_on')
+    list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported')
     
     AdolencentsInline.max_num = 1
     OutOfSchoolInline.max_num = 1
@@ -200,7 +200,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Contact details', {
-            'fields':('report_date', 'quarter_been_reported_on', 'stake_holder_name', 
+            'fields':('report_date', 'quarter_been_reported', 'stake_holder_name', 
             ('location_province', 'location_district', 'location_ward'), ('name', 
             'telephone_number', 'email_address')
             ),
