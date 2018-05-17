@@ -4,13 +4,13 @@ from django.db import models
 
 # Create your models here.
 # list variables
-cbo = 'Community Based Organization'
-fbo = 'Faith Based Organization'
+cbo = 'Community Based Organisation'
+fbo = 'Faith Based Organisation'
 local_ngo = 'Local NGO'
 inter_ngo = 'International NGO'
-government = 'Government Organization'
-private = 'Private Organization'
-org_others = 'Other organization / group - please specify'  # change some kind of list later
+government = 'Government Organisation'
+private = 'Private Organisation'
+org_others = 'Other organisation / group - please specify'  # change some kind of list later
 
 lusaka = 'Lusaka Province'
 central = 'Central Province'
@@ -93,14 +93,14 @@ QUARTER_LIST = (
     (Q4, 'Nov - Dec')
 )
 
-ORGANIZATION_TYPE_LIST = (
-    (cbo, 'Community Based Organization'),
-    (fbo, 'Faith Based Organization'),
-    (government, 'Government Organization'),
-    (inter_ngo, 'International Non Governmental Organization'),
-    (local_ngo, 'Local Non Governmental Organization'),
-    (private, 'Private Organization'),
-    (org_others, 'Other organization / group - please specify')
+ORGANISATION_TYPE_LIST = (
+    (cbo, 'Community Based Organisation'),
+    (fbo, 'Faith Based Organisation'),
+    (government, 'Government Organisation'),
+    (inter_ngo, 'International Non Governmental Organisation'),
+    (local_ngo, 'Local Non Governmental Organisation'),
+    (private, 'Private Organisation'),
+    (org_others, 'Other organisation / group - please specify')
 )
 
 PROVINCES_ZAMBIA = (
@@ -259,7 +259,7 @@ DISTRICT_WARD_LIST = (
     )
 )  
 
-ORGANIZATION_TARGET_LIST = (
+ORGANISATION_TARGET_LIST = (
     (adolecents, 'Adolecents/ Youth'),
     (care_givers, 'Care givers'),
     (children, 'Children'),
@@ -370,31 +370,31 @@ YES_OR_NO = (
     (no, 'No')
 )
 
-#                       NATIONAL ORGANIZATION
+#                       NATIONAL ORGANISATION
 # *********************************************************************
-class NationalOrganization(models.Model):
-    organization_name = models.CharField(max_length=200)
-    organization_address = models.CharField('address of the organization', max_length=100)
-    organization_contact_email = models.EmailField(max_length=254)
+class NationalOrganisation(models.Model):
+    organisation_name = models.CharField(max_length=200)
+    organisation_address = models.CharField('address of the organisation', max_length=100)
+    organisation_contact_email = models.EmailField(max_length=254)
 
     def __str__(self):
-        return self.organization_name + " - " + self.organization_contact_email
+        return self.organisation_name + " - " + self.organisation_contact_email
 
 #               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
 # *********************************************************************
-class OrganizationType(models.Model):
-    organization_type_option = models.CharField(max_length=100, null=False)
+class organisationType(models.Model):
+    organisation_type_option = models.CharField(max_length=100, null=False)
 
     def __str__(self):
-        return self.organization_type_option
+        return self.organisation_type_option
 
-class OrganizationTarget(models.Model):
-    # Which group(s) does your organization target? (Please tick as many different groups that 
-    # are targeted by your organization)
-    organization_target_option = models.CharField(max_length=100, default="")
+class OrganisationTarget(models.Model):
+    # Which group(s) does your organisation target? (Please tick as many different groups that 
+    # are targeted by your organisation)
+    organisation_target_option = models.CharField(max_length=100, default="")
 
     def __str__(self):
-        return self.organization_target_option
+        return self.organisation_target_option
 
 #                   STAKEHOLDER DIRECTORY
 # ************************************************************
@@ -404,20 +404,20 @@ class StakeholderDirectory(models.Model):
     class Meta:
         verbose_name_plural = 'Stakeholder directories'
 
-    # --> Basic details on the organization
-    national_organization = models.ForeignKey(NationalOrganization, on_delete=models.CASCADE, null=True)
-    organization = models.CharField(max_length=200)
-    organization_address = models.CharField('address of the organization', max_length=100, blank=True)
-    organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
-    start_year = models.DateField('which year did your organization start working in this district?')
+    # --> Basic details on the organisation
+    national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE, null=True)
+    organisation = models.CharField(max_length=200)
+    organisation_address = models.CharField('address of the organisation', max_length=100, blank=True)
+    organisation_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS, default="")
+    start_year = models.DateField('which year did your organisation start working in this district?')
     gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
-    description_of_organization = models.TextField('Brief description of the organization (Please describe your \
-        organization in no more than 250 words)')
+    description_of_organisation = models.TextField('Brief description of the organisation (Please describe your \
+        organisation in no more than 250 words)')
 
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
-    position_within_organization = models.CharField('position within the organization', max_length=50)
+    position_within_organisation = models.CharField('position within the organisation', max_length=50)
     #telephone_number = models.CharField('telephone number', max_length=20)
     telephone_number = PhoneNumberField()
     #telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
@@ -432,18 +432,18 @@ class StakeholderDirectory(models.Model):
     volunteer_employee_female = models.PositiveIntegerField('current number of volunteer female employees', default=0)
     volunteer_employee_male = models.PositiveIntegerField('current number of volunteer male employees', default=0)
 
-    # --> Organization Classification
-    organization_type = models.CharField('which of the following \'types\' would best describe your \
-        organization? (Please only tick one type of organization)', max_length=100, choices=ORGANIZATION_TYPE_LIST)
-    organization_target = models.ManyToManyField(OrganizationTarget, verbose_name='which group(s) does your organization target? (please tick as many \
-        different groups that are targeted by your organization)')
+    # --> Organisation Classification
+    organisation_type = models.CharField('which of the following \'types\' would best describe your \
+        organisation? (Please only tick one type of organisation)', max_length=100, choices=ORGANISATION_TYPE_LIST)
+    organisation_target = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
+        different groups that are targeted by your organisation)')
 
     # list of names to use as filters from ActivityReport forms
 
 
     def __str__(self):
-        #return self.organization + ' - ' + self.organization_district + ' - ' + self.telephone_number
-        return self.organization + ' - ' + self.organization_district 
+        #return self.organisation + ' - ' + self.organisation_district + ' - ' + self.telephone_number
+        return self.organisation + ' - ' + self.organisation_district 
 
 class SupportField(models.Model):
     area_of_support = models.CharField(max_length=100, null=True)
@@ -452,37 +452,37 @@ class SupportField(models.Model):
         return self.area_of_support
 
 # --> Geographic activities - High impact interventions
-# What area(s) of support does your organization provide? (Please tick as many different areas that 
-# are carried out by your organization)
+# What area(s) of support does your organisation provide? (Please tick as many different areas that 
+# are carried out by your organisation)
 class ProgramActivity(models.Model):
-    location = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST)
+    ward = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST)
     area_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
-    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
+    organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         #return self.area_of_support.all() + '-' + self.location
-        return self.location
+        return self.ward
 
 # --> Funding sources
-# Please provide details on the organization that provide funding to you, starting with the largest 
+# Please provide details on the organisation that provide funding to you, starting with the largest 
 # partner/ donor. We also want to understand the types of support that the partners/donors provide to 
-# your organization, and the funding each partner/ donor has given you 2016. (The information on funding 
+# your organisation, and the funding each partner/ donor has given you 2016. (The information on funding 
 # will not be published and only held at DAFT)
 class FundingSource(models.Model):
-    name_of_organization =  models.CharField(max_length=100, default="")
+    name_of_organisation =  models.CharField(max_length=100, default="")
     funding_amount =  models.PositiveIntegerField('Funding Amount(In US Dollars)')
-    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
+    organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name_of_organization
+        return self.name_of_organisation
 
 # --> Target groups and prevention messages
-# Using the matrix below please hoghlight with a tick where your organization is/ will be providing 
+# Using the matrix below please hoghlight with a tick where your organisation is/ will be providing 
 # prevention messages to one or more of the target groups listed
 class TargetGroupPreventionMessage(models.Model):
     prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, null=True)
-    target_group = models.ManyToManyField(OrganizationTarget)
-    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
+    target_group = models.ManyToManyField(OrganisationTarget)
+    organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         #return self.target_group + " " + self.prevention_message
@@ -496,50 +496,49 @@ class TypesOfFundingSupport(models.Model):
         return self.support_option
 
 class OtherQuestion(models.Model):
-    action_plan = models.CharField('Does you organization hava a current HIV and \
+    action_plan = models.CharField('Does you organisation hava a current HIV and \
         AIDS action plan?', max_length=100, choices=YES_OR_NO);
-    workplace_programme = models.CharField('Does your organization have a current \
+    workplace_programme = models.CharField('Does your organisation have a current \
         and active HIV and AIDS workplace programme?', max_length=20, choices=YES_OR_NO)
     sources_of_information = models.CharField('which sources of information does your \
-        organization utilize to inform HIV programming and decision making?', max_length=20,
+        organisation utilize to inform HIV programming and decision making?', max_length=20,
         choices=SOURCES_OF_INFORMATION)
-    m_and_person = models.CharField('Does your organization have a designated M and E person?', 
+    m_and_person = models.CharField('Does your organisation have a designated M and E person?', 
         max_length=20, choices=YES_OR_NO)
-    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
+    organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
 class EndOfYearQuestion(models.Model):
     funding = models.PositiveIntegerField('How much funding(in kwacha) was spent on HIV & \
         AIDS activities this year?')
-    number_of_meetings_daft = models.PositiveIntegerField('How many DATIF meetings did your organization have \
+    number_of_meetings_daft = models.PositiveIntegerField('How many DATIF meetings did your organisation have \
         this year?')
-    number_of_meetings_paft = models.PositiveIntegerField('How many PATIF meetings did your organization have \
+    number_of_meetings_paft = models.PositiveIntegerField('How many PATIF meetings did your organisation have \
         this year?')
-    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
+    organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
 class GeneralComment(models.Model):
     #general comment at bottom of field
     general_comment = models.TextField(default="")
-    organization = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
+    organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
-# HIV ACTIVITIES ORGANIZATION PARTICIPATES IN FORM
+# HIV ACTIVITIES ORGANISATION PARTICIPATES IN FORM
 # *************************************************
     
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
     report_date = models.DateField(null=True)
-    quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)
-    stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organization', \
+    quarter_been_reported = models.CharField(max_length=20, choices=QUARTER_LIST)
+    stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organisation', \
         on_delete=models.SET_NULL, null=True)
     
     # Location and Report Compilation section
     location_province = models.CharField('province', max_length=100, choices=PROVINCES_ZAMBIA, default="")
     location_district = models.CharField('district', max_length=100, choices=PROVINCE_DISTRICTS, default="")
-    location_ward = models.CharField('ward', max_length=100, choices=DISTRICT_WARD_LIST, default="")
     name = models.CharField(max_length=50)
     telephone_number = PhoneNumberField()
     email_address = models.EmailField(max_length=50)
 
-    # Types of care and support organization provides
+    # Types of care and support organisation provides
     food_and_nutrition = models.BooleanField()
     shelter_and_care = models.BooleanField()
     protection_and_legal_aid = models.BooleanField()
@@ -552,14 +551,14 @@ class ActivityReportForm(models.Model):
 
     def __str__(self):
         if self.stake_holder_name:
-            return self.stake_holder_name.organization + " - " + self.location_district + \
-            " - " + self.quarter_been_reported_on
+            return self.stake_holder_name.organisation + " - " + self.location_district + \
+            " - " + self.quarter_been_reported
         else:
             return "unset stakeholder name"
     
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
-    material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default='N/A')
+    material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default="")
     number_distributed = models.PositiveIntegerField('number of materials distributed', default=0)
     localized = models.BooleanField(default=False)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
@@ -571,7 +570,7 @@ class IECMaterial(models.Model):
 class AdolecentsReached(models.Model):
     # in_school
     # Number of adolescents and young people aged 10-24 reached by IEC materials by your 
-    # organization this quarter
+    # organisation this quarter
     adolescents_female_10_14 = models.PositiveIntegerField('female adolescents of ages 10 to 14', default=0)
     adolescents_female_15_19 = models.PositiveIntegerField('female adolescents of ages 15 to 19', default=0)
     adolescents_female_20_24 = models.PositiveIntegerField('female adolescents of ages 20 to 24', default=0)
@@ -596,14 +595,14 @@ class OutOfSchool(models.Model):
 
 class SexWorker(models.Model):
     # sex_workers
-    # How many sex workers were reached with HIV prevention programmes by your organization this quarter?
+    # How many sex workers were reached with HIV prevention programmes by your organisation this quarter?
     sex_workers_female_num = models.PositiveIntegerField('female sex workers reached', default=0)
     sex_workers_male_num = models.PositiveIntegerField('male sex workers reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class Inmate(models.Model):
     # inmates
-    # How many inmates were reached with HIV prevention programmes by your organization this quarter?
+    # How many inmates were reached with HIV prevention programmes by your organisation this quarter?
     inmates_female_num = models.PositiveIntegerField('female inmates reached', default=0)
     inmates_male_num = models.PositiveIntegerField('male inmates reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
@@ -617,14 +616,14 @@ class CorrectionalFaciltyStaff(models.Model):
 
 class PersonsWithDisabilty(models.Model):
     # persons with disabilty
-    # How many persons with disability were reached with HIV prevention programmes by your organization this quarter?"
+    # How many persons with disability were reached with HIV prevention programmes by your organisation this quarter?"
     pwd_female_num = models.PositiveIntegerField('female persons with disabilities reached', default=0)
     pwd_male_num = models.PositiveIntegerField('male persons with disabilities reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MobileWorker(models.Model):
     # mobile workers
-    # How many mobile workers were reached with HIV prevention programmes by your organization this quarter?
+    # How many mobile workers were reached with HIV prevention programmes by your organisation this quarter?
     mobile_workers_female_num = models.PositiveIntegerField('female mobile workers reached', default=0)
     mobile_workers_male_num = models.PositiveIntegerField('male mobile workers reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
@@ -632,15 +631,15 @@ class MobileWorker(models.Model):
 class MenWithMen(models.Model):
     # men who have sex with men
     # How many men who have sex with men (MSM) were reached with HIV prevention programmes by your 
-    # organization this quarter?
+    # organisation this quarter?
     men_with_men = models.PositiveIntegerField('men who have sex with men (MSM) reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class CondomProgramming(models.Model):
     # Condom programming
-    # 1. How many condom service distribution points were supplied by your organization this 
+    # 1. How many condom service distribution points were supplied by your organisation this 
     # quarter? (*excluding health facilities)
-    # 2. How many male and/or female condoms were distributed to end users by your organization 
+    # 2. How many male and/or female condoms were distributed to end users by your organisation 
     # this quarter (excluding health facilities)?
     condom_dist_point_num = models.PositiveIntegerField('number of distribution points', default=0)
     female_condom_distributed_num = models.PositiveIntegerField('female condoms distributed', default=0)
@@ -660,7 +659,7 @@ class CriticalEnabler(models.Model):
 
 class SynergyDevelopmentSector(models.Model):
     # Synergies with other development sectors
-    # How many employees were reached through workplace programmes by your organization this quarter?
+    # How many employees were reached through workplace programmes by your organisation this quarter?
     employees_reached_female_num = models.PositiveIntegerField('female employees reached through \
         workplace programmes', default=0)
     employees_reached_male_num = models.PositiveIntegerField('male employees reached through \
@@ -669,9 +668,9 @@ class SynergyDevelopmentSector(models.Model):
 
 class CommunityHealthSystem(models.Model):
     # Community health systems
-    # 1. How many PLHIV support groups set up by your organization are currently active?
-    # 2. How many PLHIV are currently enrolled in the active PLHIV support groups by your organization?
-    plhiv_groups = models.PositiveIntegerField('PLHIV groups set up by your organization', default=0)
+    # 1. How many PLHIV support groups set up by your organisation are currently active?
+    # 2. How many PLHIV are currently enrolled in the active PLHIV support groups by your organisation?
+    plhiv_groups = models.PositiveIntegerField('PLHIV groups set up by your organisation', default=0)
     plhiv_female_num = models.PositiveIntegerField('female persons living with HIV (PLHIV) currently \
         enrolled in active groups', default=0)
     plhiv_male_num = models.PositiveIntegerField('male persons living with HIV (PLHIV) currently \
@@ -679,7 +678,7 @@ class CommunityHealthSystem(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class VulnerablePeople(models.Model):
-    # How many vulnerable people in total received care and support from your organization this quarter?
+    # How many vulnerable people in total received care and support from your organisation this quarter?
     ovc_female_num = models.PositiveIntegerField('female', default=0)
     ovc_male_num = models.PositiveIntegerField('male',default=0)
     ovc_care_support_0_9 = models.PositiveIntegerField('0 to 9', default=0)
