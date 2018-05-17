@@ -455,13 +455,13 @@ class SupportField(models.Model):
 # What area(s) of support does your organization provide? (Please tick as many different areas that 
 # are carried out by your organization)
 class ProgramActivity(models.Model):
-    location = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST)
+    ward = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST)
     area_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
     organization = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         #return self.area_of_support.all() + '-' + self.location
-        return self.location
+        return self.ward
 
 # --> Funding sources
 # Please provide details on the organization that provide funding to you, starting with the largest 
@@ -527,7 +527,7 @@ class GeneralComment(models.Model):
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
     report_date = models.DateField(null=True)
-    quarter_been_reported_on = models.CharField(max_length=20, choices=QUARTER_LIST)
+    quarter_been_reported = models.CharField(max_length=20, choices=QUARTER_LIST)
     stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organization', \
         on_delete=models.SET_NULL, null=True)
     
@@ -553,7 +553,7 @@ class ActivityReportForm(models.Model):
     def __str__(self):
         if self.stake_holder_name:
             return self.stake_holder_name.organization + " - " + self.location_district + \
-            " - " + self.quarter_been_reported_on
+            " - " + self.quarter_been_reported
         else:
             return "unset stakeholder name"
     
