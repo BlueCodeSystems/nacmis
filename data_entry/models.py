@@ -408,7 +408,7 @@ class StakeholderDirectory(models.Model):
     national_organization = models.ForeignKey(NationalOrganization, on_delete=models.CASCADE, null=True)
     organization = models.CharField(max_length=200)
     organization_address = models.CharField('address of the organization', max_length=100, blank=True)
-    organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
+    organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS, default="")
     start_year = models.DateField('which year did your organization start working in this district?')
     gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
