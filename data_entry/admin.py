@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib import admin
 
-from .models import NationalOrganization, ActivityReportForm, StakeholderDirectory, \
-OrganizationTarget, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
+from .models import NationalOrganisation, ActivityReportForm, StakeholderDirectory, \
+OrganisationTarget, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
 OtherQuestion, EndOfYearQuestion, GeneralComment
 
 from .models import IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
@@ -46,14 +46,14 @@ class GeneralCommentInline(admin.StackedInline):
 class MaterialInline(admin.TabularInline):
     model = IECMaterial
     verbose_name = 'IEC Material'
-    verbose_name_plural = 'How many IEC materials were distributed by your organization this quarter? \
+    verbose_name_plural = 'How many IEC materials were distributed by your organisation this quarter? \
         Which of your materials were localized (produced according to local condition, culture, language etc.)? '
     extra = 1
 
 class AdolencentsInline(admin.TabularInline):
     model = AdolecentsReached
     verbose_name_plural = 'Number of adolescents and young people aged 10-24 reached by IEC materials \
-        by your organization this quarter'
+        by your organisation this quarter'
     extra = 1
 
 class OutOfSchoolInline(admin.TabularInline):
@@ -65,12 +65,12 @@ class OutOfSchoolInline(admin.TabularInline):
 class SexWorkerInline(admin.TabularInline):
     model = SexWorker
     verbose_name_plural = 'How many sex workers were reached with HIV prevention programmes by your \
-        organization this quarter'
+        organisation this quarter'
     extra = 1
 
 class InmateInline(admin.TabularInline):
     model = Inmate
-    verbose_name_plural = 'How many inmates were reached with HIV prevention programmes by your organization \
+    verbose_name_plural = 'How many inmates were reached with HIV prevention programmes by your organisation \
         this quarter?'
     extra = 1
 
@@ -82,26 +82,26 @@ class CorrectionalFaciltyStaffInline(admin.TabularInline):
 class PersonsWithDisabiltyInline(admin.TabularInline):
     model = PersonsWithDisabilty
     verbose_name_plural = 'How many persons with disability were reached with HIV prevention programmes by your \
-        organization this quarter?'
+        organisation this quarter?'
     extra = 1
 
 class MobileWorkerInline(admin.TabularInline):
     model = MobileWorker
-    verbose_name_plural = 'How many mobile workers were reached with HIV prevention programmes by your organization \
+    verbose_name_plural = 'How many mobile workers were reached with HIV prevention programmes by your organisation \
         this quarter?'
     extra = 1
 
 class MenWithMenInline(admin.TabularInline):
     model = MenWithMen
     verbose_name_plural = 'How many men who have sex with men (MSM) were reached with HIV prevention programmes by \
-        your organization this quarter?'
+        your organisation this quarter?'
     extra = 1
 
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
-    verbose_name_plural = 'How many condom service distribution points were supplied by your organization this \
+    verbose_name_plural = 'How many condom service distribution points were supplied by your organisation this \
         quarter? (*excluding health facilities) How many male and/or female condoms were distributed to end users by \
-        your organization this quarter (*excluding health facilities)?'
+        your organisation this quarter (*excluding health facilities)?'
     extra = 1
 
 class CriticalEnablerInline(admin.TabularInline):
@@ -112,7 +112,7 @@ class CriticalEnablerInline(admin.TabularInline):
     
 class SynergyDevelopmentSectorInline(admin.TabularInline):
     model = SynergyDevelopmentSector
-    verbose_name_plural = 'How many employees were reached through workplace programmes by your organization this quarter?'
+    verbose_name_plural = 'How many employees were reached through workplace programmes by your organisation this quarter?'
     extra = 1
 
 class CommunityHealthSystemInline(admin.TabularInline):
@@ -124,14 +124,14 @@ class CommunityHealthSystemInline(admin.TabularInline):
 class VulnerablePeopleInline(admin.TabularInline):
     model = VulnerablePeople
     verbose_name_plural = 'How many vulnerable people in total received care and support from your organisation this \
-    quarter? What types of care and support does your organization provide? (select all that apply)'
+    quarter? What types of care and support does your organisation provide? (select all that apply)'
     extra = 1
 
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
-    list_filter = ('national_organization', 'organization_district')
-    list_display = ('organization', 'key_contact_name', 'telephone_number', 'start_year')
+    list_filter = ('national_organisation', 'organisation_district')
+    list_display = ('organisation', 'key_contact_name', 'telephone_number', 'start_year')
 
     form = StakeholderDirectoryModelForm
 
@@ -150,13 +150,13 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     GeneralCommentInline.max_num = 1
     
     fieldsets = (
-        ('Basic details on the organization', {
+        ('Basic details on the organisation', {
             #'classes':('collapse',),
-            'fields': ('national_organization','organization', 'organization_district','organization_address', 
-            'start_year', 'gps', 'website', 'description_of_organization')
+            'fields': ('national_organisation','organisation', 'organisation_district','organisation_address', 
+            'start_year', 'gps', 'website', 'description_of_organisation')
         }),
         ('Contact details', {
-            'fields': ('key_contact_name', 'position_within_organization', 'telephone_number', 
+            'fields': ('key_contact_name', 'position_within_organisation', 'telephone_number', 
             'telephone_number_alternative', 'email_address'),
         }),
         ('Staff details', {
@@ -169,8 +169,8 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
                 financial gain. These employees <br/>usually do not displace any other employee types and usually not \
                 entitled to many benefits as compared to other employee types.</p></b>'),
         }),
-        ('Organization classification', {
-            'fields': ('organization_type', 'organization_target')
+        ('organisation classification', {
+            'fields': ('organisation_type', 'organisation_target')
         })
     )
 
@@ -205,7 +205,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
             'telephone_number', 'email_address')
             ),
         }),
-        ('What types of care and support does your organization provide? (select all that apply)', {
+        ('What types of care and support does your organisation provide? (select all that apply)', {
             'fields': ('food_and_nutrition', 'shelter_and_care', 'protection_and_legal_aid', 'healthcare', 
             'psychosocial', 'social_support', 'spiritual_support', 'education_and_vocational_training',
             'economic_strengthening'),
@@ -220,23 +220,23 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
 
-class OrganizationTargetAdmin(admin.ModelAdmin):
+class OrganisationTargetAdmin(admin.ModelAdmin):
     fieldsets = (
-        ('Organization Target', {
-            'fields': ('organization_target_option',)
+        ('Organisation Target', {
+            'fields': ('organisation_target_option',)
         }),
     )
 
-# Register National Organization models
-admin.site.register(NationalOrganization)
+# Register National Organisation models
+admin.site.register(NationalOrganisation)
 
 # Register StakeHolder models
 admin.site.register(StakeholderDirectory, StakeholderDirectoryAdmin)
 
-# Register HIV Activities Organization Participates in
+# Register HIV Activities Organisation Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
 # note: uncomment to have a user be flexible to enter there own targets to the list
-admin.site.register(OrganizationTarget)
+admin.site.register(OrganisationTarget)
 
 admin.site.register(SupportField)

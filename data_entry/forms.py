@@ -11,11 +11,11 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
     class Meta:
         model = StakeholderDirectory
         #fields = '__all__' # including all fields of model
-        fields = ['start_year', 'organization_address', ]
+        fields = ['start_year', 'organisation_address', ]
 
         widgets = {
             'start_year' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD'}),
-            'organization_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
+            'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
         }
 
 class ProgramActivityModelForm(forms.ModelForm):
@@ -35,7 +35,7 @@ class TargetGroupPreventionMessageModelForm(forms.ModelForm):
         fields = '__all__'
         
         widgets = {
-            'target_group': autocomplete.ModelSelect2Multiple(url='organizationtarget-autocomplete'),
+            'target_group': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }
 
 class MyForm(forms.Form):
