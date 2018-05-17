@@ -54,6 +54,14 @@ traditional_healers = 'Traditional healers'
 traditional_leaders = 'Traditional leaders'
 target_others = 'Other target groups - please specify' # change some kind of list later
 
+truck_driver = 'Long distance truck drivers'
+fish_traders = 'Fish traders'
+miners = 'Miners'
+cross_boarder_traders = 'Cross-border traders'
+seasonal_workers = 'Seasonal workers (plantations, farming, etc.)'
+contruction_workers = 'Construction workers'
+mobile_others = 'Others'
+
 food_and_nutrition = 'Food and Nutrition'
 shelter_and_care = 'Shelter and Care'
 protection_and_legal_aid = 'Protection and Legal aid'
@@ -299,6 +307,15 @@ TYPE_OF_SUPPORT_LIST = (
     (spiritual_support, 'Spiritual support')
 )
 
+TYPE_OF_MOBILE_POPULATION = (
+    (truck_driver, 'Long distance truck drivers'),
+    (fish_traders, 'Fish traders'),
+    (miners, 'Miners'),
+    (cross_boarder_traders, 'Cross-border traders'),
+    (seasonal_workers, 'Seasonal workers (plantations, farming, etc.)'),
+    (contruction_workers, 'Construction workers'),
+    (mobile_others, 'Others')
+)
 PREVENTION_MESSAGES_LIST = (
     ('Condom use','Condom use'),
     ('MC information','MC information'),
@@ -395,6 +412,15 @@ class OrganisationTarget(models.Model):
 
     def __str__(self):
         return self.organisation_target_option
+
+#               HELPER CLASSES FOR ACTIVITYREPORTFORM 
+# *********************************************************************
+class MobilePopulation(models.Model):
+    mobile_population_type = models.CharField(max_length=100, default="")
+
+    def __str__(self):
+        return self.mobile_population_type
+
 
 #                   STAKEHOLDER DIRECTORY
 # ************************************************************
@@ -566,25 +592,11 @@ class IECMaterial(models.Model):
 
     def __str__(self):
         return self.material_type
-
+# --> Social behaviour change communication for key populations 
 class Teachers(models.Model):
     teachers_num = models.PositiveIntegerField('number of teachers that received training', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
     
-# --> Social behaviour change communication for key populations  
-class AdolecentsReached(models.Model):
-    # in_school
-    # Number of adolescents and young people aged 10-24 reached by IEC materials by your 
-    # organisation this quarter
-    adolescents_female_10_14 = models.PositiveIntegerField('female adolescents of ages 10 to 14', default=0)
-    adolescents_female_15_19 = models.PositiveIntegerField('female adolescents of ages 15 to 19', default=0)
-    adolescents_female_20_24 = models.PositiveIntegerField('female adolescents of ages 20 to 24', default=0)
-
-    adolescents_male_10_14 = models.PositiveIntegerField('male adolescents of ages 10 to 14', default=0)
-    adolescents_male_15_19 = models.PositiveIntegerField('male adolescents of ages 15 to 19', default=0)
-    adolescents_male_20_24 = models.PositiveIntegerField('male adolescents of ages 20 to 24', default=0)
-    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
-
 class OutOfSchool(models.Model):
     # out_school
     # Number of Out of School children and young people aged 10-24 years provided with life
@@ -604,19 +616,12 @@ class SexWorker(models.Model):
     sex_workers_female_num = models.PositiveIntegerField('female sex workers reached', default=0)
     sex_workers_male_num = models.PositiveIntegerField('male sex workers reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
-
+ 
 class Inmate(models.Model):
     # inmates
     # How many inmates were reached with HIV prevention programmes by your organisation this quarter?
     inmates_female_num = models.PositiveIntegerField('female inmates reached', default=0)
     inmates_male_num = models.PositiveIntegerField('male inmates reached', default=0)
-    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
-
-class CorrectionalFaciltyStaff(models.Model):
-    # correctional facility staff
-    # How many correctional facility staff were reached with HIV prevention programmes this quarter?
-    correctional_staff_female_num = models.PositiveIntegerField('female correctional facility staff reached', default=0)
-    correctional_staff_male_num = models.PositiveIntegerField('male correctional facility staff reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class PersonsWithDisabilty(models.Model):
@@ -631,6 +636,7 @@ class MobileWorker(models.Model):
     # How many mobile workers were reached with HIV prevention programmes by your organisation this quarter?
     mobile_workers_female_num = models.PositiveIntegerField('female mobile workers reached', default=0)
     mobile_workers_male_num = models.PositiveIntegerField('male mobile workers reached', default=0)
+    mobile_population_type = models.ManyToManyField(MobilePopulation)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MenWithMen(models.Model):
@@ -639,6 +645,20 @@ class MenWithMen(models.Model):
     # organisation this quarter?
     men_with_men = models.PositiveIntegerField('men who have sex with men (MSM) reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class TransgenderIndividual(models.Model):
+    # correctional facility staff
+    # How many correctional facility staff were reached with HIV prevention programmes this quarter?
+    transgender_num = models.PositiveIntegerField('number of transgender individuals', default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class PeopleWhoInjectDrug(models.Model):
+    # in_school
+    # Number of adolescents and young people aged 10-24 reached by IEC materials by your 
+    # organisation this quarter
+    pwid_num = models.PositiveIntegerField('number of people who inject drugs', default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
 
 class CondomProgramming(models.Model):
     # Condom programming

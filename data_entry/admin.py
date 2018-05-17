@@ -2,13 +2,12 @@ from django import forms
 from django.contrib import admin
 
 from .models import NationalOrganisation, ActivityReportForm, StakeholderDirectory, \
-OrganisationTarget, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
+OrganisationTarget, MobilePopulation, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
 OtherQuestion, EndOfYearQuestion, GeneralComment
 
-from .models import IECMaterial, Teachers, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
-CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, MenWithMen, \
-CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, CommunityHealthSystem, \
-VulnerablePeople
+from .models import IECMaterial, Teachers, OutOfSchool, SexWorker, Inmate, PersonsWithDisabilty, MobileWorker, \
+MenWithMen, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, CriticalEnabler, \
+SynergyDevelopmentSector, CommunityHealthSystem, VulnerablePeople
 
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, TargetGroupPreventionMessageModelForm
 
@@ -50,16 +49,11 @@ class MaterialInline(admin.TabularInline):
         your organisation this quarter? Which of your materials were localized? (produced according to \
         local condition, culture, language etc.)'
     extra = 1
+
 class TeachersInline(admin.TabularInline):
     model = Teachers
     verbose_name_plural = 'Number of teachers who have received training, and taught lessons, in life \
         skills based comprehensive sexuality eduaction this quarter'
-    extra = 1
-    
-class AdolencentsInline(admin.TabularInline):
-    model = AdolecentsReached
-    verbose_name_plural = 'Number of adolescents and young people aged 10-24 reached by IEC materials \
-        by your organisation this quarter'
     extra = 1
 
 class OutOfSchoolInline(admin.TabularInline):
@@ -80,11 +74,6 @@ class InmateInline(admin.TabularInline):
         this quarter?'
     extra = 1
 
-class CorrectionalFaciltyStaffInline(admin.TabularInline):
-    model = CorrectionalFaciltyStaff
-    verbose_name_plural = 'How many correctional facility staff were reached with HIV prevention programmes \
-        this quarter?'
-
 class PersonsWithDisabiltyInline(admin.TabularInline):
     model = PersonsWithDisabilty
     verbose_name_plural = 'How many persons with disability were reached with HIV prevention programmes by your \
@@ -101,6 +90,18 @@ class MenWithMenInline(admin.TabularInline):
     model = MenWithMen
     verbose_name_plural = 'How many men who have sex with men (MSM) were reached with HIV prevention programmes by \
         your organisation this quarter?'
+    extra = 1
+
+class TransgenderIndividualInline(admin.TabularInline):
+    model = TransgenderIndividual
+    verbose_name_plural = 'How many transgender individuals were reached with HIV prevention programmes by your \
+        organisation this quarter?'
+    extra = 1
+
+class PeopleWhoInjectDrugInline(admin.TabularInline):
+    model = PeopleWhoInjectDrug
+    verbose_name_plural = 'Number of adolescents and young people aged 10-24 reached by IEC materials \
+        by your organisation this quarter'
     extra = 1
 
 class CondomProgrammingInline(admin.TabularInline):
@@ -142,6 +143,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     form = StakeholderDirectoryModelForm
 
     MenWithMenInline.max_num = 1
+    TeachersInline.max_num = 1
     CondomProgrammingInline.max_num = 1
     CriticalEnablerInline.max_num = 1
     SynergyDevelopmentSectorInline.max_num = 1
@@ -190,11 +192,11 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     list_filter = ('location_province', 'location_district',)
     list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported')
     
-    AdolencentsInline.max_num = 1
+    PeopleWhoInjectDrugInline.max_num = 1
     OutOfSchoolInline.max_num = 1
     SexWorkerInline.max_num = 1
     InmateInline.max_num = 1
-    CorrectionalFaciltyStaffInline.max_num = 1
+    TransgenderIndividualInline.max_num = 1
     PersonsWithDisabiltyInline.max_num = 1
     MobileWorkerInline.max_num = 1
     MenWithMenInline.max_num = 1
@@ -218,10 +220,9 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         }),
     )
 
-    inlines = [MaterialInline, TeachersInline, AdolencentsInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
-        CorrectionalFaciltyStaffInline, PersonsWithDisabiltyInline, MobileWorkerInline, MenWithMenInline,
-        CondomProgrammingInline, CriticalEnablerInline, SynergyDevelopmentSectorInline, CommunityHealthSystemInline, 
-        VulnerablePeopleInline]
+    inlines = [MaterialInline, TeachersInline, OutOfSchoolInline, SexWorkerInline, InmateInline, PersonsWithDisabiltyInline, 
+        MobileWorkerInline, MenWithMenInline, TransgenderIndividualInline, PeopleWhoInjectDrugInline,CondomProgrammingInline, 
+        CriticalEnablerInline, SynergyDevelopmentSectorInline, CommunityHealthSystemInline, VulnerablePeopleInline]
 
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
@@ -230,6 +231,13 @@ class OrganisationTargetAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Organisation Target', {
             'fields': ('organisation_target_option',)
+        }),
+    )
+
+class MobilePopulationAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Population Type', {
+            'fields': ('mobile_population_type',)
         }),
     )
 
@@ -242,7 +250,8 @@ admin.site.register(StakeholderDirectory, StakeholderDirectoryAdmin)
 # Register HIV Activities Organisation Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
-# note: uncomment to have a user be flexible to enter there own targets to the list
 admin.site.register(OrganisationTarget)
+
+admin.site.register(MobilePopulation)
 
 admin.site.register(SupportField)
