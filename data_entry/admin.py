@@ -52,6 +52,9 @@ class MaterialInline(admin.TabularInline):
     extra = 1
 class TeachersInline(admin.TabularInline):
     model = Teachers
+    verbose_name_plural = 'Number of teachers who have received training, and taught lessons, in life \
+        skills based comprehensive sexuality eduaction this quarter'
+    extra = 1
     
 class AdolencentsInline(admin.TabularInline):
     model = AdolecentsReached
@@ -215,7 +218,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         }),
     )
 
-    inlines = [MaterialInline, AdolencentsInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
+    inlines = [MaterialInline, TeachersInline, AdolencentsInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
         CorrectionalFaciltyStaffInline, PersonsWithDisabiltyInline, MobileWorkerInline, MenWithMenInline,
         CondomProgrammingInline, CriticalEnablerInline, SynergyDevelopmentSectorInline, CommunityHealthSystemInline, 
         VulnerablePeopleInline]

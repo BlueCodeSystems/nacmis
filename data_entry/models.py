@@ -569,6 +569,7 @@ class IECMaterial(models.Model):
 
 class Teachers(models.Model):
     teachers_num = models.PositiveIntegerField('number of teachers that received training', default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
     
 # --> Social behaviour change communication for key populations  
 class AdolecentsReached(models.Model):
