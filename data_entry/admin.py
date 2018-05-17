@@ -152,8 +152,8 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic details on the organization', {
             #'classes':('collapse',),
-            'fields': ('national_organization','organization', 'organization_district', 
-            'organization_address', 'start_year', 'gps', 'website', 'description_of_organization')
+            'fields': ('national_organization','organization', 'organization_district','organization_address', 
+            'start_year', 'gps', 'website', 'description_of_organization')
         }),
         ('Contact details', {
             'fields': ('key_contact_name', 'position_within_organization', 'telephone_number', 
@@ -181,7 +181,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         css = { "all" : ("css/hide_admin_original.css",) }
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
-    list_filter = ('location_province', 'location_district', 'location_ward')
+    list_filter = ('location_province', 'location_district',)
     list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported')
     
     AdolencentsInline.max_num = 1
@@ -201,7 +201,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Contact details', {
             'fields':('report_date', 'quarter_been_reported', 'stake_holder_name', 
-            ('location_province', 'location_district', 'location_ward'), ('name', 
+            ('location_province', 'location_district', ), ('name', 
             'telephone_number', 'email_address')
             ),
         }),
