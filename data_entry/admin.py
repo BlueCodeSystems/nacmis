@@ -5,7 +5,7 @@ from .models import NationalOrganisation, ActivityReportForm, StakeholderDirecto
 OrganisationTarget, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
 OtherQuestion, EndOfYearQuestion, GeneralComment
 
-from .models import IECMaterial, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
+from .models import IECMaterial, Teachers, AdolecentsReached, OutOfSchool, SexWorker, Inmate, \
 CorrectionalFaciltyStaff, PersonsWithDisabilty, MobileWorker, MenWithMen, \
 CondomProgramming, CriticalEnabler, SynergyDevelopmentSector, CommunityHealthSystem, \
 VulnerablePeople
@@ -46,10 +46,13 @@ class GeneralCommentInline(admin.StackedInline):
 class MaterialInline(admin.TabularInline):
     model = IECMaterial
     verbose_name = 'IEC Material'
-    verbose_name_plural = 'How many IEC materials were distributed by your organisation this quarter? \
-        Which of your materials were localized (produced according to local condition, culture, language etc.)? '
+    verbose_name_plural = 'How many Information Education Communication(IEC) materials were distributed by \
+        your organisation this quarter? Which of your materials were localized? (produced according to \
+        local condition, culture, language etc.)'
     extra = 1
-
+class TeachersInline(admin.TabularInline):
+    model = Teachers
+    
 class AdolencentsInline(admin.TabularInline):
     model = AdolecentsReached
     verbose_name_plural = 'Number of adolescents and young people aged 10-24 reached by IEC materials \
@@ -65,7 +68,7 @@ class OutOfSchoolInline(admin.TabularInline):
 class SexWorkerInline(admin.TabularInline):
     model = SexWorker
     verbose_name_plural = 'How many sex workers were reached with HIV prevention programmes by your \
-        organisation this quarter'
+        organisation this quarter?'
     extra = 1
 
 class InmateInline(admin.TabularInline):

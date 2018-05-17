@@ -561,11 +561,15 @@ class IECMaterial(models.Model):
     material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default="")
     number_distributed = models.PositiveIntegerField('number of materials distributed', default=0)
     localized = models.BooleanField(default=False)
+    targeted_audience = models.ManyToManyField(OrganisationTarget)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.material_type
 
+class Teachers(models.Model):
+    teachers_num = models.PositiveIntegerField('number of teachers that received training', default=0)
+    
 # --> Social behaviour change communication for key populations  
 class AdolecentsReached(models.Model):
     # in_school
