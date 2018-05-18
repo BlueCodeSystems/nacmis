@@ -6,32 +6,7 @@ from .models import ActivityReportForm
 from django_select2.forms import Select2MultipleWidget
 from dal import autocomplete
 
-lusaka = 'Lusaka Province'
-central = 'Central Province'
-copperbelt = 'Copperbelt Province'
-eastern = 'Easten Province'
-luapula = 'Luapula Province'
-muchinga = 'Muchinga Province'
-north_western = 'North Westen Province'
-northern = 'Northern Province'
-southern = 'Southern Province'
-western = 'Western Province'
-
-PROVINCES_ZAMBIA = (
-    (lusaka, 'Lusaka Province'),
-    (central, 'Central Province'),
-    (copperbelt, 'Copperbelt Province'),
-    (eastern, 'Easten Province'),
-    (luapula, 'Luapula Province'),
-    (muchinga, 'Muchinga Province'),
-    (north_western, 'North Westen Province'),
-    (northern, 'Northern Province'),
-    (southern, 'Southern Province'),
-    (western, 'Western Province')
-)
-
 class StakeholderDirectoryModelForm(forms.ModelForm):  
-    province = forms.ChoiceField(choices=PROVINCES_ZAMBIA)
     class Meta:
         model = StakeholderDirectory
         #fields = '__all__' # including all fields of model
