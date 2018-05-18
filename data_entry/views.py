@@ -92,7 +92,7 @@ class WardAutocomplete(autocomplete.Select2QuerySetView):
 
         qs = Ward.objects.all()
 
-        district = self.forwarded.get('district', None)
+        district = self.forwarded.get('organisation_district', None)
 
         if district:
             qs = qs.filter(district=district)
