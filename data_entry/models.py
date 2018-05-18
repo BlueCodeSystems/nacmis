@@ -595,6 +595,7 @@ class IECMaterial(models.Model):
 
     def __str__(self):
         return self.material_type
+
 # --> Social behaviour change communication for key populations 
 class Teachers(models.Model):
     teachers_num = models.PositiveIntegerField('number of teachers that received training', default=0)
