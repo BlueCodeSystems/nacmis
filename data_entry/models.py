@@ -29,29 +29,21 @@ Q3 = 'Quarter 3'
 Q4 = 'Quarter 4'
 
 plhiv = 'People living with HIV/ AIDS (PLHIV)'
-ovc = 'Orphans and Vulnerable Children (OVC)'
+vp = 'Vulnerable People'
 pregnant_women = 'Pregnant Women'
 care_givers = 'Care givers'
 health_workers = 'Heath workers'
 teachers = 'Teachers'
-children = 'Children'
 adolecents = 'Adolecents/ Youth'
-old_people = 'Old people/ Pensioners'
-disabled_people = 'Disabled people'
-inmates_wivies = 'Prisoners wivies' # form says 'Prisoners Widows' Confirm this
+elderly = 'Elderly/ Pensioners'
+persons_with_disabilities = 'Persons with Disabilities'
+health_workers = 'Heath workers'
 govt_workers = 'Government workers (work place)'
 sex_workers = 'Sex workers'
-church_leaders = 'Church leaders'
-employee_families = 'Employees and/or Employee families'
-gdwg = 'Guardians/ Divorced/ Widows/ Grandparents'
-idu = 'Intravenous drug users (IDU)'
-msm = 'Men who have sex with men (MSM)'
-mobile_population = 'Migrants/ Mobile population'
-out_of_school_youth = 'Out of school youth'
+widows = 'Widows'
+pwid = 'People who Inject Drugs (PWID)'
+msm = 'Men who have Sex with Men (MSM)'
 inmates = 'Inmates'
-street_children = 'Street children'
-traditional_healers = 'Traditional healers'
-traditional_leaders = 'Traditional leaders'
 target_others = 'Other target groups - please specify' # change some kind of list later
 
 truck_driver = 'Long distance truck drivers'
@@ -270,28 +262,18 @@ DISTRICT_WARD_LIST = (
 ORGANISATION_TARGET_LIST = (
     (adolecents, 'Adolecents/ Youth'),
     (care_givers, 'Care givers'),
-    (children, 'Children'),
-    (church_leaders, 'Church leaders'),
-    (disabled_people, 'Disabled people'),
-    (employee_families, 'Employees and/or Employee families'),
-    (gdwg, 'Guardians/ Divorced/ Widows/ Grandparents'),
+    (persons_with_disabilities, 'Persons with Disabilities'),
     (govt_workers, 'Government workers (work place)'),
     (health_workers, 'Heath workers'),
-    (idu, 'Intravenous drug users (IDU)'),
+    (widows, 'Widows'),
     (inmates, 'Inmates'),
-    (inmates_wivies, 'Inmates wivies'),
-    (mobile_population, 'Migrants/ Mobile population'),
     (msm, 'Men who have sex with men (MSM)'),
-    (old_people, 'Old people/ Pensioners'),
-    (out_of_school_youth, 'Out of school youth'),
-    (ovc, 'Orphans and Vulnerable Children'),
+    (elderly, 'Elderly/ Pensioners'),
+    (vp, 'Vulnerable People'),
     (plhiv, 'People living with HIV/ AIDS'),
     (pregnant_women, 'Pregnant Women'),
     (sex_workers, 'Sex workers'),
-    (street_children, 'Street children'),
     (teachers, 'Teachers'),
-    (traditional_healers, 'Traditional healers'),
-    (traditional_leaders, 'Traditional leaders'),
     (target_others, 'Other target groups - please specify')
 )
 
@@ -399,7 +381,21 @@ class NationalOrganisation(models.Model):
 
 #               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
 # *********************************************************************
-class organisationType(models.Model):
+class District(models.Model):
+    province = models.CharField(max_length=50, choices=PROVINCES_ZAMBIA, default="")
+    name = models.CharField(max_length=50, choices=PROVINCE_DISTRICTS)
+
+    def __str__(self):
+        return self.name
+
+class Ward(models.Model):
+    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class OrganisationType(models.Model):
     organisation_type_option = models.CharField(max_length=100, null=False)
 
     def __str__(self):
@@ -434,7 +430,7 @@ class StakeholderDirectory(models.Model):
     national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE, null=True)
     organisation = models.CharField(max_length=200)
     organisation_address = models.CharField('address of the organisation', max_length=100, blank=True)
-    organisation_district = models.CharField(max_length=200, default="")
+    organisation_district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
     start_year = models.DateField('which year did your organisation start working in this district?')
     gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
@@ -446,7 +442,6 @@ class StakeholderDirectory(models.Model):
     position_within_organisation = models.CharField('position within the organisation', max_length=50)
     #telephone_number = models.CharField('telephone number', max_length=20)
     telephone_number = PhoneNumberField()
-    #telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
     telephone_number_alternative = PhoneNumberField(blank=True)
     email_address = models.EmailField('email address', max_length=254)
 
@@ -464,9 +459,6 @@ class StakeholderDirectory(models.Model):
     organisation_target = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
         different groups that are targeted by your organisation)')
 
-    # list of names to use as filters from ActivityReport forms
-
-
     def __str__(self):
         #return self.organisation + ' - ' + self.organisation_district + ' - ' + self.telephone_number
         return self.organisation + ' - ' + self.organisation_district 
@@ -477,23 +469,14 @@ class SupportField(models.Model):
     def __str__(self):
         return self.area_of_support
 
-# --> Geographic activities - High impact interventions
-# What area(s) of support does your organisation provide? (Please tick as many different areas that 
-# are carried out by your organisation)
 class ProgramActivity(models.Model):
-    ward = models.CharField(max_length=100)
+    ward = models.ForeignKey(Ward, on_delete=models.CASCADE, null=True)
     area_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
-    def __str__(self):
-        #return self.area_of_support.all() + '-' + self.location
-        return self.ward
+    #def __str__(self):
+    #    return 'self.area_of_support.all() + '-' + self.ward.name
 
-# --> Funding sources
-# Please provide details on the organisation that provide funding to you, starting with the largest 
-# partner/ donor. We also want to understand the types of support that the partners/donors provide to 
-# your organisation, and the funding each partner/ donor has given you 2016. (The information on funding 
-# will not be published and only held at DAFT)
 class FundingSource(models.Model):
     name_of_organisation =  models.CharField(max_length=100, default="")
     funding_amount =  models.PositiveIntegerField('Funding Amount(In US Dollars)')
@@ -502,9 +485,6 @@ class FundingSource(models.Model):
     def __str__(self):
         return self.name_of_organisation
 
-# --> Target groups and prevention messages
-# Using the matrix below please hoghlight with a tick where your organisation is/ will be providing 
-# prevention messages to one or more of the target groups listed
 class TargetGroupPreventionMessage(models.Model):
     prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, null=True)
     target_group = models.ManyToManyField(OrganisationTarget)
@@ -543,7 +523,6 @@ class EndOfYearQuestion(models.Model):
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
 class GeneralComment(models.Model):
-    #general comment at bottom of field
     general_comment = models.TextField(default="")
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
@@ -584,7 +563,8 @@ class ActivityReportForm(models.Model):
             " - " + self.quarter_been_reported
         else:
             return "unset stakeholder name"
-    
+
+# --> Social behaviour change communication 
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
     material_type = models.CharField(max_length=100, choices=IEC_MATERIALS)
@@ -602,9 +582,6 @@ class Teachers(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
     
 class OutOfSchool(models.Model):
-    # out_school
-    # Number of Out of School children and young people aged 10-24 years provided with life
-    # skills- based comprehensive sexuality education within this quarter
     out_school_female_10_14 = models.PositiveIntegerField('out of school females of ages 10 to 14', default=0)
     out_school_female_15_19 = models.PositiveIntegerField('out of school females of ages 15 to 19', default=0)
     out_school_female_20_24 = models.PositiveIntegerField('out of school females of ages 20 to 24', default=0)
@@ -676,10 +653,6 @@ class CondomProgramming(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class CriticalEnabler(models.Model):
-    
-    # Crtical enablers
-    #  Number of people who experienced physical or sexual violence and were referred for Post 
-    # Exposure Prophylaxis (PEP) within 72 hours in accordance with national guidelines this quarter.
     accessed_pep_female_num = models.PositiveIntegerField('females who experienced physical or \
         sexual violence, and accessed Post Exposure Prophylaxis (PEP)', default=0)
     accessed_pep_male_num = models.PositiveIntegerField('males who experienced physical or sexual \

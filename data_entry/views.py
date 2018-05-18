@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import generic
 from dal import autocomplete
 
-from .models import OrganisationTarget, SupportField
+from .models import District, Ward, OrganisationTarget, SupportField
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
@@ -24,20 +24,6 @@ class Login(generic.DetailView):
     def get_queryset(self):
         return
 
-'''
-class StakeHolderView(generic.DetailView):
-    return HttpResponse("Hello, stake holder. This is your page.")
-    
-class ReportView(generic.DetailView):
-    return HttpResponse("Reporting form page.")
-
-class ParticipationView(generic.DetailView):
-    return HttpResponse("HIV activities organization participates in page.")
-
-class SituationRoomView(generic.DetailView):
-    return HttpResponse("Reporting form page.")
-
-'''
 def add_clean_model(request):
     if request.method == 'POST':
         form = StakeholderDirectoryModelForm(request.POST)
@@ -71,7 +57,7 @@ class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
 
 class OrganisationTargetAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
+        
         #if not self.request.user.is_authenticated():
         #    return OrganisationTarget.objects.none()
 
@@ -79,4 +65,39 @@ class OrganisationTargetAutocomplete(autocomplete.Select2QuerySetView):
 
         if self.q:
             qs = qs.filter(organization_target_option__istartswith=self.q)
+        return qs
+
+class DistrictAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        
+        #if not self.request.user.is_authenticated():
+        #    return District.objects.none()
+
+        qs = District.objects.all()
+
+        province = self.forwarded.get('province', None)
+
+        if province:
+            qs = qs.filter(province=province)
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+        return qs
+
+class WardAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+    
+        #if not self.request.user.is_authenticated():
+        #    return District.objects.none()
+
+        qs = Ward.objects.all()
+
+        district = self.forwarded.get('organization_district', None)
+
+        if district:
+            print(district)
+            qs = qs.filter(district=district)
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
         return qs

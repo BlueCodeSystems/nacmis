@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 
-from .models import NationalOrganisation, ActivityReportForm, StakeholderDirectory, \
+from .models import NationalOrganisation, ActivityReportForm, StakeholderDirectory, District, Ward, \
 OrganisationTarget, MobilePopulation, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
 OtherQuestion, EndOfYearQuestion, GeneralComment
 
@@ -189,7 +189,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         css = { "all" : ("css/hide_admin_original.css",) }
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
-    list_filter = ('location_province', 'location_district',)
+    list_filter = ('location_province', 'location_district', )
     list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported')
     
     PeopleWhoInjectDrugInline.max_num = 1
@@ -209,8 +209,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Contact details', {
             'fields':('report_date', 'quarter_been_reported', 'stake_holder_name', 
-            ('location_province', 'location_district', ), ('name', 
-            'telephone_number', 'email_address')
+            ('location_province', 'location_district',), ('name', 'telephone_number', 'email_address')
             ),
         }),
         ('What types of care and support does your organisation provide? (select all that apply)', {
@@ -255,3 +254,7 @@ admin.site.register(OrganisationTarget)
 admin.site.register(MobilePopulation)
 
 admin.site.register(SupportField)
+
+admin.site.register(District)
+
+admin.site.register(Ward)
