@@ -11,10 +11,10 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
     class Meta:
         model = StakeholderDirectory
         #fields = '__all__' # including all fields of model
-        fields = ['start_year', 'organisation_address', 'organisation_target',]
+        fields = ['organisation_address', 'organisation_target',]   # 'start_year', 
 
         widgets = {
-            'start_year' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD'}),
+            #'start_year' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD'}),
             'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
             'organisation_target' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }

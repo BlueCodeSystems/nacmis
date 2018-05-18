@@ -434,7 +434,7 @@ class StakeholderDirectory(models.Model):
     national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE, null=True)
     organisation = models.CharField(max_length=200)
     organisation_address = models.CharField('address of the organisation', max_length=100, blank=True)
-    organisation_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS, default="")
+    organisation_district = models.CharField(max_length=200, default="")
     start_year = models.DateField('which year did your organisation start working in this district?')
     gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
@@ -481,7 +481,7 @@ class SupportField(models.Model):
 # What area(s) of support does your organisation provide? (Please tick as many different areas that 
 # are carried out by your organisation)
 class ProgramActivity(models.Model):
-    ward = models.CharField(max_length=100, choices=DISTRICT_WARD_LIST)
+    ward = models.CharField(max_length=100)
     area_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
@@ -555,14 +555,14 @@ class GeneralComment(models.Model):
     
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
-    report_date = models.DateField(null=True)
+    report_date = models.DateField('Report date(YYYY-MM-DD)', null=True)
     quarter_been_reported = models.CharField(max_length=20, choices=QUARTER_LIST)
     stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organisation', \
         on_delete=models.SET_NULL, null=True)
     
     # Location and Report Compilation section
     location_province = models.CharField('province', max_length=100, choices=PROVINCES_ZAMBIA, default="")
-    location_district = models.CharField('district', max_length=100, choices=PROVINCE_DISTRICTS, default="")
+    location_district = models.CharField('district', max_length=100, default="")
     name = models.CharField(max_length=50)
     telephone_number = PhoneNumberField()
     email_address = models.EmailField(max_length=50)
