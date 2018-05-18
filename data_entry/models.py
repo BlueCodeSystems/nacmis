@@ -12,16 +12,16 @@ government = 'Government Organisation'
 private = 'Private Organisation'
 org_others = 'Other organisation / group - please specify'  # change some kind of list later
 
-lusaka = 'Lusaka Province'
-central = 'Central Province'
-copperbelt = 'Copperbelt Province'
-eastern = 'Easten Province'
-luapula = 'Luapula Province'
-muchinga = 'Muchinga Province'
-north_western = 'North Westen Province'
-northern = 'Northern Province'
-southern = 'Southern Province'
-western = 'Western Province'
+lusaka = 'Lusaka'
+central = 'Central'
+copperbelt = 'Copperbelt'
+eastern = 'Eastern'
+luapula = 'Luapula'
+muchinga = 'Muchinga'
+north_western = 'North Westen'
+northern = 'Northern'
+southern = 'Southern'
+western = 'Western'
 
 Q1 = 'Quarter 1'
 Q2 = 'Quarter 2'
@@ -104,16 +104,16 @@ ORGANISATION_TYPE_LIST = (
 )
 
 PROVINCES_ZAMBIA = (
-    (lusaka, 'Lusaka Province'),
-    (central, 'Central Province'),
-    (copperbelt, 'Copperbelt Province'),
-    (eastern, 'Eastern Province'),
-    (luapula, 'Luapula Province'),
-    (muchinga, 'Muchinga Province'),
-    (north_western, 'North Westen Province'),
-    (northern, 'Northern Province'),
-    (southern, 'Southern Province'),
-    (western, 'Western Province')
+    (lusaka, 'Lusaka'),
+    (central, 'Central'),
+    (copperbelt, 'Copperbelt'),
+    (eastern, 'Eastern'),
+    (luapula, 'Luapula'),
+    (muchinga, 'Muchinga'),
+    (north_western, 'North Westen'),
+    (northern, 'Northern'),
+    (southern, 'Southern'),
+    (western, 'Western')
 )
 
 PROVINCE_DISTRICTS = (
@@ -386,14 +386,14 @@ class District(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name + ' district - ' + self.province
+        return self.name + ' - ' + self.province
 
 class Ward(models.Model):
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name + ' ward'
+        return self.name
 
 class OrganisationType(models.Model):
     organisation_type_option = models.CharField(max_length=100, null=False)
