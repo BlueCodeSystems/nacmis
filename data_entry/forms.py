@@ -19,14 +19,14 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
         }
 
 class ProgramActivityModelForm(forms.ModelForm):
-
+    # organisation_district
     class Meta:
         model = ProgramActivity
         fields = '__all__'
         
         widgets = {
             'area_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
-            'ward':  autocomplete.ModelSelect2(url='ward-autocomplete', forward=['organization_district'])
+            'ward':  autocomplete.ModelSelect2(url='ward-autocomplete', forward=['organisation_district'])
         }
 
 class TargetGroupPreventionMessageModelForm(forms.ModelForm):
