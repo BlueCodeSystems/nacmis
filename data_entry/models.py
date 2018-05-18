@@ -547,6 +547,9 @@ class GeneralComment(models.Model):
     general_comment = models.TextField(default="")
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return ''
+
 # HIV ACTIVITIES ORGANISATION PARTICIPATES IN FORM
 # *************************************************
     
@@ -584,11 +587,11 @@ class ActivityReportForm(models.Model):
     
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
-    material_type = models.CharField(max_length=100, choices=IEC_MATERIALS, default="")
+    material_type = models.CharField(max_length=100, choices=IEC_MATERIALS)
     number_distributed = models.PositiveIntegerField('number of materials distributed', default=0)
     localized = models.BooleanField(default=False)
     targeted_audience = models.ManyToManyField(OrganisationTarget)
-    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.material_type
