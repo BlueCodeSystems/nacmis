@@ -107,7 +107,7 @@ PROVINCES_ZAMBIA = (
     (lusaka, 'Lusaka Province'),
     (central, 'Central Province'),
     (copperbelt, 'Copperbelt Province'),
-    (eastern, 'Easten Province'),
+    (eastern, 'Eastern Province'),
     (luapula, 'Luapula Province'),
     (muchinga, 'Muchinga Province'),
     (north_western, 'North Westen Province'),
@@ -383,17 +383,17 @@ class NationalOrganisation(models.Model):
 # *********************************************************************
 class District(models.Model):
     province = models.CharField(max_length=50, choices=PROVINCES_ZAMBIA, default="")
-    name = models.CharField(max_length=50, choices=PROVINCE_DISTRICTS)
+    name = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return self.name + ' district - ' + self.province
 
 class Ward(models.Model):
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return self.name + ' ward'
 
 class OrganisationType(models.Model):
     organisation_type_option = models.CharField(max_length=100, null=False)
@@ -402,8 +402,6 @@ class OrganisationType(models.Model):
         return self.organisation_type_option
 
 class OrganisationTarget(models.Model):
-    # Which group(s) does your organisation target? (Please tick as many different groups that 
-    # are targeted by your organisation)
     organisation_target_option = models.CharField(max_length=100, default="")
 
     def __str__(self):
@@ -440,7 +438,6 @@ class StakeholderDirectory(models.Model):
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
     position_within_organisation = models.CharField('position within the organisation', max_length=50)
-    #telephone_number = models.CharField('telephone number', max_length=20)
     telephone_number = PhoneNumberField()
     telephone_number_alternative = PhoneNumberField(blank=True)
     email_address = models.EmailField('email address', max_length=254)
@@ -460,8 +457,7 @@ class StakeholderDirectory(models.Model):
         different groups that are targeted by your organisation)')
 
     def __str__(self):
-        #return self.organisation + ' - ' + self.organisation_district + ' - ' + self.telephone_number
-        return self.organisation + ' - ' + self.organisation_district 
+        return  'Stakeholder directory - ' + self.organisation 
 
 class SupportField(models.Model):
     area_of_support = models.CharField(max_length=100, null=True)
@@ -473,9 +469,6 @@ class ProgramActivity(models.Model):
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE, null=True)
     area_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
-
-    #def __str__(self):
-    #    return 'self.area_of_support.all() + '-' + self.ward.name
 
 class FundingSource(models.Model):
     name_of_organisation =  models.CharField(max_length=100, default="")
@@ -541,7 +534,7 @@ class ActivityReportForm(models.Model):
     
     # Location and Report Compilation section
     location_province = models.CharField('province', max_length=100, choices=PROVINCES_ZAMBIA, default="")
-    location_district = models.CharField('district', max_length=100, default="")
+    location_district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50)
     telephone_number = PhoneNumberField()
     email_address = models.EmailField(max_length=50)
