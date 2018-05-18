@@ -256,6 +256,12 @@ DISTRICT_WARD_LIST = (
             ('Kapijimpanga', 'Kapijimpanga'),
             ('Tumvwanganai', 'Tumvwanganai')
         )
+    ),
+    (
+        'Mpongwe', (
+            ('Ibenga', 'Ibenga'),
+            ('Munkumpu', 'Munkumpu')
+        )
     )
 )  
 
@@ -382,7 +388,7 @@ class NationalOrganisation(models.Model):
 #               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
 # *********************************************************************
 class District(models.Model):
-    province = models.CharField(max_length=50, choices=PROVINCES_ZAMBIA, default="")
+    province = models.CharField(max_length=50, choices=PROVINCES_ZAMBIA)
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -396,7 +402,7 @@ class Ward(models.Model):
         return self.name
 
 class OrganisationType(models.Model):
-    organisation_type_option = models.CharField(max_length=100, null=False)
+    organisation_type_option = models.CharField(max_length=100)
 
     def __str__(self):
         return self.organisation_type_option
