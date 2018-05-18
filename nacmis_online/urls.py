@@ -15,8 +15,7 @@ Including another URLconf
 """
 from django.urls import include, path
 from django.contrib import admin
-from data_entry.views import SupportFieldAutocomplete, OrganizationTargetAutocomplete, \
-    DistrictAutocomplete, WardAutocomplete
+from data_entry.views import SupportFieldAutocomplete, DistrictAutocomplete, WardAutocomplete, OrganisationTargetAutocomplete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,8 +23,8 @@ urlpatterns = [
     path('select2/', include('django_select2.urls')),    # for select2
     path('supportfield-autocomplete/', SupportFieldAutocomplete.as_view(), 
         name='supportfield-autocomplete'),
-    path('organizationtarget-autocomplete/', OrganizationTargetAutocomplete.as_view(), 
-        name='organizationtarget-autocomplete'),
+    path('organisationtarget-autocomplete/', OrganisationTargetAutocomplete.as_view(), 
+        name='organisationtarget-autocomplete'),
     path('district-autocomplete/', DistrictAutocomplete.as_view(), name='district-autocomplete'),
     path('ward-autocomplete/', WardAutocomplete.as_view(), name='ward-autocomplete'),
 ]

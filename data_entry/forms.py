@@ -2,7 +2,7 @@ from django import forms
 
 
 from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage
-from .models import ActivityReportForm
+from .models import ActivityReportForm, IECMaterial
 from django_select2.forms import Select2MultipleWidget
 from dal import autocomplete
 
@@ -10,12 +10,12 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
     class Meta:
         model = StakeholderDirectory
         #fields = '__all__' # including all fields of model
-        fields = ['start_year', 'organization_address', 'organization_district',]
+        fields = ['organisation_address', 'organisation_target',]   # 'start_year', 
 
         widgets = {
-            'start_year' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD'}),
-            'organization_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
-            'organization_district' : autocomplete.ModelSelect2(url='district-autocomplete'), 
+            #'start_year' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD'}),
+            'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
+            'organisation_target' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }
 
 class ProgramActivityModelForm(forms.ModelForm):
@@ -36,7 +36,17 @@ class TargetGroupPreventionMessageModelForm(forms.ModelForm):
         fields = '__all__'
         
         widgets = {
-            'target_group': autocomplete.ModelSelect2Multiple(url='organizationtarget-autocomplete'),
+            'target_group': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
+        }
+
+class IECMaterialModelForm(forms.ModelForm):
+
+    class Meta:
+        model = IECMaterial
+        fields = '__all__'
+        
+        widgets = {
+            'targeted_audience': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }
 
 class MyForm(forms.Form):
