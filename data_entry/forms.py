@@ -18,6 +18,14 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
             'organisation_target' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }
 
+class ActivityReportFormModelForm(forms.ModelForm):
+    class Meta:
+        model = ActivityReportForm
+        fields = '__all__'
+        widgets = {
+            'location_district' : autocomplete.ModelSelect2Multiple(url='district-autocomplete', forward=['location_province']),
+        } 
+
 class ProgramActivityModelForm(forms.ModelForm):
     # organisation_district
     class Meta:

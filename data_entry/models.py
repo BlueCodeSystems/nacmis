@@ -104,11 +104,11 @@ ORGANISATION_TYPE_LIST = (
 )
 
 PROVINCES_ZAMBIA = (
-    (lusaka, 'Lusaka'),
     (central, 'Central'),
     (copperbelt, 'Copperbelt'),
     (eastern, 'Eastern'),
     (luapula, 'Luapula'),
+    (lusaka, 'Lusaka'),
     (muchinga, 'Muchinga'),
     (north_western, 'North Westen'),
     (northern, 'Northern'),
@@ -375,6 +375,26 @@ YES_OR_NO = (
     (no, 'No')
 )
 
+class Province(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class District(models.Model):
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class Ward(models.Model):
+    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
 #                       NATIONAL ORGANISATION
 # *********************************************************************
 class NationalOrganisation(models.Model):
@@ -387,19 +407,6 @@ class NationalOrganisation(models.Model):
 
 #               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
 # *********************************************************************
-class District(models.Model):
-    province = models.CharField(max_length=50, choices=PROVINCES_ZAMBIA)
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name + ' - ' + self.province
-
-class Ward(models.Model):
-    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
 
 class OrganisationType(models.Model):
     organisation_type_option = models.CharField(max_length=100)
@@ -539,7 +546,7 @@ class ActivityReportForm(models.Model):
         on_delete=models.SET_NULL, null=True)
     
     # Location and Report Compilation section
-    location_province = models.CharField('province', max_length=100, choices=PROVINCES_ZAMBIA, default="")
+    location_province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
     location_district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50)
     telephone_number = PhoneNumberField()
