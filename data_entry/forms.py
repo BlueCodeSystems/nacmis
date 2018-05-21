@@ -1,22 +1,31 @@
 from django import forms
 
 
-from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage
+from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District
 from .models import ActivityReportForm, IECMaterial
-from django_select2.forms import Select2MultipleWidget
 from dal import autocomplete
 
-class StakeholderDirectoryModelForm(forms.ModelForm):  
+class StakeholderDirectoryModelForm(forms.ModelForm):
+
     class Meta:
         model = StakeholderDirectory
         #fields = '__all__' # including all fields of model
-        fields = ['organisation_address', 'organisation_target',]   # 'start_year', 
+        fields = ['organisation_address', 'organisation_target', 'organisation_district']   # 'start_year',
 
         widgets = {
-            #'start_year' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD'}),
+            'start_year' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD'}),
             'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
             'organisation_target' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
+            'organisation_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
         }
+    
+class ActivityReportFormModelForm(forms.ModelForm):
+    class Meta:
+        model = ActivityReportForm
+        fields = '__all__'
+        widgets = {
+            #'location_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['location_province']),
+        } 
 
 class ProgramActivityModelForm(forms.ModelForm):
     # organisation_district
@@ -49,6 +58,4 @@ class IECMaterialModelForm(forms.ModelForm):
             'targeted_audience': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }
 
-class MyForm(forms.Form):
-    stakes = forms.ModelChoiceField( queryset=StakeholderDirectory.objects.all(), widget=Select2MultipleWidget)
     

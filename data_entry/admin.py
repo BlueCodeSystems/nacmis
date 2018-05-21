@@ -160,8 +160,8 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic details on the organisation', {
             #'classes':('collapse',),
-            'fields': ('national_organisation','organisation', 'organisation_district','organisation_address', 
-            'start_year', 'gps', 'website', 'description_of_organisation')
+            'fields': ('national_organisation','organisation', ('organisation_province', 'organisation_district'), 
+            'organisation_address', 'start_year', 'gps', 'website', 'description_of_organisation')
         }),
         ('Contact details', {
             'fields': ('key_contact_name', 'position_within_organisation', 'telephone_number', 
@@ -189,8 +189,8 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         css = { "all" : ("css/hide_admin_original.css",) }
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
-    list_filter = ('location_province', 'location_district', )
-    list_display = ('stake_holder_name', 'location_district', 'quarter_been_reported')
+    #list_filter = ('location_province', 'location_district', )
+    list_display = ('stake_holder_name', 'quarter_been_reported')
     
     PeopleWhoInjectDrugInline.max_num = 1
     OutOfSchoolInline.max_num = 1
@@ -209,7 +209,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Contact details', {
             'fields':('report_date', 'quarter_been_reported', 'stake_holder_name', 
-            ('location_province', 'location_district',), ('name', 'telephone_number', 'email_address')
+            ('name', 'telephone_number', 'email_address')
             ),
         }),
         ('What types of care and support does your organisation provide? (select all that apply)', {

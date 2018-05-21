@@ -4,7 +4,7 @@ from django.views import generic
 from dal import autocomplete
 
 from .models import District, Ward, OrganisationTarget, SupportField
-from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
+from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm
 
 # Create your views here.
 
@@ -75,7 +75,12 @@ class DistrictAutocomplete(autocomplete.Select2QuerySetView):
 
         qs = District.objects.all()
 
+<<<<<<< HEAD
         province = self.forwarded.get('province', None)
+=======
+        province = self.forwarded.get('organisation_province', None)
+        print(province)
+>>>>>>> issue#78
 
         if province:
             qs = qs.filter(province=province)
