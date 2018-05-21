@@ -565,8 +565,7 @@ class ActivityReportForm(models.Model):
 
     def __str__(self):
         if self.stake_holder_name:
-            return self.stake_holder_name.organisation + " - " + 'self.location_district' + \
-            " - " + self.quarter_been_reported
+            return self.stake_holder_name.organisation + " - " + self.quarter_been_reported
         else:
             return "unset stakeholder name"
 

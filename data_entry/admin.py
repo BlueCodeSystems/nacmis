@@ -130,8 +130,7 @@ class CommunityHealthSystemInline(admin.TabularInline):
 
 class VulnerablePeopleInline(admin.TabularInline):
     model = VulnerablePeople
-    verbose_name_plural = 'How many vulnerable people in total received care and support from your organisation this \
-    quarter? What types of care and support does your organisation provide? (select all that apply)'
+    verbose_name_plural = 'How many vulnerable people received care and support from your organisation this quarter?'
     extra = 1
 
 # ADMIN CLASSES
@@ -189,7 +188,6 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         css = { "all" : ("css/hide_admin_original.css",) }
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
-    #list_filter = ('location_province', 'location_district', )
     list_display = ('stake_holder_name', 'quarter_been_reported')
     
     PeopleWhoInjectDrugInline.max_num = 1
