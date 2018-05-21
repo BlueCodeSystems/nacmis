@@ -471,7 +471,8 @@ class StakeholderDirectory(models.Model):
         different groups that are targeted by your organisation)')
 
     def __str__(self):
-        return  'Stakeholder directory - ' + self.organisation 
+        return self.organisation + ' - ' + self.organisation_district.name + ' district - ' \
+        + self.organisation_district.province.name + ' province' 
 
 class SupportField(models.Model):
     area_of_support = models.CharField(max_length=100, null=True)
@@ -542,13 +543,11 @@ class GeneralComment(models.Model):
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
     report_date = models.DateField('Report date(YYYY-MM-DD)', null=True)
-    quarter_been_reported = models.CharField(max_length=20, choices=QUARTER_LIST)
+    quarter_been_reported = models.CharField(verbose_name='quater being reported', max_length=20, choices=QUARTER_LIST)
     stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organisation', \
         on_delete=models.SET_NULL, null=True)
     
     # Location and Report Compilation section
-    location_province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
-    location_district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50)
     telephone_number = PhoneNumberField()
     email_address = models.EmailField(max_length=50)
