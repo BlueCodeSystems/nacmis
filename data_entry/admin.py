@@ -255,6 +255,8 @@ admin.site.register(MobilePopulation)
 
 admin.site.register(SupportField)
 
+admin.site.register(Province)
+
 admin.site.register(District)
 
 admin.site.register(Ward)
