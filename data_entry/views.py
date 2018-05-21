@@ -75,7 +75,8 @@ class DistrictAutocomplete(autocomplete.Select2QuerySetView):
 
         qs = District.objects.all()
 
-        province = self.forwarded.get('location_province', None)
+        province = self.forwarded.get('organisation_province', None)
+        print(province)
 
         if province:
             qs = qs.filter(province=province)

@@ -110,7 +110,7 @@ PROVINCES_ZAMBIA = (
     (luapula, 'Luapula'),
     (lusaka, 'Lusaka'),
     (muchinga, 'Muchinga'),
-    (north_western, 'North Westen'),
+    (north_western, 'North Western'),
     (northern, 'Northern'),
     (southern, 'Southern'),
     (western, 'Western')
@@ -441,7 +441,8 @@ class StakeholderDirectory(models.Model):
     national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE, null=True)
     organisation = models.CharField(max_length=200)
     organisation_address = models.CharField('address of the organisation', max_length=100, blank=True)
-    organisation_district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
+    organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
+    organisation_district = models.ForeignKey(District, on_delete=models.CASCADE,)
     start_year = models.DateField('which year did your organisation start working in this district?')
     gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
@@ -565,7 +566,7 @@ class ActivityReportForm(models.Model):
 
     def __str__(self):
         if self.stake_holder_name:
-            return self.stake_holder_name.organisation + " - " + self.location_district + \
+            return self.stake_holder_name.organisation + " - " + 'self.location_district' + \
             " - " + self.quarter_been_reported
         else:
             return "unset stakeholder name"
