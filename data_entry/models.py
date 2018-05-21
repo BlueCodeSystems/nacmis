@@ -442,7 +442,7 @@ class StakeholderDirectory(models.Model):
     organisation = models.CharField(max_length=200)
     organisation_address = models.CharField('address of the organisation', max_length=100, blank=True)
     organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
-    organisation_district = models.ForeignKey(District, on_delete=models.CASCADE,)
+    organisation_district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
     start_year = models.DateField('which year did your organisation start working in this district?')
     gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)

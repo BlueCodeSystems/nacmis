@@ -4,7 +4,7 @@ from django.views import generic
 from dal import autocomplete
 
 from .models import District, Ward, OrganisationTarget, SupportField
-from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
+from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm
 
 # Create your views here.
 
