@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 
-from .models import NationalOrganisation, ActivityReportForm, StakeholderDirectory, District, Ward, \
+from .models import NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward, \
 OrganisationTarget, MobilePopulation, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
 OtherQuestion, EndOfYearQuestion, GeneralComment
 
