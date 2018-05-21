@@ -575,7 +575,6 @@ class IECMaterial(models.Model):
     material_type = models.CharField(max_length=100, choices=IEC_MATERIALS)
     number_distributed = models.PositiveIntegerField('number of materials distributed', default=0)
     localized = models.BooleanField(default=False)
-    targeted_audience = models.ManyToManyField(OrganisationTarget)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
