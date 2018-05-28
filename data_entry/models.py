@@ -542,7 +542,7 @@ class GeneralComment(models.Model):
     
 class ActivityReportForm(models.Model):
     # Stake holder directory to SARF ---> one-to-many relationship
-    report_date = models.DateField('Report date(YYYY-MM-DD)', null=True)
+    report_date = models.DateField(null=True)
     quarter_been_reported = models.CharField(verbose_name='quater being reported', max_length=20, choices=QUARTER_LIST)
     stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organisation', \
         on_delete=models.SET_NULL, null=True)
