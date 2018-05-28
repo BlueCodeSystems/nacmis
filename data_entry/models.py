@@ -695,4 +695,30 @@ class VulnerablePeople(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 
-# PURE PYTHON CODE
+# Custom code: not useful
+class DateYear():
+    'Retrieves only year of a struct_time tuple'
+
+    def __init__(self, year):
+        self.year = year
+
+    def yearAsInteger(year_as_str):
+        if year_as_str.isdigit():
+            year_as_str = int(year_as_str)
+
+        print('Year(YYYY): ', year_as_str)
+        print('year_as_str TYPE: ', type(year_as_str) )
+
+        return year_as_str
+    
+class DateYearField(models.DateField):
+    description = 'return year of a DateField class'
+
+    def __init__(self, *args, **kwargs):
+        # put some stuff here
+        super().__init__(*args, **kwargs)
+
+    def destruct(self):
+        name, path, args, kwargs = super().deconstruct()
+        #del kwargs["max_length"]
+        return name, path, args, kwargs

@@ -10,21 +10,24 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
     class Meta:
         model = StakeholderDirectory
         #fields = '__all__' # including all fields of model
-        fields = ['organisation_address', 'organisation_target', 'organisation_district']   # 'start_year',
+        fields = ['start_year', 'organisation_address', 'organisation_target', 'organisation_district']
 
         widgets = {
-            'start_year' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD'}),
+            'start_year' : forms.TextInput( attrs={'placeholder':'YYYY-MM-DD', 'type':'date',} ),
             'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
             'organisation_target' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
             'organisation_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
         }
     
 class ActivityReportFormModelForm(forms.ModelForm):
+    
     class Meta:
         model = ActivityReportForm
-        fields = '__all__'
+        #fields = '__all__'
+        fields = ['report_date',]
         widgets = {
             #'location_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['location_province']),
+            'report_date' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD', 'type':'date'},),
         } 
 
 class ProgramActivityModelForm(forms.ModelForm):
