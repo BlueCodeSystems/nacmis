@@ -28,8 +28,6 @@ def get_nameinmodel(request):
     if request.method == 'POST':
         form = StakeholderDirectoryModelForm(request.POST)
         if form.is_valid():
-            # commit=False means the form doesn't save at this time.
-            # commit defaults to True which means it normally saves.
             model_instance = form.save(commit=False)
             return redirect('data_entry/next_page.html')
         else:

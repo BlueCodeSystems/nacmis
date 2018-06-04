@@ -247,10 +247,13 @@ admin.site.register(StakeholderDirectory, StakeholderDirectoryAdmin)
 # Register HIV Activities Organisation Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
+# Register OrganisationTarget to enable user to add more groups that they target
 admin.site.register(OrganisationTarget)
 
+# Register MobilePopulation to enable adding of types of workers
 admin.site.register(MobilePopulation)
 
+# Register to add types of support under Program activities (ie, Program activities by geographic area)
 admin.site.register(SupportField)
 
 admin.site.register(Province)
