@@ -107,8 +107,8 @@ class PeopleWhoInjectDrugInline(admin.TabularInline):
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
     verbose_name_plural = 'How many condom service distribution points were supplied by your organisation this \
-        quarter? (*excluding health facilities) How many male and/or female condoms were distributed to end users by \
-        your organisation this quarter (*excluding health facilities)?'
+        quarter(excluding health facilities)? How many male and/or female condoms were distributed to end users by \
+        your organisation this quarter(excluding health facilities)?'
     extra = 1
 
 class CriticalEnablerInline(admin.TabularInline):
