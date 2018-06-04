@@ -541,7 +541,7 @@ class GeneralComment(models.Model):
 # *************************************************
     
 class ActivityReportForm(models.Model):
-    # Stake holder directory to SARF ---> one-to-many relationship
+
     report_date = models.DateField(null=True)
     quarter_been_reported = models.CharField(verbose_name='quater being reported', max_length=20, choices=QUARTER_LIST)
     stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organisation', \
@@ -646,11 +646,6 @@ class PeopleWhoInjectDrug(models.Model):
 
 
 class CondomProgramming(models.Model):
-    # Condom programming
-    # 1. How many condom service distribution points were supplied by your organisation this 
-    # quarter? (*excluding health facilities)
-    # 2. How many male and/or female condoms were distributed to end users by your organisation 
-    # this quarter (excluding health facilities)?
     condom_dist_point_num = models.PositiveIntegerField('number of distribution points', default=0)
     female_condom_distributed_num = models.PositiveIntegerField('female condoms distributed', default=0)
     male_condom_distributed_num = models.PositiveIntegerField('male condoms distributed', default=0)
