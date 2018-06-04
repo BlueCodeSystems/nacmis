@@ -9,24 +9,24 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
 
     class Meta:
         model = StakeholderDirectory
-        #fields = '__all__' # including all fields of model
-        fields = ['organisation_address', 'organisation_target', 'organisation_district']
+        fields = ['organisation_address', 'organisation_target', 'organisation_district', 'start_year']
 
         widgets = {
             'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
             'organisation_target' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
             'organisation_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
+            'start_year':  forms.TextInput(attrs={'placeholder':'YYYY-MM-DD', 'type':'date',}),
         }
     
 class ActivityReportFormModelForm(forms.ModelForm):
     
     class Meta:
         model = ActivityReportForm
-        fields = '__all__'
+        fields = ['report_date',]
         
         widgets = {
-            #'report_date' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD',},),
-        } 
+            'report_date' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD',  'type':'date',}),
+        }
 
 class ProgramActivityModelForm(forms.ModelForm):
     # organisation_district
@@ -59,4 +59,9 @@ class IECMaterialModelForm(forms.ModelForm):
             'targeted_audience': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }
 
-    
+class MyForm(forms.Form):
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField(widget=forms.Textarea)
+    sender = forms.EmailField()
+    cc_myself = forms.BooleanField(required=False)
+   
