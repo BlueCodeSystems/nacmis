@@ -463,36 +463,12 @@ class StakeholderDirectory(models.Model):
     temporary_employee_male = models.PositiveIntegerField('current number of temporary male employees', default=0)
     volunteer_employee_female = models.PositiveIntegerField('current number of volunteer female employees', default=0)
     volunteer_employee_male = models.PositiveIntegerField('current number of volunteer male employees', default=0)
-<<<<<<< HEAD
-    description_of_organization = models.TextField('Brief description of the organization (Please describe your \
-        organization in no more than 250 words)')
-
-    # --> Contact details
-    key_contact_name = models.CharField('name of key contact person', max_length=50)
-    position_within_organization = models.CharField('position within the organization', max_length=50)
-    organization_district = models.CharField(max_length=200, choices=PROVINCE_DISTRICTS)
-    organization_address = models.CharField('address of the organization', max_length=100)
-    telephone_number = models.CharField('telephone number', max_length=20)
-    telephone_number_alternative = models.CharField('telephone number alternative', max_length=20, blank=True)
-    email_address = models.EmailField('email address', max_length=254)
-    website = models.URLField(max_length=200, blank=True)
-
-    # --> Organization Classification
-    organization_type = models.CharField('which of the following \'types\' would best describe your \
-        organization? (Please only tick one type of organization)', max_length=100, choices=ORGANIZATION_TYPE_LIST)
-    organization_target = models.ManyToManyField(OrganizationTarget, verbose_name='which group(s) does your organization target? (please tick as many \
-        different groups that are targeted by your organization)')
-
-    # list of names to use as filters from ActivityReport forms
-    area_of_support_extract = 'GeographicActivity.objects.all()'    # query-list brings error - we want a field
-=======
 
     # --> Organisation Classification
     organisation_type = models.CharField('which of the following \'types\' would best describe your \
         organisation? (Please only tick one type of organisation)', max_length=100, choices=ORGANISATION_TYPE_LIST)
     organisation_target = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
         different groups that are targeted by your organisation)')
->>>>>>> master
 
     def __str__(self):
         return self.organisation + ' - ' + self.organisation_district.name + ' district - ' \
