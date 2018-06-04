@@ -1,24 +1,67 @@
-from django.forms import ModelForm
+from django import forms
 
-import datetime 
-from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext_lazy as _
 
-from .models import StakeholderDirectory
-from .models import ActivityReportForm
+from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District
+from .models import ActivityReportForm, IECMaterial
+from dal import autocomplete
 
-class StakeholderDirectoryModelForm(ModelForm):
-    'implements existing Stakeholder directory model'
-
-    def clean_start_year(self):
-        data = self.cleaned_data['start_year']
-
-        # check if start year is in the future of current time
-        if data > datetime.date.today():
-            raise ValidationError(_('Invalid date - start date can not be after currrent date') )
-
-        return data
+class StakeholderDirectoryModelForm(forms.ModelForm):
 
     class Meta:
         model = StakeholderDirectory
-        fields = ['start_year']
+        fields = ['organisation_address', 'organisation_target', 'organisation_district', 'start_year']
+
+        widgets = {
+            'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
+            'organisation_target' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
+            'organisation_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
+            'start_year':  forms.TextInput(attrs={'placeholder':'YYYY-MM-DD', 'type':'date',}),
+        }
+    
+class ActivityReportFormModelForm(forms.ModelForm):
+    
+    class Meta:
+        model = ActivityReportForm
+        fields = ['report_date',]
+        
+        widgets = {
+            'report_date' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD',  'type':'date',}),
+        }
+
+class ProgramActivityModelForm(forms.ModelForm):
+    # organisation_district
+    class Meta:
+        model = ProgramActivity
+        fields = '__all__'
+        
+        widgets = {
+            'area_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
+            'ward':  autocomplete.ModelSelect2(url='ward-autocomplete', forward=['organisation_district'])
+        }
+
+class TargetGroupPreventionMessageModelForm(forms.ModelForm):
+
+    class Meta:
+        model = TargetGroupPreventionMessage
+        fields = '__all__'
+        
+        widgets = {
+            'target_group': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
+        }
+
+class IECMaterialModelForm(forms.ModelForm):
+
+    class Meta:
+        model = IECMaterial
+        fields = '__all__'
+        
+        widgets = {
+            'targeted_audience': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
+        }
+
+class MyForm(forms.Form):
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField(widget=forms.Textarea)
+    sender = forms.EmailField()
+    cc_myself = forms.BooleanField(required=False)
+   

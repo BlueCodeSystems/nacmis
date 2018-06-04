@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import generic
+from dal import autocomplete
 
-from .forms import StakeholderDirectoryModelForm
+from .models import District, Ward, OrganisationTarget, SupportField
+from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
 
@@ -22,29 +24,78 @@ class Login(generic.DetailView):
     def get_queryset(self):
         return
 
-'''
-class StakeHolderView(generic.DetailView):
-    return HttpResponse("Hello, stake holder. This is your page.")
-    
-class ReportView(generic.DetailView):
-    return HttpResponse("Reporting form page.")
-
-class ParticipationView(generic.DetailView):
-    return HttpResponse("HIV activities organization participates in page.")
-
-class SituationRoomView(generic.DetailView):
-    return HttpResponse("Reporting form page.")
-
-'''
-def add_clean_model(request):
-    if request.method == POST:
+def get_nameinmodel(request):
+    if request.method == 'POST':
         form = StakeholderDirectoryModelForm(request.POST)
         if form.is_valid():
-            # commit=False means the form doesn't save at this time.
-            # commit defaults to True which means it normally saves.
             model_instance = form.save(commit=False)
-            return redirect('next_page.html')
+            return redirect('data_entry/next_page.html')
         else:
             form = StakeholderDirectoryModelForm()
+    else:
+        form = StakeholderDirectoryModelForm()
     
-    return render(request, 'my_template.html', {'form': form})
+    return render(request, 'data_entry/index.html', {'form': form})
+
+def myform_test(request):
+    formsample = MyForm()
+    return render(request, 'data_entry/index.html', {'the_insert': formsample} )
+
+class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        #if not self.request.user.is_authenticated():
+        #    return SupportField.objects.none()
+
+        qs = SupportField.objects.all()
+
+        if self.q:
+            qs = qs.filter(area_of_support__istartswith=self.q)
+        return qs
+
+class OrganisationTargetAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        
+        #if not self.request.user.is_authenticated():
+        #    return OrganisationTarget.objects.none()
+
+        qs = OrganisationTarget.objects.all()
+
+        if self.q:
+            qs = qs.filter(organization_target_option__istartswith=self.q)
+        return qs
+
+class DistrictAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        
+        #if not self.request.user.is_authenticated():
+        #    return District.objects.none()
+
+        qs = District.objects.all()
+
+        province = self.forwarded.get('organisation_province', None)
+        print(province)
+
+        if province:
+            qs = qs.filter(province=province)
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+        return qs
+
+class WardAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+    
+        #if not self.request.user.is_authenticated():
+        #    return District.objects.none()
+
+        qs = Ward.objects.all()
+
+        district = self.forwarded.get('organisation_district', None)
+
+        if district:
+            qs = qs.filter(district=district)
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+        return qs
