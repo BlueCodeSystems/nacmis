@@ -467,7 +467,7 @@ class StakeholderDirectory(models.Model):
     # --> Organisation Classification
     organisation_type = models.CharField('which of the following \'types\' would best describe your \
         organisation? (Please only tick one type of organisation)', max_length=100, choices=ORGANISATION_TYPE_LIST)
-    organisation_target = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
+    organisation_targets = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
         different groups that are targeted by your organisation)')
 
     def __str__(self):
@@ -482,7 +482,7 @@ class SupportField(models.Model):
 
 class ProgramActivity(models.Model):
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE, null=True)
-    area_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
+    areas_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
 class FundingSource(models.Model):
@@ -495,7 +495,7 @@ class FundingSource(models.Model):
 
 class TargetGroupPreventionMessage(models.Model):
     prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, null=True)
-    target_group = models.ManyToManyField(OrganisationTarget)
+    target_groups = models.ManyToManyField(OrganisationTarget)
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -621,7 +621,7 @@ class MobileWorker(models.Model):
     # How many mobile workers were reached with HIV prevention programmes by your organisation this quarter?
     mobile_workers_female_num = models.PositiveIntegerField('female mobile workers reached', default=0)
     mobile_workers_male_num = models.PositiveIntegerField('male mobile workers reached', default=0)
-    mobile_population_type = models.ManyToManyField(MobilePopulation)
+    mobile_population_types = models.ManyToManyField(MobilePopulation)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MenWithMen(models.Model):
