@@ -41,6 +41,10 @@ def myform_test(request):
     formsample = MyForm()
     return render(request, 'data_entry/index.html', {'the_insert': formsample} )
 
+def comingSoonView(request):
+    #nocontext = null
+    return render(request, 'data_entry/coming_soon.html')
+
 class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
