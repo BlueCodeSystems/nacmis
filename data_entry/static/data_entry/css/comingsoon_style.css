@@ -4,7 +4,7 @@ body, html {
 }
 
 .bgimg {
-    background-image: url('/w3images/forestbridge.jpg');
+    background-image: url('../img/jeremy-bishop-527439-unsplash.jpg');
     height: 100%;
     background-position: center;
     background-size: cover;
@@ -37,4 +37,9 @@ body, html {
 hr {
     margin: auto;
     width: 40%;
+}
+
+#photographer-credit {
+    font-size: 0.68em;
+    font-style: oblique;
 }
