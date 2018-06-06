@@ -7,7 +7,7 @@ OtherQuestion, EndOfYearQuestion, GeneralComment
 
 from .models import IECMaterial, Teachers, OutOfSchool, SexWorker, Inmate, PersonsWithDisabilty, MobileWorker, \
 MenWithMen, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, CriticalEnabler, \
-SynergyDevelopmentSector, CommunityHealthSystem, VulnerablePeople
+SynergyDevelopmentSector, CommunityHealthSystem, VulnerablePeople, GeneralComment2
 
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, TargetGroupPreventionMessageModelForm
 
@@ -133,6 +133,11 @@ class VulnerablePeopleInline(admin.TabularInline):
     verbose_name_plural = 'How many vulnerable people received care and support from your organisation this quarter?'
     extra = 1
 
+class GeneralComment2Inline(admin.TabularInline):
+    model = GeneralComment2
+    verbose_name = 'General comment'
+    extra = 1
+
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
@@ -219,7 +224,8 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
 
     inlines = [MaterialInline, TeachersInline, OutOfSchoolInline, SexWorkerInline, InmateInline, PersonsWithDisabiltyInline, 
         MobileWorkerInline, MenWithMenInline, TransgenderIndividualInline, PeopleWhoInjectDrugInline,CondomProgrammingInline, 
-        CriticalEnablerInline, SynergyDevelopmentSectorInline, CommunityHealthSystemInline, VulnerablePeopleInline]
+        CriticalEnablerInline, SynergyDevelopmentSectorInline, CommunityHealthSystemInline, VulnerablePeopleInline, 
+        GeneralComment2Inline]
 
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }

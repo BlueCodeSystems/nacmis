@@ -688,3 +688,10 @@ class VulnerablePeople(models.Model):
     ovc_care_support_20_24 = models.PositiveIntegerField('20 to 24', default=0)
     ovc_care_support_25_plus = models.PositiveIntegerField('25 and above', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class GeneralComment2(models.Model):
+    general_comment = models.TextField(default="")
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return ''
