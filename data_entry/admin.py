@@ -181,7 +181,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
                 financial gain. These employees <br/>usually do not displace any other employee types and usually not \
                 entitled to many benefits as compared to other employee types.</p></b>'),
         }),
-        ('organisation classification', {
+        ('Organisation classification', {
             'fields': ('organisation_type', 'organisation_targets')
         })
     )

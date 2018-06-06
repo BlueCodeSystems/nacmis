@@ -543,7 +543,7 @@ class GeneralComment(models.Model):
 class ActivityReportForm(models.Model):
 
     report_date = models.DateField(null=True)
-    quarter_been_reported = models.CharField(verbose_name='quater being reported', max_length=20, choices=QUARTER_LIST)
+    quarter_been_reported = models.CharField(verbose_name='quarter being reported', max_length=20, choices=QUARTER_LIST)
     stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organisation', \
         on_delete=models.SET_NULL, null=True)
     
