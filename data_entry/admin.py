@@ -5,7 +5,7 @@ from .models import NationalOrganisation, ActivityReportForm, StakeholderDirecto
 OrganisationTarget, MobilePopulation, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
 OtherQuestion, EndOfYearQuestion, GeneralComment
 
-from .models import IECMaterial, Teachers, OutOfSchool, SexWorker, Inmate, PersonsWithDisabilty, MobileWorker, \
+from .models import IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker, Inmate, PersonsWithDisabilty, MobileWorker, \
 MenWithMen, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, CriticalEnabler, \
 SynergyDevelopmentSector, CommunityHealthSystem, VulnerablePeople, GeneralComment2
 
@@ -45,9 +45,15 @@ class GeneralCommentInline(admin.StackedInline):
 class MaterialInline(admin.TabularInline):
     model = IECMaterial
     verbose_name = 'IEC Material'
-    verbose_name_plural = 'How many Information Education Communication(IEC) materials were distributed by \
-        your organisation this quarter? Which of your materials were localized? (produced according to \
-        local condition, culture, language etc.)'
+    verbose_name_plural = '1. how many Information Education Communication(IEC) materials were distributed by \
+        your organisation this quarter?'
+    extra = 1
+
+class MaterialInline2(admin.TabularInline):
+    model = IECMaterial2
+    verbose_name = 'IEC Material 2'
+    verbose_name_plural = '2. If you distributed Information Education Communication(IEC) materials this \
+        quarter who was your target audience?'
     extra = 1
 
 class TeachersInline(admin.TabularInline):
@@ -210,19 +216,17 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     VulnerablePeopleInline.max_num = 1
 
     fieldsets = (
-        ('Contact details', {
+        ('1. REPORT DETAIL', {
             'fields':('report_date', 'quarter_been_reported', 'stake_holder_name', 
-            ('name', 'telephone_number', 'email_address')
+                ('name', 'telephone_number', 'email_address')
             ),
         }),
-        ('What types of care and support does your organisation provide? (select all that apply)', {
-            'fields': ('food_and_nutrition', 'shelter_and_care', 'protection_and_legal_aid', 'healthcare', 
-            'psychosocial', 'social_support', 'spiritual_support', 'education_and_vocational_training',
-            'economic_strengthening'),
+        ('2. HIV ACTIVITIES YOUR ORGANISATION PARTICIPATES', {
+            'fields': (),
         }),
     )
 
-    inlines = [MaterialInline, TeachersInline, OutOfSchoolInline, SexWorkerInline, InmateInline, PersonsWithDisabiltyInline, 
+    inlines = [MaterialInline, MaterialInline2, TeachersInline, OutOfSchoolInline, SexWorkerInline, InmateInline, PersonsWithDisabiltyInline, 
         MobileWorkerInline, MenWithMenInline, TransgenderIndividualInline, PeopleWhoInjectDrugInline,CondomProgrammingInline, 
         CriticalEnablerInline, SynergyDevelopmentSectorInline, CommunityHealthSystemInline, VulnerablePeopleInline, 
         GeneralComment2Inline]

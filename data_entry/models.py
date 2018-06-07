@@ -572,9 +572,17 @@ class ActivityReportForm(models.Model):
 # --> Social behaviour change communication 
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
-    material_type = models.CharField(max_length=100, choices=IEC_MATERIALS)
-    number_distributed = models.PositiveIntegerField('number of materials distributed', default=0)
-    localized = models.BooleanField(default=False)
+    material_type = models.CharField('type of IEC material', max_length=100, choices=IEC_MATERIALS)
+    number_distributed = models.PositiveIntegerField('number distributed', default=0)
+    localized = models.BooleanField('number localised', default=False)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.material_type
+
+class IECMaterial2(models.Model):
+    # --> Social behaviour change communication
+    target_audience = models.ManyToManyField(OrganisationTarget)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
