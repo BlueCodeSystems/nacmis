@@ -605,15 +605,22 @@ class OutOfSchool(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class SexWorker(models.Model):
-    # sex_workers
-    # How many sex workers were reached with HIV prevention programmes by your organisation this quarter?
-    sex_workers_female_num = models.PositiveIntegerField('female sex workers reached', default=0)
-    sex_workers_male_num = models.PositiveIntegerField('male sex workers reached', default=0)
+    sex_workers_female_10_14 = models.PositiveIntegerField('females 10 to 14', default=0)
+    sex_workers_female_15_19 = models.PositiveIntegerField('females 15 to 19', default=0)
+    sex_workers_female_20_24 = models.PositiveIntegerField('females 20 to 24', default=0)
+    sex_workers_female_25_29 = models.PositiveIntegerField('females 25 to 29', default=0)
+    sex_workers_female_30_34 = models.PositiveIntegerField('females 30 to 34', default=0)
+    sex_workers_female_35_plus = models.PositiveIntegerField('females 35 plus', default=0)
+
+    sex_workers_male_10_14 = models.PositiveIntegerField('males 10 to 14', default=0)
+    sex_workers_male_15_19 = models.PositiveIntegerField('males 15 to 19', default=0)
+    sex_workers_male_20_24 = models.PositiveIntegerField('males 20 to 24', default=0)
+    sex_workers_male_25_29 = models.PositiveIntegerField('males 25 to 29', default=0)
+    sex_workers_male_30_34 = models.PositiveIntegerField('males 30 to 34', default=0)
+    sex_workers_male_35_plus = models.PositiveIntegerField('males 35 plus', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
  
 class Inmate(models.Model):
-    # inmates
-    # How many inmates were reached with HIV prevention programmes by your organisation this quarter?
     inmates_female_num = models.PositiveIntegerField('female inmates reached', default=0)
     inmates_male_num = models.PositiveIntegerField('male inmates reached', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
