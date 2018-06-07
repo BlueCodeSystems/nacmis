@@ -58,37 +58,41 @@ class MaterialInline2(admin.TabularInline):
 
 class TeachersInline(admin.TabularInline):
     model = Teachers
-    verbose_name_plural = 'Number of teachers who have received training, and taught lessons, in life \
+    verbose_name_plural = '3. Number of teachers who have received training, and taught lessons, in life \
         skills based comprehensive sexuality eduaction this quarter'
     extra = 1
 
 class OutOfSchoolInline(admin.TabularInline):
     model = OutOfSchool
-    verbose_name_plural = 'Number of Out of School children and young people aged 10-24 years provided \
+    verbose_name_plural = '4. Number of Out of School children and young people aged 10-24 years provided \
         with life skills- based comprehensive sexuality education within this quarter'
     extra = 1
 
 class SexWorkerInline(admin.TabularInline):
     model = SexWorker
-    verbose_name_plural = 'How many sex workers were reached with HIV prevention programmes by your \
+    verbose_name_plural = '5. How many sex workers were reached with HIV prevention programmes by your \
         organisation this quarter?'
+    fields = ( 'sex_workers_female_10_14', 'sex_workers_female_15_19', 'sex_workers_female_20_24', 
+        'sex_workers_female_25_29', 'sex_workers_female_30_34', 'sex_workers_female_35_plus', 
+        'sex_workers_male_10_14','sex_workers_male_15_19', 'sex_workers_male_20_24', 'sex_workers_male_25_29', 
+        'sex_workers_male_30_34', 'sex_workers_male_35_plus' )
     extra = 1
 
 class InmateInline(admin.TabularInline):
     model = Inmate
-    verbose_name_plural = 'How many inmates were reached with HIV prevention programmes by your organisation \
+    verbose_name_plural = '6. How many inmates were reached with HIV prevention programmes by your organisation \
         this quarter?'
     extra = 1
 
 class PersonsWithDisabiltyInline(admin.TabularInline):
     model = PersonsWithDisabilty
-    verbose_name_plural = 'How many persons with disability were reached with HIV prevention programmes by your \
+    verbose_name_plural = '7. How many persons with disability were reached with HIV prevention programmes by your \
         organisation this quarter?'
     extra = 1
 
 class MobileWorkerInline(admin.TabularInline):
     model = MobileWorker
-    verbose_name_plural = 'How many mobile workers were reached with HIV prevention programmes by your organisation \
+    verbose_name_plural = '8. How many mobile workers were reached with HIV prevention programmes by your organisation \
         this quarter?'
     extra = 1
 
