@@ -543,7 +543,7 @@ class GeneralComment(models.Model):
 class ActivityReportForm(models.Model):
 
     report_date = models.DateField(null=True)
-    quarter_been_reported = models.CharField(verbose_name='quater being reported', max_length=20, choices=QUARTER_LIST)
+    quarter_been_reported = models.CharField(verbose_name='quarter being reported', max_length=20, choices=QUARTER_LIST)
     stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organisation', \
         on_delete=models.SET_NULL, null=True)
     
@@ -572,9 +572,17 @@ class ActivityReportForm(models.Model):
 # --> Social behaviour change communication 
 class IECMaterial(models.Model):
     # --> Social behaviour change communication
-    material_type = models.CharField(max_length=100, choices=IEC_MATERIALS)
-    number_distributed = models.PositiveIntegerField('number of materials distributed', default=0)
-    localized = models.BooleanField(default=False)
+    material_type = models.CharField('type of IEC material', max_length=100, choices=IEC_MATERIALS)
+    number_distributed = models.PositiveIntegerField('number distributed', default=0)
+    localized = models.BooleanField('number localised', default=False)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.material_type
+
+class IECMaterial2(models.Model):
+    # --> Social behaviour change communication
+    target_audience = models.ManyToManyField(OrganisationTarget)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -582,7 +590,8 @@ class IECMaterial(models.Model):
 
 # --> Social behaviour change communication for key populations 
 class Teachers(models.Model):
-    teachers_num = models.PositiveIntegerField('number of teachers that received training', default=0)
+    teachers_female = models.PositiveIntegerField('female', default=0)
+    teachers_male = models.PositiveIntegerField('male', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
     
 class OutOfSchool(models.Model):
@@ -688,3 +697,10 @@ class VulnerablePeople(models.Model):
     ovc_care_support_20_24 = models.PositiveIntegerField('20 to 24', default=0)
     ovc_care_support_25_plus = models.PositiveIntegerField('25 and above', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class GeneralComment2(models.Model):
+    general_comment = models.TextField(default="")
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return ''
