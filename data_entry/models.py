@@ -415,7 +415,7 @@ class OrganisationType(models.Model):
         return self.organisation_type_option
 
 class OrganisationTarget(models.Model):
-    organisation_target_option = models.CharField(max_length=100, default="")
+    organisation_target_option = models.CharField('organisation target group', max_length=100, default="")
 
     def __str__(self):
         return self.organisation_target_option
