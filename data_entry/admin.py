@@ -7,8 +7,9 @@ OtherQuestion, EndOfYearQuestion, GeneralComment)
 
 from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker, Inmate, PersonsWithDisabilty, 
 MobileWorker,MobilePopulation, MenWithMen, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
-CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PreExposureProphylaxis,
-SynergyDevelopmentSector, CommunityHealthSystem, VulnerablePeople, GeneralComment2)
+CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PostExposureProphylaxis,
+PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
+SupportAndCare, GeneralComment2)
 
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, TargetGroupPreventionMessageModelForm
 
@@ -148,26 +149,43 @@ class ExperiencedSexualViolenceInline(admin.TabularInline):
     verbose_name_plural = '17. How many individuals experienced sexual violence this quarter?'
     extra = 1
 
-class PreExposureProphylaxisInline(admin.TabularInline):
-    model = PreExposureProphylaxis
+class PostExposureProphylaxisInline(admin.TabularInline):
+    model = PostExposureProphylaxis
     verbose_name_plural = '18. How many individuals who experienced physical or sexual violence were referred for \
         post exposure prophylaxis(PEP) within 72 hours in accordance with national guidelines this quarter?'
     extra = 1
 
-class SynergyDevelopmentSectorInline(admin.TabularInline):
-    model = SynergyDevelopmentSector
-    verbose_name_plural = 'How many employees were reached through workplace programmes by your organisation this quarter?'
+class PreExposureProphylaxisInline(admin.TabularInline):
+    model = PreExposureProphylaxis
+    verbose_name_plural = '19. How many individuals were referred for pre-exposure prophylaxis(PrEP) by your \
+        organisation this quarter?'
     extra = 1
 
-class CommunityHealthSystemInline(admin.TabularInline):
-    model = CommunityHealthSystem
-    verbose_name_plural = 'How many PLHIV support groups set up by your organisation are currently active? How many PLHIV \
-        are currently enrolled in the active PLHIV support groups by your organisation?'
+class SynergyDevelopmentSectorInline(admin.TabularInline):
+    model = SynergyDevelopmentSector
+    verbose_name_plural = '20. How many employees were reached through workplace programmes by your organisation this quarter?'
+    extra = 1
+
+class SupportGroupSetUpInline(admin.TabularInline):
+    model = SupportGroupSetUp
+    verbose_name_plural = '21. How many support groups/ clubs/ after school groups were set up by your \
+        organisation this quarter?'
+    extra = 1
+
+class IndividualCurrentlyEnrolledInline(admin.TabularInline):
+    model = IndividualCurrentlyEnrolled
+    verbose_name_plural = '22. How many individuals are currently enrolled and active in support groups/ clubs/ \
+        after school groups set up by your organisation?'
     extra = 1
 
 class VulnerablePeopleInline(admin.TabularInline):
     model = VulnerablePeople
-    verbose_name_plural = 'How many vulnerable people received care and support from your organisation this quarter?'
+    verbose_name_plural = '23. How many vulnerable people received care and support from your organisation this quarter?'
+    extra = 1
+
+class SupportAndCareInline(admin.TabularInline):
+    model = SupportAndCare
+    verbose_name_plural = '24. What types of care and support does your organisation provide? (select all that apply)'
     extra = 1
 
 class GeneralComment2Inline(admin.TabularInline):
@@ -188,12 +206,10 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     CondomProgrammingInline.max_num = 1
     ReportedCaseInline.max_num = 1
     SynergyDevelopmentSectorInline.max_num = 1
-    CommunityHealthSystemInline.max_num = 1
     MenWithMenInline.max_num = 1
     CondomProgrammingInline.max_num = 1
     ReportedCaseInline.max_num = 1
     SynergyDevelopmentSectorInline.max_num = 1
-    CommunityHealthSystemInline.max_num = 1
     OtherQuestionInline.max_num = 1
     EndOfYearQuestionInline.max_num = 1
     GeneralCommentInline.max_num = 1
@@ -247,10 +263,14 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     ReportedCaseInline.max_num = 1
     ExperiencedPhysicalViolenceInline.max_num = 1
     ExperiencedSexualViolenceInline.max_num = 1
+    PostExposureProphylaxisInline.max_num = 1
     PreExposureProphylaxisInline.max_num = 1
     SynergyDevelopmentSectorInline.max_num = 1
-    CommunityHealthSystemInline.max_num = 1
+    SupportGroupSetUpInline.max_num = 1
+    IndividualCurrentlyEnrolledInline.max_num = 1
     VulnerablePeopleInline.max_num = 1
+    SupportAndCareInline.max_num = 1
+    GeneralComment2Inline.max_num = 1
 
     fieldsets = (
         ('1. REPORT DETAIL', {
@@ -266,8 +286,9 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     inlines = [MaterialInline, MaterialInline2, TeachersInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
         PersonsWithDisabiltyInline, MobileWorkerInline, MobilePopulationInline, MenWithMenInline, TransgenderIndividualInline, 
         PeopleWhoInjectDrugInline,CondomProgrammingInline, CondomProgramming2Inline, ReportedCaseInline, 
-        ExperiencedPhysicalViolenceInline, ExperiencedSexualViolenceInline, PreExposureProphylaxisInline, 
-        SynergyDevelopmentSectorInline, CommunityHealthSystemInline, VulnerablePeopleInline, GeneralComment2Inline]
+        ExperiencedPhysicalViolenceInline, ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, 
+        PreExposureProphylaxisInline, SynergyDevelopmentSectorInline, SupportGroupSetUpInline, 
+        IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline]
 
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
