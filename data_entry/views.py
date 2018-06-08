@@ -66,7 +66,7 @@ class OrganisationTargetAutocomplete(autocomplete.Select2QuerySetView):
         qs = OrganisationTarget.objects.all()
 
         if self.q:
-            qs = qs.filter(organization_target_option__istartswith=self.q)
+            qs = qs.filter(organisation_target_option__istartswith=self.q)
         return qs
 
 class DistrictAutocomplete(autocomplete.Select2QuerySetView):
