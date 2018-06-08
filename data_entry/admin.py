@@ -1,13 +1,14 @@
 from django import forms
 from django.contrib import admin
 
-from .models import NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward, \
-OrganisationTarget, MobilePopulation, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage, \
-OtherQuestion, EndOfYearQuestion, GeneralComment
+from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
+OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage,
+OtherQuestion, EndOfYearQuestion, GeneralComment)
 
-from .models import IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker, Inmate, PersonsWithDisabilty, MobileWorker, \
-MenWithMen, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, CriticalEnabler, \
-SynergyDevelopmentSector, CommunityHealthSystem, VulnerablePeople, GeneralComment2
+from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker, Inmate, PersonsWithDisabilty, 
+MobileWorker,MobilePopulation, MenWithMen, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
+CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PreExposureProphylaxis,
+SynergyDevelopmentSector, CommunityHealthSystem, VulnerablePeople, GeneralComment2)
 
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, TargetGroupPreventionMessageModelForm
 
@@ -96,37 +97,63 @@ class MobileWorkerInline(admin.TabularInline):
         this quarter?'
     extra = 1
 
+class MobilePopulationInline(admin.TabularInline):
+    model = MobilePopulation
+    verbose_name_plural = '9. Which types of mobile populations did your organisation reach this quarter?'
+    extra = 1
+    
 class MenWithMenInline(admin.TabularInline):
     model = MenWithMen
-    verbose_name_plural = 'How many men who have sex with men (MSM) were reached with HIV prevention programmes by \
+    verbose_name_plural = '10. How many men who have sex with men (MSM) were reached with HIV prevention programmes by \
         your organisation this quarter?'
     extra = 1
 
 class TransgenderIndividualInline(admin.TabularInline):
     model = TransgenderIndividual
-    verbose_name_plural = 'How many transgender individuals were reached with HIV prevention programmes by your \
+    verbose_name_plural = '11. How many transgender individuals were reached with HIV prevention programmes by your \
         organisation this quarter?'
     extra = 1
 
 class PeopleWhoInjectDrugInline(admin.TabularInline):
     model = PeopleWhoInjectDrug
-    verbose_name_plural = 'Number of adolescents and young people aged 10-24 reached by IEC materials \
-        by your organisation this quarter'
+    verbose_name_plural = '12. How many people who inject drugs(PWID) have been reached by HIV prevention programmes by \
+        your organisation this quarter?'
     extra = 1
 
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
-    verbose_name_plural = 'How many condom service distribution points were supplied by your organisation this \
-        quarter(excluding health facilities)? How many male and/or female condoms were distributed to end users by \
+    verbose_name_plural = '13. How many condom service distribution points were supplied by your organisation this \
+        quarter(excluding health facilities)?'
+    extra = 1
+
+class CondomProgramming2Inline(admin.TabularInline):
+    model = CondomProgramming2
+    verbose_name_plural = '14. How many male and/or female condoms were distributed to end users by \
         your organisation this quarter(excluding health facilities)?'
     extra = 1
 
-class CriticalEnablerInline(admin.TabularInline):
-    model = CriticalEnabler
-    verbose_name_plural = 'Number of people who experienced physical or sexual violence and were referred for Post \
-        Exposure Prophylaxis (PEP) within 72 hours in accordance with national guidelines this quarter.'
+class ReportedCaseInline(admin.TabularInline):
+    model = ReportedCase
+    verbose_name_plural = '15. What is the total number of reported cases on a physical or sexual violence OR any \
+        other type of gender based violence by your organisation'
     extra = 1
     
+class ExperiencedPhysicalViolenceInline(admin.TabularInline):
+    model = ExperiencedPhysicalViolence
+    verbose_name_plural = '16. How many individuals experienced physical violence this quarter?'
+    extra = 1
+
+class ExperiencedSexualViolenceInline(admin.TabularInline):
+    model = ExperiencedSexualViolence
+    verbose_name_plural = '17. How many individuals experienced sexual violence this quarter?'
+    extra = 1
+
+class PreExposureProphylaxisInline(admin.TabularInline):
+    model = PreExposureProphylaxis
+    verbose_name_plural = '18. How many individuals who experienced physical or sexual violence were referred for \
+        post exposure prophylaxis(PEP) within 72 hours in accordance with national guidelines this quarter?'
+    extra = 1
+
 class SynergyDevelopmentSectorInline(admin.TabularInline):
     model = SynergyDevelopmentSector
     verbose_name_plural = 'How many employees were reached through workplace programmes by your organisation this quarter?'
@@ -159,12 +186,12 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     MenWithMenInline.max_num = 1
     TeachersInline.max_num = 1
     CondomProgrammingInline.max_num = 1
-    CriticalEnablerInline.max_num = 1
+    ReportedCaseInline.max_num = 1
     SynergyDevelopmentSectorInline.max_num = 1
     CommunityHealthSystemInline.max_num = 1
     MenWithMenInline.max_num = 1
     CondomProgrammingInline.max_num = 1
-    CriticalEnablerInline.max_num = 1
+    ReportedCaseInline.max_num = 1
     SynergyDevelopmentSectorInline.max_num = 1
     CommunityHealthSystemInline.max_num = 1
     OtherQuestionInline.max_num = 1
@@ -205,6 +232,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
 class ActivityReportFormAdmin(admin.ModelAdmin):
     list_display = ('stake_holder_name', 'quarter_been_reported')
     
+    MaterialInline2.max_num = 1
     PeopleWhoInjectDrugInline.max_num = 1
     OutOfSchoolInline.max_num = 1
     SexWorkerInline.max_num = 1
@@ -212,9 +240,14 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     TransgenderIndividualInline.max_num = 1
     PersonsWithDisabiltyInline.max_num = 1
     MobileWorkerInline.max_num = 1
+    MobilePopulationInline.max_num = 1
     MenWithMenInline.max_num = 1
     CondomProgrammingInline.max_num = 1
-    CriticalEnablerInline.max_num = 1
+    CondomProgramming2Inline.max_num = 1
+    ReportedCaseInline.max_num = 1
+    ExperiencedPhysicalViolenceInline.max_num = 1
+    ExperiencedSexualViolenceInline.max_num = 1
+    PreExposureProphylaxisInline.max_num = 1
     SynergyDevelopmentSectorInline.max_num = 1
     CommunityHealthSystemInline.max_num = 1
     VulnerablePeopleInline.max_num = 1
@@ -230,10 +263,11 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         }),
     )
 
-    inlines = [MaterialInline, MaterialInline2, TeachersInline, OutOfSchoolInline, SexWorkerInline, InmateInline, PersonsWithDisabiltyInline, 
-        MobileWorkerInline, MenWithMenInline, TransgenderIndividualInline, PeopleWhoInjectDrugInline,CondomProgrammingInline, 
-        CriticalEnablerInline, SynergyDevelopmentSectorInline, CommunityHealthSystemInline, VulnerablePeopleInline, 
-        GeneralComment2Inline]
+    inlines = [MaterialInline, MaterialInline2, TeachersInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
+        PersonsWithDisabiltyInline, MobileWorkerInline, MobilePopulationInline, MenWithMenInline, TransgenderIndividualInline, 
+        PeopleWhoInjectDrugInline,CondomProgrammingInline, CondomProgramming2Inline, ReportedCaseInline, 
+        ExperiencedPhysicalViolenceInline, ExperiencedSexualViolenceInline, PreExposureProphylaxisInline, 
+        SynergyDevelopmentSectorInline, CommunityHealthSystemInline, VulnerablePeopleInline, GeneralComment2Inline]
 
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
@@ -245,7 +279,7 @@ class OrganisationTargetAdmin(admin.ModelAdmin):
         }),
     )
 
-class MobilePopulationAdmin(admin.ModelAdmin):
+class MobilePopulationTypeAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Population Type', {
             'fields': ('mobile_population_type',)
@@ -264,8 +298,8 @@ admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 # Register OrganisationTarget to enable user to add more groups that they target
 admin.site.register(OrganisationTarget)
 
-# Register MobilePopulation to enable adding of types of workers
-admin.site.register(MobilePopulation)
+# Register MobilePopulationType to enable adding of types of workers
+admin.site.register(MobilePopulationType)
 
 # Register to add types of support under Program activities (ie, Program activities by geographic area)
 admin.site.register(SupportField)
