@@ -635,7 +635,7 @@ class MobileWorker(models.Model):
 
 class MobilePopulation(models.Model):
         mobile_population_types = models.ManyToManyField(MobilePopulationType)
-        activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+        activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE, null=True)
 
 class MenWithMen(models.Model):
     men_with_men = models.PositiveIntegerField('number', default=0)
