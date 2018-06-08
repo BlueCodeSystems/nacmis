@@ -552,17 +552,6 @@ class ActivityReportForm(models.Model):
     telephone_number = PhoneNumberField()
     email_address = models.EmailField(max_length=50)
 
-    # Types of care and support organisation provides
-    food_and_nutrition = models.BooleanField()
-    shelter_and_care = models.BooleanField()
-    protection_and_legal_aid = models.BooleanField()
-    healthcare = models.BooleanField()
-    psychosocial = models.BooleanField()
-    social_support = models.BooleanField()
-    spiritual_support = models.BooleanField()
-    education_and_vocational_training = models.BooleanField()
-    economic_strengthening = models.BooleanField()
-
     def __str__(self):
         if self.stake_holder_name:
             return self.stake_holder_name.organisation + " - " + self.quarter_been_reported
@@ -593,29 +582,29 @@ class Teachers(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
     
 class OutOfSchool(models.Model):
-    out_school_female_10_14 = models.PositiveIntegerField('females 10 to 14', default=0)
-    out_school_female_15_19 = models.PositiveIntegerField('females 15 to 19', default=0)
-    out_school_female_20_24 = models.PositiveIntegerField('females 20 to 24', default=0)
+    out_school_female_10_14 = models.PositiveIntegerField('female 10 to 14', default=0)
+    out_school_female_15_19 = models.PositiveIntegerField('female 15 to 19', default=0)
+    out_school_female_20_24 = models.PositiveIntegerField('female 20 to 24', default=0)
 
-    out_school_male_10_14 = models.PositiveIntegerField('males 10 to 14', default=0)
-    out_school_male_15_19 = models.PositiveIntegerField('males 15 to 19', default=0)
-    out_school_male_20_24 = models.PositiveIntegerField('males 20 to 24', default=0)
+    out_school_male_10_14 = models.PositiveIntegerField('male 10 to 14', default=0)
+    out_school_male_15_19 = models.PositiveIntegerField('male 15 to 19', default=0)
+    out_school_male_20_24 = models.PositiveIntegerField('male 20 to 24', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class SexWorker(models.Model):
-    sex_workers_female_10_14 = models.PositiveIntegerField('females 10 to 14', default=0)
-    sex_workers_female_15_19 = models.PositiveIntegerField('females 15 to 19', default=0)
-    sex_workers_female_20_24 = models.PositiveIntegerField('females 20 to 24', default=0)
-    sex_workers_female_25_29 = models.PositiveIntegerField('females 25 to 29', default=0)
-    sex_workers_female_30_34 = models.PositiveIntegerField('females 30 to 34', default=0)
-    sex_workers_female_35_plus = models.PositiveIntegerField('females 35 plus', default=0)
+    sex_workers_female_10_14 = models.PositiveIntegerField('female 10 to 14', default=0)
+    sex_workers_female_15_19 = models.PositiveIntegerField('female 15 to 19', default=0)
+    sex_workers_female_20_24 = models.PositiveIntegerField('female 20 to 24', default=0)
+    sex_workers_female_25_29 = models.PositiveIntegerField('female 25 to 29', default=0)
+    sex_workers_female_30_34 = models.PositiveIntegerField('female 30 to 34', default=0)
+    sex_workers_female_35_plus = models.PositiveIntegerField('female 35 plus', default=0)
 
-    sex_workers_male_10_14 = models.PositiveIntegerField('males 10 to 14', default=0)
-    sex_workers_male_15_19 = models.PositiveIntegerField('males 15 to 19', default=0)
-    sex_workers_male_20_24 = models.PositiveIntegerField('males 20 to 24', default=0)
-    sex_workers_male_25_29 = models.PositiveIntegerField('males 25 to 29', default=0)
-    sex_workers_male_30_34 = models.PositiveIntegerField('males 30 to 34', default=0)
-    sex_workers_male_35_plus = models.PositiveIntegerField('males 35 plus', default=0)
+    sex_workers_male_10_14 = models.PositiveIntegerField('male 10 to 14', default=0)
+    sex_workers_male_15_19 = models.PositiveIntegerField('male 15 to 19', default=0)
+    sex_workers_male_20_24 = models.PositiveIntegerField('male 20 to 24', default=0)
+    sex_workers_male_25_29 = models.PositiveIntegerField('male 25 to 29', default=0)
+    sex_workers_male_30_34 = models.PositiveIntegerField('male 30 to 34', default=0)
+    sex_workers_male_35_plus = models.PositiveIntegerField('male 35 plus', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
  
 class Inmate(models.Model):
@@ -629,8 +618,8 @@ class PersonsWithDisabilty(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MobileWorker(models.Model):
-    mobile_workers_female_num = models.PositiveIntegerField('females', default=0)
-    mobile_workers_male_num = models.PositiveIntegerField('males', default=0)
+    mobile_workers_female_num = models.PositiveIntegerField('female', default=0)
+    mobile_workers_male_num = models.PositiveIntegerField('male', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MobilePopulation(models.Model):
@@ -652,7 +641,7 @@ class PeopleWhoInjectDrug(models.Model):
 
 # Condom Programming
 class CondomProgramming(models.Model):
-    condom_dist_point_num = models.PositiveIntegerField('number of distribution points', default=0)
+    condom_dist_point_num = models.PositiveIntegerField('number', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class CondomProgramming2(models.Model):
@@ -703,7 +692,7 @@ class ExperiencedSexualViolence(models.Model):
     sexual_male_25_plus = models.PositiveIntegerField('male 25 plus', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
-class PreExposureProphylaxis(models.Model):
+class PostExposureProphylaxis(models.Model):
     accessed_pep_female_less_10 = models.PositiveIntegerField('female less than 10', default=0)
     accessed_pep_female_10_14 = models.PositiveIntegerField('female 10 to 14', default=0)
     accessed_pep_female_15_19 = models.PositiveIntegerField('female 15 to 19', default=0)
@@ -717,37 +706,60 @@ class PreExposureProphylaxis(models.Model):
     accessed_pep_male_25_plus = models.PositiveIntegerField('male 25 plus', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
-# Synergies with other development sectors
-class SynergyDevelopmentSector(models.Model):
-    employees_reached_female_num = models.PositiveIntegerField('female employees reached through \
-        workplace programmes', default=0)
-    employees_reached_male_num = models.PositiveIntegerField('male employees reached through \
-        workplace programmes', default=0)
+class PreExposureProphylaxis(models.Model):
+    referred_pep_female_15_19 = models.PositiveIntegerField('female 15 to 19', default=0)
+    referred_pep_female_20_24 = models.PositiveIntegerField('female 20 to 24', default=0)
+    referred_pep_female_25_plus = models.PositiveIntegerField('female 25 plus', default=0)
+
+    referred_pep_male_15_19 = models.PositiveIntegerField('male 15 to 19', default=0)
+    referred_pep_male_20_24 = models.PositiveIntegerField('male 20 to 24', default=0)
+    referred_pep_male_25_plus = models.PositiveIntegerField('male 25 plus', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
-class CommunityHealthSystem(models.Model):
-    # Community health systems
-    # 1. How many PLHIV support groups set up by your organisation are currently active?
-    # 2. How many PLHIV are currently enrolled in the active PLHIV support groups by your organisation?
-    plhiv_groups = models.PositiveIntegerField('PLHIV groups set up by your organisation', default=0)
-    plhiv_female_num = models.PositiveIntegerField('female persons living with HIV (PLHIV) currently \
-        enrolled in active groups', default=0)
-    plhiv_male_num = models.PositiveIntegerField('male persons living with HIV (PLHIV) currently \
-        enrolled in active groups', default=0)
+# Synergies with other development sectors
+class SynergyDevelopmentSector(models.Model):
+    employees_reached_female_num = models.PositiveIntegerField('female', default=0)
+    employees_reached_male_num = models.PositiveIntegerField('male', default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SupportGroupSetUp(models.Model):
+    support_groups = models.PositiveIntegerField('number', default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class IndividualCurrentlyEnrolled(models.Model):
+    individuals_enrolled_female_10_14 = models.PositiveIntegerField('female 10 to 14', default=0)
+    individuals_enrolled_female_15_19 = models.PositiveIntegerField('female 15 to 19', default=0)
+    individuals_enrolled_female_20_24 = models.PositiveIntegerField('female 20 to 24', default=0)
+    individuals_enrolled_female_25_plus = models.PositiveIntegerField('female 25 plus', default=0)
+
+    individuals_enrolled_male_10_14 = models.PositiveIntegerField('male 10 to 14', default=0)
+    individuals_enrolled_male_15_19 = models.PositiveIntegerField('male 15 to 19', default=0)
+    individuals_enrolled_male_20_24 = models.PositiveIntegerField('male 20 to 24', default=0)
+    individuals_enrolled_male_25_plus = models.PositiveIntegerField('male 25 plus', default=0)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class VulnerablePeople(models.Model):
-    # How many vulnerable people in total received care and support from your organisation this quarter?
-    ovc_female_num = models.PositiveIntegerField('female', default=0)
-    ovc_male_num = models.PositiveIntegerField('male',default=0)
-    ovc_care_support_0_9 = models.PositiveIntegerField('0 to 9', default=0)
-    ovc_care_support_10_14 = models.PositiveIntegerField('10 to 14', default=0)
-    ovc_care_support_15_19 = models.PositiveIntegerField('15 to 19', default=0)
-    ovc_care_support_20_24 = models.PositiveIntegerField('20 to 24', default=0)
-    ovc_care_support_25_plus = models.PositiveIntegerField('25 and above', default=0)
+    ovc_female_less_10 = models.PositiveIntegerField('female less than 10', default=0)
+    ovc_female_10_14 = models.PositiveIntegerField('female 10 to 14', default=0)
+    ovc_female_15_19 = models.PositiveIntegerField('female 15 to 19', default=0)
+    ovc_female_20_24 = models.PositiveIntegerField('female 20 to 24', default=0)
+    ovc_female_25_plus = models.PositiveIntegerField('female 25 plus', default=0)
+
+    ovc_male_less_10 = models.PositiveIntegerField('male less than 10',default=0)
+    ovc_male_10_14 = models.PositiveIntegerField('male 10 to 14',default=0)
+    ovc_male_15_19 = models.PositiveIntegerField('male 15 to 19',default=0)
+    ovc_male_20_24 = models.PositiveIntegerField('male 20 to 24',default=0)
+    ovc_male_25_plus = models.PositiveIntegerField('male 25 plus',default=0)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SupportAndCare(models.Model):
+    type = models.ManyToManyField(SupportField, verbose_name='type')
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class GeneralComment2(models.Model):
+    class Meta:
+        verbose_name = 'General comment'
+    
     general_comment = models.TextField(default="")
     organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
