@@ -748,6 +748,9 @@ class VulnerablePeople(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class GeneralComment2(models.Model):
+    class Meta:
+        verbose_name = 'General comment'
+    
     general_comment = models.TextField(default="")
     organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
