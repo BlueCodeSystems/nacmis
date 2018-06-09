@@ -196,7 +196,7 @@ class GeneralComment2Inline(admin.TabularInline):
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
-    list_filter = ('national_organisation', 'organisation_province', 'organisation_district', )
+    list_filter = ('national_organisation', 'organisation_province', 'district', )
     list_display = ('organisation', 'key_contact_name', 'telephone_number', 'start_year')
 
     form = StakeholderDirectoryModelForm
@@ -217,7 +217,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic details on the organisation', {
             #'classes':('collapse',),
-            'fields': ('national_organisation','organisation', ('organisation_province', 'organisation_district'), 
+            'fields': ('national_organisation','organisation', ('organisation_province', 'district'), 
             'organisation_address', 'start_year', 'gps', 'website', 'description_of_organisation')
         }),
         ('Contact details', {
@@ -307,6 +307,9 @@ class MobilePopulationTypeAdmin(admin.ModelAdmin):
         }),
     )
 
+class WardAdmin(admin.ModelAdmin):
+    list_filter = ['district',]
+
 # Register National Organisation models
 admin.site.register(NationalOrganisation)
 
@@ -329,4 +332,4 @@ admin.site.register(Province)
 
 admin.site.register(District)
 
-admin.site.register(Ward)
+admin.site.register(Ward, WardAdmin)

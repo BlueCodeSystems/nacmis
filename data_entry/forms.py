@@ -9,23 +9,15 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
 
     class Meta:
         model = StakeholderDirectory
-        fields = ['organisation_address', 'organisation_targets', 'organisation_district', 'start_year']
+        fields = ['organisation_address', 'organisation_targets', 'district', 'start_year']
 
         widgets = {
             'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
             'organisation_targets' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
-            'organisation_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
+            'district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
             'start_year':  forms.TextInput(attrs={'placeholder':'YYYY-MM-DD', 'type':'date',}),
         }
 
-class WardModelForm(forms.ModelForm):
-    class Meta:
-        model = Ward
-        fields = ['name',]
-
-        widgets = {
-            'name' : autocomplete.ModelSelect2(url='ward-autocomplete', forward=['district'])
-        }
 class ActivityReportFormModelForm(forms.ModelForm):
     
     class Meta:
@@ -45,6 +37,15 @@ class ProgramActivityModelForm(forms.ModelForm):
         widgets = {
             'area_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
             'ward':  autocomplete.ModelSelect2(url='ward-autocomplete', forward=['organisation_district'])
+        }
+
+class WardModelForm(forms.ModelForm):
+    class Meta:
+        model = Ward
+        fields = ['name',]
+
+        widgets = {
+            'name' : autocomplete.ModelSelect2(url='ward-autocomplete', forward=['district'])
         }
 
 class TargetGroupPreventionMessageModelForm(forms.ModelForm):

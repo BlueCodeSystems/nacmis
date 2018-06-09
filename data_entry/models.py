@@ -442,7 +442,7 @@ class StakeholderDirectory(models.Model):
     organisation = models.CharField(max_length=200)
     organisation_address = models.CharField('address of the organisation', max_length=100, blank=True)
     organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
-    organisation_district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
+    district = models.ForeignKey(District, verbose_name='organisation district', on_delete=models.CASCADE, null=True)
     start_year = models.DateField('which year did your organisation start working in this district?')
     gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
@@ -475,7 +475,7 @@ class StakeholderDirectory(models.Model):
         + self.organisation_district.province.name + ' province' 
 
 class SupportField(models.Model):
-    area_of_support = models.CharField(max_length=100, null=True)
+    area_of_support = models.CharField(max_length=100, default="")
 
     def __str__(self):
         return self.area_of_support
