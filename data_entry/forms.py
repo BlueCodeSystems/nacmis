@@ -42,10 +42,10 @@ class ProgramActivityModelForm(forms.ModelForm):
 class WardModelForm(forms.ModelForm):
     class Meta:
         model = Ward
-        fields = ['name',]
+        fields = '__all__'
 
         widgets = {
-            'name' : autocomplete.ModelSelect2(url='ward-autocomplete', forward=['district'])
+            'district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
         }
 
 class TargetGroupPreventionMessageModelForm(forms.ModelForm):

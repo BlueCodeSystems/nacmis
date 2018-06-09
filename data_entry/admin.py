@@ -11,7 +11,8 @@ CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexual
 PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
 SupportAndCare, GeneralComment2)
 
-from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, TargetGroupPreventionMessageModelForm
+from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, TargetGroupPreventionMessageModelForm, \
+WardModelForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -307,8 +308,12 @@ class MobilePopulationTypeAdmin(admin.ModelAdmin):
         }),
     )
 
+class DistrictAdmin(admin.ModelAdmin):
+    list_filter = ['province',]
+
 class WardAdmin(admin.ModelAdmin):
     list_filter = ['district',]
+    form = WardModelForm
 
 # Register National Organisation models
 admin.site.register(NationalOrganisation)
@@ -330,6 +335,6 @@ admin.site.register(SupportField)
 
 admin.site.register(Province)
 
-admin.site.register(District)
+admin.site.register(District, DistrictAdmin)
 
 admin.site.register(Ward, WardAdmin)
