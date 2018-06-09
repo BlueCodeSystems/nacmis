@@ -47,7 +47,7 @@ def comingSoonView(request):
 
 class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
+        
         #if not self.request.user.is_authenticated():
         #    return SupportField.objects.none()
 
@@ -94,7 +94,7 @@ class WardAutocomplete(autocomplete.Select2QuerySetView):
 
         qs = Ward.objects.all()
 
-        district = self.forwarded.get('organisation_district', None)
+        district = self.forwarded.get('district', None)
 
         if district:
             qs = qs.filter(district=district)
