@@ -218,7 +218,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic details on the organisation', {
             #'classes':('collapse',),
-            'fields': ('national_organisation','organisation', ('organisation_province', 'district'), 
+            'fields': ('national_organisation','organisation', ('organisation_province', 'organisation_district'), 
             'organisation_address', 'start_year', 'gps', 'website', 'description_of_organisation')
         }),
         ('Contact details', {
