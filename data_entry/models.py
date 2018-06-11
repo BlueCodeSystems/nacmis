@@ -376,14 +376,14 @@ YES_OR_NO = (
 )
 
 class Province(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
 
 class District(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
