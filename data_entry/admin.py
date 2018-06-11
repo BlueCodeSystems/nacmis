@@ -335,6 +335,7 @@ class DistrictAdmin(admin.ModelAdmin):
 
 class WardAdmin(admin.ModelAdmin):
     list_filter = ['district',]
+    search_fields = ['name']
     form = WardModelForm
 
 # Register National Organisation models
