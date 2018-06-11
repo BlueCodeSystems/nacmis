@@ -9,12 +9,12 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
 
     class Meta:
         model = StakeholderDirectory
-        fields = ['organisation_address', 'organisation_targets', 'district', 'start_year']
+        fields = ['organisation_address', 'organisation_targets', 'organisation_district', 'start_year']
 
         widgets = {
             'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
             'organisation_targets' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
-            'district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
+            'organisation_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
             'start_year':  forms.TextInput(attrs={'placeholder':'YYYY-MM-DD', 'type':'date',}),
         }
 
