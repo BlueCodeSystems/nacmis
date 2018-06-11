@@ -1,6 +1,14 @@
 {% extends "admin/base.html" %}
 
 {% block title %}NACMIS online{% endblock %}
+    
+{% block extrastyle %}
+<style>
+    #header {
+        background-color: #00923F; /* NAC base color */
+    }
+</style>
+{% endblock %}
 
 {% block branding %}
 <h1 id="site-name"><a href="{% url 'admin:index' %}">NACMIS</a></h1>
