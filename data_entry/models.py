@@ -573,7 +573,7 @@ class IECMaterial2(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.material_type
+        return 'IEC audience'
 
 # --> Social behaviour change communication for key populations 
 class Teachers(models.Model):
