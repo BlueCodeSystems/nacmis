@@ -1,5 +1,5 @@
 {% extends "admin/base.html" %}
-
+{% load static %}
 {% block title %}NACMIS online{% endblock %}
     
 {% block extrastyle %}
@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">NACMIS</a></h1>
+<h1 id="site-name"><a href="{% url 'admin:index' %}"><img src="{% static 'data_entry/img/nac_logo1.png' %}" alt="NACMIS"/></a></h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
