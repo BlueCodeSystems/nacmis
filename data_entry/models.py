@@ -531,11 +531,14 @@ class EndOfYearQuestion(models.Model):
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
 class GeneralComment(models.Model):
-    general_comment = models.TextField(default="")
+    general_comment = models.TextField('additional comments', blank=True)
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
     def __str__(self):
         return ''
+
+    class Meta:
+        verbose_name = 'additional comment'
 
 # HIV ACTIVITIES ORGANISATION PARTICIPATES IN FORM
 # *************************************************
