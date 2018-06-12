@@ -403,7 +403,7 @@ class NationalOrganisation(models.Model):
     organisation_contact_email = models.EmailField(max_length=254)
 
     def __str__(self):
-        return self.organisation_name + " - " + self.organisation_contact_email
+        return self.organisation_name  #+ " - " + self.organisation_contact_email
 
 #               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
 # *********************************************************************
