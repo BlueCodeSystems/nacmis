@@ -447,7 +447,7 @@ class StakeholderDirectory(models.Model):
     gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
     description_of_organisation = models.TextField('Brief description of the organisation (Please describe your \
-        organisation in no more than 250 words)')
+        organisation in no more than 250 words)', max_length=1200)
 
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
