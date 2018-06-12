@@ -48,7 +48,7 @@ class GeneralCommentInline(admin.StackedInline):
 class MaterialInline(admin.TabularInline):
     model = IECMaterial
     verbose_name = 'IEC Material'
-    verbose_name_plural = '1. how many Information Education Communication(IEC) materials were distributed by \
+    verbose_name_plural = '1. How many Information Education Communication(IEC) materials were distributed by \
         your organisation this quarter?'
     extra = 1
 
@@ -139,7 +139,7 @@ class CondomProgramming2Inline(admin.TabularInline):
 class ReportedCaseInline(admin.StackedInline):
     model = ReportedCase
     verbose_name_plural = '15. What is the total number of reported cases on a physical or sexual violence OR any \
-        other type of gender based violence by your organisation'
+        other type of gender based violence by your organisation?'
     fields = ( ('reported_female_less_10', 'reported_female_10_14', 'reported_female_15_19', 'reported_female_20_24', 
         'reported_female_25_plus'), ('reported_male_less_10', 'reported_male_10_14', 'reported_male_15_19', 
         'reported_male_20_24', 'reported_male_25_plus') )
