@@ -219,8 +219,8 @@ class GeneralComment2Inline(admin.TabularInline):
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
-    list_filter = ('national_organisation', 'organisation_province', 'organisation_district', )
-    list_display = ('organisation', 'key_contact_name', 'telephone_number', 'start_year')
+    list_filter = ('organisation_province', 'organisation_district', )
+    list_display = ('organisation', 'key_contact_name', 'telephone_number')
 
     form = StakeholderDirectoryModelForm
 
