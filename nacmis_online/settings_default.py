@@ -31,13 +31,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'data_entry.apps.DataCollectorAppConfig',
+    'dal',
+    'dal_select2',
+    'data_entry.apps.DataEntryConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_select2',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -50,12 +54,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = '<project_name>.urls'
+ROOT_URLCONF = 'nacmis_online.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+	'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = '<project_name>.wsgi.application'
+WSGI_APPLICATION = 'nacmis_online.wsgi.application'
 
 
 # Database
@@ -117,5 +121,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATIC_URL = '/static/'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'nacmis',
+        'USER': 'nacmis',
+        'PASSWORD': 'nacmis',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+ALLOWED_HOSTS = ['52.91.14.106', 'localhost', '127.0.0.1', 'nacmis.bluecodeltd.com']
