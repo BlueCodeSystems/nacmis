@@ -3,7 +3,7 @@ from django.contrib import admin
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
 OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage,
-OtherQuestion, EndOfYearQuestion, GeneralComment)
+OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
 
 from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker, Inmate, PersonsWithDisabilty, 
 MobileWorker,MobilePopulation, MenWithMen, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
@@ -357,6 +357,7 @@ admin.site.register(MobilePopulationType)
 admin.site.register(SupportField)
 
 admin.site.register(Province)
+admin.site.register(UserProfile)
 
 admin.site.register(District, DistrictAdmin)
 

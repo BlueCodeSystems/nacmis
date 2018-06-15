@@ -1,6 +1,6 @@
 from phonenumber_field.modelfields import PhoneNumberField
-
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 # list variables
@@ -375,6 +375,7 @@ YES_OR_NO = (
     (no, 'No')
 )
 
+
 class Province(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
@@ -475,6 +476,11 @@ class StakeholderDirectory(models.Model):
         return (self.organisation + ' - ' + self.organisation_district.name + ' district - '
         + self.organisation_district.province.name + ' province') 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE)
+    stakeholder = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
+    
 class SupportField(models.Model):
     area_of_support = models.CharField(max_length=100, default="")
 
