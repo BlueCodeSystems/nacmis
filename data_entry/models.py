@@ -478,8 +478,10 @@ class StakeholderDirectory(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE)
-    stakeholder = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
+    national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE, null=True)
+    stakeholder = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
+    province = models.ForeignKey(Province, on_delete=models.SET_NULL, null=True)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True)
     
 class SupportField(models.Model):
     area_of_support = models.CharField(max_length=100, default="")
