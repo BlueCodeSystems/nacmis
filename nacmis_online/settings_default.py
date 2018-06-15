@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'dal',
     'dal_select2',
     'data_entry.apps.DataEntryConfig',
+    'admin_view_permission',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

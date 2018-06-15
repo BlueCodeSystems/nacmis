@@ -1,5 +1,6 @@
 Babel==2.5.3
 Django==2.0.4
+django-admin-view-permission==1.6
 django-appconf==1.0.2
 django-autocomplete-light==3.2.10
 django-phonenumber-field==2.0.0
