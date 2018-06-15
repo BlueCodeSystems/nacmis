@@ -265,6 +265,22 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
         OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
+    def query_set(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        userProfile = UserProfile.objects.get(user=request.user)
+        if userProfile.national_organisation:
+            qs = qs.filter(national_organisation=userProfile.national_organisation)
+        if userProfile.stakeholder:
+            qs = qs.filter(id=userProfile.stakeholder)
+        if userProfile.province:
+            qs = qs.filter(organisation_province=userProfile.stakeholder)
+        if userProfile.province:
+            qs = qs.filter(organisation_district=userProfile.district)
+        return qs
+
+
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
 
