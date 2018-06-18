@@ -350,7 +350,7 @@ class ProgramActivity(models.Model):
 
 class FundingSource(models.Model):
     name_of_organisation =  models.CharField(max_length=100, default="")
-    funding_amount =  models.PositiveIntegerField('Funding Amount(In US Dollars)')
+    funding_amount =  models.PositiveIntegerField('Funding Amount(In Zambian Kwacha)')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
     def __str__(self):
