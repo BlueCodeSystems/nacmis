@@ -258,6 +258,9 @@ class NationalOrganisation(models.Model):
     def __str__(self):
         return self.organisation_name
 
+    class Meta:
+        verbose_name = 'parent organisation'
+
 #               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
 # *********************************************************************
 
@@ -291,8 +294,8 @@ class StakeholderDirectory(models.Model):
         verbose_name_plural = 'Stakeholder directories'
 
     # --> Basic details on the organisation
-    national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE, null=True)
-    organisation = models.CharField(max_length=200)
+    national_organisation = models.ForeignKey(NationalOrganisation, verbose_name='parent organisation', on_delete=models.CASCADE, null=True)
+    organisation = models.CharField('organisation/ project', max_length=200)
     organisation_address = models.CharField('address of the organisation', max_length=100, blank=True, null=True)
     organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
     organisation_district = models.ForeignKey(District, verbose_name='organisation district', on_delete=models.CASCADE, null=True)
