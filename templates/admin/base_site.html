@@ -16,10 +16,16 @@
     .module caption, .module h2, .submit-row input, .submit-row input.default {
         background-color: #199d52;
         text-transform: unset;
-    }
-
-    
+    }  
 </style>
+
+{% endblock %}
+
+{% block submit_buttons_bottom %}
+{{ block.super }}
+<div class="submit-row">
+        <input type="submit" value="Submit" name="_submit">
+</div>
 {% endblock %}
 
 {% block branding %}
