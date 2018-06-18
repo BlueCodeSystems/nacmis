@@ -45,7 +45,7 @@ class ProgramActivityModelForm(forms.ModelForm):
         fields = '__all__'
         
         widgets = {
-            'area_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
+            'areas_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
             'ward':  autocomplete.ModelSelect2(url='ward-autocomplete', forward=['organisation_district'])
         }
 
@@ -65,7 +65,7 @@ class TargetGroupPreventionMessageModelForm(forms.ModelForm):
         fields = '__all__'
         
         widgets = {
-            'target_group': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
+            'target_groups': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }
 
 class IECMaterialModelForm(forms.ModelForm):
