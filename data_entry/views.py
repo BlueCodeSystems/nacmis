@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import generic
 from dal import autocomplete
 
-from .models import District, Ward, OrganisationTarget, SupportField
+from .models import District, Ward, OrganisationTarget, SupportField, UserProfile
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
@@ -72,10 +72,22 @@ class OrganisationTargetAutocomplete(autocomplete.Select2QuerySetView):
 class DistrictAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         
-        #if not self.request.user.is_authenticated():
-        #    return District.objects.none()
-
         qs = District.objects.all()
+
+        #filter to only show districts allowed for the logged in user
+        if self.request.user.is_superuser:
+            return qs
+        else:
+            try:
+                userProfile = UserProfile.objects.get(user=self.request.user)
+            except UserProfile.DoesNotExist:
+                #No userprofile set, return empty queryset
+                return qs.none()
+            else: 
+                if self.request.user.groups.filter(name="Stakeholder"):
+                    qs = qs.filter(id=userProfile.stakeholder.id)
+                if self.request.user.groups.filter(name="DACA"):
+                    qs = qs.filter(name=userProfile.district.name)
 
         province = self.forwarded.get('organisation_province', None)
 
