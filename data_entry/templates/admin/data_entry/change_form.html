@@ -15,3 +15,10 @@
         }
     </style>
 {% endblock %}
+
+{% block submit_buttons_bottom %}
+{{ block.super }}
+<div class="submit-row">
+        <input class="default" value="Submit Me" name="_submit_me" type="submit" >
+</div>
+{% endblock %}

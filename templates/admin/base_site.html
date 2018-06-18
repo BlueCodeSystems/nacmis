@@ -21,13 +21,6 @@
 
 {% endblock %}
 
-{% block submit_buttons_bottom %}
-{{ block.super }}
-<div class="submit-row">
-        <input type="submit" value="Submit" name="_submit">
-</div>
-{% endblock %}
-
 {% block branding %}
 <h1 id="site-name"><a href="{% url 'admin:index' %}">
     <div style="width:40%;">
