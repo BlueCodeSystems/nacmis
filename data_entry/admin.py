@@ -382,7 +382,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
                 if request.user.groups.filter(name="PACA"):
                     kwargs["queryset"] = stakeholders.filter(organisation_province=userProfile.province)
                 if request.user.groups.filter(name="PITMEO"):
-                    kwargs["queryset"] = stakeholders.filter(organisation_district=userProfile.province)
+                    kwargs["queryset"] = stakeholders.filter(organisation_province=userProfile.province)
                 if request.user.groups.filter(name="DACA"):
                     kwargs["queryset"] = stakeholders.filter(organisation_district=userProfile.district)
                 if request.user.groups.filter(name="Stakeholder"):
