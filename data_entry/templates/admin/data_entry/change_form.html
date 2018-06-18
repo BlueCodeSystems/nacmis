@@ -17,8 +17,10 @@
 {% endblock %}
 
 {% block submit_buttons_bottom %}
-{{ block.super }}
+{# {{ block.super }} #}
 <div class="submit-row">
-        <input class="default" value="Submit Me" name="_submit_me" type="submit" >
+    <input class="default" value="Submit" name="_submit" type="submit" />
+    <input type="submit" value="Save and add another" name="_saveasnew" />
+    <input type="submit" value="Save and continue editing" name="_continue" />
 </div>
 {% endblock %}
