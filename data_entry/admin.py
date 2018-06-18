@@ -64,14 +64,14 @@ class DACAValidationInline(admin.StackedInline):
 class MaterialInline(admin.TabularInline):
     model = IECMaterial
     verbose_name = 'IEC Material'
-    verbose_name_plural = '1. How many Information Education Communication(IEC) materials were distributed by \
+    verbose_name_plural = '1. How many Information Education Communication (IEC) materials were distributed by \
         your organisation this quarter?'
     extra = 1
 
 class MaterialInline2(admin.TabularInline):
     model = IECMaterial2
     verbose_name = 'IEC Material 2'
-    verbose_name_plural = '2. If you distributed Information Education Communication(IEC) materials this \
+    verbose_name_plural = '2. If you distributed Information Education Communication (IEC) materials this \
         quarter who was your target audience?'
     extra = 1
 
@@ -136,20 +136,20 @@ class TransgenderIndividualInline(admin.TabularInline):
 
 class PeopleWhoInjectDrugInline(admin.TabularInline):
     model = PeopleWhoInjectDrug
-    verbose_name_plural = '12. How many people who inject drugs(PWID) have been reached by HIV prevention programmes by \
+    verbose_name_plural = '12. How many people who inject drugs (PWID) have been reached by HIV prevention programmes by \
         your organisation this quarter?'
     extra = 1
 
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
     verbose_name_plural = '13. How many condom service distribution points were supplied by your organisation this \
-        quarter(excluding health facilities)?'
+        quarter (excluding health facilities)?'
     extra = 1
 
 class CondomProgramming2Inline(admin.TabularInline):
     model = CondomProgramming2
     verbose_name_plural = '14. How many male and/or female condoms were distributed to end users by \
-        your organisation this quarter(excluding health facilities)?'
+        your organisation this quarter (excluding health facilities)?'
     extra = 1
 
 class ReportedCaseInline(admin.StackedInline):
