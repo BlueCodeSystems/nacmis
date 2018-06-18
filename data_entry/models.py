@@ -424,6 +424,12 @@ class ActivityReportForm(models.Model):
         else:
             return "unset stakeholder name"
 
+class DACAValidation(models.Model):
+    validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    validation_date = models.DateTimeField(auto_now=True)
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
+    form_validated = models.BooleanField(verbose_name="The form is valid")
+    
 # --> Social behaviour change communication 
 class IECMaterial(models.Model):
     material_type = models.CharField('type of IEC material', max_length=100, choices=IEC_MATERIALS)

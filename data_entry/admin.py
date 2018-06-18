@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib import admin
+from django.contrib.auth.models import User
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
 OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage,
@@ -9,7 +10,7 @@ from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker
 MobileWorker,MobilePopulation, MenWithMen, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
 CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PostExposureProphylaxis,
 PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
-SupportAndCare, GeneralComment2)
+SupportAndCare, GeneralComment2, DACAValidation)
 
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, TargetGroupPreventionMessageModelForm, \
 WardModelForm, UserProfileModelForm
@@ -42,6 +43,21 @@ class EndOfYearQuestionInline(admin.TabularInline):
 class GeneralCommentInline(admin.StackedInline):
     model = GeneralComment
     extra = 1
+
+class DACAValidationInline(admin.StackedInline):
+    model = DACAValidation
+    extra = 1
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if request.user.is_superuser:
+            return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+        if db_field.name == "validated_by":
+            if request.user.groups.filter(name="DACA"):
+                kwargs["queryset"] = User.objects.filter(id=request.user.id)
+            else:
+                kwargs["queryset"] = User.objects.none()
+
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 # INLINES FOR ACTIVITY REPORT FORM ADMIN
 # *************************************************
@@ -331,6 +347,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     VulnerablePeopleInline.max_num = 1
     SupportAndCareInline.max_num = 1
     GeneralComment2Inline.max_num = 1
+    DACAValidationInline.max_num = 1
 
     fieldsets = (
         ('1. REPORT DETAIL', {
@@ -348,7 +365,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         PeopleWhoInjectDrugInline,CondomProgrammingInline, CondomProgramming2Inline, ReportedCaseInline, 
         ExperiencedPhysicalViolenceInline, ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, 
         PreExposureProphylaxisInline, SynergyDevelopmentSectorInline, SupportGroupSetUpInline, 
-        IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline]
+        IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, DACAValidationInline]
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
@@ -370,6 +387,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
                     kwargs["queryset"] = stakeholders.filter(organisation_district=userProfile.district)
                 if request.user.groups.filter(name="Stakeholder"):
                     kwargs["queryset"] = stakeholders.filter(id=userProfile.stakeholder.id)
+
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_queryset(self, request):
@@ -403,6 +421,7 @@ class MobilePopulationTypeAdmin(admin.ModelAdmin):
             'fields': ('mobile_population_type',)
         }),
     )
+
 
 class DistrictAdmin(admin.ModelAdmin):
     list_filter = ['province',]
