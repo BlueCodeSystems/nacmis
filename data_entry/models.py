@@ -287,9 +287,6 @@ class MobilePopulationType(models.Model):
 
 class StakeholderDirectory(models.Model):
 
-    class Meta:
-        verbose_name_plural = 'Stakeholder directories'
-
     # --> Basic details on the organisation
     national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE, null=True)
     organisation = models.CharField(max_length=200)
@@ -323,9 +320,13 @@ class StakeholderDirectory(models.Model):
     organisation_targets = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
         different groups that are targeted by your organisation)')
 
+    comment = models.TextField('additional comments', max_length=200, blank=True)
     def __str__(self):
         return (self.organisation + ' - ' + self.organisation_district.name + ' district - '
-        + self.organisation_district.province.name + ' province') 
+        + self.organisation_district.province.name + ' province')
+
+    class Meta:
+        verbose_name_plural = 'Stakeholder directories'
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -362,7 +363,6 @@ class TargetGroupPreventionMessage(models.Model):
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        #return self.target_group + " " + self.prevention_message
         return self.prevention_message
 
 class TypesOfFundingSupport(models.Model):
@@ -417,6 +417,8 @@ class ActivityReportForm(models.Model):
     name = models.CharField(max_length=50)
     telephone_number = PhoneNumberField()
     email_address = models.EmailField(max_length=50)
+
+    comment = models.TextField('additional comments', max_length=200, blank=True)
 
     def __str__(self):
         if self.stake_holder_name:

@@ -23,6 +23,8 @@ class ProgramActivityInline(admin.TabularInline):
     form = ProgramActivityModelForm
     extra = 1
 
+    insert_after = 'organisation_targets' #1
+
 class FundingSourceInline(admin.TabularInline):
     model = FundingSource
     extra = 1
@@ -275,12 +277,16 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         }),
         ('Organisation classification', {
             'fields': ('organisation_type', 'organisation_targets')
-        })
+        }),
+        ('Additional Comments', {
+            'fields': ('comment',),
+        }),
     )
 
     inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
-        OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
+        OtherQuestionInline, EndOfYearQuestionInline]
 
+    change_form_template = 'admin/change_form.html' #2
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
@@ -358,6 +364,9 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         ('2. HIV ACTIVITIES YOUR ORGANISATION PARTICIPATES', {
             'fields': (),
         }),
+        ('Additional Comments', {
+            'fields': ('comment',),
+        }),
     )
 
     inlines = [MaterialInline, MaterialInline2, TeachersInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
@@ -365,7 +374,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         PeopleWhoInjectDrugInline,CondomProgrammingInline, CondomProgramming2Inline, ReportedCaseInline, 
         ExperiencedPhysicalViolenceInline, ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, 
         PreExposureProphylaxisInline, SynergyDevelopmentSectorInline, SupportGroupSetUpInline, 
-        IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, DACAValidationInline]
+        IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, DACAValidationInline]
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
