@@ -22,7 +22,6 @@ class ProgramActivityInline(admin.TabularInline):
     verbose_name_plural = 'Program activities'
     form = ProgramActivityModelForm
     extra = 1
-
     insert_after = 'organisation_targets' #1
 
 class FundingSourceInline(admin.TabularInline):
