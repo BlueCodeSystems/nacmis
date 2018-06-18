@@ -333,6 +333,9 @@ class UserProfile(models.Model):
     stakeholder = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, blank=True, null=True)
     province = models.ForeignKey(Province, on_delete=models.SET_NULL, blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL, blank=True, null=True)
+
+    def __str__(self):
+        return "%s"%(self.user.username)
     
 class SupportField(models.Model):
     area_of_support = models.CharField(max_length=100, default="")

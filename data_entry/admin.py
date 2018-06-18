@@ -265,21 +265,42 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
         OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
+    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if request.user.is_superuser:
+            return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+        if db_field.name == "organisation_province":
+            try:
+                userProfile = UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
+                #No userprofile set, return empty queryset
+                return Province.objects.none()
+            else: 
+                if request.user.groups.filter(name="DACA"):
+                    kwargs["queryset"] = Province.objects.filter(name=userProfile.province)
+                if request.user.groups.filter(name="PACA"):
+                    kwargs["queryset"] = Province.objects.filter(name=userProfile.province)
+                if request.user.groups.filter(name="PITMEO"):
+                    kwargs["queryset"] = Province.objects.filter(name=userProfile.province)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
             return qs
-        userProfile = UserProfile.objects.get(user=request.user)
-        if userProfile.national_organisation:
-            qs = qs.filter(national_organisation=userProfile.national_organisation)
-        if userProfile.stakeholder:
-            qs = qs.filter(id=userProfile.stakeholder.id)
-        if userProfile.province:
-            qs = qs.filter(organisation_province=userProfile.province)
-        if userProfile.district:
-            qs = qs.filter(organisation_district=userProfile.district)
+        try:
+            userProfile = UserProfile.objects.get(user=request.user)
+        except UserProfile.DoesNotExist:
+            #No userprofile set, return empty queryset
+            return qs.none()
+        else: 
+            if request.user.groups.filter(name="Stakeholder"):
+                qs = qs.filter(id=userProfile.stakeholder.id)
+            if request.user.groups.filter(name="DACA"):
+                qs = qs.filter(organisation_district=userProfile.district)
         return qs
-
 
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
@@ -329,20 +350,43 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         PreExposureProphylaxisInline, SynergyDevelopmentSectorInline, SupportGroupSetUpInline, 
         IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline]
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if request.user.is_superuser:
+            return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+        stakeholders = StakeholderDirectory.objects.all()
+        if db_field.name == "stake_holder_name":
+            try:
+                userProfile = UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
+                #No userprofile set, return empty queryset
+                return stakeholders.none()
+            else: 
+                if request.user.groups.filter(name="PACA"):
+                    kwargs["queryset"] = stakeholders.filter(organisation_province=userProfile.province)
+                if request.user.groups.filter(name="PITMEO"):
+                    kwargs["queryset"] = stakeholders.filter(organisation_district=userProfile.province)
+                if request.user.groups.filter(name="DACA"):
+                    kwargs["queryset"] = stakeholders.filter(organisation_district=userProfile.district)
+                if request.user.groups.filter(name="Stakeholder"):
+                    kwargs["queryset"] = stakeholders.filter(id=userProfile.stakeholder.id)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
             return qs
-        userProfile = UserProfile.objects.get(user=request.user)
-        if userProfile.national_organisation:
-            qs = qs.filter(stake_holder_name__national_organisation=userProfile.national_organisation)
-        if userProfile.stakeholder:
-            qs = qs.filter(stake_holder_name=userProfile.stakeholder)
-        if userProfile.province:
-            qs = qs.filter(stake_holder_name__organisation_province=userProfile.province)
-        if userProfile.district:
-            qs = qs.filter(stake_holder_name__organisation_district=userProfile.district)
+        try:
+            userProfile = UserProfile.objects.get(user=request.user)
+        except UserProfile.DoesNotExist:
+            return qs.none()
+        else: 
+            if request.user.groups.filter(name="Stakeholder"):
+                qs = qs.filter(stake_holder_name=userProfile.stakeholder)
+            if request.user.groups.filter(name="DACA"):
+                qs = qs.filter(stake_holder_name__organisation_district=userProfile.district)
         return qs
+
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
 
