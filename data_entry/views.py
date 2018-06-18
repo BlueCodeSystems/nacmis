@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import generic
 from dal import autocomplete
 
-from .models import District, Ward, OrganisationTarget, SupportField, UserProfile
+from .models import District, Ward, OrganisationTarget, SupportField, UserProfile, StakeholderDirectory
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
@@ -75,9 +75,7 @@ class DistrictAutocomplete(autocomplete.Select2QuerySetView):
         qs = District.objects.all()
 
         #filter to only show districts allowed for the logged in user
-        if self.request.user.is_superuser:
-            return qs
-        else:
+        if not self.request.user.is_superuser:
             try:
                 userProfile = UserProfile.objects.get(user=self.request.user)
             except UserProfile.DoesNotExist:
@@ -89,7 +87,8 @@ class DistrictAutocomplete(autocomplete.Select2QuerySetView):
                 if self.request.user.groups.filter(name="DACA"):
                     qs = qs.filter(name=userProfile.district.name)
 
-        province = self.forwarded.get('organisation_province', None)
+
+        province = self.forwarded.get('organisation_province', None) or self.forwarded.get('province', None)
 
         if province:
             qs = qs.filter(province=province)
@@ -109,6 +108,22 @@ class WardAutocomplete(autocomplete.Select2QuerySetView):
 
         if district:
             qs = qs.filter(district=district)
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+        return qs
+
+class StakeholderAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+    
+        #if not self.request.user.is_authenticated():
+        #    return District.objects.none()
+
+        qs = StakeholderDirectory.objects.all()
+        national_organisation_id = self.forwarded.get('national_organisation', None)
+
+        if national_organisation_id:
+            qs = qs.filter(national_organisation__id=national_organisation_id)
 
         if self.q:
             qs = qs.filter(name__istartswith=self.q)

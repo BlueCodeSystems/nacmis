@@ -12,7 +12,7 @@ PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualC
 SupportAndCare, GeneralComment2)
 
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, TargetGroupPreventionMessageModelForm, \
-WardModelForm
+WardModelForm, UserProfileModelForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -412,6 +412,9 @@ class WardAdmin(admin.ModelAdmin):
     search_fields = ['name']
     form = WardModelForm
 
+class UserProfileAdmin(admin.ModelAdmin):
+    form = UserProfileModelForm
+
 # Register National Organisation models
 admin.site.register(NationalOrganisation)
 
@@ -431,7 +434,7 @@ admin.site.register(MobilePopulationType)
 admin.site.register(SupportField)
 
 admin.site.register(Province)
-admin.site.register(UserProfile)
+admin.site.register(UserProfile, UserProfileAdmin)
 
 admin.site.register(District, DistrictAdmin)
 

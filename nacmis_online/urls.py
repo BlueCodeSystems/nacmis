@@ -17,7 +17,7 @@ from django.urls import include, path
 from django.contrib import admin
 from data_entry import views
 from data_entry.views import SupportFieldAutocomplete, DistrictAutocomplete, WardAutocomplete, \
-    OrganisationTargetAutocomplete, comingSoonView
+    OrganisationTargetAutocomplete, comingSoonView, StakeholderAutocomplete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +29,5 @@ urlpatterns = [
         name='organisationtarget-autocomplete'),
     path('district-autocomplete/', DistrictAutocomplete.as_view(), name='district-autocomplete'),
     path('ward-autocomplete/', WardAutocomplete.as_view(), name='ward-autocomplete'),
+    path('stakeholder-autocomplete/', StakeholderAutocomplete.as_view(), name='stakeholder-autocomplete'),
 ]

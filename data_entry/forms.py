@@ -1,7 +1,7 @@
 from django import forms
 
 
-from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District, Ward
+from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District, Ward, UserProfile
 from .models import ActivityReportForm, IECMaterial
 from dal import autocomplete
 
@@ -16,6 +16,16 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
             'organisation_targets' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
             'organisation_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
             'start_year':  forms.TextInput(attrs={'placeholder':'YYYY-MM-DD', 'type':'date',}),
+        }
+
+class UserProfileModelForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('__all__')
+
+        widgets = {
+            'district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['province']),
+            'stakeholder' : autocomplete.ModelSelect2(url='stakeholder-autocomplete', forward=['national_organisation']),
         }
 
 class ActivityReportFormModelForm(forms.ModelForm):
