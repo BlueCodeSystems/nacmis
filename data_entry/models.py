@@ -392,8 +392,7 @@ class EndOfYearQuestion(models.Model):
         AIDS activities this year?')
     number_of_meetings_daft = models.PositiveIntegerField('How many DATF meetings did your organisation attend \
         this year?')
-    number_of_meetings_paft = models.PositiveIntegerField('How many PATF meetings did your organisation attend \
-        this year?')
+    #number_of_meetings_paft = models.PositiveIntegerField('How many PATF meetings did your organisation attend \this year?')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
 class GeneralComment(models.Model):
