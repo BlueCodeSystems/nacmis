@@ -290,9 +290,6 @@ class MobilePopulationType(models.Model):
 
 class StakeholderDirectory(models.Model):
 
-    class Meta:
-        verbose_name_plural = 'Stakeholder directories'
-
     # --> Basic details on the organisation
     national_organisation = models.ForeignKey(NationalOrganisation, verbose_name='parent organisation', on_delete=models.CASCADE, null=True)
     organisation = models.CharField('organisation/ project', max_length=200)
@@ -300,7 +297,7 @@ class StakeholderDirectory(models.Model):
     organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
     organisation_district = models.ForeignKey(District, verbose_name='organisation district', on_delete=models.CASCADE, null=True)
     start_year = models.DateField('which year did your organisation start working in this district?')
-    gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
+    gps = models.CharField('GPS Coordinates', help_text='use decimal degrees format(ie: -15.38753, 28.32282)', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
     description_of_organisation = models.TextField('Brief description of the organisation (Please describe your \
         organisation in no more than 250 words)', max_length=1200)
@@ -328,7 +325,10 @@ class StakeholderDirectory(models.Model):
 
     def __str__(self):
         return (self.organisation + ' - ' + self.organisation_district.name + ' district - '
-        + self.organisation_district.province.name + ' province') 
+        + self.organisation_district.province.name + ' province')
+    
+    class Meta:
+        verbose_name_plural = 'Stakeholder directory'
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
