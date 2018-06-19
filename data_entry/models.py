@@ -308,8 +308,8 @@ class StakeholderDirectory(models.Model):
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
     position_within_organisation = models.CharField('position within the organisation', max_length=50)
-    telephone_number = PhoneNumberField()
-    telephone_number_alternative = PhoneNumberField(blank=True)
+    telephone_number = PhoneNumberField(help_text='0xxxxxxxxx'')
+    telephone_number_alternative = PhoneNumberField(help_text='0xxxxxxxxx', blank=True)
     email_address = models.EmailField('email address', max_length=254)
 
     # --> Staff details
@@ -418,7 +418,7 @@ class ActivityReportForm(models.Model):
     
     # Location and Report Compilation section
     name = models.CharField(max_length=50)
-    telephone_number = PhoneNumberField()
+    telephone_number = PhoneNumberField(help_text='0xxxxxxxxx')
     email_address = models.EmailField(max_length=50)
 
     def __str__(self):
