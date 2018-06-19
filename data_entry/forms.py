@@ -29,6 +29,8 @@ class UserProfileModelForm(forms.ModelForm):
         }
 
 class ActivityReportFormModelForm(forms.ModelForm):
+    stake_holder_name = forms.ModelChoiceField(queryset=StakeholderDirectory.objects.order_by('organisation'), 
+        label='Name of the Organisation')
     
     class Meta:
         model = ActivityReportForm
