@@ -290,9 +290,6 @@ class MobilePopulationType(models.Model):
 
 class StakeholderDirectory(models.Model):
 
-    class Meta:
-        verbose_name_plural = 'Stakeholder directories'
-
     # --> Basic details on the organisation
     national_organisation = models.ForeignKey(NationalOrganisation, verbose_name='parent organisation', on_delete=models.CASCADE, null=True)
     organisation = models.CharField('organisation/ project', max_length=200)
@@ -328,7 +325,10 @@ class StakeholderDirectory(models.Model):
 
     def __str__(self):
         return (self.organisation + ' - ' + self.organisation_district.name + ' district - '
-        + self.organisation_district.province.name + ' province') 
+        + self.organisation_district.province.name + ' province')
+    
+    class Meta:
+        verbose_name_plural = 'Stakeholder directory'
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
