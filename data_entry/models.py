@@ -376,7 +376,7 @@ class TypesOfFundingSupport(models.Model):
         return self.support_option
 
 class OtherQuestion(models.Model):
-    action_plan = models.CharField('Does you organisation hava a current HIV and \
+    action_plan = models.CharField('Does you organisation have a current HIV and \
         AIDS action plan?', max_length=100, choices=YES_OR_NO);
     workplace_programme = models.CharField('Does your organisation have a current \
         and active HIV and AIDS workplace programme?', max_length=20, choices=YES_OR_NO)
@@ -392,8 +392,7 @@ class EndOfYearQuestion(models.Model):
         AIDS activities this year?')
     number_of_meetings_daft = models.PositiveIntegerField('How many DATF meetings did your organisation attend \
         this year?')
-    number_of_meetings_paft = models.PositiveIntegerField('How many PATF meetings did your organisation attend \
-        this year?')
+    #number_of_meetings_paft = models.PositiveIntegerField('How many PATF meetings did your organisation attend \this year?')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
 class GeneralComment(models.Model):
