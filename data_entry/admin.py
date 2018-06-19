@@ -85,18 +85,19 @@ class OutOfSchoolInline(admin.StackedInline):
     model = OutOfSchool
     verbose_name_plural = '4. Number of Out of School children and young people aged 10-24 years provided \
         with life skills- based comprehensive sexuality education within this quarter'
-    fields = ( ('out_school_female_10_14', 'out_school_female_15_19', 'out_school_female_20_24'), 
-        ('out_school_male_10_14', 'out_school_male_15_19', 'out_school_male_20_24') )
+    fields = ( ('out_school_male_10_14', 'out_school_male_15_19', 'out_school_male_20_24'), 
+        ('out_school_female_10_14', 'out_school_female_15_19', 'out_school_female_20_24') 
+    )
     extra = 1
 
 class SexWorkerInline(admin.StackedInline):
     model = SexWorker
     verbose_name_plural = '5. How many sex workers were reached with HIV prevention programmes by your \
         organisation this quarter?'
-    fields = ( ('sex_workers_female_10_14', 'sex_workers_female_15_19', 'sex_workers_female_20_24', 
-        'sex_workers_female_25_29', 'sex_workers_female_30_34', 'sex_workers_female_35_plus'), 
-        ('sex_workers_male_10_14','sex_workers_male_15_19', 'sex_workers_male_20_24', 'sex_workers_male_25_29', 
-        'sex_workers_male_30_34', 'sex_workers_male_35_plus') )
+    fields = (  ('sex_workers_male_10_14','sex_workers_male_15_19', 'sex_workers_male_20_24', 'sex_workers_male_25_29', 
+        'sex_workers_male_30_34', 'sex_workers_male_35_plus'),
+        ('sex_workers_female_10_14', 'sex_workers_female_15_19', 'sex_workers_female_20_24', 'sex_workers_female_25_29', 
+        'sex_workers_female_30_34', 'sex_workers_female_35_plus'), )
     extra = 1
 
 class InmateInline(admin.TabularInline):
@@ -156,42 +157,42 @@ class ReportedCaseInline(admin.StackedInline):
     model = ReportedCase
     verbose_name_plural = '15. What is the total number of reported cases on a physical or sexual violence OR any \
         other type of gender based violence by your organisation?'
-    fields = ( ('reported_female_less_10', 'reported_female_10_14', 'reported_female_15_19', 'reported_female_20_24', 
-        'reported_female_25_plus'), ('reported_male_less_10', 'reported_male_10_14', 'reported_male_15_19', 
-        'reported_male_20_24', 'reported_male_25_plus') )
+    fields = ( ('reported_male_less_10', 'reported_male_10_14', 'reported_male_15_19', 'reported_male_20_24', 
+        'reported_male_25_plus'), ('reported_female_less_10', 'reported_female_10_14', 'reported_female_15_19', 
+        'reported_female_20_24', 'reported_female_25_plus') )
     extra = 1
     
 class ExperiencedPhysicalViolenceInline(admin.StackedInline):
     model = ExperiencedPhysicalViolence
     verbose_name_plural = '16. How many individuals experienced physical violence this quarter?'
-    fields = ( ('physical_female_less_10', 'physical_female_10_14', 'physical_female_15_19', 'physical_female_20_24', 
-        'physical_female_25_plus'), ('physical_male_less_10', 'physical_male_10_14', 'physical_male_15_19', 
-        'physical_male_20_24', 'physical_male_25_plus') )
+    fields = ( ('physical_male_less_10', 'physical_male_10_14', 'physical_male_15_19', 
+        'physical_male_20_24', 'physical_male_25_plus'), ('physical_female_less_10', 'physical_female_10_14', 
+        'physical_female_15_19', 'physical_female_20_24', 'physical_female_25_plus') )
     extra = 1
 
 class ExperiencedSexualViolenceInline(admin.StackedInline):
     model = ExperiencedSexualViolence
     verbose_name_plural = '17. How many individuals experienced sexual violence this quarter?'
-    fields = ( ('sexual_female_less_10', 'sexual_female_10_14', 'sexual_female_15_19', 'sexual_female_20_24', 
-        'sexual_female_25_plus'), ('sexual_male_less_10', 'sexual_male_10_14', 'sexual_male_15_19', 
-        'sexual_male_20_24', 'sexual_male_25_plus') )
+    fields = ( ('sexual_male_less_10', 'sexual_male_10_14', 'sexual_male_15_19', 
+        'sexual_male_20_24', 'sexual_male_25_plus'), ('sexual_female_less_10', 'sexual_female_10_14', 'sexual_female_15_19',
+        'sexual_female_20_24', 'sexual_female_25_plus') )
     extra = 1
 
 class PostExposureProphylaxisInline(admin.StackedInline):
     model = PostExposureProphylaxis
     verbose_name_plural = '18. How many individuals who experienced physical or sexual violence were referred for \
         post exposure prophylaxis(PEP) within 72 hours in accordance with national guidelines this quarter?'
-    fields = ( ('accessed_pep_female_less_10', 'accessed_pep_female_10_14', 'accessed_pep_female_15_19', 
-        'accessed_pep_female_20_24', 'accessed_pep_female_25_plus'), ('accessed_pep_male_less_10', 
-        'accessed_pep_male_10_14', 'accessed_pep_male_15_19', 'accessed_pep_male_20_24', 'accessed_pep_male_25_plus') )
+    fields = ( ('accessed_pep_male_less_10', 'accessed_pep_male_10_14', 'accessed_pep_male_15_19', 'accessed_pep_male_20_24', 
+        'accessed_pep_male_25_plus'), ('accessed_pep_female_less_10', 'accessed_pep_female_10_14', 'accessed_pep_female_15_19', 
+        'accessed_pep_female_20_24', 'accessed_pep_female_25_plus') )
     extra = 1
 
 class PreExposureProphylaxisInline(admin.StackedInline):
     model = PreExposureProphylaxis
     verbose_name_plural = '19. How many individuals were referred for pre-exposure prophylaxis(PrEP) by your \
         organisation this quarter?'
-    fields = ( ('referred_pep_female_15_19', 'referred_pep_female_20_24', 'referred_pep_female_25_plus'),
-        ('referred_pep_male_15_19', 'referred_pep_male_20_24', 'referred_pep_male_25_plus') )
+    fields = ( ('referred_pep_male_15_19', 'referred_pep_male_20_24', 'referred_pep_male_25_plus'), 
+        ('referred_pep_female_15_19', 'referred_pep_female_20_24', 'referred_pep_female_25_plus') )
     extra = 1
 
 class SynergyDevelopmentSectorInline(admin.TabularInline):
@@ -209,17 +210,17 @@ class IndividualCurrentlyEnrolledInline(admin.StackedInline):
     model = IndividualCurrentlyEnrolled
     verbose_name_plural = '22. How many individuals are currently enrolled and active in support groups/ clubs/ \
         after school groups set up by your organisation?'
-    fields = ( ('individuals_enrolled_female_10_14', 'individuals_enrolled_female_15_19', 'individuals_enrolled_female_20_24', 
-        'individuals_enrolled_female_25_plus'), ('individuals_enrolled_male_10_14', 'individuals_enrolled_male_15_19', 
-        'individuals_enrolled_male_20_24', 'individuals_enrolled_male_25_plus') )
+    fields = ( ('individuals_enrolled_male_10_14', 'individuals_enrolled_male_15_19', 'individuals_enrolled_male_20_24', 
+    'individuals_enrolled_male_25_plus'), ('individuals_enrolled_female_10_14', 'individuals_enrolled_female_15_19', 
+    'individuals_enrolled_female_20_24', 'individuals_enrolled_female_25_plus') )
     extra = 1
 
 class VulnerablePeopleInline(admin.StackedInline):
     model = VulnerablePeople
     verbose_name_plural = '23. How many vulnerable people received care and support from your organisation this quarter?'
-    fields = ( ('ovc_female_less_10', 'ovc_female_10_14', 'ovc_female_15_19', 'ovc_female_20_24', 
-        'ovc_female_25_plus'), ('ovc_male_less_10', 'ovc_male_10_14', 'ovc_male_15_19', 
-        'ovc_male_20_24', 'ovc_male_25_plus') )
+    fields = ( ('ovc_male_less_10', 'ovc_male_10_14', 'ovc_male_15_19', 'ovc_male_20_24', 'ovc_male_25_plus'), 
+        ('ovc_female_less_10', 'ovc_female_10_14', 'ovc_female_15_19', 'ovc_female_20_24', 
+        'ovc_female_25_plus') )
     extra = 1
 
 class SupportAndCareInline(admin.TabularInline):
@@ -264,9 +265,10 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
             'telephone_number_alternative', 'email_address'),
         }),
         ('Staff details', {
-            'fields': ( ('permanent_employee_female', 'permanent_employee_male'), ('temporary_employee_female', 
-                'temporary_employee_male'), ('volunteer_employee_female', 'volunteer_employee_male') ),
-            'description':('<b><p class="description_fit_in">Employee\'s fall in different groups. Permanent employees \
+            'fields': ( ('permanent_employee_male', 'permanent_employee_female'), ('temporary_employee_male', 
+                'temporary_employee_female'), ('volunteer_employee_male', 'volunteer_employee_female') ),
+                
+                'description':('<b><p class="description_fit_in">Employee\'s fall in different groups. Permanent employees \
                 are those who is hired to work without any time frame for his/her exit. Temporary employees are those that \
                 are hired for a limited period of time. <br/>They are usually hired on a casual, part-time, or full-time \
                 basis, but the employment is temporary. Volunteer employees donate their time and energy without receiving \
