@@ -483,18 +483,18 @@ class SexWorker(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
  
 class Inmate(models.Model):
-    inmates_female_num = models.PositiveIntegerField('female', null=True)
     inmates_male_num = models.PositiveIntegerField('male', null=True)
+    inmates_female_num = models.PositiveIntegerField('female', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class PersonsWithDisabilty(models.Model):
-    pwd_female_num = models.PositiveIntegerField('females', null=True)
     pwd_male_num = models.PositiveIntegerField('males', null=True)
+    pwd_female_num = models.PositiveIntegerField('females', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MobileWorker(models.Model):
-    mobile_workers_female_num = models.PositiveIntegerField('female', null=True)
     mobile_workers_male_num = models.PositiveIntegerField('male', null=True)
+    mobile_workers_female_num = models.PositiveIntegerField('female', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MobilePopulation(models.Model):
@@ -510,8 +510,8 @@ class TransgenderIndividual(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class PeopleWhoInjectDrug(models.Model):
-    pwid_female = models.PositiveIntegerField('female', null=True)
     pwid_male = models.PositiveIntegerField('male', null=True)
+    pwid_female = models.PositiveIntegerField('female', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 # Condom Programming
@@ -520,8 +520,8 @@ class CondomProgramming(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class CondomProgramming2(models.Model):
-    female_condom_distributed_num = models.PositiveIntegerField('female', null=True)
     male_condom_distributed_num = models.PositiveIntegerField('male', null=True)
+    female_condom_distributed_num = models.PositiveIntegerField('female', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 # Critical Enablers
@@ -593,8 +593,8 @@ class PreExposureProphylaxis(models.Model):
 
 # Synergies with other development sectors
 class SynergyDevelopmentSector(models.Model):
-    employees_reached_female_num = models.PositiveIntegerField('female', null=True)
     employees_reached_male_num = models.PositiveIntegerField('male', null=True)
+    employees_reached_female_num = models.PositiveIntegerField('female', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class SupportGroupSetUp(models.Model):
