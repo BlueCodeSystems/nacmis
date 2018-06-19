@@ -328,7 +328,7 @@ class StakeholderDirectory(models.Model):
         + self.organisation_district.province.name + ' province')
     
     class Meta:
-        verbose_name_plural = 'Stakeholder directory'
+        verbose_name_plural = 'Stakeholder Directory'
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -425,6 +425,9 @@ class ActivityReportForm(models.Model):
             return self.stake_holder_name.organisation + " - " + self.quarter_been_reported
         else:
             return "unset stakeholder name"
+
+    class Meta:
+        verbose_name_plural = 'Stakeholder Activity Report Form (SARF)'
 
 class DACAValidation(models.Model):
     validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
