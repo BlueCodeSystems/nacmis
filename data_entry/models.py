@@ -258,6 +258,9 @@ class NationalOrganisation(models.Model):
     def __str__(self):
         return self.organisation_name
 
+    class Meta:
+        verbose_name = 'parent organisation'
+
 #               HELPER CLASSES FOR STAKEHOLDER DIRECTORY
 # *********************************************************************
 
@@ -287,17 +290,14 @@ class MobilePopulationType(models.Model):
 
 class StakeholderDirectory(models.Model):
 
-    class Meta:
-        verbose_name_plural = 'Stakeholder directories'
-
     # --> Basic details on the organisation
-    national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE, null=True)
-    organisation = models.CharField(max_length=200)
+    national_organisation = models.ForeignKey(NationalOrganisation, verbose_name='parent organisation', on_delete=models.CASCADE, null=True)
+    organisation = models.CharField('organisation/ project', max_length=200)
     organisation_address = models.CharField('address of the organisation', max_length=100, blank=True, null=True)
     organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
     organisation_district = models.ForeignKey(District, verbose_name='organisation district', on_delete=models.CASCADE, null=True)
     start_year = models.DateField('which year did your organisation start working in this district?')
-    gps = models.CharField('GPS Coordinates', max_length=20, blank=True)
+    gps = models.CharField('GPS Coordinates', help_text='use decimal degrees format(ie: -15.38753, 28.32282)', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
     description_of_organisation = models.TextField('Brief description of the organisation (Please describe your \
         organisation in no more than 250 words)', max_length=1200)
@@ -305,8 +305,8 @@ class StakeholderDirectory(models.Model):
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
     position_within_organisation = models.CharField('position within the organisation', max_length=50)
-    telephone_number = PhoneNumberField()
-    telephone_number_alternative = PhoneNumberField(blank=True)
+    telephone_number = PhoneNumberField(help_text='0xxxxxxxxx')
+    telephone_number_alternative = PhoneNumberField(help_text='0xxxxxxxxx', blank=True)
     email_address = models.EmailField('email address', max_length=254)
 
     # --> Staff details
@@ -325,7 +325,10 @@ class StakeholderDirectory(models.Model):
 
     def __str__(self):
         return (self.organisation + ' - ' + self.organisation_district.name + ' district - '
-        + self.organisation_district.province.name + ' province') 
+        + self.organisation_district.province.name + ' province')
+    
+    class Meta:
+        verbose_name_plural = 'Stakeholder Directory'
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -373,7 +376,7 @@ class TypesOfFundingSupport(models.Model):
         return self.support_option
 
 class OtherQuestion(models.Model):
-    action_plan = models.CharField('Does you organisation hava a current HIV and \
+    action_plan = models.CharField('Does you organisation have a current HIV and \
         AIDS action plan?', max_length=100, choices=YES_OR_NO);
     workplace_programme = models.CharField('Does your organisation have a current \
         and active HIV and AIDS workplace programme?', max_length=20, choices=YES_OR_NO)
@@ -389,8 +392,7 @@ class EndOfYearQuestion(models.Model):
         AIDS activities this year?')
     number_of_meetings_daft = models.PositiveIntegerField('How many DATF meetings did your organisation attend \
         this year?')
-    number_of_meetings_paft = models.PositiveIntegerField('How many PATF meetings did your organisation attend \
-        this year?')
+    #number_of_meetings_paft = models.PositiveIntegerField('How many PATF meetings did your organisation attend \this year?')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
 class GeneralComment(models.Model):
@@ -415,7 +417,7 @@ class ActivityReportForm(models.Model):
     
     # Location and Report Compilation section
     name = models.CharField(max_length=50)
-    telephone_number = PhoneNumberField()
+    telephone_number = PhoneNumberField(help_text='0xxxxxxxxx')
     email_address = models.EmailField(max_length=50)
 
     def __str__(self):
@@ -423,6 +425,9 @@ class ActivityReportForm(models.Model):
             return self.stake_holder_name.organisation + " - " + self.quarter_been_reported
         else:
             return "unset stakeholder name"
+
+    class Meta:
+        verbose_name_plural = 'Stakeholder Activity Report Form (SARF)'
 
 class DACAValidation(models.Model):
     validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -480,18 +485,18 @@ class SexWorker(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
  
 class Inmate(models.Model):
-    inmates_female_num = models.PositiveIntegerField('female', null=True)
     inmates_male_num = models.PositiveIntegerField('male', null=True)
+    inmates_female_num = models.PositiveIntegerField('female', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class PersonsWithDisabilty(models.Model):
-    pwd_female_num = models.PositiveIntegerField('females', null=True)
     pwd_male_num = models.PositiveIntegerField('males', null=True)
+    pwd_female_num = models.PositiveIntegerField('females', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MobileWorker(models.Model):
-    mobile_workers_female_num = models.PositiveIntegerField('female', null=True)
     mobile_workers_male_num = models.PositiveIntegerField('male', null=True)
+    mobile_workers_female_num = models.PositiveIntegerField('female', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MobilePopulation(models.Model):
@@ -507,8 +512,8 @@ class TransgenderIndividual(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class PeopleWhoInjectDrug(models.Model):
-    pwid_female = models.PositiveIntegerField('female', null=True)
     pwid_male = models.PositiveIntegerField('male', null=True)
+    pwid_female = models.PositiveIntegerField('female', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 # Condom Programming
@@ -517,8 +522,8 @@ class CondomProgramming(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class CondomProgramming2(models.Model):
-    female_condom_distributed_num = models.PositiveIntegerField('female', null=True)
     male_condom_distributed_num = models.PositiveIntegerField('male', null=True)
+    female_condom_distributed_num = models.PositiveIntegerField('female', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 # Critical Enablers
@@ -590,8 +595,8 @@ class PreExposureProphylaxis(models.Model):
 
 # Synergies with other development sectors
 class SynergyDevelopmentSector(models.Model):
-    employees_reached_female_num = models.PositiveIntegerField('female', null=True)
     employees_reached_male_num = models.PositiveIntegerField('male', null=True)
+    employees_reached_female_num = models.PositiveIntegerField('female', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class SupportGroupSetUp(models.Model):
