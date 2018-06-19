@@ -12,8 +12,8 @@ CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexual
 PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
 SupportAndCare, GeneralComment2, DACAValidation)
 
-from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, TargetGroupPreventionMessageModelForm, \
-WardModelForm, UserProfileModelForm
+from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
+TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -325,7 +325,8 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
     list_display = ('stake_holder_name', 'quarter_been_reported')
-    
+    form = ActivityReportFormModelForm
+
     MaterialInline2.max_num = 1
     PeopleWhoInjectDrugInline.max_num = 1
     OutOfSchoolInline.max_num = 1
