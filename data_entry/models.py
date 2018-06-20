@@ -305,8 +305,8 @@ class StakeholderDirectory(models.Model):
     # --> Contact details
     key_contact_name = models.CharField('name of key contact person', max_length=50)
     position_within_organisation = models.CharField('position within the organisation', max_length=50)
-    telephone_number = PhoneNumberField(help_text='0xxxxxxxxx')
-    telephone_number_alternative = PhoneNumberField(help_text='0xxxxxxxxx', blank=True)
+    telephone_number = PhoneNumberField(help_text='09xxxxxxxx')
+    telephone_number_alternative = PhoneNumberField(help_text='09xxxxxxxx', blank=True)
     email_address = models.EmailField('email address', max_length=254)
 
     # --> Staff details
