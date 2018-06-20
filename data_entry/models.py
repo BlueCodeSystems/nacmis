@@ -448,7 +448,7 @@ class DACAValidation(models.Model):
     validation_status = models.CharField(max_length=15, choices=VALIDATION_STATUS)
     acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
     daca_initials = models.CharField(max_length=5)#We will add the validation statement as read only from the admin.
-    validation_comment = models.TextField(max_length=300, null=True)
+    validation_comment = models.TextField(max_length=300, null=True, blank=True)
     
 # --> Social behaviour change communication 
 class IECMaterial(models.Model):

@@ -50,6 +50,8 @@ class DACAValidationInline(admin.StackedInline):
     extra = 1
     fields = ("validated_by", "validation_status", "acknowledgement", "daca_initials", "validation_comment")
     readonly_fields = ("acknowledgement",)
+    verbose_name = 'DACA Validation'
+    verbose_name_plural = 'DACA Validation'
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
