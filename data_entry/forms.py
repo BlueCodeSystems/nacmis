@@ -29,15 +29,13 @@ class UserProfileModelForm(forms.ModelForm):
         }
 
 class ActivityReportFormModelForm(forms.ModelForm):
-    stake_holder_name = forms.ModelChoiceField(queryset=StakeholderDirectory.objects.order_by('organisation'), 
-        label='Name of the Organisation')
     
     class Meta:
         model = ActivityReportForm
         fields = ['report_date',]
         
         widgets = {
-            'report_date' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD',  'type':'date',}),
+            'report_date' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD', 'type':'date',}),
         }
 
 class ProgramActivityModelForm(forms.ModelForm):

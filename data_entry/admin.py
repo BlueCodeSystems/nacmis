@@ -285,6 +285,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        
         if request.user.is_superuser:
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
@@ -325,7 +326,6 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
     list_display = ('stake_holder_name', 'quarter_been_reported')
-    form = ActivityReportFormModelForm
 
     MaterialInline2.max_num = 1
     PeopleWhoInjectDrugInline.max_num = 1
