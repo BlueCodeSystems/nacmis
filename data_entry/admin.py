@@ -12,8 +12,8 @@ CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexual
 PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
 SupportAndCare, GeneralComment2, DACAValidation)
 
-from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, TargetGroupPreventionMessageModelForm, \
-WardModelForm, UserProfileModelForm
+from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
+TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -44,9 +44,15 @@ class GeneralCommentInline(admin.StackedInline):
     model = GeneralComment
     extra = 1
 
+
 class DACAValidationInline(admin.StackedInline):
     model = DACAValidation
     extra = 1
+    fields = ("validated_by", "validation_status", "acknowledgement", "daca_initials", "validation_comment")
+    readonly_fields = ("acknowledgement",)
+    verbose_name = 'DACA Validation'
+    verbose_name_plural = 'DACA Validation'
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
@@ -64,14 +70,14 @@ class DACAValidationInline(admin.StackedInline):
 class MaterialInline(admin.TabularInline):
     model = IECMaterial
     verbose_name = 'IEC Material'
-    verbose_name_plural = '1. How many Information Education Communication(IEC) materials were distributed by \
+    verbose_name_plural = '1. How many Information Education Communication (IEC) materials were distributed by \
         your organisation this quarter?'
     extra = 1
 
 class MaterialInline2(admin.TabularInline):
     model = IECMaterial2
     verbose_name = 'IEC Material 2'
-    verbose_name_plural = '2. If you distributed Information Education Communication(IEC) materials this \
+    verbose_name_plural = '2. If you distributed Information Education Communication (IEC) materials this \
         quarter who was your target audience?'
     extra = 1
 
@@ -85,18 +91,19 @@ class OutOfSchoolInline(admin.StackedInline):
     model = OutOfSchool
     verbose_name_plural = '4. Number of Out of School children and young people aged 10-24 years provided \
         with life skills- based comprehensive sexuality education within this quarter'
-    fields = ( ('out_school_female_10_14', 'out_school_female_15_19', 'out_school_female_20_24'), 
-        ('out_school_male_10_14', 'out_school_male_15_19', 'out_school_male_20_24') )
+    fields = ( ('out_school_male_10_14', 'out_school_male_15_19', 'out_school_male_20_24'), 
+        ('out_school_female_10_14', 'out_school_female_15_19', 'out_school_female_20_24') 
+    )
     extra = 1
 
 class SexWorkerInline(admin.StackedInline):
     model = SexWorker
     verbose_name_plural = '5. How many sex workers were reached with HIV prevention programmes by your \
         organisation this quarter?'
-    fields = ( ('sex_workers_female_10_14', 'sex_workers_female_15_19', 'sex_workers_female_20_24', 
-        'sex_workers_female_25_29', 'sex_workers_female_30_34', 'sex_workers_female_35_plus'), 
-        ('sex_workers_male_10_14','sex_workers_male_15_19', 'sex_workers_male_20_24', 'sex_workers_male_25_29', 
-        'sex_workers_male_30_34', 'sex_workers_male_35_plus') )
+    fields = (  ('sex_workers_male_10_14','sex_workers_male_15_19', 'sex_workers_male_20_24', 'sex_workers_male_25_29', 
+        'sex_workers_male_30_34', 'sex_workers_male_35_plus'),
+        ('sex_workers_female_10_14', 'sex_workers_female_15_19', 'sex_workers_female_20_24', 'sex_workers_female_25_29', 
+        'sex_workers_female_30_34', 'sex_workers_female_35_plus'), )
     extra = 1
 
 class InmateInline(admin.TabularInline):
@@ -136,62 +143,62 @@ class TransgenderIndividualInline(admin.TabularInline):
 
 class PeopleWhoInjectDrugInline(admin.TabularInline):
     model = PeopleWhoInjectDrug
-    verbose_name_plural = '12. How many people who inject drugs(PWID) have been reached by HIV prevention programmes by \
+    verbose_name_plural = '12. How many people who inject drugs (PWID) have been reached by HIV prevention programmes by \
         your organisation this quarter?'
     extra = 1
 
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
     verbose_name_plural = '13. How many condom service distribution points were supplied by your organisation this \
-        quarter(excluding health facilities)?'
+        quarter (excluding health facilities)?'
     extra = 1
 
 class CondomProgramming2Inline(admin.TabularInline):
     model = CondomProgramming2
     verbose_name_plural = '14. How many male and/or female condoms were distributed to end users by \
-        your organisation this quarter(excluding health facilities)?'
+        your organisation this quarter (excluding health facilities)?'
     extra = 1
 
 class ReportedCaseInline(admin.StackedInline):
     model = ReportedCase
     verbose_name_plural = '15. What is the total number of reported cases on a physical or sexual violence OR any \
         other type of gender based violence by your organisation?'
-    fields = ( ('reported_female_less_10', 'reported_female_10_14', 'reported_female_15_19', 'reported_female_20_24', 
-        'reported_female_25_plus'), ('reported_male_less_10', 'reported_male_10_14', 'reported_male_15_19', 
-        'reported_male_20_24', 'reported_male_25_plus') )
+    fields = ( ('reported_male_less_10', 'reported_male_10_14', 'reported_male_15_19', 'reported_male_20_24', 
+        'reported_male_25_plus'), ('reported_female_less_10', 'reported_female_10_14', 'reported_female_15_19', 
+        'reported_female_20_24', 'reported_female_25_plus') )
     extra = 1
     
 class ExperiencedPhysicalViolenceInline(admin.StackedInline):
     model = ExperiencedPhysicalViolence
     verbose_name_plural = '16. How many individuals experienced physical violence this quarter?'
-    fields = ( ('physical_female_less_10', 'physical_female_10_14', 'physical_female_15_19', 'physical_female_20_24', 
-        'physical_female_25_plus'), ('physical_male_less_10', 'physical_male_10_14', 'physical_male_15_19', 
-        'physical_male_20_24', 'physical_male_25_plus') )
+    fields = ( ('physical_male_less_10', 'physical_male_10_14', 'physical_male_15_19', 
+        'physical_male_20_24', 'physical_male_25_plus'), ('physical_female_less_10', 'physical_female_10_14', 
+        'physical_female_15_19', 'physical_female_20_24', 'physical_female_25_plus') )
     extra = 1
 
 class ExperiencedSexualViolenceInline(admin.StackedInline):
     model = ExperiencedSexualViolence
     verbose_name_plural = '17. How many individuals experienced sexual violence this quarter?'
-    fields = ( ('sexual_female_less_10', 'sexual_female_10_14', 'sexual_female_15_19', 'sexual_female_20_24', 
-        'sexual_female_25_plus'), ('sexual_male_less_10', 'sexual_male_10_14', 'sexual_male_15_19', 
-        'sexual_male_20_24', 'sexual_male_25_plus') )
+    fields = ( ('sexual_male_less_10', 'sexual_male_10_14', 'sexual_male_15_19', 
+        'sexual_male_20_24', 'sexual_male_25_plus'), ('sexual_female_less_10', 'sexual_female_10_14', 'sexual_female_15_19',
+        'sexual_female_20_24', 'sexual_female_25_plus') )
     extra = 1
 
 class PostExposureProphylaxisInline(admin.StackedInline):
     model = PostExposureProphylaxis
     verbose_name_plural = '18. How many individuals who experienced physical or sexual violence were referred for \
         post exposure prophylaxis(PEP) within 72 hours in accordance with national guidelines this quarter?'
-    fields = ( ('accessed_pep_female_less_10', 'accessed_pep_female_10_14', 'accessed_pep_female_15_19', 
-        'accessed_pep_female_20_24', 'accessed_pep_female_25_plus'), ('accessed_pep_male_less_10', 
-        'accessed_pep_male_10_14', 'accessed_pep_male_15_19', 'accessed_pep_male_20_24', 'accessed_pep_male_25_plus') )
+    fields = ( ('accessed_pep_male_less_10', 'accessed_pep_male_10_14', 'accessed_pep_male_15_19', 'accessed_pep_male_20_24', 
+        'accessed_pep_male_25_plus'), ('accessed_pep_female_less_10', 'accessed_pep_female_10_14', 'accessed_pep_female_15_19', 
+        'accessed_pep_female_20_24', 'accessed_pep_female_25_plus') )
     extra = 1
 
 class PreExposureProphylaxisInline(admin.StackedInline):
     model = PreExposureProphylaxis
     verbose_name_plural = '19. How many individuals were referred for pre-exposure prophylaxis(PrEP) by your \
         organisation this quarter?'
-    fields = ( ('referred_pep_female_15_19', 'referred_pep_female_20_24', 'referred_pep_female_25_plus'),
-        ('referred_pep_male_15_19', 'referred_pep_male_20_24', 'referred_pep_male_25_plus') )
+    fields = ( ('referred_pep_male_15_19', 'referred_pep_male_20_24', 'referred_pep_male_25_plus'), 
+        ('referred_pep_female_15_19', 'referred_pep_female_20_24', 'referred_pep_female_25_plus') )
     extra = 1
 
 class SynergyDevelopmentSectorInline(admin.TabularInline):
@@ -209,17 +216,17 @@ class IndividualCurrentlyEnrolledInline(admin.StackedInline):
     model = IndividualCurrentlyEnrolled
     verbose_name_plural = '22. How many individuals are currently enrolled and active in support groups/ clubs/ \
         after school groups set up by your organisation?'
-    fields = ( ('individuals_enrolled_female_10_14', 'individuals_enrolled_female_15_19', 'individuals_enrolled_female_20_24', 
-        'individuals_enrolled_female_25_plus'), ('individuals_enrolled_male_10_14', 'individuals_enrolled_male_15_19', 
-        'individuals_enrolled_male_20_24', 'individuals_enrolled_male_25_plus') )
+    fields = ( ('individuals_enrolled_male_10_14', 'individuals_enrolled_male_15_19', 'individuals_enrolled_male_20_24', 
+    'individuals_enrolled_male_25_plus'), ('individuals_enrolled_female_10_14', 'individuals_enrolled_female_15_19', 
+    'individuals_enrolled_female_20_24', 'individuals_enrolled_female_25_plus') )
     extra = 1
 
 class VulnerablePeopleInline(admin.StackedInline):
     model = VulnerablePeople
     verbose_name_plural = '23. How many vulnerable people received care and support from your organisation this quarter?'
-    fields = ( ('ovc_female_less_10', 'ovc_female_10_14', 'ovc_female_15_19', 'ovc_female_20_24', 
-        'ovc_female_25_plus'), ('ovc_male_less_10', 'ovc_male_10_14', 'ovc_male_15_19', 
-        'ovc_male_20_24', 'ovc_male_25_plus') )
+    fields = ( ('ovc_male_less_10', 'ovc_male_10_14', 'ovc_male_15_19', 'ovc_male_20_24', 'ovc_male_25_plus'), 
+        ('ovc_female_less_10', 'ovc_female_10_14', 'ovc_female_15_19', 'ovc_female_20_24', 
+        'ovc_female_25_plus') )
     extra = 1
 
 class SupportAndCareInline(admin.TabularInline):
@@ -264,9 +271,10 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
             'telephone_number_alternative', 'email_address'),
         }),
         ('Staff details', {
-            'fields': ( ('permanent_employee_female', 'permanent_employee_male'), ('temporary_employee_female', 
-                'temporary_employee_male'), ('volunteer_employee_female', 'volunteer_employee_male') ),
-            'description':('<b><p class="description_fit_in">Employee\'s fall in different groups. Permanent employees \
+            'fields': ( ('permanent_employee_male', 'permanent_employee_female'), ('temporary_employee_male', 
+                'temporary_employee_female'), ('volunteer_employee_male', 'volunteer_employee_female') ),
+                
+                'description':('<b><p class="description_fit_in">Employee\'s fall in different groups. Permanent employees \
                 are those who is hired to work without any time frame for his/her exit. Temporary employees are those that \
                 are hired for a limited period of time. <br/>They are usually hired on a casual, part-time, or full-time \
                 basis, but the employment is temporary. Volunteer employees donate their time and energy without receiving \
@@ -283,6 +291,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        
         if request.user.is_superuser:
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
@@ -323,7 +332,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
     list_display = ('stake_holder_name', 'quarter_been_reported')
-    
+
     MaterialInline2.max_num = 1
     PeopleWhoInjectDrugInline.max_num = 1
     OutOfSchoolInline.max_num = 1
@@ -371,6 +380,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
+        #stakeholders = StakeholderDirectory.objects.order_by('organisation')
         stakeholders = StakeholderDirectory.objects.all()
         if db_field.name == "stake_holder_name":
             try:
@@ -382,7 +392,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
                 if request.user.groups.filter(name="PACA"):
                     kwargs["queryset"] = stakeholders.filter(organisation_province=userProfile.province)
                 if request.user.groups.filter(name="PITMEO"):
-                    kwargs["queryset"] = stakeholders.filter(organisation_district=userProfile.province)
+                    kwargs["queryset"] = stakeholders.filter(organisation_province=userProfile.province)
                 if request.user.groups.filter(name="DACA"):
                     kwargs["queryset"] = stakeholders.filter(organisation_district=userProfile.district)
                 if request.user.groups.filter(name="Stakeholder"):

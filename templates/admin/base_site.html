@@ -5,7 +5,7 @@
 {% block extrastyle %}
 <style>
     #header {
-        background-color: #00923F; /* NAC base color */
+        background-color: #009240; /* NAC base color */
         height: 85px;
     }
 
@@ -14,9 +14,17 @@
     }
 
     .module caption, .module h2, .submit-row input, .submit-row input.default {
-        background-color: #199d52;
+        background-color: #009240;
         text-transform: unset;
-    }  
+    }
+
+    .inline-related .module h2, div[data-inline-type="stacked"] .module h2 {
+        background-color: #7ac13a;
+    }
+    
+    div[data-inline-type="stacked"] .module h3 {
+        display: none;
+    }
 </style>
 
 {% endblock %}

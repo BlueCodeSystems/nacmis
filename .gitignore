@@ -18,7 +18,6 @@ nacmis_online/settings.py
 ##########################
 **/__pycache__/
 nacmis_online/__pycache__/*.pyc
-/data_entry/migrations/
 
 # private folders and files for local user #
 ##########################################

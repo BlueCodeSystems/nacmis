@@ -35,7 +35,7 @@ class ActivityReportFormModelForm(forms.ModelForm):
         fields = ['report_date',]
         
         widgets = {
-            'report_date' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD',  'type':'date',}),
+            'report_date' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD', 'type':'date',}),
         }
 
 class ProgramActivityModelForm(forms.ModelForm):
