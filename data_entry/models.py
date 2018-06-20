@@ -429,11 +429,26 @@ class ActivityReportForm(models.Model):
     class Meta:
         verbose_name_plural = 'Stakeholder Activity Report Form (SARF)'
 
+VALIDATION_STATUS = (
+    ('submitted', 'Submitted'),
+    ('needs_review', 'Needs Review'),
+    ('approved', 'Approved'),
+)
+
+DACA_ACKNOWLEDGEMENT_STATEMENT = """I acknowledge that I have validated this SARF for data accuracy to the best of my ability. 
+                             Any necessary corrections were discussed with the stakeholder prior to this approval. 
+                  
+                             Please type your initials below as acknowledgement of the above statement"""
+
+
 class DACAValidation(models.Model):
-    validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    validation_date = models.DateTimeField(auto_now=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
-    form_validated = models.BooleanField(verbose_name="The form is valid")
+    validation_date = models.DateTimeField(auto_now=True)
+    validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    validation_status = models.CharField(max_length=15, choices=VALIDATION_STATUS)
+    acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
+    daca_initials = models.CharField(max_length=5)#We will add the validation statement as read only from the admin.
+    validation_comment = models.TextField(max_length=300, null=True)
     
 # --> Social behaviour change communication 
 class IECMaterial(models.Model):

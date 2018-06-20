@@ -44,9 +44,13 @@ class GeneralCommentInline(admin.StackedInline):
     model = GeneralComment
     extra = 1
 
+
 class DACAValidationInline(admin.StackedInline):
     model = DACAValidation
     extra = 1
+    fields = ("validated_by", "validation_status", "acknowledgement", "daca_initials", "validation_comment")
+    readonly_fields = ("acknowledgement",)
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
