@@ -3,8 +3,8 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
-OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, TargetGroupPreventionMessage,
-OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
+OrganisationTarget, MobilePopulationType, SupportField, SourcesOfInformation, ProgramActivity, FundingSource, 
+TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
 
 from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker, Inmate, PersonsWithDisabilty, 
 MobileWorker,MobilePopulation, MenWithMen, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
@@ -463,6 +463,7 @@ admin.site.register(MobilePopulationType)
 
 # Register to add types of support under Program activities (ie, Program activities by geographic area)
 admin.site.register(SupportField)
+admin.site.register(SourcesOfInformation)
 
 admin.site.register(Province)
 admin.site.register(UserProfile, UserProfileAdmin)

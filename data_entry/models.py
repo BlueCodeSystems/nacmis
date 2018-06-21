@@ -176,13 +176,6 @@ IEC_MATERIALS = (
     (material_other, 'Other')
 )
 
-SOURCES_OF_INFORMATION = (
-    (datim, 'DATIM'),
-    (hmis, 'HMIS'),
-    (internal_system, 'Internal system'),
-    (nacmis, 'NAC-MIS'),
-    (systems_other, 'Other')
-)
 AREA_OF_SUPPORT = (
     (
         "Critical enablers", (
@@ -347,6 +340,12 @@ class SupportField(models.Model):
     def __str__(self):
         return self.area_of_support
 
+class SourcesOfInformation(models.Model):
+    source = models.CharField(max_length=100, default="")
+
+    def __str__(self):
+        return self.source
+
 class ProgramActivity(models.Model):
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE, null=True)
     areas_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
@@ -381,9 +380,8 @@ class OtherQuestion(models.Model):
         AIDS action plan?', max_length=100, choices=YES_OR_NO);
     workplace_programme = models.CharField('Does your organisation have a current \
         and active HIV and AIDS workplace programme?', max_length=20, choices=YES_OR_NO)
-    sources_of_information = models.CharField('which sources of information does your \
-        organisation utilize to inform HIV programming and decision making?', max_length=20,
-        choices=SOURCES_OF_INFORMATION)
+    sources_of_information = models.ManyToManyField(SourcesOfInformation, verbose_name='which sources of \
+        information does your organisation utilize to inform HIV programming and decision making?', max_length=20)
     m_and_person = models.CharField('Does your organisation have a designated M and E person?', 
         max_length=20, choices=YES_OR_NO)
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
