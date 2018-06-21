@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import generic
 from dal import autocomplete
-from django.core.mail import EmailMessage
 
 from .models import District, Ward, OrganisationTarget, SupportField, UserProfile, StakeholderDirectory
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
@@ -129,6 +128,3 @@ class StakeholderAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
         return qs
-
-email = EmailMessage('title', 'body', to=[email])
-email.send()
