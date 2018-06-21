@@ -128,3 +128,8 @@ class StakeholderAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
         return qs
+
+def TestEmailSend(request):
+    if request.method == 'POST':
+        pass
+    return render(request, 'registration/password_reset_email.html')
