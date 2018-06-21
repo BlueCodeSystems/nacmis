@@ -378,10 +378,12 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
+            if db_field.name == "stake_holder_name":
+                kwargs["queryset"] = StakeholderDirectory.objects.order_by('organisation')   
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-        #stakeholders = StakeholderDirectory.objects.order_by('organisation')
-        stakeholders = StakeholderDirectory.objects.all()
+        stakeholders = StakeholderDirectory.objects.order_by('organisation')
+        #stakeholders = StakeholderDirectory.objects.all()
         if db_field.name == "stake_holder_name":
             try:
                 userProfile = UserProfile.objects.get(user=request.user)
