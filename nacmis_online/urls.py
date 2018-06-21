@@ -23,6 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('data_entry/', include('data_entry.data_urls')),
     path('', views.comingSoonView, name='comingsoon'),
+
+    # urls for autocompletes implementation
     path('supportfield-autocomplete/', SupportFieldAutocomplete.as_view(), 
         name='supportfield-autocomplete'),
     path('organisationtarget-autocomplete/', OrganisationTargetAutocomplete.as_view(), 
@@ -30,4 +32,7 @@ urlpatterns = [
     path('district-autocomplete/', DistrictAutocomplete.as_view(), name='district-autocomplete'),
     path('ward-autocomplete/', WardAutocomplete.as_view(), name='ward-autocomplete'),
     path('stakeholder-autocomplete/', StakeholderAutocomplete.as_view(), name='stakeholder-autocomplete'),
+
+    # urls for password reset implementation
+    path('', include('django.contrib.auth.urls')),
 ]
