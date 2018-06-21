@@ -292,7 +292,7 @@ class StakeholderDirectory(models.Model):
 
     # --> Basic details on the organisation
     national_organisation = models.ForeignKey(NationalOrganisation, verbose_name='parent organisation', on_delete=models.CASCADE, null=True)
-    organisation = models.CharField('organisation/project', max_length=200, help_text='if organisation/project name is the same as \
+    organisation = models.CharField('organisation/project', max_length=200, help_text='If organisation/project name is the same as \
         parent organisation. Please re-enter the same name')
     organisation_address = models.CharField('address of the organisation', max_length=100, blank=True, null=True)
     organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
