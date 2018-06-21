@@ -35,5 +35,4 @@ urlpatterns = [
 
     # urls for password reset implementation
     path('', include('django.contrib.auth.urls')),
-    #path('send_me/', views.TestEmailSend, name="send-me")
 ]
