@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'django_select2',
     'phonenumber_field',
     'data_entry.apps.DataEntryConfig',
+    'django.contrib.sites',
 ]
+SITE_ID = 1
 EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 MIDDLEWARE = [
