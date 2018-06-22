@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'dal',
     'dal_select2',
-    'data_entry.apps.DataEntryConfig',
     'admin_view_permission',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,8 +43,9 @@ INSTALLED_APPS = [
     'django_select2',
     'phonenumber_field',
     'reset_migrations',
+    'data_entry.apps.DataEntryConfig',
 ]
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -61,7 +61,7 @@ ROOT_URLCONF = 'nacmis_online.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-	'DIRS': [os.path.join(BASE_DIR, 'templates')],
+	    'DIRS': [os.path.join(BASE_DIR, 'templates'), "templates/registration/"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
