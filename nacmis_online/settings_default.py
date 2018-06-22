@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_select2',
     'phonenumber_field',
+    'reset_migrations',
     'data_entry.apps.DataEntryConfig',
 ]
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -136,3 +137,8 @@ DATABASES = {
     }
 }
 ALLOWED_HOSTS = ['52.91.14.106', 'localhost', '127.0.0.1', 'nacmis.bluecodeltd.com']
+
+# django-phonenumber-field (country code settings)
+# https://github.com/stefanfoulis/django-phonenumber-field
+PHONENUMBER_DB_FORMAT = 'NATIONAL'
+PHONENUMBER_DEFAULT_REGION = 'ZM'
