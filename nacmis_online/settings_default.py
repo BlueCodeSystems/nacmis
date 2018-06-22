@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'data_entry.apps.DataEntryConfig',
 ]
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
