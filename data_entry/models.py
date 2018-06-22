@@ -380,8 +380,8 @@ class OtherQuestion(models.Model):
         AIDS action plan?', max_length=100, choices=YES_OR_NO);
     workplace_programme = models.CharField('Does your organisation have a current \
         and active HIV and AIDS workplace programme?', max_length=20, choices=YES_OR_NO)
-    sources_of_information = models.ManyToManyField(SourcesOfInformation, verbose_name='which sources of \
-        information does your organisation utilize to inform HIV programming and decision making?', max_length=20)
+    #sources_of_information = models.ManyToManyField(SourcesOfInformation, verbose_name='which sources of \
+    #    information does your organisation utilize to inform HIV programming and decision making?', max_length=20)
     m_and_person = models.CharField('Does your organisation have a designated M and E person?', 
         max_length=20, choices=YES_OR_NO)
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)

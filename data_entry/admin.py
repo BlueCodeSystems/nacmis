@@ -3,11 +3,11 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
-OrganisationTarget, MobilePopulationType, SupportField, SourcesOfInformation, ProgramActivity, FundingSource, 
+OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, 
 TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
 
 from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker, Inmate, PersonsWithDisabilty, 
-MobileWorker,MobilePopulation, MenWithMen, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
+MobileWorker,MobilePopulation, MenWithMen, SourcesOfInformation, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
 CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PostExposureProphylaxis,
 PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
 SupportAndCare, GeneralComment2, DACAValidation)
