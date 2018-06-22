@@ -9,7 +9,7 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
 
     class Meta:
         model = StakeholderDirectory
-        fields = ['organisation_address', 'organisation_targets', 'organisation_district', 'start_year']
+        fields = ['organisation_address', 'organisation_targets', 'organisation_province', 'organisation_district', 'start_year']
 
         widgets = {
             'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
