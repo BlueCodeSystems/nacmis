@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 ]
 SITE_ID = 1
-EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
