@@ -6,7 +6,10 @@ django-admin-view-permission==1.6
 django-appconf==1.0.2
 django-autocomplete-light==3.2.10
 django-phonenumber-field==2.0.0
+django-reset-migrations==0.3.1
 django-select2==6.0.2
+django-sendgrid-v5==0.6.892
+future==0.16.0
 ipdb==0.11
 ipython==6.4.0
 ipython-genutils==0.2.0
@@ -20,7 +23,9 @@ psycopg2==2.7.4
 psycopg2-binary==2.7.4
 ptyprocess==0.5.2
 Pygments==2.2.0
+python-http-client==3.1.0
 pytz==2018.4
+sendgrid==5.4.0
 simplegeneric==0.8.1
 six==1.11.0
 traitlets==4.3.2

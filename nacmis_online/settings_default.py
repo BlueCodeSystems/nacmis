@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'dal',
     'dal_select2',
-    'data_entry.apps.DataEntryConfig',
     'admin_view_permission',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,8 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_select2',
     'phonenumber_field',
+    'data_entry.apps.DataEntryConfig',
+    'django.contrib.sites',
 ]
-
+SITE_ID = 1
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -60,7 +63,7 @@ ROOT_URLCONF = 'nacmis_online.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-	'DIRS': [os.path.join(BASE_DIR, 'templates')],
+	    'DIRS': [os.path.join(BASE_DIR, 'templates'), "templates/registration/"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,3 +139,8 @@ DATABASES = {
     }
 }
 ALLOWED_HOSTS = ['52.91.14.106', 'localhost', '127.0.0.1', 'nacmis.bluecodeltd.com']
+
+# django-phonenumber-field (country code settings)
+# https://github.com/stefanfoulis/django-phonenumber-field
+PHONENUMBER_DB_FORMAT = 'NATIONAL'
+PHONENUMBER_DEFAULT_REGION = 'ZM'
