@@ -286,8 +286,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         })
     )
 
-    inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline,
-        OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
+    inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline, OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
 
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -300,7 +299,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
                 userProfile = UserProfile.objects.get(user=request.user)
             except UserProfile.DoesNotExist:
                 #No userprofile set, return empty queryset
-                return Province.objects.none()
+                kwargs["queryset"] = Province.objects.none()
             else: 
                 if request.user.groups.filter(name="DACA"):
                     kwargs["queryset"] = Province.objects.filter(name=userProfile.province)
@@ -389,7 +388,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
                 userProfile = UserProfile.objects.get(user=request.user)
             except UserProfile.DoesNotExist:
                 #No userprofile set, return empty queryset
-                return stakeholders.none()
+                kwargs["queryset"] = stakeholders.none()
             else: 
                 if request.user.groups.filter(name="PACA"):
                     kwargs["queryset"] = stakeholders.filter(organisation_province=userProfile.province)
