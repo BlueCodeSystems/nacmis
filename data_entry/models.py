@@ -346,6 +346,9 @@ class SourcesOfInformation(models.Model):
     def __str__(self):
         return self.source
 
+    class Meta:
+        verbose_name_plural = 'Sources of Information'
+
 class ProgramActivity(models.Model):
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE, null=True)
     areas_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
