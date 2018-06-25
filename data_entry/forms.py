@@ -1,7 +1,8 @@
 from django import forms
 
 
-from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District, Ward, UserProfile
+from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District, Ward, \
+    UserProfile, OtherQuestion
 from .models import ActivityReportForm, IECMaterial
 from dal import autocomplete
 
@@ -47,6 +48,15 @@ class ProgramActivityModelForm(forms.ModelForm):
         widgets = {
             'areas_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
             'ward':  autocomplete.ModelSelect2(url='ward-autocomplete', forward=['organisation_district'])
+        }
+
+class OtherQuestionModelForm(forms.ModelForm):
+    class Meta:
+        model = OtherQuestion
+        fields = '__all__'
+
+        widgets = {
+            'sources_of_information' : autocomplete.ModelSelect2Multiple(url='supportofinformation-autocomplete'),
         }
 
 class WardModelForm(forms.ModelForm):
