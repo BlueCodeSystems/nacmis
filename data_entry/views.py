@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.views import generic
 from dal import autocomplete
 
-from .models import District, Ward, OrganisationTarget, SupportField, UserProfile, StakeholderDirectory
+from .models import District, Ward, OrganisationTarget, SupportField, SourcesOfInformation,\
+    UserProfile, StakeholderDirectory
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
@@ -67,6 +68,18 @@ class OrganisationTargetAutocomplete(autocomplete.Select2QuerySetView):
 
         if self.q:
             qs = qs.filter(organisation_target_option__istartswith=self.q)
+        return qs
+
+class SourcesOfInformationAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+    
+        #if not self.request.user.is_authenticated():
+        #    return District.objects.none()
+
+        qs = SourcesOfInformation.objects.all()
+
+        if self.q:
+            qs = qs.filter(source__istartswith=self.q)
         return qs
 
 class DistrictAutocomplete(autocomplete.Select2QuerySetView):

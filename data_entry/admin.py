@@ -13,7 +13,7 @@ PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualC
 SupportAndCare, GeneralComment2, DACAValidation)
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
-TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm
+TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -34,6 +34,7 @@ class TargetGroupPreventionMessageInline(admin.TabularInline):
 
 class OtherQuestionInline(admin.TabularInline):
     model = OtherQuestion
+    form = OtherQuestionModelForm
     extra = 1
 
 class EndOfYearQuestionInline(admin.TabularInline):
@@ -79,6 +80,7 @@ class MaterialInline2(admin.TabularInline):
     verbose_name = 'IEC Material 2'
     verbose_name_plural = '2. If you distributed Information Education Communication (IEC) materials this \
         quarter who was your target audience?'
+    filter_horizontal = ('target_audience',)
     extra = 1
 
 class TeachersInline(admin.TabularInline):
@@ -127,6 +129,7 @@ class MobileWorkerInline(admin.TabularInline):
 class MobilePopulationInline(admin.TabularInline):
     model = MobilePopulation
     verbose_name_plural = '9. Which types of mobile populations did your organisation reach this quarter?'
+    filter_horizontal = ('mobile_population_types',)
     extra = 1
     
 class MenWithMenInline(admin.TabularInline):
@@ -232,6 +235,7 @@ class VulnerablePeopleInline(admin.StackedInline):
 class SupportAndCareInline(admin.TabularInline):
     model = SupportAndCare
     verbose_name_plural = '24. What types of care and support does your organisation provide? (select all that apply)'
+    filter_horizontal = ('type',)
     extra = 1
 
 class GeneralComment2Inline(admin.TabularInline):
@@ -419,21 +423,6 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
 
-class OrganisationTargetAdmin(admin.ModelAdmin):
-    fieldsets = (
-        ('Organisation Target', {
-            'fields': ('organisation_target_option',)
-        }),
-    )
-
-class MobilePopulationTypeAdmin(admin.ModelAdmin):
-    fieldsets = (
-        ('Population Type', {
-            'fields': ('mobile_population_type',)
-        }),
-    )
-
-
 class DistrictAdmin(admin.ModelAdmin):
     list_filter = ['province',]
 
@@ -462,6 +451,7 @@ admin.site.register(MobilePopulationType)
 
 # Register to add types of support under Program activities (ie, Program activities by geographic area)
 admin.site.register(SupportField)
+
 admin.site.register(SourcesOfInformation)
 
 admin.site.register(Province)
