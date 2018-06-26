@@ -168,7 +168,7 @@ class HomeView(View):
 class StakeholdersView(View):
     form_class = None
     initial = {'key': 'value'}
-    template_name = 'data_entry/nacmis_metronic/index.html'
+    template_name = 'data_entry/nacmis_metronic/stakeholder.html'
 
     # GET logic
     def get(self, request, *args, **kwargs):
@@ -188,7 +188,7 @@ class StakeholdersView(View):
 class ActivityReportsView(View):
     form_class = None
     initial = {'key': 'value'}
-    template_name = 'data_entry/nacmis_metronic/index.html'
+    template_name = 'data_entry/nacmis_metronic/activityreport.html'
 
     # GET logic
     def get(self, request, *args, **kwargs):
