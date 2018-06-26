@@ -1,7 +1,8 @@
 {% extends "data_entry/nacmis_metronic/base.html" %}
 
+{% block title %} STAKEHOLDER DASHBOARDS {% endblock  %}
 {% block content %}
-<iframe src="http://nacmis.bluecodeltd.com:8088/superset/dashboard/2/?standalone=true">
-
+<iframe src="http://nacmis.bluecodeltd.com:8088/superset/dashboard/2/?standalone=true"
+style="height: 100%; width: 100%; min-height: 400px; " >
 </iframe>                                   
 {% endblock content %}
