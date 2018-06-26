@@ -99,7 +99,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-dark m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-light m-aside-header-menu-mobile--submenu-skin-light "  >
 									<ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
 										<li class="m-menu__item  m-menu__item--active "  aria-haspopup="true">
-											<a  href="index.html" class="m-menu__link ">
+											<a  href="{% url 'home-view' %}" class="m-menu__link ">
 												<span class="m-menu__item-here"></span>
 												<span class="m-menu__link-text">
 													Home
@@ -107,7 +107,7 @@ License: You must have a valid license purchased only from themeforest(the above
 											</a>
 										</li>
 										<li class="m-menu__item  m-menu__item--submenu m-menu__item--rel"  m-menu-submenu-toggle="click" aria-haspopup="true">
-											<a  href="javascript:;" class="m-menu__link m-menu__toggle">
+											<a  href="{% url 'stakeholders-view' %}" class="m-menu__link m-menu__toggle">
 												<span class="m-menu__item-here"></span>
 												<span class="m-menu__link-text">
 													Stakeholders
@@ -115,7 +115,7 @@ License: You must have a valid license purchased only from themeforest(the above
 											</a>
 										</li>
 										<li class="m-menu__item  m-menu__item--submenu m-menu__item--rel"  m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
-											<a  href="javascript:;" class="m-menu__link m-menu__toggle">
+											<a  href="{% url 'activity-reports-view' %}" class="m-menu__link m-menu__toggle">
 												<span class="m-menu__item-here"></span>
 												<span class="m-menu__link-text">
 													Activity Reports
@@ -149,7 +149,9 @@ License: You must have a valid license purchased only from themeforest(the above
 						<div class="d-flex align-items-center">
 							<div class="mr-auto">
 								<h3 class="m-subheader__title ">
-									Dashboard
+                                    {% block content_title %}
+                                    {% if title %}{{ title }}{% endif %} Dashboard
+                                    {% endblock %}
 								</h3>
 							</div>
 						</div>

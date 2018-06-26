@@ -23,7 +23,11 @@ from data_entry.views import SupportFieldAutocomplete, SourcesOfInformationAutoc
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('data_entry/', include('data_entry.data_urls')),
-    path('', views.HomeView.as_view(), name='comingsoon'),
+
+    #urls for front end
+    path('', views.HomeView.as_view(), name='home-view'),
+    path('stakeholders/', views.StakeholdersView.as_view(), name='stakeholders-view'),
+    path('activity-reports/', views.ActivityReportsView.as_view(), name='activity-reports-view'),
 
     # urls for autocompletes implementation
     path('supportfield-autocomplete/', SupportFieldAutocomplete.as_view(), 
