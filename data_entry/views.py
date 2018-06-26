@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import generic, View
 from dal import autocomplete
+from django import forms
 
 from .models import District, Ward, OrganisationTarget, SupportField, SourcesOfInformation,\
     UserProfile, StakeholderDirectory
@@ -142,17 +143,22 @@ def comingSoonView(request):
     #nocontext = null
     return render(request, 'data_entry/coming_soon.html')
 
-# data_entry/nacmis_metronic/index.html
+# ------ Landing or Home page for the front end ------ #
 class HomeView(View):
     form_class = MyForm
+    #form_class = None
     initial = {'key': 'value'}
     template_name = 'data_entry/nacmis_metronic/index.html'
 
-    # handling GET logic 
+    # GET logic
     def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
+        if self.form_class:
+            form = self.form_class(initial=self.initial)
+        else:
+            form = forms.Form()
         return render(request, self.template_name, {'form': form})
 
+    # POST logic
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -160,13 +166,41 @@ class HomeView(View):
             return HttpResponseRedirect('/success/')
 
 class StakeholdersView(View):
-    def get(self, request):
-        # <view logic>
-        return HttpResponse('result')
-    pass
+    form_class = None
+    initial = {'key': 'value'}
+    template_name = 'data_entry/nacmis_metronic/index.html'
+
+    # GET logic
+    def get(self, request, *args, **kwargs):
+        if self.form_class:
+            form = self.form_class(initial=self.initial)
+        else:
+            form = forms.Form()
+        return render(request, self.template_name, {'form': form})
+
+    # POST logic
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
 
 class ActivityReportsView(View):
-    def get(self, request):
-        # <view logic>
-        return HttpResponse('result')
-    pass
+    form_class = None
+    initial = {'key': 'value'}
+    template_name = 'data_entry/nacmis_metronic/index.html'
+
+    # GET logic
+    def get(self, request, *args, **kwargs):
+        if self.form_class:
+            form = self.form_class(initial=self.initial)
+        else:
+            form = forms.Form()
+        return render(request, self.template_name, {'form': form})
+
+    # POST logic
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
