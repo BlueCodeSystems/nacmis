@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.views import generic
+from django.views import generic, View
 from dal import autocomplete
 
 from .models import District, Ward, OrganisationTarget, SupportField, SourcesOfInformation,\
@@ -41,10 +41,6 @@ def get_nameinmodel(request):
 def myform_test(request):
     formsample = MyForm()
     return render(request, 'data_entry/index.html', {'the_insert': formsample} )
-
-def comingSoonView(request):
-    #nocontext = null
-    return render(request, 'data_entry/coming_soon.html')
 
 class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -141,3 +137,36 @@ class StakeholderAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
         return qs
+
+def comingSoonView(request):
+    #nocontext = null
+    return render(request, 'data_entry/coming_soon.html')
+
+# data_entry/nacmis_metronic/index.html
+class HomeView(View):
+    form_class = MyForm
+    initial = {'key': 'value'}
+    template_name = 'data_entry/nacmis_metronic/index.html'
+
+    # handling GET logic 
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
+
+class StakeholdersView(View):
+    def get(self, request):
+        # <view logic>
+        return HttpResponse('result')
+    pass
+
+class ActivityReportsView(View):
+    def get(self, request):
+        # <view logic>
+        return HttpResponse('result')
+    pass
