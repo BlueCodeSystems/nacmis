@@ -103,3 +103,71 @@ create or replace view vw_iecmaterial as
   left outer join vw_activityreportform ac
     on ac.activityreportform_id = im.activity_form_id;
 
+create or replace view vw_iecmaterial2 as
+  select ac.*,
+    im.id as iecmaterial2_id
+  from data_entry_iecmaterial2 im
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = im.activity_form_id;
+
+create or replace view vw_individualcurrentlyenrolled as
+  select ac.*,
+    ice.id as individualcurrentlyenrolled_id,
+    ice.individuals_enrolled_female_10_14,
+    ice.individuals_enrolled_female_15_19,
+    ice.individuals_enrolled_female_20_24,
+    ice.individuals_enrolled_female_25_plus,
+    ice.individuals_enrolled_male_10_14,
+    ice.individuals_enrolled_male_15_19,
+    ice.individuals_enrolled_male_20_24,
+    ice.individuals_enrolled_male_25_plus
+  from data_entry_individualcurrentlyenrolled ice
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = ice.activity_form_id;
+
+create or replace view vw_inmate as
+  select ac.*,
+    im.id as inmate_id,
+    im.inmates_female_num,
+    im.inmates_male_num
+  from data_entry_inmate im
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = im.activity_form_id;
+
+create or replace view vw_menwithmen as
+  select ac.*,
+    mm.id as menwithmen_id,
+    mm.men_with_men
+  from data_entry_menwithmen mm
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = mm.activity_form_id;
+
+create or replace view vw_mobilepopulation as
+  select ac.*,
+    mp.id as mobilepopulation_id
+  from data_entry_mobilepopulation mp
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = mp.activity_form_id;
+
+create or replace view vw_mobileworker as
+  select ac.*,
+    mw.id as mobileworker_id,
+    mw.mobile_workers_female_num,
+    mw.mobile_workers_male_num
+  from data_entry_mobileworker mw
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = mw.activity_form_id;
+
+create or replace view vw_outofschool as
+  select ac.*,
+    oos.id as outofschool_id,
+    oos.out_school_female_10_14,
+    oos.out_school_female_15_19,
+    oos.out_school_female_20_24,
+    oos.out_school_male_10_14,
+    oos.out_school_male_15_19,
+    oos.out_school_male_20_24
+  from data_entry_outofschool oos
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = oos.activity_form_id;
+
