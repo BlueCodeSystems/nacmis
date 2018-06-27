@@ -10,7 +10,7 @@ from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker
 MobileWorker,MobilePopulation, MenWithMen, SourcesOfInformation, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
 CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PostExposureProphylaxis,
 PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
-SupportAndCare, GeneralComment2, DACAValidation)
+SupportAndCare, GeneralComment2, DACAValidation, PITMEOValidation)
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
 TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm
@@ -53,6 +53,26 @@ class DACAValidationInline(admin.StackedInline):
     readonly_fields = ("acknowledgement",)
     verbose_name = 'DACA Validation'
     verbose_name_plural = 'DACA Validation'
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if request.user.is_superuser:
+            return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+        if db_field.name == "validated_by":
+            if request.user.groups.filter(name="DACA"):
+                kwargs["queryset"] = User.objects.filter(id=request.user.id)
+            else:
+                kwargs["queryset"] = User.objects.none()
+
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+class PITMEOValidationInline(admin.StackedInline):
+    model = PITMEOValidation
+    extra = 1
+    fields = ("validated_by", "validation_status", "acknowledgement", "daca_initials", "validation_comment")
+    readonly_fields = ("acknowledgement",)
+    verbose_name = 'PITMEO Validation'
+    verbose_name_plural = 'PITMEO Validation'
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
@@ -360,6 +380,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     SupportAndCareInline.max_num = 1
     GeneralComment2Inline.max_num = 1
     DACAValidationInline.max_num = 1
+    PITMEOValidationInline.max_num = 1
 
     fieldsets = (
         ('1. REPORT DETAIL', {
@@ -377,7 +398,8 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         PeopleWhoInjectDrugInline,CondomProgrammingInline, CondomProgramming2Inline, ReportedCaseInline, 
         ExperiencedPhysicalViolenceInline, ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, 
         PreExposureProphylaxisInline, SynergyDevelopmentSectorInline, SupportGroupSetUpInline, 
-        IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, DACAValidationInline]
+        IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, 
+        DACAValidationInline, PITMEOValidationInline]
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
