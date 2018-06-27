@@ -149,9 +149,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						<div class="d-flex align-items-center">
 							<div class="mr-auto">
 								<h3 class="m-subheader__title ">
-                                    {% block content_title %}
-                                    {% if title %}{{ title }}{% endif %} Dashboard
-                                    {% endblock %}
+										{% block subheader_title %} National AIDS Council Management Information System {% endblock %}
 								</h3>
 							</div>
 						</div>
@@ -170,7 +168,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										<div class="m-portlet__head-caption">
 											<div class="m-portlet__head-title">
 												<h3 class="m-portlet__head-text ">
-													{{ title }}
+													{% block content_title %} {% endblock %}
 												</h3>
 											</div>
 										</div>
