@@ -272,11 +272,10 @@ class OrganisationTarget(models.Model):
 #               HELPER CLASSES FOR ACTIVITYREPORTFORM 
 # *********************************************************************
 class MobilePopulationType(models.Model):
-    mobile_population_type = models.CharField(max_length=100, default="")
+    mobile_population_type = models.CharField(max_length=100, unique=True, default="")
 
     def __str__(self):
         return self.mobile_population_type
-
 
 #                   STAKEHOLDER DIRECTORY
 # ************************************************************
@@ -335,13 +334,13 @@ class UserProfile(models.Model):
         return "%s"%(self.user.username)
     
 class SupportField(models.Model):
-    area_of_support = models.CharField(max_length=100, default="")
+    area_of_support = models.CharField(max_length=100, unique=True, default="")
 
     def __str__(self):
         return self.area_of_support
 
 class SourcesOfInformation(models.Model):
-    source = models.CharField(max_length=100, default="")
+    source = models.CharField(max_length=100, unique=True, default="")
 
     def __str__(self):
         return self.source
