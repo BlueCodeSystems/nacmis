@@ -287,8 +287,8 @@ class StakeholderDirectory(models.Model):
     organisation = models.CharField('organisation/project', max_length=200, help_text='If organisation/project name is the same as \
         parent organisation. Please re-enter the same name')
     organisation_address = models.CharField('address of the organisation', max_length=100, blank=True, null=True)
-    organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
-    organisation_district = models.ForeignKey(District, verbose_name='organisation district', on_delete=models.CASCADE, null=True)
+    organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE)
+    organisation_district = models.ForeignKey(District, verbose_name='organisation district', on_delete=models.CASCADE)
     start_year = models.DateField('which year did your organisation start working in this district?')
     gps = models.CharField('GPS Coordinates', help_text='use decimal degrees format(ie: -15.38753, 28.32282)', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
