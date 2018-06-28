@@ -171,3 +171,68 @@ create or replace view vw_outofschool as
   left outer join vw_activityreportform ac
     on ac.activityreportform_id = oos.activity_form_id;
 
+create or replace view vw_peoplewhoinjectdrug as
+  select ac.*,
+    pd.id as peoplewhoinjectdrug_id,
+    pd.pwid_female,
+    pd.pwid_male
+  from data_entry_peoplewhoinjectdrug pd
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = pd.activity_form_id;
+
+create or replace view vw_personswithdisability as
+  select ac.*,
+    pd.id as personswithdisability_id,
+    pd.pwd_female_num,
+    pd.pwd_male_num
+  from data_entry_personswithdisabilty pd
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = pd.activity_form_id;
+
+create or replace view vw_postexposureprophylaxis as
+  select ac.*,
+    pp.id as postexposureprophylaxis_id,
+    pp.accessed_pep_female_less_10,
+    pp.accessed_pep_female_10_14,
+    pp.accessed_pep_female_15_19,
+    pp.accessed_pep_female_20_24,
+    pp.accessed_pep_female_25_plus,
+    pp.accessed_pep_male_less_10,
+    pp.accessed_pep_male_10_14,
+    pp.accessed_pep_male_15_19,
+    pp.accessed_pep_male_20_24,
+    pp.accessed_pep_male_25_plus
+  from data_entry_postexposureprophylaxis pp
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = pp.activity_form_id;
+
+create or replace view vw_preexposureprophylaxis as
+  select ac.*,
+    pp.id as preexposureprophylaxis_id,
+    pp.referred_pep_female_15_19,
+    pp.referred_pep_female_20_24,
+    pp.referred_pep_female_25_plus,
+    pp.referred_pep_male_15_19,
+    pp.referred_pep_male_20_24,
+    pp.referred_pep_male_25_plus
+  from data_entry_preexposureprophylaxis pp
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = pp.activity_form_id;
+
+create or replace view vw_reportedcase as
+  select ac.*,
+    rc.id as reportedcase_id,
+    rc.reported_female_less_10,
+    rc.reported_female_10_14,
+    rc.reported_female_15_19,
+    rc.reported_female_20_24,
+    rc.reported_female_25_plus,
+    rc.reported_male_less_10,
+    rc.reported_male_10_14,
+    rc.reported_male_15_19,
+    rc.reported_male_20_24,
+    rc.reported_male_25_plus
+  from data_entry_reportedcase rc
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = rc.activity_form_id;
+
