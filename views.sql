@@ -236,3 +236,78 @@ create or replace view vw_reportedcase as
   left outer join vw_activityreportform ac
     on ac.activityreportform_id = rc.activity_form_id;
 
+create or replace view vw_sexworker as
+  select ac.*,
+    sw.id as sexworker_id,
+    sw.sex_workers_female_10_14,
+    sw.sex_workers_female_15_19,
+    sw.sex_workers_female_20_24,
+    sw.sex_workers_female_25_29,
+    sw.sex_workers_female_30_34,
+    sw.sex_workers_female_35_plus,
+    sw.sex_workers_male_10_14,
+    sw.sex_workers_male_15_19,
+    sw.sex_workers_male_20_24,
+    sw.sex_workers_male_25_29,
+    sw.sex_workers_male_30_34,
+    sw.sex_workers_male_35_plus
+  from data_entry_sexworker sw
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = sw.activity_form_id;
+
+create or replace view vw_supportandcare as
+  select ac.*,
+    sc.id as supportandcare_id
+  from data_entry_supportandcare sc
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = sc.activity_form_id;
+
+create or replace view vw_supportgroupsetup as
+  select ac.*,
+    s.id as supportgroupsetup_id,
+    s.support_groups
+  from data_entry_supportgroupsetup s
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = s.activity_form_id;
+
+create or replace view vw_synergydevelopmentsector as
+  select ac.*,
+    s.id as synergydevelopmentsector_id,
+    s.employees_reached_female_num,
+    s.employees_reached_male_num
+  from data_entry_synergydevelopmentsector s
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = s.activity_form_id;
+
+create or replace view vw_teachers as
+  select ac.*,
+    t.id as teachers_id,
+    t.teachers_female,
+    t.teachers_male
+  from data_entry_teachers t
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = t.activity_form_id;
+
+create or replace view vw_transgenderindividual as
+  select ac.*,
+    t.id as transgenderindividual_id,
+    t.transgender_num
+  from data_entry_transgenderindividual t
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = t.activity_form_id;
+
+create or replace view vw_vulnerablepeople as
+  select ac.*,
+    vp.id as vulnerablepeople_id,
+    vp.ovc_female_10_14,
+    vp.ovc_female_15_19,
+    vp.ovc_female_20_24,
+    vp.ovc_female_25_plus,
+    vp.ovc_male_10_14,
+    vp.ovc_male_15_19,
+    vp.ovc_male_20_24,
+    vp.ovc_male_25_plus
+  from data_entry_vulnerablepeople vp
+  left outer join vw_activityreportform ac
+    on ac.activityreportform_id = vp.activity_form_id;
+
