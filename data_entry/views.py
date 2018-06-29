@@ -176,7 +176,14 @@ class StakeholdersView(View):
             form = self.form_class(initial=self.initial)
         else:
             form = forms.Form()
-        return render(request, self.template_name, {'form': form})
+        
+        userProfile = None
+        if request.user.is_authenticated:
+            try:
+                userProfile = UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
+                userProfile = None
+        return render(request, self.template_name, {'form': form, 'userProfile':userProfile})
 
     # POST logic
     def post(self, request, *args, **kwargs):
