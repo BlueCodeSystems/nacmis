@@ -77,7 +77,10 @@ License: You must have a valid license purchased only from themeforest(the above
 														Hello,&nbsp;
 													</span>
 													<span class="m-topbar__username">
-														{{ request.user.username }}
+														{{request.user.username}}
+													</span>
+													<span class="m-topbar__username">
+														<a href="/logout" class="link">logout</a>
 													</span>
 													{% else %}
 													<span class="m-topbar__username">

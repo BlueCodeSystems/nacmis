@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.views import generic, View
 from dal import autocomplete
 from django import forms
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .models import District, Ward, OrganisationTarget, SupportField, SourcesOfInformation,\
     UserProfile, StakeholderDirectory
@@ -165,6 +167,7 @@ class HomeView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
+@method_decorator(login_required, name='dispatch')
 class StakeholdersView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -192,6 +195,7 @@ class StakeholdersView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
+@method_decorator(login_required, name='dispatch')
 class ActivityReportsView(View):
     form_class = None
     initial = {'key': 'value'}
