@@ -311,3 +311,69 @@ create or replace view vw_vulnerablepeople as
   left outer join vw_activityreportform ac
     on ac.activityreportform_id = vp.activity_form_id;
 
+-- join with vw_organisationtarget
+
+create or replace view vw_endofyearquestion as
+  select o.*,
+    q.funding,
+    q.number_of_meetings_daft,
+    q.number_of_meetings_paft,
+    q.id as endofyearquestion_id
+  from data_entry_endofyearquestion q
+  left outer join vw_organisationtarget o
+    on o.id = q.organisation_id;
+
+create or replace view vw_fundingsource as
+  select o.*,
+    f.name_of_organisation,
+    f.funding_amount,
+    f.id as fundingsource_id
+  from data_entry_fundingsource f
+  left outer join vw_organisationtarget o
+    on o.id = f.organisation_id;
+
+create or replace view vw_generalcomment as
+  select o.*,
+    g.general_comment,
+    g.id as generalcomment_id
+  from data_entry_generalcomment g
+  left outer join vw_organisationtarget o
+    on o.id = g.organisation_id;
+
+create or replace view vw_generalcomment2 as
+  select o.*,
+    g.general_comment,
+    g.id as generalcomment_id
+  from data_entry_generalcomment2 g
+  left outer join vw_organisationtarget o
+    on o.id = g.organisation_id;
+
+create or replace view vw_otherquestion as
+  select o.*,
+    oq.action_plan,
+    oq.workplace_programme,
+    oq.sources_of_information,
+    oq.m_and_person,
+    oq.id as otherquestion_id
+  from data_entry_otherquestion oq
+  left outer join vw_organisationtarget o
+    on o.id = oq.organisation_id;
+
+create or replace view vw_programactivity as
+  select o.*,
+    p.id as programactivity_id,
+    w.name as ward_name
+  from data_entry_programactivity p
+  left outer join vw_organisationtarget o
+    on o.id = p.organisation_id
+  left outer join data_entry_ward w
+    on p.ward_id = w.id;
+
+create or replace view vw_targetgrouppreventionmessage as
+  select o.*,
+    t.id as targetgrouppreventionmessage_id,
+    t.prevention_message
+  from data_entry_targetgrouppreventionmessage t
+  left outer join vw_organisationtarget o
+    on o.id = t.organisation_id;
+
