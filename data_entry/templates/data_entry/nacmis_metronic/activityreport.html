@@ -1,13 +1,12 @@
 {% extends "data_entry/nacmis_metronic/base.html" %}
 
 {% block content %}
-<iframe onload="resizeIframe(this)"
-  width="100%"
-  height="1600"
+<iframe
   seamless
   frameBorder="0"
   scrolling="no"
   src="https://nacmis-data.bluecodeltd.com/superset/dashboard/3/?standalone=true"
 >
 </iframe>
+<script>iFrameResize({log:true}, 'iframe')</script>
 {% endblock content %}
