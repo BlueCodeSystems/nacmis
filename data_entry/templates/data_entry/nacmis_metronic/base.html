@@ -32,6 +32,12 @@ License: You must have a valid license purchased only from themeforest(the above
           });
 		</script>
 		<!--end::Web font -->
+
+		<!-- iframe resizer scripts -->
+		<script src="{% static 'data_entry/js/iframe_resizer/3.6.1/ie8.polyfils.min.js' %}"></script>
+		<script src="{% static 'data_entry/js/iframe_resizer/3.6.1/iframeResizer.contentWindow.min.js' %}"></script>
+		<script src="{% static 'data_entry/js/iframe_resizer/3.6.1/iframeResizer.min.js' %}"></script>
+
         <!--begin::Base Styles -->  
         <!--begin::Page Vendors -->
 		<link href="{% static 'data_entry/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css' %}" rel="stylesheet" type="text/css" />
@@ -40,11 +46,14 @@ License: You must have a valid license purchased only from themeforest(the above
 		<link href="{% static 'data_entry/assets/demo/demo2/base/style.bundle.css' %}" rel="stylesheet" type="text/css" />
 		<!--end::Base Styles -->
 		<link rel="shortcut icon" href="{% static 'data_entry/assets/demo/demo2/media/img/logo/favicon.ico' %}" />
-		<script type="text/javascript">
-			function resizeIframe(iframe) {
-			  iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";
+		
+		<style>
+			iframe {
+				width: 100%;
+				height: 1600px;
 			}
-		</script> 
+		</style>
+		
 	</head>
 	<!-- end::Head -->
     <!-- end::Body -->
