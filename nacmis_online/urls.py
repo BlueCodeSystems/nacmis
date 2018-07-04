@@ -29,6 +29,7 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name='home-view'),
     path('stakeholders/', views.StakeholdersView.as_view(), name='stakeholders-view'),
     path('activity-reports/', views.ActivityReportsView.as_view(), name='activity-reports-view'),
+    path('key-populations/', views.KeyPopulationsView.as_view(), name='key-populations-view'),
 
     # urls for autocompletes implementation
     path('supportfield-autocomplete/', SupportFieldAutocomplete.as_view(), 
