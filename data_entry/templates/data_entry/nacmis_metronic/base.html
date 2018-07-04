@@ -72,12 +72,23 @@ License: You must have a valid license purchased only from themeforest(the above
 													<span class="m-topbar__userpic m--hide">
 														<img src="{% static 'data_entry/assets/app/media/img/users/user4.jpg' %}" class="m--img-rounded m--marginless m--img-centered" alt=""/>
 													</span>
+													{% if request.user.is_authenticated %}
 													<span class="m-topbar__welcome">
 														Hello,&nbsp;
 													</span>
 													<span class="m-topbar__username">
-														{{ request.user.username }}
+														{{request.user.username}}
 													</span>
+													<span class="m-topbar__username">
+														<a href="/logout" class="link">logout</a>
+													</span>
+													{% else %}
+													<span class="m-topbar__username">
+														<a href="/admin/login/?next=/">Login</a>
+													</span>
+
+
+													{% endif %}
 												</a>
 											</li>
 										</ul>

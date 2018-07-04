@@ -1,8 +1,13 @@
 {% extends "data_entry/nacmis_metronic/base.html" %}
 
-{% block content_title %} Activity Report Form Dashboard {% endblock %}
 {% block content %}
-<iframe src="http://nacmis.bluecodeltd.com:8088/superset/dashboard/3/?standalone=true"
-style="height: 100%; width: 100%; min-height: 400px; " >
-</iframe>                  
+<iframe
+  width="100%"
+  height="1600"
+  seamless
+  frameBorder="0"
+  scrolling="no"
+  src="https://nacmis-data.bluecodeltd.com/superset/dashboard/3/?standalone=true"
+>
+</iframe>
 {% endblock content %}

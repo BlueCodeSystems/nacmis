@@ -22,6 +22,7 @@ from data_entry.views import SupportFieldAutocomplete, SourcesOfInformationAutoc
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', admin.site.urls),
     path('data_entry/', include('data_entry.data_urls')),
 
     #urls for front end
