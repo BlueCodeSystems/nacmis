@@ -215,3 +215,24 @@ class ActivityReportsView(View):
         if form.is_valid():
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
+
+@method_decorator(login_required, name='dispatch')
+class KeyPopulationsView(View):
+    form_class = None
+    initial = {'key': 'value'}
+    template_name = 'data_entry/nacmis_metronic/keypopulations.html'
+
+    # GET logic
+    def get(self, request, *args, **kwargs):
+        if self.form_class:
+            form = self.form_class(initial=self.initial)
+        else:
+            form = forms.Form()
+        return render(request, self.template_name, {'form': form})
+
+    # POST logic
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')

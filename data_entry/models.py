@@ -264,7 +264,7 @@ class OrganisationType(models.Model):
         return self.organisation_type_option
 
 class OrganisationTarget(models.Model):
-    organisation_target_option = models.CharField('organisation target group', max_length=100, default="")
+    organisation_target_option = models.CharField('organisation target group', max_length=100, unique=True, default="")
 
     def __str__(self):
         return self.organisation_target_option
@@ -287,8 +287,8 @@ class StakeholderDirectory(models.Model):
     organisation = models.CharField('organisation/project', max_length=200, help_text='If organisation/project name is the same as \
         parent organisation. Please re-enter the same name')
     organisation_address = models.CharField('address of the organisation', max_length=100, blank=True, null=True)
-    organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
-    organisation_district = models.ForeignKey(District, verbose_name='organisation district', on_delete=models.CASCADE, null=True)
+    organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE)
+    organisation_district = models.ForeignKey(District, verbose_name='organisation district', on_delete=models.CASCADE)
     start_year = models.DateField('which year did your organisation start working in this district?')
     gps = models.CharField('GPS Coordinates', help_text='use decimal degrees format(ie: -15.38753, 28.32282)', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
@@ -457,7 +457,7 @@ class PITMEOValidation(models.Model):
     validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     validation_status = models.CharField(max_length=15, choices=VALIDATION_STATUS)
     acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
-    daca_initials = models.CharField(max_length=5)#We will add the validation statement as read only from the admin.
+    pitmeo_initials = models.CharField(max_length=5)#We will add the validation statement as read only from the admin.
     validation_comment = models.TextField(max_length=300, null=True, blank=True)
   
 # --> Social behaviour change communication 
