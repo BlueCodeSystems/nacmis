@@ -264,7 +264,7 @@ class OrganisationType(models.Model):
         return self.organisation_type_option
 
 class OrganisationTarget(models.Model):
-    organisation_target_option = models.CharField('organisation target group', max_length=100, default="")
+    organisation_target_option = models.CharField('organisation target group', max_length=100, unique=True, default="")
 
     def __str__(self):
         return self.organisation_target_option
@@ -457,7 +457,7 @@ class PITMEOValidation(models.Model):
     validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     validation_status = models.CharField(max_length=15, choices=VALIDATION_STATUS)
     acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
-    daca_initials = models.CharField(max_length=5)#We will add the validation statement as read only from the admin.
+    pitmeo_initials = models.CharField(max_length=5)#We will add the validation statement as read only from the admin.
     validation_comment = models.TextField(max_length=300, null=True, blank=True)
   
 # --> Social behaviour change communication 
