@@ -131,6 +131,7 @@ License: You must have a valid license purchased only from themeforest(the above
 												</span>
 											</a>
 										</li>
+										{% if request.user.is_authenticated %}
 										<li class="m-menu__item  m-menu__item--submenu m-menu__item--rel"  m-menu-submenu-toggle="click" aria-haspopup="true">
 											<a  href="{% url 'stakeholders-view' %}" class="m-menu__link m-menu__toggle">
 												<span class="m-menu__item-here"></span>
@@ -156,7 +157,23 @@ License: You must have a valid license purchased only from themeforest(the above
 												</span>
 											</a>
 										</li>
-                                        
+										{% endif %}
+                                        <li class="m-menu__item  m-menu__item--submenu"  m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
+											<a  href="admin/" class="m-menu__link m-menu__toggle">
+												<span class="m-menu__item-here"></span>
+												<span class="m-menu__link-text">
+													Admin Page
+												</span>
+											</a>
+										</li>
+										<li class="m-menu__item  m-menu__item--submenu"  m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
+											<a  href="javascript:;" class="m-menu__link m-menu__toggle">
+												<span class="m-menu__item-here"></span>
+												<span class="m-menu__link-text">
+													Resources
+												</span>
+											</a>
+										</li>
 									</ul>
 								</div>
 							</div>
