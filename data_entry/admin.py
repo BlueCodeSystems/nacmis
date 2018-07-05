@@ -69,7 +69,7 @@ class DACAValidationInline(admin.StackedInline):
 class PITMEOValidationInline(admin.StackedInline):
     model = PITMEOValidation
     extra = 1
-    fields = ("validated_by", "validation_status", "acknowledgement", "daca_initials", "validation_comment")
+    fields = ("validated_by", "validation_status", "acknowledgement", "pitmeo_initials", "validation_comment")
     readonly_fields = ("acknowledgement",)
     verbose_name = 'PITMEO Validation'
     verbose_name_plural = 'PITMEO Validation'
@@ -79,7 +79,7 @@ class PITMEOValidationInline(admin.StackedInline):
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
         if db_field.name == "validated_by":
-            if request.user.groups.filter(name="DACA"):
+            if request.user.groups.filter(name="PITMEO"):
                 kwargs["queryset"] = User.objects.filter(id=request.user.id)
             else:
                 kwargs["queryset"] = User.objects.none()
