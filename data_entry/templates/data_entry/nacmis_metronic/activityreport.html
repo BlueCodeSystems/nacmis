@@ -2,10 +2,16 @@
 
 {% block content %}
 <iframe
+  height="2500"
+  width="100%"
   seamless
   frameBorder="0"
   scrolling="no"
-  src="https://nacmis-data.bluecodeltd.com/superset/dashboard/3/?standalone=true"
+  {% if userProfile.province and userProfile.district %}
+  src="https://nacmis-data.bluecodeltd.com/superset/dashboard/3/?standalone=true&preselect_filters={'45':{'province_name':['{{ userProfile.province }}'],'district_name':['{{ userProfile.district }}']}}"
+  {% else %}
+  src="https://nacmis-data.bluecodeltd.com/superset/dashboard/3/?standalone=true&preselect_filters={'45':{'province_name':['{{ userProfile.province }}'],'district_name':[]}}"
+  {% endif %}
 >
 </iframe>
 <script>iFrameResize({log:true}, 'iframe')</script>
