@@ -6,6 +6,9 @@ from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirect
 OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, 
 TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
 
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.utils.translation import gettext, gettext_lazy as _
+
 from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker, Inmate, PersonsWithDisabilty, 
 MobileWorker,MobilePopulation, MenWithMen, SourcesOfInformation, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
 CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PostExposureProphylaxis,
@@ -453,8 +456,27 @@ class WardAdmin(admin.ModelAdmin):
     search_fields = ['name']
     form = WardModelForm
 
-class UserProfileAdmin(admin.ModelAdmin):
+#The code below is meant to include the user profile process directly into the user creation dialogue
+class UserProfileInline(admin.StackedInline):
     form = UserProfileModelForm
+    model = UserProfile
+    can_delete = False
+    verbose_name_plural = "User Profile"
+
+#Define a new user admin
+class UserAdmin(BaseUserAdmin):
+    inlines = (UserProfileInline,)
+    fieldsets = (
+    (None, {'fields': ('username', 'password')}),
+    (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+    (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                    'groups')}),
+    #(_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+
+# Re-register UserAdmin
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 
 # Register National Organisation models
 admin.site.register(NationalOrganisation)
@@ -477,7 +499,6 @@ admin.site.register(SupportField)
 admin.site.register(SourcesOfInformation)
 
 admin.site.register(Province)
-admin.site.register(UserProfile, UserProfileAdmin)
 
 admin.site.register(District, DistrictAdmin)
 
