@@ -463,6 +463,22 @@ class UserProfileInline(admin.StackedInline):
     can_delete = False
     verbose_name_plural = "User Profile"
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if request.user.is_superuser:
+            return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+        if db_field.name == "province":
+            try:
+                userProfile = UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
+                #No userprofile set, return empty queryset
+                kwargs["queryset"] = Province.objects.none()
+            else: 
+                if request.user.groups.filter(name="DACA"):
+                    kwargs["queryset"] = Province.objects.filter(name=userProfile.province)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
 #Define a new user admin
 class UserAdmin(BaseUserAdmin):
     inlines = (UserProfileInline,)
