@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib import admin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
 OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, 
@@ -466,6 +466,39 @@ class UserProfileInline(admin.StackedInline):
 #Define a new user admin
 class UserAdmin(BaseUserAdmin):
     inlines = (UserProfileInline,)
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        #Filter to leave only the stakeholder group in the selection list for groups
+        if request.user.is_superuser:
+            return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+        if db_field.name == "groups":
+            try:
+                userProfile = UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
+                #No userprofile set, return empty queryset
+                kwargs["queryset"] = Group.objects.none()
+            else: 
+                if request.user.groups.filter(name="DACA"):
+                    kwargs["queryset"] = Group.objects.filter(name="Stakeholder")
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_queryset(self, request):
+        #Filter to leave only the users from a DACA's district
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        try:
+            userProfile = UserProfile.objects.get(user=request.user)
+        except UserProfile.DoesNotExist:
+            return qs.none()
+        else: 
+            if request.user.groups.filter(name="DACA"):
+                qs = qs.filter(userprofile__district=userProfile.district)
+                #Filter to only show stakeholder users.
+                qs = qs.filter(groups__name="Stakeholder")
+        return qs
+
     def get_fieldsets(self, request, obj=None):
         #If this is a DACA, we need remove the superuser attribute from their edit page.
         if request.user.groups.filter(name="DACA"):
