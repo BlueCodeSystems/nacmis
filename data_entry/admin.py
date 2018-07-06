@@ -466,13 +466,24 @@ class UserProfileInline(admin.StackedInline):
 #Define a new user admin
 class UserAdmin(BaseUserAdmin):
     inlines = (UserProfileInline,)
-    fieldsets = (
-    (None, {'fields': ('username', 'password')}),
-    (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
-    (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                    'groups')}),
-    #(_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-    )
+    def get_fieldsets(self, request, obj=None):
+        #If this is a DACA, we need remove the superuser attribute from their edit page.
+        if request.user.groups.filter(name="DACA"):
+            fieldsets = (
+            (None, {'fields': ('username', 'password')}),
+            (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+            (_('Permissions'), {'fields': ('is_active', 'is_staff', 
+                                            'groups')}),
+            )
+        else:
+            fieldsets = (
+            (None, {'fields': ('username', 'password')}),
+            (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+            (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                            'groups')}),
+            )
+
+        return fieldsets
 
 # Re-register UserAdmin
 admin.site.unregister(User)
