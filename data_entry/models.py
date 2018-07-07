@@ -244,7 +244,7 @@ class Ward(models.Model):
 #                       NATIONAL ORGANISATION
 # *********************************************************************
 class NationalOrganisation(models.Model):
-    organisation_name = models.CharField(max_length=200)
+    organisation_name = models.CharField(max_length=200, unique=True)
     organisation_address = models.CharField('address of the organisation', max_length=100)
     organisation_contact_email = models.EmailField(max_length=254)
 
