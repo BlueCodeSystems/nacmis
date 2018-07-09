@@ -2,6 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
 from django.db.models import Q
+from collections import OrderedDict
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
 OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, 
@@ -404,6 +405,35 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         PreExposureProphylaxisInline, SynergyDevelopmentSectorInline, SupportGroupSetUpInline, 
         IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, 
         DACAValidationInline, PITMEOValidationInline]
+
+    """
+    def get_readonly_fields(self, request, obj=None):
+        readonly_fields = super().get_readonly_fields(request, obj)
+
+        readonly_fields = (
+            list(readonly_fields) +
+            [field.name for field in self.opts.fields
+                if field.editable] +
+            [field.name for field in self.opts.many_to_many
+                if field.editable]
+        )
+
+        # remove duplicates whilst preserving order
+        readonly_fields = list(OrderedDict.fromkeys(readonly_fields))
+
+        # Remove from the readonly_fields list the excluded fields
+        # specified on the form or the modeladmin
+        excluded_fields = self.get_excluded_fields()
+        if excluded_fields:
+            readonly_fields = [
+                f for f in readonly_fields if f not in excluded_fields
+            ]
+        #Also mark inlines as readonly
+        for inline in self.inlines:
+            print(inline.opts)
+
+        return tuple(readonly_fields)
+        """
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
