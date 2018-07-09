@@ -46,8 +46,9 @@ License: You must have a valid license purchased only from themeforest(the above
 				width: 100%;
 			}
 
-			span a {
-				color: white;
+			a.link {
+				color: #f7a63e;
+				font-size: 1.07rem;
 			}
 		</style>
 	</head>
@@ -99,6 +100,14 @@ License: You must have a valid license purchased only from themeforest(the above
 																		</span>
 																	</a>
 																</li>
+																<li class="m-nav__separator m-nav__separator--fit"></li>
+																<li class="m-nav__item">
+																	<a href="{% url 'key-populations-view' %}" class="m-nav__link">
+																		<span class="m-nav__link-text">
+																			Key Populations
+																		</span>
+																	</a>
+																</li>
 															</ul>
 														</div>
 													</div>
@@ -137,7 +146,7 @@ License: You must have a valid license purchased only from themeforest(the above
 														{{request.user.username}}
 													</span>
 													<span class="m-topbar__username">
-														<a href="/admin/logout" class="link">logout</a>
+														<a href="/admin/logout" class="link">Logout</a>
 													</span>
 													{% else %}
 													<span class="m-topbar__username">
