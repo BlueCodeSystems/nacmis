@@ -75,7 +75,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										<div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-left m-dropdown--align-push" m-dropdown-toggle="click" aria-expanded="true">
 											<a href="#" class="dropdown-toggle m-dropdown__toggle btn m-btn  m-btn--icon m-btn--pill">
 												<span>
-													Dashboard
+													Dashboards
 												</span>
 											</a>
 											<div class="m-dropdown__wrapper">
@@ -180,6 +180,17 @@ License: You must have a valid license purchased only from themeforest(the above
 												    Home
 												</span>
 											</a>
+										</li>
+										{% if request.user.is_authenticated %}
+										<li class="m-menu__item  m-menu__item"  aria-haspopup="true">
+											<a  href="/admin" class="m-menu__link ">
+												<span class="m-menu__item-here"></span>
+												<span class="m-menu__link-text">
+												    Admin
+												</span>
+											</a>
+										</li>
+										{% endif %}
                                         <li class="m-menu__item  m-menu__item--submenu"  m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
 											<a  href="javascript:;" class="m-menu__link m-menu__toggle">
 												<span class="m-menu__item-here"></span>

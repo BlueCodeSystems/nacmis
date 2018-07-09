@@ -21,7 +21,7 @@ from data_entry.views import SupportFieldAutocomplete, SourcesOfInformationAutoc
     comingSoonView, StakeholderAutocomplete
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin-landing'),
     path('data_entry/', include('data_entry.data_urls')),
 
     #urls for front end

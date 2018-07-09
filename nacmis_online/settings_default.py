@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 ]
 SITE_ID = 1
+LOGIN_URL = "/admin/login"
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 MIDDLEWARE = [
