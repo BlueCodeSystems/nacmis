@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
+from django.db.models import Q
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
 OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, 
@@ -462,6 +463,7 @@ class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
     verbose_name_plural = "User Profile"
+    fk_name = "user"
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
@@ -482,6 +484,23 @@ class UserProfileInline(admin.StackedInline):
 #Define a new user admin
 class UserAdmin(BaseUserAdmin):
     inlines = (UserProfileInline,)
+    readonly_fields = ["is_staff", "groups"]
+
+    def save_model(self, request, obj, form, change):
+        super(UserAdmin, self).save_model(request, obj, form, change)
+        creators_profile = UserProfile.objects.get(user=request.user)
+        profile, created = UserProfile.objects.get_or_create(
+            user=obj,
+            defaults={'created_by':request.user, 'district':creators_profile.district, 'province':creators_profile.province}
+            )
+        if created:
+            obj.is_active = True
+            obj.is_staff = True
+            #We won't put this in an error exception since it should be a very bad/fatal failure.
+            obj.groups.add(Group.objects.get(name="Stakeholder"))
+            obj.save()
+
+        return super(UserAdmin, self).save_model(request, obj, form, change)
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         #Filter to leave only the stakeholder group in the selection list for groups
@@ -510,29 +529,33 @@ class UserAdmin(BaseUserAdmin):
             return qs.none()
         else: 
             if request.user.groups.filter(name="DACA"):
-                qs = qs.filter(userprofile__district=userProfile.district)
+                qs = qs.filter(Q(userprofile__district=userProfile.district)|Q(userprofile__created_by=request.user))
                 #Filter to only show stakeholder users.
-                qs = qs.filter(groups__name="Stakeholder")
+                #qs = qs.filter(groups__name="Stakeholder")
         return qs
 
     def get_fieldsets(self, request, obj=None):
-        #If this is a DACA, we need remove the superuser attribute from their edit page.
-        if request.user.groups.filter(name="DACA"):
-            fieldsets = (
-            (None, {'fields': ('username', 'password')}),
-            (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
-            (_('Permissions'), {'fields': ('is_active', 'is_staff', 
-                                            'groups')}),
-            )
+        if not obj:
+            self.inlines = []#Don't add the inlines for userprofile
+            return super().get_fieldsets(request, obj)
         else:
-            fieldsets = (
-            (None, {'fields': ('username', 'password')}),
-            (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
-            (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                            'groups')}),
-            )
-
-        return fieldsets
+            self.inlines = (UserProfileInline,)
+            #If this is a DACA, we need remove the superuser attribute from their edit page.
+            if request.user.groups.filter(name="DACA"):
+                self.fieldsets = (
+                (_('Credentials'), {'fields': ('username', 'password')}),
+                (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+                (_('Permissions'), {'fields': ('is_active', 'is_staff', 
+                                                'groups')}),
+                )
+            else:
+                self.fieldsets = (
+                (None, {'fields': ('username', 'password')}),
+                (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+                (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                                'groups')}),
+                )
+        return super().get_fieldsets(request, obj)
 
 # Re-register UserAdmin
 admin.site.unregister(User)

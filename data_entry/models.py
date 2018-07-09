@@ -324,8 +324,9 @@ class StakeholderDirectory(models.Model):
         verbose_name_plural = 'Stakeholder Directory'
 
 class UserProfile(models.Model):
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="created_by", editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE)
+    national_organisation = models.ForeignKey(NationalOrganisation, on_delete=models.CASCADE, null=True)
     stakeholder = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, blank=True, null=True)
     province = models.ForeignKey(Province, on_delete=models.SET_NULL, blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL, blank=True, null=True)
