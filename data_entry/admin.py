@@ -508,6 +508,15 @@ class UserProfileInline(admin.StackedInline):
             else: 
                 if request.user.groups.filter(name="DACA"):
                     kwargs["queryset"] = Province.objects.filter(name=userProfile.province)
+        if db_field.name == "stakeholder":
+            try:
+                userProfile = UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
+                #No userprofile set, return empty queryset
+                kwargs["queryset"] = StakeholderDirectory.objects.none()
+            else: 
+                if request.user.groups.filter(name="DACA"):
+                    kwargs["queryset"] = StakeholderDirectory.objects.filter(organisation_district=userProfile.district)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
