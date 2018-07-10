@@ -136,6 +136,16 @@ class StakeholderAutocomplete(autocomplete.Select2QuerySetView):
 
         if national_organisation_id:
             qs = qs.filter(national_organisation__id=national_organisation_id)
+        #filter to only show stakeholders in users district
+        if not self.request.user.is_superuser:
+            try:
+                userProfile = UserProfile.objects.get(user=self.request.user)
+            except UserProfile.DoesNotExist:
+                #No userprofile set, return empty queryset
+                return qs.none()
+            else: 
+                if self.request.user.groups.filter(name="DACA"):
+                    qs = qs.filter(organisation_district=userProfile.district)
 
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
