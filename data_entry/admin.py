@@ -514,7 +514,6 @@ class UserProfileInline(admin.StackedInline):
 #Define a new user admin
 class UserAdmin(BaseUserAdmin):
     inlines = (UserProfileInline,)
-    readonly_fields = ["is_staff", "groups"]
 
     def save_model(self, request, obj, form, change):
         super(UserAdmin, self).save_model(request, obj, form, change)
