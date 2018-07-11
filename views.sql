@@ -381,9 +381,10 @@ create or replace view vw_targetgrouppreventionmessage as
 
 
 create or replace view vw_mobilepopulation_types as
-  select
-    m2m_mobile_types.id as mobilepopulation_id,
-    data_entry_mobilepopulationtype.mobile_population_type
+  select mp.*,
+    m2m_mobile_types.id as m2m_id,
+    mpt.mobile_population_type,
+    m2m_mobile_types.mobilepopulationtype_id
   from data_entry_mobilepopulation_mobile_population_types m2m_mobile_types
-  left outer join vw_mobilepopulation on vw_mobilepopulation.id = m2m_mobile_types.mobilepopulation_id
-  left outer join data_entry_mobilepopulationtype on data_entry_mobilepopulationtype.id = m2m_mobile_types.mobilepopulationtype_id;
+  left outer join vw_mobilepopulation mp on mp.mobilepopulation_id = m2m_mobile_types.mobilepopulation_id
+  left outer join data_entry_mobilepopulationtype mpt on mpt.id = m2m_mobile_types.mobilepopulationtype_id;
