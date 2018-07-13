@@ -313,7 +313,7 @@ create or replace view vw_vulnerablepeople as
 
 -- join with vw_organisationtarget
 
-/* create or replace view vw_endofyearquestion as
+create or replace view vw_endofyearquestion as
   select o.*,
     q.funding,
     q.number_of_meetings_daft,
@@ -322,7 +322,6 @@ create or replace view vw_vulnerablepeople as
   from data_entry_endofyearquestion q
   left outer join vw_organisationtarget o 
     on o.id = q.organisation_id;
-*/
 
 create or replace view vw_fundingsource as
   select o.*,
@@ -349,7 +348,7 @@ create or replace view vw_generalcomment2 as
   left outer join vw_organisationtarget o
     on o.id = g.organisation_id;
 
-/*create or replace view vw_otherquestion as
+create or replace view vw_otherquestion as
   select o.*,
     oq.action_plan,
     oq.workplace_programme,
@@ -359,7 +358,6 @@ create or replace view vw_generalcomment2 as
   from data_entry_otherquestion oq
   left outer join vw_organisationtarget o
     on o.id = oq.organisation_id;
-*/
 
 create or replace view vw_programactivity as
   select o.*,
