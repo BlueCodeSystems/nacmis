@@ -49,7 +49,7 @@ create or replace view vw_condomprogramming2 as
   left outer join vw_activityreportform ac
     on ac.activityreportform_id = co.activity_form_id;
 
-create or replace view vw_dacavalidation as
+/*create or replace view vw_dacavalidation as
   select ac.*,
     dv.id as dacavalidation_id,
     dv.validation_date as dacavalidation_date,
@@ -58,6 +58,7 @@ create or replace view vw_dacavalidation as
   from data_entry_dacavalidation dv
   left outer join vw_activityreportform ac
     on ac.activityreportform_id = dv.activity_form_id;
+*/
 
 create or replace view vw_experiencedphysicalviolence as
   select ac.*,
@@ -380,7 +381,7 @@ create or replace view vw_targetgrouppreventionmessage as
     on o.id = t.organisation_id;
 
 
-create or replace view vw_mobilepopulation_types as
+/*create or replace view vw_mobilepopulation_types as
   select mp.*,
     m2m_mobile_types.id as m2m_id,
     mpt.mobile_population_type,
@@ -388,3 +389,4 @@ create or replace view vw_mobilepopulation_types as
   from data_entry_mobilepopulation_mobile_population_types m2m_mobile_types
   left outer join vw_mobilepopulation mp on mp.mobilepopulation_id = m2m_mobile_types.mobilepopulation_id
   left outer join data_entry_mobilepopulationtype mpt on mpt.id = m2m_mobile_types.mobilepopulationtype_id;
+*/
