@@ -470,7 +470,7 @@ class PITMEOValidation(models.Model):
 class IECMaterial(models.Model):
     material_type = models.CharField('type of IEC material', max_length=100, choices=IEC_MATERIALS)
     number_distributed = models.PositiveIntegerField('number distributed', null=True)
-    localized = models.BooleanField('number localised', default=False)
+    localized = models.BooleanField('localised', default=False)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
