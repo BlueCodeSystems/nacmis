@@ -2,6 +2,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
 from django.contrib.auth.models import User
 
+from django.core.validators import RegexValidator
+
 # Create your models here.
 # list variables
 cbo = 'Community Based Organisation'
@@ -244,7 +246,8 @@ class Ward(models.Model):
 #                       NATIONAL ORGANISATION
 # *********************************************************************
 class NationalOrganisation(models.Model):
-    organisation_name = models.CharField(max_length=200, unique=True)
+    alphanumeric = RegexValidator(r'(?!^\d+$)^.+$', 'Only alphanumeric characters are allowed and not numbers only.')
+    organisation_name = models.CharField(max_length=200, unique=True, validators=[alphanumeric])
     organisation_address = models.CharField('address of the organisation', max_length=100)
     organisation_contact_email = models.EmailField(max_length=254)
 
