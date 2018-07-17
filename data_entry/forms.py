@@ -3,7 +3,7 @@ from django import forms
 
 from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District, Ward, \
     UserProfile, OtherQuestion
-from .models import ActivityReportForm, IECMaterial
+from .models import ActivityReportForm, IECMaterial, StakeholderVerification
 from dal import autocomplete
 
 class StakeholderDirectoryModelForm(forms.ModelForm):
@@ -88,9 +88,22 @@ class IECMaterialModelForm(forms.ModelForm):
             'targeted_audience': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }
 
+class StakeholderVerificationModelForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs): 
+        super(StakeholderVerificationModelForm, self).__init__(*args, **kwargs)
+        self.fields['approval'].label = ''
+
+    class Meta:
+        model = StakeholderVerification
+        fields = ['approval',]
+
+        widgets = {
+            'approval' : forms.CheckboxInput(),
+        }
+        
 class MyForm(forms.Form):
     subject = forms.CharField(max_length=100)
     message = forms.CharField(widget=forms.Textarea)
     sender = forms.EmailField()
     cc_myself = forms.BooleanField(required=False)
-   
