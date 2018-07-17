@@ -272,6 +272,7 @@ class GeneralComment2Inline(admin.TabularInline):
 class StakeholderVerificationInline(admin.StackedInline):
     model = StakeholderVerification
     form = StakeholderVerificationModelForm
+    readonly_fields = ("acknowledgement",)
     fields = ( ('acknowledgement', 'approval'), )
 
 # ADMIN CLASSES
