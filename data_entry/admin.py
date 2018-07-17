@@ -273,7 +273,7 @@ class StakeholderVerificationInline(admin.StackedInline):
     model = StakeholderVerification
     form = StakeholderVerificationModelForm
     readonly_fields = ("acknowledgement",)
-    fields = ( ('acknowledgement', 'approval'), )
+    fields = ( ('acknowledgement', 'approval'), 'stakeholder_initials' )
 
 # ADMIN CLASSES
 # *************************************************
