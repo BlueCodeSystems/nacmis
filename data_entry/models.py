@@ -292,9 +292,9 @@ class StakeholderDirectory(models.Model):
     organisation_address = models.CharField('address of the organisation', max_length=100, blank=True, null=True)
     organisation_province = models.ForeignKey(Province, on_delete=models.CASCADE)
     organisation_district = models.ForeignKey(District, verbose_name='organisation district', on_delete=models.CASCADE)
-    #start_year = models.DateField('which year did your organisation start working in this district?')
-    start_year = models.IntegerField('which year did your organisation start working in this district?', 
-        validators=[MinValueValidator(1990, 'year value to low'), MaxValueValidator(2030, 'year value to high')], default="")
+    start_year = models.DateField('which year did your organisation start working in this district?')
+    #start_year = models.IntegerField('which year did your organisation start working in this district?', 
+    #    validators=[MinValueValidator(1990, 'year value to low'), MaxValueValidator(2030, 'year value to high')], default="")
     gps = models.CharField('GPS Coordinates', help_text='use decimal degrees format(ie: -15.38753, 28.32282)', max_length=20, blank=True)
     website = models.URLField(max_length=200, blank=True)
     description_of_organisation = models.TextField('Brief description of the organisation (Please describe your \
@@ -441,13 +441,23 @@ VALIDATION_STATUS = (
     ('needs_review', 'Needs Review'),
     ('approved', 'Approved'),
 )
+STAKEHOLDER_ACKNOWLEDGEMENT_STATEMENT = """ I verify that this information is complete and correct and that I have not 
+    misrepresented any information."""
 
 DACA_ACKNOWLEDGEMENT_STATEMENT = """I acknowledge that I have validated this SARF for data accuracy to the best of my ability. 
                              Any necessary corrections were discussed with the stakeholder prior to this approval. 
                   
                              Please type your initials below as acknowledgement of the above statement"""
 
+class StakeholderVerification(models.Model):
+    activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
+    approval = models.CharField(max_length=10)
+    acknowledgement = models.TextField(max_length=1200, default=STAKEHOLDER_ACKNOWLEDGEMENT_STATEMENT)
+    stakeholder_initials = models.CharField('initials', max_length=5)
 
+    class Meta:
+        verbose_name_plural = 'Stakeholder verification'
+    
 class DACAValidation(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
     validation_date = models.DateTimeField(auto_now=True)
