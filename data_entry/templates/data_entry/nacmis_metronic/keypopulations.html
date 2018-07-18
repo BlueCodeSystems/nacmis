@@ -8,9 +8,11 @@
   frameBorder="0"
   scrolling="no"
   {% if userProfile.province and userProfile.district %}
-  src="https://nacmis-data.bluecodeltd.com/superset/dashboard/10/?standalone=true&preselect_filters={'56':{'province_name':['{{ userProfile.province }}'],'district_name':['{{ userProfile.district }}']}}"
+  src="https://nacmis-data.bluecodeltd.com/superset/dashboard/10/?standalone=true&preselect_filters={'56':{'province_name':['
+    {{ userProfile.province }}'],'district_name':['{{ userProfile.district }}']}}"
   {% else %}
-  src="https://nacmis-data.bluecodeltd.com/superset/dashboard/10/?standalone=true&preselect_filters={'56':{'province_name':['{{ userProfile.province }}'],'district_name':[]}}"
+  src="https://nacmis-data.bluecodeltd.com/superset/dashboard/10/?standalone=true&preselect_filters={'56':{'province_name':['
+    {{ userProfile.province }}'],'district_name':[]}}"
   {% endif %}
 >
 </iframe>
