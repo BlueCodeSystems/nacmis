@@ -258,3 +258,22 @@ class KeyPopulationsView(View):
         if form.is_valid():
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
+
+class HelpView(View):
+    form_class = None
+    initial = {'key': 'value'}
+    template_name = 'data_entry/nacmis_metronic/help.html'
+
+    # GET logic
+    def get(self, request, *args, **kwargs):
+        if self.form_class:
+            form = self.form_class(initial=self.initial)
+        else:
+            form = forms.Form()
+        userProfile = None
+        if request.user.is_authenticated:
+            try:
+                userProfile = UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
+                userProfile = None
+        return render(request, self.template_name, {'form': form})
