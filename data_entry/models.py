@@ -673,9 +673,8 @@ class SupportAndCare(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class GeneralComment2(models.Model):
-    general_comment = models.TextField('Additional Comment', help_text='Please share any \
-        additional comments or details about your stakeholder activity report form for this \
-        (SARF):', blank=True)
+    general_comment = models.TextField('Additional Comment', help_text='Please share any additional comments \
+        or details about your stakeholder activity report form for this (SARF)', blank=True)
     organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
     def __str__(self):

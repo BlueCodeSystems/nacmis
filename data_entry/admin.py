@@ -263,7 +263,7 @@ class SupportAndCareInline(admin.TabularInline):
     filter_horizontal = ('type',)
     extra = 1
 
-class GeneralComment2Inline(admin.TabularInline):
+class GeneralComment2Inline(admin.StackedInline):
     model = GeneralComment2
     verbose_name = 'General comment'
     extra = 1
