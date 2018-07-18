@@ -403,7 +403,7 @@ class EndOfYearQuestion(models.Model):
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
 class GeneralComment(models.Model):
-    general_comment = models.TextField('additional comments', blank=True)
+    general_comment = models.TextField('Additional Comments', blank=True)
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -458,21 +458,21 @@ class StakeholderVerification(models.Model):
 
 class DACAValidation(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
-    validation_date = models.DateTimeField(auto_now=True)
-    validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    validation_status = models.CharField(max_length=15, choices=VALIDATION_STATUS)
+    validation_date = models.DateTimeField('Validation Date', auto_now=True)
+    validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name='Validated By', null=True)
+    validation_status = models.CharField('Validation Status', max_length=15, choices=VALIDATION_STATUS)
     acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
-    daca_initials = models.CharField(max_length=5)#We will add the validation statement as read only from the admin.
-    validation_comment = models.TextField(max_length=300, null=True, blank=True)
+    daca_initials = models.CharField('DACA Initials', max_length=5)#We will add the validation statement as read only from the admin.
+    validation_comment = models.TextField('Validation Comment', max_length=300, null=True, blank=True)
 
 class PITMEOValidation(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
-    validation_date = models.DateTimeField(auto_now=True)
-    validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    validation_status = models.CharField(max_length=15, choices=VALIDATION_STATUS)
+    validation_date = models.DateTimeField('Validation Date', auto_now=True)
+    validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name='Validated By', null=True)
+    validation_status = models.CharField('Validation Status', max_length=15, choices=VALIDATION_STATUS)
     acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
-    pitmeo_initials = models.CharField(max_length=5)#We will add the validation statement as read only from the admin.
-    validation_comment = models.TextField(max_length=300, null=True, blank=True)
+    pitmeo_initials = models.CharField('PITMEO Initials', max_length=5)
+    validation_comment = models.TextField('Validation Comment', max_length=300, null=True, blank=True)
   
 # --> Social behaviour change communication 
 class IECMaterial(models.Model):
@@ -673,7 +673,7 @@ class SupportAndCare(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class GeneralComment2(models.Model):
-    general_comment = models.TextField('additional comment', blank=True)
+    general_comment = models.TextField('Additional Comment', blank=True)
     organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
     def __str__(self):
