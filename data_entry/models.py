@@ -442,19 +442,19 @@ VALIDATION_STATUS = (
     ('approved', 'Approved'),
 )
 
+STAKEHOLDER_ACKNOWLEDGEMENT_STATEMENT = """ I verify that this information is complete and correct and that I have not 
+    misrepresented any information."""
+    
 DACA_ACKNOWLEDGEMENT_STATEMENT = """I acknowledge that I have validated this SARF for data accuracy to the best of my ability. 
                              Any necessary corrections were discussed with the stakeholder prior to this approval. 
                   
                              Please type your initials below as acknowledgement of the above statement"""
 
-<<<<<<< HEAD
-=======
 class StakeholderVerification(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
     approval = models.CharField(max_length=10)
     acknowledgement = models.TextField(max_length=1200, default=STAKEHOLDER_ACKNOWLEDGEMENT_STATEMENT)
     stakeholder_initials = models.CharField('data entry initials', max_length=5)
->>>>>>> issue#218
 
 class DACAValidation(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
