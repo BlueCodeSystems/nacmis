@@ -397,9 +397,8 @@ class OtherQuestion(models.Model):
 class EndOfYearQuestion(models.Model):
     funding = models.PositiveIntegerField('How much funding(in kwacha) was spent on HIV & \
         AIDS activities this year?')
-    number_of_meetings_daft = models.PositiveIntegerField('How many DATF meetings did your organisation attend \
+    number_of_meetings_daft = models.PositiveIntegerField('How many DHAC meetings did your organisation attend \
         this year?')
-    #number_of_meetings_paft = models.PositiveIntegerField('How many PATF meetings did your organisation attend \this year?')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
 class GeneralComment(models.Model):
