@@ -15,11 +15,10 @@ from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker
 MobileWorker,MobilePopulation, MenWithMen, SourcesOfInformation, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
 CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PostExposureProphylaxis,
 PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
-SupportAndCare, GeneralComment2, StakeholderVerification, DACAValidation, PITMEOValidation)
+SupportAndCare, GeneralComment2, DACAValidation, PITMEOValidation)
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
-TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm, \
-StakeholderVerificationModelForm
+TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -269,12 +268,6 @@ class GeneralComment2Inline(admin.TabularInline):
     verbose_name = 'General comment'
     extra = 1
 
-class StakeholderVerificationInline(admin.StackedInline):
-    model = StakeholderVerification
-    form = StakeholderVerificationModelForm
-    readonly_fields = ("acknowledgement",)
-    fields = ( ('acknowledgement', 'approval'), 'stakeholder_initials' )
-
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
@@ -391,7 +384,6 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     VulnerablePeopleInline.max_num = 1
     SupportAndCareInline.max_num = 1
     GeneralComment2Inline.max_num = 1
-    StakeholderVerificationInline.max_num = 1
     DACAValidationInline.max_num = 1
     PITMEOValidationInline.max_num = 1
 
@@ -412,7 +404,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         ExperiencedPhysicalViolenceInline, ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, 
         PreExposureProphylaxisInline, SynergyDevelopmentSectorInline, SupportGroupSetUpInline, 
         IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, 
-        StakeholderVerificationInline, DACAValidationInline, PITMEOValidationInline,]
+        DACAValidationInline, PITMEOValidationInline]
 
     """
     def get_readonly_fields(self, request, obj=None):
