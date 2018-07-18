@@ -49,11 +49,15 @@ create or replace view vw_condomprogramming2 as
   left outer join vw_activityreportform ac
     on ac.activityreportform_id = co.activity_form_id;
 
+drop view if exists vw_dacavalidation;
 create or replace view vw_dacavalidation as
   select ac.*,
     dv.id as dacavalidation_id,
     dv.validation_date as dacavalidation_date,
-    dv.form_validated,
+    dv.validation_status,
+    dv.acknowledgement,
+    dv.daca_initials,
+    dv.validation_comment,
     dv.validated_by_id
   from data_entry_dacavalidation dv
   left outer join vw_activityreportform ac
@@ -394,6 +398,7 @@ create or replace view vw_targetgrouppreventionmessage as
   left outer join vw_organisationtarget o
     on o.id = t.organisation_id;
 
+drop view if exists vw_mobilepopulation_types;
 create or replace view vw_mobilepopulation_types as
   select mp.*,
     m2m_mobile_types.id as m2m_id,
