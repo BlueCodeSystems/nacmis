@@ -107,27 +107,20 @@ create or replace view vw_iecmaterial as
   left outer join vw_activityreportform ac
     on ac.activityreportform_id = im.activity_form_id;
 
-/*
-create or replace view vw_iecmaterial2 as
-  select ac.*,
-    im.id as iecmaterial2_id
-  from data_entry_iecmaterial2 im
-  left outer join vw_activityreportform ac
-    on ac.activityreportform_id = im.activity_form_id;
-*/
-
-drop view if exists vw_iecmaterial2;
-create or replace view vw_iecmaterial2 as
-  select 
-    iecmaterial2_id,
+ CREATE OR REPLACE VIEW vw_iecmaterial_target_audience as select
+    vw_activityreportform.*,
+    activity_form_id,
+    data_entry_iecmaterial2.id as iecmaterial2_id,
     organisationtarget_id,
-    organisation_target_option,
-    imta.id as iecmaterial2_target_audience_id
-  from data_entry_iecmaterial2_target_audience imta
-  left outer join data_entry_iecmaterial2 im 
-    on im.id = imta.iecmaterial2_id
-  left outer join data_entry_organisationtarget ot
-    on ot.id = imta.organisationtarget_id;
+    organisation_target_option
+  from data_entry_iecmaterial2
+  left outer JOIN data_entry_iecmaterial2_target_audience
+    on iecmaterial2_id = data_entry_iecmaterial2_target_audience.iecmaterial2_id
+  left outer JOIN data_entry_organisationtarget
+    on organisationtarget_id = data_entry_organisationtarget.id
+  left outer JOIN vw_activityreportform
+    on activity_form_id = vw_activityreportform.id
+ 
 
 create or replace view vw_individualcurrentlyenrolled as
   select ac.*,
