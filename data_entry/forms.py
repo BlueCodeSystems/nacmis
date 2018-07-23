@@ -16,7 +16,7 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
             'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
             'organisation_targets' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
             'organisation_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
-            'start_year':  forms.TextInput(attrs={'placeholder':'YYYY',}),
+            'start_year':  forms.TextInput(attrs={'placeholder':'YYYY-MM-DD',}),
         }
 
 class UserProfileModelForm(forms.ModelForm):

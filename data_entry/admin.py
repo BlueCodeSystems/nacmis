@@ -277,7 +277,7 @@ class StakeholderVerificationInline(admin.StackedInline):
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
     list_filter = ('organisation_province', 'organisation_district', )
-    list_display = ('organisation', 'key_contact_name', 'telephone_number')
+    list_display = ('organisation', 'key_contact_name', 'telephone_number',)
 
     form = StakeholderDirectoryModelForm
 
@@ -463,7 +463,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
                 if request.user.groups.filter(name="DACA"):
                     kwargs["queryset"] = stakeholders.filter(organisation_district=userProfile.district)
                 if request.user.groups.filter(name="Stakeholder"):
-                    kwargs["queryset"] = stakeholders.filter(id=userProfile.stakeholder.id)
+                    kwargs["queryset"] = stakeholders.filter(id=userProfile.stakeholder)
 
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
