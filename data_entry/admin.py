@@ -463,7 +463,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
                 if request.user.groups.filter(name="DACA"):
                     kwargs["queryset"] = stakeholders.filter(organisation_district=userProfile.district)
                 if request.user.groups.filter(name="Stakeholder"):
-                    kwargs["queryset"] = stakeholders.filter(id=userProfile.stakeholder.id)
+                    kwargs["queryset"] = stakeholders.filter(id=userProfile.stakeholder)
 
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
