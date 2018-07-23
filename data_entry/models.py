@@ -321,6 +321,11 @@ class StakeholderDirectory(models.Model):
     organisation_targets = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
         different groups that are targeted by your organisation)')
 
+    def year_extract_in_start_year(self):
+        year = self.start_year.strftime('%Y')
+        return year
+    year_extract_in_start_year.short_description = 'year organisation started'
+
     def __str__(self):
         return (self.organisation + ' - ' + self.organisation_district.name + ' district - '
         + self.organisation_district.province.name + ' province')

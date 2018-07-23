@@ -277,7 +277,7 @@ class StakeholderVerificationInline(admin.StackedInline):
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
     list_filter = ('organisation_province', 'organisation_district', )
-    list_display = ('organisation', 'key_contact_name', 'telephone_number')
+    list_display = ('organisation', 'key_contact_name', 'telephone_number', 'year_extract_in_start_year')
 
     form = StakeholderDirectoryModelForm
 
