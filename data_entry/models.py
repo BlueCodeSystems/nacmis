@@ -451,7 +451,6 @@ DACA_ACKNOWLEDGEMENT_STATEMENT = """I acknowledge that I have validated this SAR
 
 class StakeholderVerification(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
-    approval = models.CharField(max_length=10)
     acknowledgement = models.TextField(max_length=1200, default=STAKEHOLDER_ACKNOWLEDGEMENT_STATEMENT)
     stakeholder_initials = models.CharField('initials', max_length=5)
 
