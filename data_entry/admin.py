@@ -18,7 +18,7 @@ PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualC
 SupportAndCare, GeneralComment2, StakeholderVerification, DACAValidation, PITMEOValidation)
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
-TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm, StakeholderVerificationModelForm
+TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -270,9 +270,8 @@ class GeneralComment2Inline(admin.StackedInline):
 
 class StakeholderVerificationInline(admin.StackedInline):
     model = StakeholderVerification
-    form = StakeholderVerificationModelForm
     readonly_fields = ("acknowledgement",)
-    fields = ( ('acknowledgement', 'approval'), 'stakeholder_initials' )
+    fields = ( 'acknowledgement', 'stakeholder_initials' )
 
 # ADMIN CLASSES
 # *************************************************
