@@ -119,9 +119,9 @@ create or replace view vw_iecmaterial as
   left outer JOIN data_entry_organisationtarget
     on organisationtarget_id = data_entry_organisationtarget.id
   left outer JOIN vw_activityreportform
-    on activity_form_id = vw_activityreportform.id
+    on activity_form_id = vw_activityreportform.id;
  
-
+drop view if exists vw_individualcurrentlyenrolled;
 create or replace view vw_individualcurrentlyenrolled as
   select ac.*,
     ice.id as individualcurrentlyenrolled_id,
@@ -400,3 +400,524 @@ create or replace view vw_mobilepopulation_types as
   from data_entry_mobilepopulation_mobile_population_types m2m_mobile_types
   left outer join vw_mobilepopulation mp on mp.mobilepopulation_id = m2m_mobile_types.mobilepopulation_id
   left outer join data_entry_mobilepopulationtype mpt on mpt.id = m2m_mobile_types.mobilepopulationtype_id;
+
+-- stored procedures
+
+-- pick apart the data_entry_sexworker table, i.e. split the data up by age
+-- group and sex, and present these as fields in a different table, so we can
+-- filter by them.
+drop function if exists sp_sex_workers_by_age_and_sex() cascade;
+create or replace function sp_sex_workers_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_sex_workers;
+    create temp table temp_sex_workers (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_sexworker
+    loop
+        insert into temp_sex_workers
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('10_14', 'female', row.sex_workers_female_10_14, 
+             row.activity_form_id),
+            ('15_19', 'female', row.sex_workers_female_15_19, 
+             row.activity_form_id),
+            ('20_24', 'female', row.sex_workers_female_20_24, 
+             row.activity_form_id),
+            ('25_29', 'female', row.sex_workers_female_25_29, 
+             row.activity_form_id),
+            ('30_34', 'female', row.sex_workers_female_30_34, 
+             row.activity_form_id),
+            ('35_plus', 'female', row.sex_workers_female_35_plus, 
+             row.activity_form_id),
+            ('10_14', 'male', row.sex_workers_male_10_14, 
+             row.activity_form_id),
+            ('15_19', 'male', row.sex_workers_male_15_19, 
+             row.activity_form_id),
+            ('20_24', 'male', row.sex_workers_male_20_24, 
+             row.activity_form_id),
+            ('25_29', 'male', row.sex_workers_male_25_29, 
+             row.activity_form_id),
+            ('30_34', 'male', row.sex_workers_male_30_34, 
+             row.activity_form_id),
+            ('35_plus', 'male', row.sex_workers_male_35_plus, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_sex_workers;
+end;
+$$ language plpgsql;
+
+drop view if exists vw_sex_workers_by_age_and_sex;
+create view vw_sex_workers_by_age_and_sex as
+select ac.*, vw.*
+from sp_sex_workers_by_age_and_sex() vw
+left join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id;
+
+drop function if exists sp_out_of_school_by_age_and_sex() cascade;
+create or replace function sp_out_of_school_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_outofschool;
+    create temp table temp_outofschool (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_outofschool
+    loop
+        insert into temp_outofschool
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('10_14', 'female', row.out_school_female_10_14, 
+             row.activity_form_id),
+            ('15_19', 'female', row.out_school_female_15_19, 
+             row.activity_form_id),
+            ('20_24', 'female', row.out_school_female_20_24, 
+             row.activity_form_id),
+            ('10_14', 'male', row.out_school_male_10_14, 
+             row.activity_form_id),
+            ('15_19', 'male', row.out_school_male_15_19, 
+             row.activity_form_id),
+            ('20_24', 'male', row.out_school_male_20_24, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_outofschool;
+end;
+$$ language plpgsql;
+
+drop view if exists vw_out_of_school_by_age_and_sex;
+create view vw_out_of_school_by_age_and_sex as
+select ac.*, vw.*
+from sp_out_of_school_by_age_and_sex() vw
+left join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id;
+
+drop function if exists sp_reported_case_by_age_and_sex() cascade;
+create or replace function sp_reported_case_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_reportedcase;
+    create temp table temp_reportedcase (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_reportedcase
+    loop
+        insert into temp_reportedcase
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('10_and_less', 'female', row.reported_female_less_10, 
+             row.activity_form_id),
+            ('10_14', 'female', row.reported_female_10_14, 
+             row.activity_form_id),
+            ('15_19', 'female', row.reported_female_15_19, 
+             row.activity_form_id),
+            ('20_24', 'female', row.reported_female_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'female', row.reported_female_25_plus, 
+             row.activity_form_id),
+            ('10_and_less', 'male', row.reported_male_less_10, 
+             row.activity_form_id),
+            ('10_14', 'male', row.reported_male_10_14, 
+             row.activity_form_id),
+            ('15_19', 'male', row.reported_male_15_19, 
+             row.activity_form_id),
+            ('20_24', 'male', row.reported_male_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'male', row.reported_male_25_plus, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_reportedcase;
+end;
+$$ language plpgsql;
+
+drop view if exists vw_reported_case_by_age_and_sex;
+create view vw_reported_case_by_age_and_sex as
+select ac.*, vw.*
+from sp_reported_case_by_age_and_sex() vw
+left outer join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id;
+
+drop function if exists sp_experienced_physical_violence_by_age_and_sex() cascade;
+create or replace function sp_experienced_physical_violence_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_experiencedphysicalviolence;
+    create temp table temp_experiencedphysicalviolence (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_experiencedphysicalviolence
+    loop
+        insert into temp_experiencedphysicalviolence
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('10_and_less', 'female', row.physical_female_less_10, 
+             row.activity_form_id),
+            ('10_14', 'female', row.physical_female_10_14, 
+             row.activity_form_id),
+            ('15_19', 'female', row.physical_female_15_19, 
+             row.activity_form_id),
+            ('20_24', 'female', row.physical_female_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'female', row.physical_female_25_plus, 
+             row.activity_form_id),
+            ('10_and_less', 'male', row.physical_male_less_10, 
+             row.activity_form_id),
+            ('10_14', 'male', row.physical_male_10_14, 
+             row.activity_form_id),
+            ('15_19', 'male', row.physical_male_15_19, 
+             row.activity_form_id),
+            ('20_24', 'male', row.physical_male_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'male', row.physical_male_25_plus, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_experiencedphysicalviolence;
+end;
+$$ language plpgsql;
+
+drop view if exists vw_experienced_physical_violence_by_age_and_sex;
+create view vw_experienced_physical_violence_by_age_and_sex as
+select ac.*, vw.*
+from sp_experienced_physical_violence_by_age_and_sex() vw
+left outer join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id;
+
+drop function if exists sp_experienced_sexual_violence_by_age_and_sex() cascade;
+create or replace function sp_experienced_sexual_violence_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_experiencedsexualviolence;
+    create temp table temp_experiencedsexualviolence (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_experiencedsexualviolence
+    loop
+        insert into temp_experiencedsexualviolence
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('10_and_less', 'female', row.sexual_female_less_10, 
+             row.activity_form_id),
+            ('10_14', 'female', row.sexual_female_10_14, 
+             row.activity_form_id),
+            ('15_19', 'female', row.sexual_female_15_19, 
+             row.activity_form_id),
+            ('20_24', 'female', row.sexual_female_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'female', row.sexual_female_25_plus, 
+             row.activity_form_id),
+            ('10_and_less', 'male', row.sexual_male_less_10, 
+             row.activity_form_id),
+            ('10_14', 'male', row.sexual_male_10_14, 
+             row.activity_form_id),
+            ('15_19', 'male', row.sexual_male_15_19, 
+             row.activity_form_id),
+            ('20_24', 'male', row.sexual_male_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'male', row.sexual_male_25_plus, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_experiencedsexualviolence;
+end;
+$$ language plpgsql;
+
+drop view if exists vw_experienced_sexual_violence_by_age_and_sex;
+create view vw_experienced_sexual_violence_by_age_and_sex as
+select ac.*, vw.* 
+from sp_experienced_sexual_violence_by_age_and_sex() vw
+left outer join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id;
+
+drop function if exists sp_post_exposure_prophylaxis_by_age_and_sex() cascade;
+create or replace function sp_post_exposure_prophylaxis_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_postexposureprophylaxis;
+    create temp table temp_postexposureprophylaxis (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_postexposureprophylaxis
+    loop
+        insert into temp_postexposureprophylaxis
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('10_and_less', 'female', row.accessed_pep_female_less_10, 
+             row.activity_form_id),
+            ('10_14', 'female', row.accessed_pep_female_10_14, 
+             row.activity_form_id),
+            ('15_19', 'female', row.accessed_pep_female_15_19, 
+             row.activity_form_id),
+            ('20_24', 'female', row.accessed_pep_female_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'female', row.accessed_pep_female_25_plus, 
+             row.activity_form_id),
+            ('10_and_less', 'male', row.accessed_pep_male_less_10, 
+             row.activity_form_id),
+            ('10_14', 'male', row.accessed_pep_male_10_14, 
+             row.activity_form_id),
+            ('15_19', 'male', row.accessed_pep_male_15_19, 
+             row.activity_form_id),
+            ('20_24', 'male', row.accessed_pep_male_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'male', row.accessed_pep_male_25_plus, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_postexposureprophylaxis;
+end;
+$$ language plpgsql;
+
+drop view if exists vw_post_exposure_prophylaxis_by_age_and_sex;
+create view vw_post_exposure_prophylaxis_by_age_and_sex as
+select ac.*, vw.* 
+from sp_post_exposure_prophylaxis_by_age_and_sex() vw
+left outer join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id;
+
+drop function if exists sp_individual_currently_enrolled_by_age_and_sex() cascade;
+create or replace function sp_individual_currently_enrolled_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_individualcurrentlyenrolled;
+    create temp table temp_individualcurrentlyenrolled (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_individualcurrentlyenrolled
+    loop
+        insert into temp_individualcurrentlyenrolled
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('10_14', 'female', row.individuals_enrolled_female_10_14, 
+             row.activity_form_id),
+            ('15_19', 'female', row.individuals_enrolled_female_15_19, 
+             row.activity_form_id),
+            ('20_24', 'female', row.individuals_enrolled_female_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'female', row.individuals_enrolled_female_25_plus, 
+             row.activity_form_id),
+            ('10_14', 'male', row.individuals_enrolled_male_10_14, 
+             row.activity_form_id),
+            ('15_19', 'male', row.individuals_enrolled_male_15_19, 
+             row.activity_form_id),
+            ('20_24', 'male', row.individuals_enrolled_male_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'male', row.individuals_enrolled_male_25_plus, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_individualcurrentlyenrolled;
+end;
+$$ language plpgsql;
+
+drop view if exists vw_individual_currently_enrolled_by_age_and_sex;
+create view vw_individual_currently_enrolled_by_age_and_sex as
+select ac.*, vw.*
+from sp_individual_currently_enrolled_by_age_and_sex() vw
+left outer join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id;
+
+drop function if exists sp_vulnerable_people_by_age_and_sex() cascade;
+create or replace function sp_vulnerable_people_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_vulnerablepeople;
+    create temp table temp_vulnerablepeople (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_vulnerablepeople
+    loop
+        insert into temp_vulnerablepeople
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('10_and_less', 'female', row.ovc_female_less_10, 
+             row.activity_form_id),
+            ('10_14', 'female', row.ovc_female_10_14, 
+             row.activity_form_id),
+            ('15_19', 'female', row.ovc_female_15_19, 
+             row.activity_form_id),
+            ('20_24', 'female', row.ovc_female_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'female', row.ovc_female_25_plus, 
+             row.activity_form_id),
+            ('10_and_less', 'male', row.ovc_male_less_10, 
+             row.activity_form_id),
+            ('10_14', 'male', row.ovc_male_10_14, 
+             row.activity_form_id),
+            ('15_19', 'male', row.ovc_male_15_19, 
+             row.activity_form_id),
+            ('20_24', 'male', row.ovc_male_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'male', row.ovc_male_25_plus, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_vulnerablepeople;
+end;
+$$ language plpgsql;
+
+drop view if exists vw_vulnerable_people_by_age_and_sex;
+create view vw_vulnerable_people_by_age_and_sex as
+select ac.*, vw.* 
+from sp_vulnerable_people_by_age_and_sex() vw
+left outer join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id;
+
+drop function if exists sp_pre_exposure_prophylaxis_by_age_and_sex() cascade;
+create or replace function sp_pre_exposure_prophylaxis_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_preexposureprophylaxis;
+    create temp table temp_preexposureprophylaxis (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_preexposureprophylaxis
+    loop
+        insert into temp_preexposureprophylaxis
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('15_19', 'female', row.referred_pep_female_15_19, 
+             row.activity_form_id),
+            ('20_24', 'female', row.referred_pep_female_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'female', row.referred_pep_female_25_plus, 
+             row.activity_form_id),
+            ('15_19', 'male', row.referred_pep_male_15_19, 
+             row.activity_form_id),
+            ('20_24', 'male', row.referred_pep_male_20_24, 
+             row.activity_form_id),
+            ('25_plus', 'male', row.referred_pep_male_25_plus, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_preexposureprophylaxis;
+end;
+$$ language plpgsql;
+
+drop view if exists vw_pre_exposure_prophylaxis_by_age_and_sex;
+create view vw_pre_exposure_prophylaxis_by_age_and_sex as
+select ac.*, vw.* 
+from sp_pre_exposure_prophylaxis_by_age_and_sex() vw
+left outer join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id;
+
