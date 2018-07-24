@@ -1,6 +1,9 @@
-{% load i18n admin_urls %}
+{% load i18n admin_urls has_group %}
 <div class="submit-row">
-{% if show_save %}<input type="submit" value="{% trans 'Submit' %}" class="default" name="_save" />{% endif %}
+{% if show_save %}
+<input type="submit" {% if request.user|has_group:"Stakeholder" %}value="{% trans 'Submit' %}" {% else %}
+value="{% trans 'Save' %}" {% endif %}class="default" name="_save" />
+{% endif %}
 {% if show_delete_link %}
     {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
     <p class="deletelink-box"><a href="{% add_preserved_filters delete_url %}" class="deletelink">{% trans "Delete" %}</a></p>
