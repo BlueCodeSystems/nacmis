@@ -466,7 +466,7 @@ class DACAValidation(models.Model):
     validation_status = models.CharField('Validation Status', max_length=15, choices=VALIDATION_STATUS)
     acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
     daca_initials = models.CharField('DACA Initials', max_length=5)#We will add the validation statement as read only from the admin.
-    validation_comment = models.TextField('Validation Comment', max_length=300, null=True, blank=True)
+    validation_comment = models.TextField('Validation Comment', max_length=600, null=True, blank=True)
 
 class PITMEOValidation(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
@@ -475,7 +475,7 @@ class PITMEOValidation(models.Model):
     validation_status = models.CharField('Validation Status', max_length=15, choices=VALIDATION_STATUS)
     acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
     pitmeo_initials = models.CharField('PITMEO Initials', max_length=5)
-    validation_comment = models.TextField('Validation Comment', max_length=300, null=True, blank=True)
+    validation_comment = models.TextField('Validation Comment', max_length=600, null=True, blank=True)
   
 # --> Social behaviour change communication 
 class IECMaterial(models.Model):
