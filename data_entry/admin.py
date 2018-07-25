@@ -112,6 +112,7 @@ class TeachersInline(admin.TabularInline):
     model = Teachers
     verbose_name_plural = '3. Number of teachers who have received training, and taught lessons, in life \
         skills based comprehensive sexuality eduaction this quarter'
+    fields = ('teachers_male', 'teachers_female')
     extra = 1
 
 class OutOfSchoolInline(admin.StackedInline):
@@ -327,6 +328,19 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         
         if request.user.is_superuser:
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+        if db_field.name == "national_organisation":
+            try:
+                userProfile = UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
+                #No userprofile set, return empty queryset
+                kwargs["queryset"] = NationalOrganisation.objects.none()
+            else: 
+                if request.user.groups.filter(name="DACA"):
+                    kwargs["queryset"] = NationalOrganisation.objects.filter(organisation_name=userProfile.national_organisation)
+                
+            return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
         if db_field.name == "organisation_province":
             try:
