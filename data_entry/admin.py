@@ -112,7 +112,6 @@ class TeachersInline(admin.TabularInline):
     model = Teachers
     verbose_name_plural = '3. Number of teachers who have received training, and taught lessons, in life \
         skills based comprehensive sexuality eduaction this quarter'
-    fields = ('teachers_male', 'teachers_female')
     extra = 1
 
 class OutOfSchoolInline(admin.StackedInline):
@@ -329,19 +328,6 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-        if db_field.name == "national_organisation":
-            try:
-                userProfile = UserProfile.objects.get(user=request.user)
-            except UserProfile.DoesNotExist:
-                #No userprofile set, return empty queryset
-                kwargs["queryset"] = NationalOrganisation.objects.none()
-            else: 
-                if request.user.groups.filter(name="DACA"):
-                    kwargs["queryset"] = NationalOrganisation.objects.filter(organisation_name=userProfile.national_organisation)
-                
-            return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-
         if db_field.name == "organisation_province":
             try:
                 userProfile = UserProfile.objects.get(user=request.user)
@@ -377,8 +363,26 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
 
+def pitmeo_validation_status(obj):
+    label = ''
+    try:
+        label = "%s"%obj.pitmeovalidation_set.all()[0].validation_status
+    except IndexError:
+        pass
+    return label.upper()
+
+def daca_validation_status(obj):
+    label = ''
+    try:
+        label = "%s"%obj.dacavalidation_set.all()[0].validation_status
+    except IndexError:
+        pass
+    return label.upper()
+
 class ActivityReportFormAdmin(admin.ModelAdmin):
-    list_display = ('stake_holder_name', 'quarter_been_reported')
+    list_display = ('stake_holder_name', daca_validation_status, pitmeo_validation_status, 'quarter_been_reported')
+    list_filter = ('stake_holder_name__organisation_province__name', 'dacavalidation__validation_status', 
+        'pitmeovalidation__validation_status', 'stake_holder_name__organisation_district__name',)
 
     MaterialInline2.max_num = 1
     PeopleWhoInjectDrugInline.max_num = 1
@@ -458,7 +462,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
             if db_field.name == "stake_holder_name":
-                kwargs["queryset"] = StakeholderDirectory.objects.order_by('organisation')   
+                kwargs["queryset"] = stake_holder_name.objects.order_by('organisation')   
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
         stakeholders = StakeholderDirectory.objects.order_by('organisation')
