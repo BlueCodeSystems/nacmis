@@ -112,6 +112,7 @@ class TeachersInline(admin.TabularInline):
     model = Teachers
     verbose_name_plural = '3. Number of teachers who have received training, and taught lessons, in life \
         skills based comprehensive sexuality eduaction this quarter'
+    fields = ('teachers_male', 'teachers_female')
     extra = 1
 
 class OutOfSchoolInline(admin.StackedInline):
