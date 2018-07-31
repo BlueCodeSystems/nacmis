@@ -236,14 +236,14 @@ class SynergyDevelopmentSectorInline(admin.TabularInline):
 
 class SupportGroupSetUpInline(admin.TabularInline):
     model = SupportGroupSetUp
-    verbose_name_plural = '21. How many support groups/ clubs/ after school groups were set up by your \
-        organisation this quarter?'
+    verbose_name_plural = '21. How many support groups/ clubs/ after school groups set up by your organisation were \
+        active this quarter?'
     extra = 1
 
 class IndividualCurrentlyEnrolledInline(admin.StackedInline):
     model = IndividualCurrentlyEnrolled
-    verbose_name_plural = '22. How many individuals are currently enrolled and active in support groups/ clubs/ \
-        after school groups set up by your organisation?'
+    verbose_name_plural = '22. How many individuals are currently enrolled in support groups/ clubs/ after school \
+        groups set up by your organisation this quarter?'
     fields = ( ('individuals_enrolled_male_10_14', 'individuals_enrolled_male_15_19', 'individuals_enrolled_male_20_24', 
     'individuals_enrolled_male_25_plus'), ('individuals_enrolled_female_10_14', 'individuals_enrolled_female_15_19', 
     'individuals_enrolled_female_20_24', 'individuals_enrolled_female_25_plus') )
