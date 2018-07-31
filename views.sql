@@ -781,21 +781,27 @@ begin
         insert into temp_individualcurrentlyenrolled
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10_14', 'female', row.individuals_enrolled_female_10_14, 
+            ('10 and less', 'female', row.individuals_enrolled_female_10_less,
+            	row.activity_form_id),
+
+            ('10-14', 'female', row.individuals_enrolled_female_10_14, 
              row.activity_form_id),
-            ('15_19', 'female', row.individuals_enrolled_female_15_19, 
+            ('15-19', 'female', row.individuals_enrolled_female_15_19, 
              row.activity_form_id),
-            ('20_24', 'female', row.individuals_enrolled_female_20_24, 
+            ('20-24', 'female', row.individuals_enrolled_female_20_24, 
              row.activity_form_id),
-            ('25_plus', 'female', row.individuals_enrolled_female_25_plus, 
+            ('25 and above', 'female', row.individuals_enrolled_female_25_plus, 
              row.activity_form_id),
-            ('10_14', 'male', row.individuals_enrolled_male_10_14, 
+            ('10 and less', 'male', row.individuals_enrolled_female_10_less,
+            	row.activity_form_id),
+
+            ('10-14', 'male', row.individuals_enrolled_male_10_14, 
              row.activity_form_id),
-            ('15_19', 'male', row.individuals_enrolled_male_15_19, 
+            ('15-19', 'male', row.individuals_enrolled_male_15_19, 
              row.activity_form_id),
-            ('20_24', 'male', row.individuals_enrolled_male_20_24, 
+            ('20-24', 'male', row.individuals_enrolled_male_20_24, 
              row.activity_form_id),
-            ('25_plus', 'male', row.individuals_enrolled_male_25_plus, 
+            ('25 and above', 'male', row.individuals_enrolled_male_25_plus, 
              row.activity_form_id);
     end loop;
 
