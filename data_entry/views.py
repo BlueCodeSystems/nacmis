@@ -16,13 +16,6 @@ class IndexView(generic.ListView):
     template_name = 'data_entry/index.html'
     context_object_name = 'test_list'
 
-    def get_queryset(self):
-        """
-        testing the index
-        """
-        fruit_list = ['Lemons', 'Apples', 'Oranges', 'Granadillas', 'Guavas']
-        return fruit_list
-
 class Login(generic.DetailView):
     template_name = 'data_entry/login.html'
     def get_queryset(self):
@@ -264,6 +257,87 @@ class InternalMonitoringView(View):
     form_class = None
     initial = {'key': 'value'}
     template_name = 'data_entry/nacmis_metronic/internalmonitoring.html'
+
+    # GET logic
+    def get(self, request, *args, **kwargs):
+        if self.form_class:
+            form = self.form_class(initial=self.initial)
+        else:
+            form = forms.Form()
+        userProfile = None
+        if request.user.is_authenticated:
+            try:
+                userProfile = UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
+                userProfile = None
+        return render(request, self.template_name, {'form': form})
+
+    # POST logic
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
+
+@method_decorator(login_required, name='dispatch')
+class PACADashboardView(View):
+    form_class = None
+    initial = {'key': 'value'}
+    template_name = 'data_entry/nacmis_metronic/pacadashboard.html'
+
+    # GET logic
+    def get(self, request, *args, **kwargs):
+        if self.form_class:
+            form = self.form_class(initial=self.initial)
+        else:
+            form = forms.Form()
+        userProfile = None
+        if request.user.is_authenticated:
+            try:
+                userProfile = UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
+                userProfile = None
+        return render(request, self.template_name, {'form': form})
+
+    # POST logic
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
+
+@method_decorator(login_required, name='dispatch')
+class PITMEODashboardView(View):
+    form_class = None
+    initial = {'key': 'value'}
+    template_name = 'data_entry/nacmis_metronic/pitmeodashboard.html'
+
+    # GET logic
+    def get(self, request, *args, **kwargs):
+        if self.form_class:
+            form = self.form_class(initial=self.initial)
+        else:
+            form = forms.Form()
+        userProfile = None
+        if request.user.is_authenticated:
+            try:
+                userProfile = UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
+                userProfile = None
+        return render(request, self.template_name, {'form': form})
+
+    # POST logic
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
+
+@method_decorator(login_required, name='dispatch')
+class DACADashboardView(View):
+    form_class = None
+    initial = {'key': 'value'}
+    template_name = 'data_entry/nacmis_metronic/dacadashboard.html'
 
     # GET logic
     def get(self, request, *args, **kwargs):

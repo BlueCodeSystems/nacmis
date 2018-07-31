@@ -30,6 +30,9 @@ urlpatterns = [
     path('activity-reports/', views.ActivityReportsView.as_view(), name='activity-reports-view'),
     path('key-populations/', views.KeyPopulationsView.as_view(), name='key-populations-view'),
     path('internal-monitoring', views.InternalMonitoringView.as_view(), name='internal-monitoring-view'),
+    path('paca-dashboard', views.PACADashboardView.as_view(), name='paca-dashboard-view'),
+    path('pitmeo-dashboard', views.PITMEODashboardView.as_view(), name='pitmeo-dashboard-view'),
+    path('daca-dashboard', views.DACADashboardView.as_view(), name='daca-dashboard-view'),
     path('help/', views.HelpView.as_view(), name='help-view'),
 
     # urls for autocompletes implementation
