@@ -433,7 +433,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     """
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = super().get_readonly_fields(request, obj)
-
+ActivityReportForm
         readonly_fields = (
             list(readonly_fields) +
             [field.name for field in self.opts.fields
@@ -462,7 +462,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
             if db_field.name == "stake_holder_name":
-                kwargs["queryset"] = stake_holder_name.objects.order_by('organisation')   
+                kwargs["queryset"] = StakeholderDirectory.objects.order_by('organisation')   
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
         stakeholders = StakeholderDirectory.objects.order_by('organisation')
