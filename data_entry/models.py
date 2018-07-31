@@ -463,19 +463,19 @@ class DACAValidation(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
     validation_date = models.DateTimeField('Validation Date', auto_now=True)
     validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name='Validated By', null=True)
-    validation_status = models.CharField('Validation Status', max_length=15, choices=VALIDATION_STATUS)
+    validation_status = models.CharField('DACA validation status', max_length=15, choices=VALIDATION_STATUS)
     acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
     daca_initials = models.CharField('DACA Initials', max_length=5)#We will add the validation statement as read only from the admin.
-    validation_comment = models.TextField('Validation Comment', max_length=300, null=True, blank=True)
-
+    validation_comment = models.TextField('Validation Comment', max_length=600, null=True, blank=True)
+   
 class PITMEOValidation(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
     validation_date = models.DateTimeField('Validation Date', auto_now=True)
     validated_by = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name='Validated By', null=True)
-    validation_status = models.CharField('Validation Status', max_length=15, choices=VALIDATION_STATUS)
+    validation_status = models.CharField('PITMEO validation status', max_length=15, choices=VALIDATION_STATUS)
     acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
     pitmeo_initials = models.CharField('PITMEO Initials', max_length=5)
-    validation_comment = models.TextField('Validation Comment', max_length=300, null=True, blank=True)
+    validation_comment = models.TextField('Validation Comment', max_length=600, null=True, blank=True)
   
 # --> Social behaviour change communication 
 class IECMaterial(models.Model):
@@ -527,18 +527,18 @@ class SexWorker(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
  
 class Inmate(models.Model):
-    inmates_male_num = models.PositiveIntegerField('male', null=True)
     inmates_female_num = models.PositiveIntegerField('female', null=True)
+    inmates_male_num = models.PositiveIntegerField('male', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class PersonsWithDisabilty(models.Model):
-    pwd_male_num = models.PositiveIntegerField('males', null=True)
     pwd_female_num = models.PositiveIntegerField('females', null=True)
+    pwd_male_num = models.PositiveIntegerField('males', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MobileWorker(models.Model):
-    mobile_workers_male_num = models.PositiveIntegerField('male', null=True)
     mobile_workers_female_num = models.PositiveIntegerField('female', null=True)
+    mobile_workers_male_num = models.PositiveIntegerField('male', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class MobilePopulation(models.Model):
@@ -554,8 +554,8 @@ class TransgenderIndividual(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class PeopleWhoInjectDrug(models.Model):
-    pwid_male = models.PositiveIntegerField('male', null=True)
     pwid_female = models.PositiveIntegerField('female', null=True)
+    pwid_male = models.PositiveIntegerField('male', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 # Condom Programming
@@ -564,8 +564,8 @@ class CondomProgramming(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class CondomProgramming2(models.Model):
-    male_condom_distributed_num = models.PositiveIntegerField('male', null=True)
     female_condom_distributed_num = models.PositiveIntegerField('female', null=True)
+    male_condom_distributed_num = models.PositiveIntegerField('male', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 # Critical Enablers
@@ -637,8 +637,8 @@ class PreExposureProphylaxis(models.Model):
 
 # Synergies with other development sectors
 class SynergyDevelopmentSector(models.Model):
-    employees_reached_male_num = models.PositiveIntegerField('male', null=True)
     employees_reached_female_num = models.PositiveIntegerField('female', null=True)
+    employees_reached_male_num = models.PositiveIntegerField('male', null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class SupportGroupSetUp(models.Model):
