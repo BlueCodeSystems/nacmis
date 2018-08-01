@@ -15,7 +15,8 @@ from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker
 MobileWorker,MobilePopulation, MenWithMen, SourcesOfInformation, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
 CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PostExposureProphylaxis,
 PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
-SupportAndCare, GeneralComment2, StakeholderVerification, DACAValidation, PITMEOValidation)
+SupportAndCare, GeneralComment2, StakeholderVerification, DACAValidation, PITMEOValidation, SubheaderLabel1, 
+SubheaderLabel2, SubheaderLabel3, SubheaderLabel4, SubheaderLabel5, SubheaderLabel6)
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
 TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm
@@ -276,6 +277,31 @@ class StakeholderVerificationInline(admin.StackedInline):
     readonly_fields = ("acknowledgement",)
     fields = ( 'acknowledgement', 'stakeholder_initials' )
 
+# Inlines for the subsection headers
+class SubheaderLabel1Inline(admin.StackedInline):
+    model = SubheaderLabel1
+    verbose_name_plural = 'social behaviour change communication'
+
+class SubheaderLabel2Inline(admin.StackedInline):
+    model = SubheaderLabel2
+    verbose_name_plural = 'social behaviour change communication for key populations'
+
+class SubheaderLabel3Inline(admin.StackedInline):
+    model = SubheaderLabel3
+    verbose_name_plural = 'condom programming'
+
+class SubheaderLabel4Inline(admin.StackedInline):
+    model = SubheaderLabel4
+    verbose_name_plural = 'critical enablers'
+
+class SubheaderLabel5Inline(admin.StackedInline):
+    model = SubheaderLabel5
+    verbose_name_plural = 'synergies with other development sectors'
+
+class SubheaderLabel6Inline(admin.StackedInline):
+    model = SubheaderLabel6
+    verbose_name_plural = 'community health systems'
+
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
@@ -296,6 +322,12 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     OtherQuestionInline.max_num = 1
     EndOfYearQuestionInline.max_num = 1
     GeneralCommentInline.max_num = 1
+    SubheaderLabel1Inline.max_num = 1
+    SubheaderLabel2Inline.max_num = 1
+    SubheaderLabel3Inline.max_num = 1
+    SubheaderLabel4Inline.max_num = 1
+    SubheaderLabel5Inline.max_num = 1
+    SubheaderLabel6Inline.max_num = 1
     
     fieldsets = (
         ('Basic details on the organisation', {
@@ -425,13 +457,14 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         }),
     )
 
-    inlines = [MaterialInline, MaterialInline2, TeachersInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
-        PersonsWithDisabiltyInline, MobileWorkerInline, MobilePopulationInline, MenWithMenInline, TransgenderIndividualInline, 
-        PeopleWhoInjectDrugInline,CondomProgrammingInline, CondomProgramming2Inline, ReportedCaseInline, 
-        ExperiencedPhysicalViolenceInline, ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, 
-        PreExposureProphylaxisInline, SynergyDevelopmentSectorInline, SupportGroupSetUpInline, 
-        IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, 
-        StakeholderVerificationInline, DACAValidationInline, PITMEOValidationInline]
+    inlines = [SubheaderLabel1Inline, MaterialInline, MaterialInline2, SubheaderLabel2Inline, TeachersInline, OutOfSchoolInline, 
+        SexWorkerInline, InmateInline, PersonsWithDisabiltyInline, MobileWorkerInline, MobilePopulationInline, MenWithMenInline, 
+        TransgenderIndividualInline, PeopleWhoInjectDrugInline, SubheaderLabel3Inline, CondomProgrammingInline, 
+        CondomProgramming2Inline, SubheaderLabel4Inline, ReportedCaseInline, ExperiencedPhysicalViolenceInline, 
+        ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, PreExposureProphylaxisInline, SubheaderLabel5Inline, 
+        SynergyDevelopmentSectorInline, SubheaderLabel6Inline, SupportGroupSetUpInline, IndividualCurrentlyEnrolledInline, 
+        VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, StakeholderVerificationInline, DACAValidationInline, 
+        PITMEOValidationInline]
 
     """
     def get_readonly_fields(self, request, obj=None):
