@@ -280,27 +280,27 @@ class StakeholderVerificationInline(admin.StackedInline):
 # Inlines for the subsection headers
 class SubheaderLabel1Inline(admin.StackedInline):
     model = SubheaderLabel1
-    verbose_name_plural = 'social behaviour change communication'
+    verbose_name_plural = 'SOCIAL BEHAVIOUR CHANGE COMMUNICATION'
 
 class SubheaderLabel2Inline(admin.StackedInline):
     model = SubheaderLabel2
-    verbose_name_plural = 'social behaviour change communication for key populations'
+    verbose_name_plural = 'SOCIAL BEHAVIOUR CHANGE COMMUNICATION FOR KEY POPULATIONS'
 
 class SubheaderLabel3Inline(admin.StackedInline):
     model = SubheaderLabel3
-    verbose_name_plural = 'condom programming'
+    verbose_name_plural = 'CONDOM PROGRAMMING'
 
 class SubheaderLabel4Inline(admin.StackedInline):
     model = SubheaderLabel4
-    verbose_name_plural = 'critical enablers'
+    verbose_name_plural = 'CRITICAL ENABLERS'
 
 class SubheaderLabel5Inline(admin.StackedInline):
     model = SubheaderLabel5
-    verbose_name_plural = 'synergies with other development sectors'
+    verbose_name_plural = 'SYNERGIES WITH OTHER DEVELOPMENT SECTORS'
 
 class SubheaderLabel6Inline(admin.StackedInline):
     model = SubheaderLabel6
-    verbose_name_plural = 'community health systems'
+    verbose_name_plural = 'COMMUNITY HEALTH SYSTEMS'
 
 # ADMIN CLASSES
 # *************************************************
