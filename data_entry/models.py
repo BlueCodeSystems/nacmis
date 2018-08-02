@@ -703,3 +703,6 @@ class SubheaderLabel5(models.Model):
 
 class SubheaderLabel6(models.Model):
     organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel7(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)

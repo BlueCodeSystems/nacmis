@@ -16,7 +16,7 @@ MobileWorker,MobilePopulation, MenWithMen, SourcesOfInformation, TransgenderIndi
 CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PostExposureProphylaxis,
 PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
 SupportAndCare, GeneralComment2, StakeholderVerification, DACAValidation, PITMEOValidation, SubheaderLabel1, 
-SubheaderLabel2, SubheaderLabel3, SubheaderLabel4, SubheaderLabel5, SubheaderLabel6)
+SubheaderLabel2, SubheaderLabel3, SubheaderLabel4, SubheaderLabel5, SubheaderLabel6, SubheaderLabel7)
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
 TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm
@@ -302,6 +302,10 @@ class SubheaderLabel6Inline(admin.StackedInline):
     model = SubheaderLabel6
     verbose_name_plural = 'COMMUNITY HEALTH SYSTEMS'
 
+class SubheaderLabel7Inline(admin.StackedInline):
+    model = SubheaderLabel7
+    verbose_name_plural = 'BELOW SECTION TO BE FILLED BY DACA / LOCAL AUTHORITY ONLY'
+
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
@@ -321,14 +325,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     SynergyDevelopmentSectorInline.max_num = 1
     OtherQuestionInline.max_num = 1
     EndOfYearQuestionInline.max_num = 1
-    GeneralCommentInline.max_num = 1
-    SubheaderLabel1Inline.max_num = 1
-    SubheaderLabel2Inline.max_num = 1
-    SubheaderLabel3Inline.max_num = 1
-    SubheaderLabel4Inline.max_num = 1
-    SubheaderLabel5Inline.max_num = 1
-    SubheaderLabel6Inline.max_num = 1
-    
+
     fieldsets = (
         ('Basic details on the organisation', {
             #'classes':('collapse',),
@@ -445,6 +442,14 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     StakeholderVerificationInline.max_num = 1
     DACAValidationInline.max_num = 1
     PITMEOValidationInline.max_num = 1
+    GeneralCommentInline.max_num = 1
+    SubheaderLabel1Inline.max_num = 1
+    SubheaderLabel2Inline.max_num = 1
+    SubheaderLabel3Inline.max_num = 1
+    SubheaderLabel4Inline.max_num = 1
+    SubheaderLabel5Inline.max_num = 1
+    SubheaderLabel6Inline.max_num = 1
+    SubheaderLabel7Inline.max_num = 1
 
     fieldsets = (
         ('1. REPORT DETAIL', {
@@ -463,8 +468,8 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         CondomProgramming2Inline, SubheaderLabel4Inline, ReportedCaseInline, ExperiencedPhysicalViolenceInline, 
         ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, PreExposureProphylaxisInline, SubheaderLabel5Inline, 
         SynergyDevelopmentSectorInline, SubheaderLabel6Inline, SupportGroupSetUpInline, IndividualCurrentlyEnrolledInline, 
-        VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, StakeholderVerificationInline, DACAValidationInline, 
-        PITMEOValidationInline]
+        VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, SubheaderLabel7Inline, StakeholderVerificationInline, 
+        DACAValidationInline, PITMEOValidationInline]
 
     """
     def get_readonly_fields(self, request, obj=None):
