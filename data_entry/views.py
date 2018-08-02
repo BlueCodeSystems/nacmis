@@ -12,32 +12,6 @@ from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyFo
 
 # Create your views here.
 
-class IndexView(generic.ListView):
-    template_name = 'data_entry/index.html'
-    context_object_name = 'test_list'
-
-class Login(generic.DetailView):
-    template_name = 'data_entry/login.html'
-    def get_queryset(self):
-        return
-
-def get_nameinmodel(request):
-    if request.method == 'POST':
-        form = StakeholderDirectoryModelForm(request.POST)
-        if form.is_valid():
-            model_instance = form.save(commit=False)
-            return redirect('data_entry/next_page.html')
-        else:
-            form = StakeholderDirectoryModelForm()
-    else:
-        form = StakeholderDirectoryModelForm()
-    
-    return render(request, 'data_entry/index.html', {'form': form})
-
-def myform_test(request):
-    formsample = MyForm()
-    return render(request, 'data_entry/index.html', {'the_insert': formsample} )
-
 class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         
@@ -378,3 +352,31 @@ class HelpView(View):
             except UserProfile.DoesNotExist:
                 userProfile = None
         return render(request, self.template_name, {'form': form})
+
+# test classes
+
+class IndexView(generic.ListView):
+    template_name = 'data_entry/index.html'
+    context_object_name = 'test_list'
+
+class Login(generic.DetailView):
+    template_name = 'data_entry/login.html'
+    def get_queryset(self):
+        return
+
+def get_nameinmodel(request):
+    if request.method == 'POST':
+        form = StakeholderDirectoryModelForm(request.POST)
+        if form.is_valid():
+            model_instance = form.save(commit=False)
+            return redirect('data_entry/next_page.html')
+        else:
+            form = StakeholderDirectoryModelForm()
+    else:
+        form = StakeholderDirectoryModelForm()
+    
+    return render(request, 'data_entry/index.html', {'form': form})
+
+def myform_test(request):
+    formsample = MyForm()
+    return render(request, 'data_entry/index.html', {'the_insert': formsample} )

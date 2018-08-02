@@ -685,3 +685,24 @@ class GeneralComment2(models.Model):
     
     class Meta:
         verbose_name = 'additional comment'
+# Subheader for Question 2 in ActivityReportForm
+class SubheaderLabel1(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel2(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel3(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel4(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel5(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel6(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel7(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)

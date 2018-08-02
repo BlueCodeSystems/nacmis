@@ -15,7 +15,8 @@ from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker
 MobileWorker,MobilePopulation, MenWithMen, SourcesOfInformation, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
 CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PostExposureProphylaxis,
 PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
-SupportAndCare, GeneralComment2, StakeholderVerification, DACAValidation, PITMEOValidation)
+SupportAndCare, GeneralComment2, StakeholderVerification, DACAValidation, PITMEOValidation, SubheaderLabel1, 
+SubheaderLabel2, SubheaderLabel3, SubheaderLabel4, SubheaderLabel5, SubheaderLabel6, SubheaderLabel7)
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
 TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm
@@ -276,6 +277,35 @@ class StakeholderVerificationInline(admin.StackedInline):
     readonly_fields = ("acknowledgement",)
     fields = ( 'acknowledgement', 'stakeholder_initials' )
 
+# Inlines for the subsection headers
+class SubheaderLabel1Inline(admin.StackedInline):
+    model = SubheaderLabel1
+    verbose_name_plural = 'SOCIAL BEHAVIOUR CHANGE COMMUNICATION'
+
+class SubheaderLabel2Inline(admin.StackedInline):
+    model = SubheaderLabel2
+    verbose_name_plural = 'SOCIAL BEHAVIOUR CHANGE COMMUNICATION FOR KEY POPULATIONS'
+
+class SubheaderLabel3Inline(admin.StackedInline):
+    model = SubheaderLabel3
+    verbose_name_plural = 'CONDOM PROGRAMMING'
+
+class SubheaderLabel4Inline(admin.StackedInline):
+    model = SubheaderLabel4
+    verbose_name_plural = 'CRITICAL ENABLERS'
+
+class SubheaderLabel5Inline(admin.StackedInline):
+    model = SubheaderLabel5
+    verbose_name_plural = 'SYNERGIES WITH OTHER DEVELOPMENT SECTORS'
+
+class SubheaderLabel6Inline(admin.StackedInline):
+    model = SubheaderLabel6
+    verbose_name_plural = 'COMMUNITY HEALTH SYSTEMS'
+
+class SubheaderLabel7Inline(admin.StackedInline):
+    model = SubheaderLabel7
+    verbose_name_plural = 'BELOW SECTION TO BE FILLED BY DACA / LOCAL AUTHORITY ONLY'
+
 # ADMIN CLASSES
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
@@ -295,8 +325,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     SynergyDevelopmentSectorInline.max_num = 1
     OtherQuestionInline.max_num = 1
     EndOfYearQuestionInline.max_num = 1
-    GeneralCommentInline.max_num = 1
-    
+
     fieldsets = (
         ('Basic details on the organisation', {
             #'classes':('collapse',),
@@ -413,6 +442,14 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     StakeholderVerificationInline.max_num = 1
     DACAValidationInline.max_num = 1
     PITMEOValidationInline.max_num = 1
+    GeneralCommentInline.max_num = 1
+    SubheaderLabel1Inline.max_num = 1
+    SubheaderLabel2Inline.max_num = 1
+    SubheaderLabel3Inline.max_num = 1
+    SubheaderLabel4Inline.max_num = 1
+    SubheaderLabel5Inline.max_num = 1
+    SubheaderLabel6Inline.max_num = 1
+    SubheaderLabel7Inline.max_num = 1
 
     fieldsets = (
         ('1. REPORT DETAIL', {
@@ -425,13 +462,14 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         }),
     )
 
-    inlines = [MaterialInline, MaterialInline2, TeachersInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
-        PersonsWithDisabiltyInline, MobileWorkerInline, MobilePopulationInline, MenWithMenInline, TransgenderIndividualInline, 
-        PeopleWhoInjectDrugInline,CondomProgrammingInline, CondomProgramming2Inline, ReportedCaseInline, 
-        ExperiencedPhysicalViolenceInline, ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, 
-        PreExposureProphylaxisInline, SynergyDevelopmentSectorInline, SupportGroupSetUpInline, 
-        IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, 
-        StakeholderVerificationInline, DACAValidationInline, PITMEOValidationInline]
+    inlines = [SubheaderLabel1Inline, MaterialInline, MaterialInline2, SubheaderLabel2Inline, TeachersInline, OutOfSchoolInline, 
+        SexWorkerInline, InmateInline, PersonsWithDisabiltyInline, MobileWorkerInline, MobilePopulationInline, MenWithMenInline, 
+        TransgenderIndividualInline, PeopleWhoInjectDrugInline, SubheaderLabel3Inline, CondomProgrammingInline, 
+        CondomProgramming2Inline, SubheaderLabel4Inline, ReportedCaseInline, ExperiencedPhysicalViolenceInline, 
+        ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, PreExposureProphylaxisInline, SubheaderLabel5Inline, 
+        SynergyDevelopmentSectorInline, SubheaderLabel6Inline, SupportGroupSetUpInline, IndividualCurrentlyEnrolledInline, 
+        VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, SubheaderLabel7Inline, StakeholderVerificationInline, 
+        DACAValidationInline, PITMEOValidationInline]
 
     """
     def get_readonly_fields(self, request, obj=None):
