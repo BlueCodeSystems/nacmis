@@ -8,8 +8,6 @@ from django.core.management.base import BaseCommand, CommandError
 
 import requests
 
-LOGIN_URL = "https://play.dhis2.org/2.30/dhis-web-commons/security/login.action"
-API_URL = "https://play.dhis2.org/demo/api/dataValueSets.json"
 
 def get_credentials():
     whereami = os.path.dirname(os.path.abspath(__file__))
@@ -22,19 +20,45 @@ def get_credentials():
     else:
         raise OSError("File does not exist: %s" % path)
 
-class Command(BaseCommand):
-    def handle(self, *args, **options):
-        login, password = get_credentials()
-        sess = requests.Session()
-        r = sess.post(LOGIN_URL, auth=(login, password))
-        print(r.status_code)
-        print(r.headers)
-        print(r.encoding)
-        print(r.cookies)
+class DHIS2Error(Exception):
+    pass
+
+class DHIS2:
+    LOGIN_URL = "https://play.dhis2.org/2.30/dhis-web-commons/security/login.action"
+    API_URL = "https://play.dhis2.org/demo/api/dataValueSets.json"
+
+    def __init__(self, login, password):
+        self.sess = requests.Session()
+        self.logged_in = False
+        self.cookies = {}
+        self.login(login, password)
+
+    def login(self, login, password):
+        r = self.sess.post(self.LOGIN_URL, auth=(login, password))
+        #print(r.status_code)
+        #print(r.headers)
+        #print(r.encoding)
+        #print(r.cookies)
         import pprint; pprint.pprint(r.__dict__)
         if r.status_code == 200:
             print("Succesfully logged in.")
-            r2 = sess.get(API_URL, cookies=r.cookies, 
+            self.logged_in = True
+            self.cookies = r.cookies
+        else:
+            print("** Login failed")
+            print(r.status_code)
+            print(r.headers)
+            print(r.cookies)
+            print(r.text)
+            raise DHIS2Error("Could not login")
+        
+
+class Command(BaseCommand):
+    def handle(self, *args, **options):
+        login, password = get_credentials()
+        dhis2 = DHIS2(login, password)
+        if dhis2.logged_in:
+            r2 = dhis2.sess.get(dhis2.API_URL, cookies=dhis2.cookies, 
                           headers={'Content-Type': 'application/json'}, 
                           params={'orgUnit': "DiszpKrYNg8", 'period': '201801',
                                   'dataSet': 'BfMAe6Itzgt'})
