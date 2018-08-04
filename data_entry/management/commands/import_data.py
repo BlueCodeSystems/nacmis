@@ -24,6 +24,7 @@ class DHIS2Error(Exception):
     pass
 
 class DHIS2:
+    API_BASE_URL = "https://play.dhis2.org/demo/api/"
     LOGIN_URL = "https://play.dhis2.org/2.30/dhis-web-commons/security/login.action"
     API_URL = "https://play.dhis2.org/demo/api/dataValueSets.json"
 
@@ -31,15 +32,20 @@ class DHIS2:
         self.sess = requests.Session()
         self.logged_in = False
         self.cookies = {}
+ 
+        # cached values
+        self.orgUnits = []
+
         self.login(login, password)
 
     def login(self, login, password):
+        print("Logging in...")
         r = self.sess.post(self.LOGIN_URL, auth=(login, password))
         #print(r.status_code)
         #print(r.headers)
         #print(r.encoding)
         #print(r.cookies)
-        import pprint; pprint.pprint(r.__dict__)
+        #import pprint; pprint.pprint(r.__dict__)
         if r.status_code == 200:
             print("Succesfully logged in.")
             self.logged_in = True
@@ -51,13 +57,61 @@ class DHIS2:
             print(r.cookies)
             print(r.text)
             raise DHIS2Error("Could not login")
+
+    def getPagedResults(self, url, name):
+        """ Get results from an API calls, taking into account that there might
+            be multiple pages. If there are, fetch all those pages and return
+            the combined results.
+        """
+
+        def getPageResult(page):
+            print("  Fetching page %s..." % page)
+            r = self.sess.get(url, cookies=self.cookies, 
+                              params={'page': page},
+                              headers={'Content-Type': 'application/json'})
+            return r.json()
+
+        page = 1
+        results = []
+
+        while True:
+            j = getPageResult(page)
+            results.extend(j[name])
+            pager = j['pager']
+            # if we reached the last page, break out of the loop
+            if pager['page'] >= pager['pageCount']:
+                print("All pages fetched")
+                break
+            page += 1
+
+        return results
         
+    def getOrgUnits(self):
+        """ Get a list of organisation units. This is a list of dictionaries
+            like:
+
+            {
+                "displayName": "Adonkia CHP",
+                "id": "Rp268JB6Ne4"
+            }
+        """
+        print("Loading organisation units...")
+        URL = self.API_BASE_URL + "organisationUnits.json"
+        self.orgUnits = self.getPagedResults(URL, 'organisationUnits')
+        print("%s organisationunits found" % len(self.orgUnits))
+
 
 class Command(BaseCommand):
+
     def handle(self, *args, **options):
         login, password = get_credentials()
         dhis2 = DHIS2(login, password)
         if dhis2.logged_in:
+            dhis2.getOrgUnits()
+            return
+
+            # unclear how to proceed from here...
+            '''
             r2 = dhis2.sess.get(dhis2.API_URL, cookies=dhis2.cookies, 
                           headers={'Content-Type': 'application/json'}, 
                           params={'orgUnit': "DiszpKrYNg8", 'period': '201801',
@@ -68,4 +122,5 @@ class Command(BaseCommand):
             print(r2.encoding)
             j = r2.json()
             print(json.dumps(j, sort_keys=True, indent=4))
+            '''
 
