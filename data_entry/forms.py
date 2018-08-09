@@ -2,7 +2,7 @@ from django import forms
 
 
 from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District, Ward, \
-    UserProfile, OtherQuestion, DACAValidation
+    UserProfile, OtherQuestion, DACAValidation, PITMEOValidation
 from .models import ActivityReportForm, IECMaterial
 from dal import autocomplete
 
@@ -94,6 +94,15 @@ class DACAValidationForm(forms.ModelForm):
         widgets = {
             'acknowledgement': forms.Textarea(attrs={'class':'hide_acknowledgement'}),
             'daca_initials': forms.TextInput(attrs={'class':'hide_acknowledgement'})
+        }
+
+class PITMEOValidationForm(forms.ModelForm):
+    class Meta:
+        model = PITMEOValidation
+        fields = '__all__'
+        widgets = {
+            'acknowledgement': forms.Textarea(attrs={'class':'hide_acknowledgement'}),
+            'pitmeo_initials': forms.TextInput(attrs={'class':'hide_acknowledgement'})
         }
 
 class MyForm(forms.Form):

@@ -20,7 +20,7 @@ SubheaderLabel2, SubheaderLabel3, SubheaderLabel4, SubheaderLabel5, SubheaderLab
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
 TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm, \
-DACAValidationForm
+DACAValidationForm, PITMEOValidationForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -76,6 +76,7 @@ class DACAValidationInline(admin.StackedInline):
 
 class PITMEOValidationInline(admin.StackedInline):
     model = PITMEOValidation
+    form = PITMEOValidationForm
     extra = 1
     fields = ("validated_by", "validation_status", "acknowledgement", "pitmeo_initials", "validation_comment")
     readonly_fields = ("acknowledgement",)
