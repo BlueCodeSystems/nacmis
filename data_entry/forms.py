@@ -2,7 +2,7 @@ from django import forms
 
 
 from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District, Ward, \
-    UserProfile, OtherQuestion
+    UserProfile, OtherQuestion, DACAValidation, PITMEOValidation
 from .models import ActivityReportForm, IECMaterial
 from dal import autocomplete
 
@@ -16,7 +16,7 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
             'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
             'organisation_targets' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
             'organisation_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
-            'start_year':  forms.TextInput(attrs={'placeholder':'YYYY-MM-DD',}),
+            'start_year': forms.TextInput(attrs={'placeholder':'YYYY-MM-DD',}),
         }
 
 class UserProfileModelForm(forms.ModelForm):
@@ -86,6 +86,23 @@ class IECMaterialModelForm(forms.ModelForm):
         
         widgets = {
             'targeted_audience': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
+        }
+class DACAValidationForm(forms.ModelForm):
+    class Meta:
+        model = DACAValidation
+        fields = '__all__'
+        widgets = {
+            'acknowledgement': forms.Textarea(attrs={'class':'hide_acknowledgement'}),
+            'daca_initials': forms.TextInput(attrs={'class':'hide_acknowledgement'})
+        }
+
+class PITMEOValidationForm(forms.ModelForm):
+    class Meta:
+        model = PITMEOValidation
+        fields = '__all__'
+        widgets = {
+            'acknowledgement': forms.Textarea(attrs={'class':'hide_acknowledgement'}),
+            'pitmeo_initials': forms.TextInput(attrs={'class':'hide_acknowledgement'})
         }
 
 class MyForm(forms.Form):
