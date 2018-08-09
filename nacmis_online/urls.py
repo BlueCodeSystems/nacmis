@@ -34,6 +34,7 @@ urlpatterns = [
     path('pitmeo-dashboard', views.PITMEODashboardView.as_view(), name='pitmeo-dashboard-view'),
     path('daca-dashboard', views.DACADashboardView.as_view(), name='daca-dashboard-view'),
     path('help/', views.HelpView.as_view(), name='help-view'),
+    path('resources/', views.ResourcesView.as_view(), name='resources-view'),
 
     # urls for autocompletes implementation
     path('supportfield-autocomplete/', SupportFieldAutocomplete.as_view(), 
