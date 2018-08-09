@@ -19,7 +19,8 @@ SupportAndCare, GeneralComment2, StakeholderVerification, DACAValidation, PITMEO
 SubheaderLabel2, SubheaderLabel3, SubheaderLabel4, SubheaderLabel5, SubheaderLabel6, SubheaderLabel7)
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
-TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm
+TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm, \
+DACAValidationForm
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
@@ -54,6 +55,7 @@ class GeneralCommentInline(admin.StackedInline):
 
 class DACAValidationInline(admin.StackedInline):
     model = DACAValidation
+    form = DACAValidationForm
     extra = 1
     fields = ("validated_by", "validation_status", "acknowledgement", "daca_initials", "validation_comment")
     readonly_fields = ("acknowledgement",)
