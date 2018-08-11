@@ -108,6 +108,7 @@ License: You must have a valid license purchased only from themeforest(the above
 																		</span>
 																	</a>
 																</li>
+																{% if request.user.is_authenticated and request.user|has_group:"NAC- central m and e" or request.user.is_superuser %}
 																<li class="m-nav__separator m-nav__separator--fit"></li>
 																<li class="m-nav__item">
 																	<a href="{% url 'internal-monitoring-view' %}" class="m-nav__link">
@@ -116,6 +117,8 @@ License: You must have a valid license purchased only from themeforest(the above
 																		</span>
 																	</a>
 																</li>
+																{% endif %}
+																{% if request.user.is_authenticated and request.user|has_group:"PACA" or request.user.is_superuser %}
 																<li class="m-nav__separator m-nav__separator--fit"></li>
 																<li class="m-nav__item">
 																	<a href="{% url 'paca-dashboard-view' %}" class="m-nav__link">
@@ -124,6 +127,8 @@ License: You must have a valid license purchased only from themeforest(the above
 																		</span>
 																	</a>
 																</li>
+																{% endif %}
+																{% if request.user.is_authenticated and request.user|has_group:"PITMEO" or request.user.is_superuser %}
 																<li class="m-nav__separator m-nav__separator--fit"></li>
 																<li class="m-nav__item">
 																	<a href="{% url 'pitmeo-dashboard-view' %}" class="m-nav__link">
@@ -132,6 +137,8 @@ License: You must have a valid license purchased only from themeforest(the above
 																		</span>
 																	</a>
 																</li>
+																{% endif %}
+																{% if request.user.is_authenticated and request.user|has_group:"DACA" or request.user|has_group:"PACA" or request.user|has_group:"PITMEO" or request.user.is_superuser %}
 																<li class="m-nav__separator m-nav__separator--fit"></li>
 																<li class="m-nav__item">
 																	<a href="{% url 'daca-dashboard-view' %}" class="m-nav__link">
@@ -140,6 +147,7 @@ License: You must have a valid license purchased only from themeforest(the above
 																		</span>
 																	</a>
 																</li>
+																{% endif %}
 															</ul>
 														</div>
 													</div>
