@@ -542,8 +542,10 @@ ActivityReportForm
                 qs = qs.filter(stake_holder_name=userProfile.stakeholder)
             if request.user.groups.filter(name="DACA"):
                 qs = qs.filter(stake_holder_name__organisation_district=userProfile.district)
-            #if request.user.groups.filter(name="PITMEO"):
-            #    qs = qs.filter(DACAValidation_validation_status="Submitted")
+            if request.user.groups.filter(name="PITMEO"):
+                activity_form_province = qs.filter(
+                    stake_holder_name__organisation_province=userProfile.province)
+                qs = activity_form_province.filter(dacavalidation__validation_status="approved")
         return qs
 
     class Media:
