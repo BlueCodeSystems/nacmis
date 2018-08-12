@@ -50,6 +50,15 @@ License: You must have a valid license purchased only from themeforest(the above
 				color: #f7a63e;
 				font-size: 1.07rem;
 			}
+
+			/* mouse over link */
+			a:hover {
+				color: #f7a63e;
+			}
+			h4 {
+				text-decoration: underline;
+				text-transform: capitalize;
+			}
 		</style>
 	</head>
 	<!-- end::Head -->
@@ -68,7 +77,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div class="m-stack m-stack--ver m-stack--general m-stack--inline">
 									<div class="m-stack__item m-stack__item--middle m-brand__logo">
 										<a href="{% url 'home-view' %}" class="m-brand__logo-wrapper">
-											<img alt="" src="{% static 'data_entry/assets/demo/demo2/media/img/logo/logo.png' %}"/>
+											<img alt="NAC Logo" src="{% static 'data_entry/assets/demo/demo2/media/img/logo/logo.png' %}"/>
 										</a>
 									</div>
 									<div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -230,6 +239,22 @@ License: You must have a valid license purchased only from themeforest(the above
 												</span>
 											</a>
 										</li>
+										<li class="m-menu__item  m-menu__item" aria-haspopup="true">
+											<a  href="../admin/data_entry/activityreportform" class="m-menu__link">
+												<span class="m-menu__item-here"></span>
+												<span class="m-menu__link-text">
+													Stakeholder Reporting
+												</span>
+											</a>
+										</li>
+                                        <li class="m-menu__item  m-menu__item" aria-haspopup="true">
+											<a  href="/resources" class="m-menu__link">
+												<span class="m-menu__item-here"></span>
+												<span class="m-menu__link-text">
+													Resources
+												</span>
+											</a>
+										</li>
 										{% if request.user.is_authenticated and not request.user|has_group:"Stakeholder" %}
 										<li class="m-menu__item  m-menu__item"  aria-haspopup="true">
 											<a  href="/admin" class="m-menu__link ">
@@ -240,22 +265,6 @@ License: You must have a valid license purchased only from themeforest(the above
 											</a>
 										</li>
 										{% endif %}
-                                        <li class="m-menu__item  m-menu__item" aria-haspopup="true">
-											<a  href="/resources" class="m-menu__link">
-												<span class="m-menu__item-here"></span>
-												<span class="m-menu__link-text">
-													Resources
-												</span>
-											</a>
-										</li>
-										<li class="m-menu__item  m-menu__item" aria-haspopup="true">
-											<a  href="../admin/data_entry/activityreportform" class="m-menu__link">
-												<span class="m-menu__item-here"></span>
-												<span class="m-menu__link-text">
-													Stakeholder Reporting
-												</span>
-											</a>
-										</li>
 										<!--
 										class m-menu__item--submenu, sttributes m-menu-submenu-toggle and m-menu-link-redirect affect the clicking.
 										<li class="m-menu__item  m-menu__item--submenu"  m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
