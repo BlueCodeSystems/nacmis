@@ -272,6 +272,12 @@ class OrganisationTarget(models.Model):
     def __str__(self):
         return self.organisation_target_option
 
+class PreventionMessageList(models.Model):
+    prevention_message_option = models.CharField('prevention message', max_length=100, unique=True, default="")
+
+    def __str__(self):
+        return self.prevention_message_option
+
 #               HELPER CLASSES FOR ACTIVITYREPORTFORM 
 # *********************************************************************
 class MobilePopulationType(models.Model):
@@ -365,7 +371,7 @@ class ProgramActivity(models.Model):
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
 class FundingSource(models.Model):
-    name_of_organisation =  models.CharField(max_length=100, default="")
+    name_of_organisation =  models.CharField(max_length=100, unique=True, default="")
     funding_amount =  models.PositiveIntegerField('Funding Amount(In Zambian Kwacha)')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
@@ -373,7 +379,7 @@ class FundingSource(models.Model):
         return self.name_of_organisation
 
 class TargetGroupPreventionMessage(models.Model):
-    prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, null=True)
+    prevention_message = models.CharField(max_length=100, unique=True, choices=PREVENTION_MESSAGES_LIST, null=True)
     target_groups = models.ManyToManyField(OrganisationTarget)
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
@@ -485,7 +491,7 @@ class PITMEOValidation(models.Model):
   
 # --> Social behaviour change communication 
 class IECMaterial(models.Model):
-    material_type = models.CharField('type of IEC material', max_length=100, choices=IEC_MATERIALS)
+    material_type = models.CharField('type of IEC material', unique=True, max_length=100, choices=IEC_MATERIALS)
     number_distributed = models.PositiveIntegerField('number distributed', null=True)
     localized = models.BooleanField('localised', default=False)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
