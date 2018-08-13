@@ -372,11 +372,14 @@ class ProgramActivity(models.Model):
 
 class FundingSource(models.Model):
     name_of_organisation =  models.CharField(max_length=100, unique=True, default="")
-    funding_amount =  models.PositiveIntegerField('Funding Amount(In Zambian Kwacha)')
+    funding_amount = models.PositiveIntegerField('Funding Amount(In Zambian Kwacha)')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name_of_organisation
+
+    class Meta:
+        unique_together = ("name_of_organisation", "organisation")
 
 class TargetGroupPreventionMessage(models.Model):
     prevention_message = models.CharField(max_length=100, unique=True, choices=PREVENTION_MESSAGES_LIST, null=True)
