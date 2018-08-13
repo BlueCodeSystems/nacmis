@@ -272,12 +272,6 @@ class OrganisationTarget(models.Model):
     def __str__(self):
         return self.organisation_target_option
 
-class PreventionMessageList(models.Model):
-    prevention_message_option = models.CharField('prevention message', max_length=100, unique=True, default="")
-
-    def __str__(self):
-        return self.prevention_message_option
-
 #               HELPER CLASSES FOR ACTIVITYREPORTFORM 
 # *********************************************************************
 class MobilePopulationType(models.Model):
