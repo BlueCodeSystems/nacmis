@@ -364,8 +364,8 @@ class ProgramActivity(models.Model):
     areas_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
-    #class Meta:
-    #    unique_together = ("ward", "organisation")
+    class Meta:
+        unique_together = ("ward", "organisation")
 
 class FundingSource(models.Model):
     name_of_organisation =  models.CharField(max_length=100, default="")
