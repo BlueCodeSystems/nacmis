@@ -5,7 +5,7 @@ from django.db.models import Q
 from collections import OrderedDict
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
-PreventionMessageList, OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, 
+OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, 
 TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
 
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -679,9 +679,6 @@ admin.site.register(StakeholderDirectory, StakeholderDirectoryAdmin)
 
 # Register HIV Activities Organisation Participates in
 admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
-
-# Register PreventionMessageList to enable user to add more messages they wish to deliver
-admin.site.register(PreventionMessageList)
 
 # Register OrganisationTarget to enable user to add more groups that they target
 admin.site.register(OrganisationTarget)
