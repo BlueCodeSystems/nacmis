@@ -318,8 +318,10 @@ class StakeholderDirectory(models.Model):
     # --> Organisation Classification
     organisation_type = models.CharField('which of the following \'types\' would best describe your \
         organisation? (Please only tick one type of organisation)', max_length=100, choices=ORGANISATION_TYPE_LIST)
+    other_organisation_type = models.CharField('other organisation/ group - please specify', max_length=100, null=True)
     organisation_targets = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
         different groups that are targeted by your organisation)')
+    other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True)
 
     def year_extract_in_start_year(self):
         year = self.start_year.strftime('%Y')
@@ -381,6 +383,7 @@ class FundingSource(models.Model):
 class TargetGroupPreventionMessage(models.Model):
     prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, null=True)
     target_groups = models.ManyToManyField(OrganisationTarget)
+    other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True)
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -389,6 +392,7 @@ class TargetGroupPreventionMessage(models.Model):
 
     class Meta:
         unique_together = ("prevention_message", "organisation")
+
 class TypesOfFundingSupport(models.Model):
     support_option =  models.CharField(max_length=100, default="")
     funding_source = models.ForeignKey(FundingSource, on_delete=models.CASCADE, null=True)
@@ -506,6 +510,7 @@ class IECMaterial(models.Model):
 
 class IECMaterial2(models.Model):
     target_audience = models.ManyToManyField(OrganisationTarget)
+    other_target_audience = models.CharField('other', max_length=100, null=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -560,6 +565,7 @@ class MobileWorker(models.Model):
 
 class MobilePopulation(models.Model):
         mobile_population_types = models.ManyToManyField(MobilePopulationType)
+        other_mobile_population = models.CharField('other', max_length=100, null=True)
         activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE, null=True)
 
 class MenWithMen(models.Model):

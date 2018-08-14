@@ -36,6 +36,7 @@ class FundingSourceInline(admin.TabularInline):
 
 class TargetGroupPreventionMessageInline(admin.TabularInline):
     model = TargetGroupPreventionMessage
+    verbose_name_plural = 'Target group and prevention messages'
     form = TargetGroupPreventionMessageModelForm
     extra = 1
 
@@ -351,7 +352,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
                 entitled to many benefits as compared to other employee types.</p></b>'),
         }),
         ('Organisation classification', {
-            'fields': ('organisation_type', 'organisation_targets')
+            'fields': ( ('organisation_type', 'other_organisation_type'), ('organisation_targets', 'other_organisation_target') )
         })
     )
 
