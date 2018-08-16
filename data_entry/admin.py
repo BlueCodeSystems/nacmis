@@ -356,7 +356,8 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         })
     )
 
-    inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline, OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
+    # exclude inlines OtherQuestionInline, EndOfYearQuestionInline by default
+    inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline, GeneralCommentInline]
 
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
