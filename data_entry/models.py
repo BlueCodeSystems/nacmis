@@ -321,7 +321,7 @@ class StakeholderDirectory(models.Model):
     other_organisation_type = models.CharField('other organisation/ group - please specify', max_length=100, null=True)
     organisation_targets = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
         different groups that are targeted by your organisation)')
-    other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True)
+    other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True, blank=True)
 
     def year_extract_in_start_year(self):
         year = self.start_year.strftime('%Y')
@@ -383,7 +383,7 @@ class FundingSource(models.Model):
 class TargetGroupPreventionMessage(models.Model):
     prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, null=True)
     target_groups = models.ManyToManyField(OrganisationTarget)
-    other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True)
+    other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True, blank=True)
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -510,7 +510,7 @@ class IECMaterial(models.Model):
 
 class IECMaterial2(models.Model):
     target_audience = models.ManyToManyField(OrganisationTarget)
-    other_target_audience = models.CharField('other', max_length=100, null=True)
+    other_target_audience = models.CharField('other', max_length=100, null=True, blank=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -565,7 +565,7 @@ class MobileWorker(models.Model):
 
 class MobilePopulation(models.Model):
         mobile_population_types = models.ManyToManyField(MobilePopulationType)
-        other_mobile_population = models.CharField('other', max_length=100, null=True)
+        other_mobile_population = models.CharField('other', max_length=100, null=True, blank=True)
         activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE, null=True)
 
 class MenWithMen(models.Model):
