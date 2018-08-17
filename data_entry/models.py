@@ -318,7 +318,7 @@ class StakeholderDirectory(models.Model):
     # --> Organisation Classification
     organisation_type = models.CharField('which of the following \'types\' would best describe your \
         organisation? (Please only tick one type of organisation)', max_length=100, choices=ORGANISATION_TYPE_LIST)
-    other_organisation_type = models.CharField('other organisation/ group - please specify', max_length=100, null=True)
+    other_organisation_type = models.CharField('other organisation/ group - please specify', max_length=100, null=True, blank=True)
     organisation_targets = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
         different groups that are targeted by your organisation)')
     other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True, blank=True)
