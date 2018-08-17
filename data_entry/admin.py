@@ -365,11 +365,10 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     current_month = datetime.datetime.now().strftime("%m")
     print("the curent month and year is ", int(current_month), " and ", current_year)
     t = datetime.timedelta(days=92)
-    # quarter 1: January 1 to March 31, quarter 2: April 1 to June 30, 
-    # quarter 3: July 1 to September 30, quarter 4: October 1 to December 31
+    
     endlist = []
     endlist.append(inlines.pop()) #append the last element to a new list
-    if( int(current_month) >= 9 ):
+    if( int(current_month) < 4 ):
         inlines.extend([OtherQuestionInline, EndOfYearQuestionInline])
         inlines.extend(endlist)
     print("---",inlines)
