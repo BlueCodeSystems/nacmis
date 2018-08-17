@@ -22,6 +22,8 @@ from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, P
 TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm, \
 DACAValidationForm, PITMEOValidationForm
 
+import datetime
+
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
 class ProgramActivityInline(admin.TabularInline):
@@ -356,8 +358,20 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         })
     )
 
-    inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline, OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
+    # exclude inlines OtherQuestionInline, EndOfYearQuestionInline by default
+    inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline, GeneralCommentInline]
 
+    current_year = datetime.datetime.now().strftime("%Y")
+    current_month = datetime.datetime.now().strftime("%m")
+    print("the curent month and year is ", int(current_month), " and ", current_year)
+    
+    if( int(current_month) < 4 ):
+        endlist = []
+        endlist.append(inlines.pop()) #append the last element to a new list
+        
+        inlines.extend([OtherQuestionInline, EndOfYearQuestionInline])
+        inlines.extend(endlist)
+    print("---",inlines)
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         
