@@ -443,6 +443,10 @@ class ActivityReportForm(models.Model):
     telephone_number = PhoneNumberField(help_text='0xxxxxxxxx')
     email_address = models.EmailField(max_length=50)
 
+    def year_quarter_tuple(self):
+        return (("201801", "2018 - quarter 1"), ("201802", "2018 - quarter 2"), 
+            ("201803", "2018 - quarter 3"), ("201804", "2018 - quarter 4"))
+
     def __str__(self):
         if self.stake_holder_name:
             return self.stake_holder_name.organisation + " - " + self.quarter_been_reported
