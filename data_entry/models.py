@@ -323,6 +323,58 @@ class StakeholderDirectory(models.Model):
         different groups that are targeted by your organisation)')
     other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True, blank=True)
 
+    # --> Select HIV activities your organisation participates in
+    '''
+    iecmaterial = models.BooleanField('How many Information Education Communication (IEC) materials were distributed by \
+        your organisation this quarter?', default=False)
+    iecmaterial2 = models.BooleanField('If you distributed Information Education Communication (IEC) materials this \
+        quarter who was your target audience?', default=False)
+    teacher = models.BooleanField('Number of teachers who have received training, and taught lessons, in life skills \
+        based comprehensive sexuality eduaction this quarter', default=False)
+    outofschool = models.BooleanField('Number of Out of School children and young people aged 10-24 years provided \
+        with life skills- based comprehensive sexuality education within this quarter', default=False)
+    sexworker = models.BooleanField('How many sex workers were reached with HIV prevention programmes by your \
+        organisation this quarter?', default=False)
+    inmate = models.BooleanField('How many inmates were reached with HIV prevention programmes by your organisation \
+        this quarter?', default=False)
+    personswithdisability = models.BooleanField('How many persons with disability were reached with HIV prevention \
+        programmes by your organisation this quarter?', default=False)
+    mobileworker = models.BooleanField('How many mobile workers were reached with HIV prevention programmes by your \
+        organisation this quarter?', default=False)
+    mobilepopulation = models.BooleanField('Which types of mobile populations did your organisation reach this \
+        quarter?', default=False)
+    menwithmen = models.BooleanField('How many men who have sex with men (MSM) were reached with HIV prevention \
+        programmes by your organisation this quarter?', default=False)
+    transgenderindividual = models.BooleanField('How many transgender individuals were reached with HIV prevention \
+        programmes by your organisation this quarter?', default=False)
+    peoplewhoinjectdrug = models.BooleanField('How many people who inject drugs (PWID) have been reached by HIV \
+        prevention programmes by your organisation this quarter?', default=False)
+    condomprogramming = models.BooleanField('How many condom service distribution points were supplied by your \
+        organisation this quarter (excluding health facilities)?', default=False)
+    condomprogramming2 = models.BooleanField('How many male and/or female condoms were distributed to end users by \
+        your organisation this quarter (excluding health facilities)?', default=False)
+    reportedcase = models.BooleanField('What is the total number of reported cases on a physical or sexual violence \
+        OR any other type of gender based violence by your organisation?', default=False)
+    experiencedphysicalviolence = models.BooleanField('How many individuals experienced physical violence this \
+        quarter?', default=False)
+    experiencedsexualviolence = models.BooleanField('How many individuals experienced sexual violence this quarter?', 
+        default=False)
+    postexposureprophylaxis = models.BooleanField('How many individuals who experienced physical or sexual violence \
+        were referred for post exposure prophylaxis(PEP) within 72 hours in accordance with national guidelines this \
+        quarter?', default=False)
+    preexposureprophylaxis = models.BooleanField('How many individuals were referred for pre-exposure \
+        prophylaxis(PrEP) by your organisation this quarter?', default=False)
+    synergydevelopmentsector = models.BooleanField('How many employees were reached through workplace programmes by \
+        your organisation this quarter?', default=False)
+    supportgroupsetup = models.BooleanField('How many support groups/ clubs/ after school groups set up by your \
+        organisation were active this quarter?', default=False)
+    individualcurrentlyenrolled = models.BooleanField('How many individuals are currently enrolled in support groups/ \
+        clubs/ after school groups set up by your organisation this quarter?', default=False)
+    vulnerablepeople = models.BooleanField('How many vulnerable people received care and support from your \
+        organisation this quarter?', default=False)
+    supportandcare = models.BooleanField('What types of care and support does your organisation provide? (select \
+        all that apply)', default=False)
+    '''
     def year_extract_in_start_year(self):
         year = self.start_year.strftime('%Y')
         return year
