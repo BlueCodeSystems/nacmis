@@ -365,7 +365,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     current_month = datetime.datetime.now().strftime("%m")
     print("the curent month and year is ", int(current_month), " and ", current_year)
     
-    if( int(current_month) > 4 ):
+    if( int(current_month) < 4 ):
         endlist = []
         endlist.append(inlines.pop()) #append the last element to a new list
         
