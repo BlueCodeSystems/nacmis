@@ -101,6 +101,12 @@ class DHIS2:
         print("%s organisationunits found" % len(self.orgUnits))
 
 
+class ZambiaHMIS:
+    ORG_UNIT_API = "https://www.zambiahmis.org/api/organisationUnits.json?paging=false"
+
+    # ...
+
+
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
