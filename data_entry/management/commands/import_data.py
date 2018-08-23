@@ -123,6 +123,8 @@ class ZambiaHMIS:
         self.login(login, password)
 
     def login(self, login, password):
+        # NOTE: if login/password are incorrect, apparently this will endlessly
+        # redirect until an error message shows up.
         print("Logging in...")
         r = self.sess.post(self.LOGIN_URL, auth=(login, password))
         #print(r.status_code)
@@ -140,7 +142,7 @@ class ZambiaHMIS:
             print(r.headers)
             print(r.cookies)
             print(r.text)
-            raise DHIS2Error("Could not login")
+            raise HMIS2Error("Could not login")
 
     # XXX maybe rename to getResults?
     def getPagedResults(self, url, name, paged=True):
