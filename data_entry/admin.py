@@ -405,7 +405,10 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
             return qs.none()
         else: 
             if request.user.groups.filter(name="Stakeholder"):
-                qs = qs.filter(id=userProfile.stakeholder.id)
+                try:
+                    qs = qs.filter(id=userProfile.stakeholder.id)
+                except AttributeError:
+                    qs = qs.none()
             if request.user.groups.filter(name="DACA"):
                 qs = qs.filter(organisation_district=userProfile.district)
         return qs
