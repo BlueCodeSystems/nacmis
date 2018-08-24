@@ -347,7 +347,7 @@ class TargetGroupPreventionMessage(models.Model):
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.prevention_message
+        return self.prevention_list
 
     #class Meta:
     #    unique_together = ("prevention_list", "organisation")
