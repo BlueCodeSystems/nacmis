@@ -5,7 +5,7 @@ from django.db.models import Q
 from collections import OrderedDict
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
-OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, 
+OrganisationTarget, PreventionMessageList, MobilePopulationType, SupportField, ProgramActivity, FundingSource, 
 TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
 
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -704,6 +704,9 @@ admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 
 # Register OrganisationTarget to enable user to add more groups that they target
 admin.site.register(OrganisationTarget)
+
+# Register MobilePopulationType to enable adding of types of workers
+admin.site.register(PreventionMessageList)
 
 # Register MobilePopulationType to enable adding of types of workers
 admin.site.register(MobilePopulationType)

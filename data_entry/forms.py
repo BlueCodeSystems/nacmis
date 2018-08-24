@@ -75,6 +75,7 @@ class TargetGroupPreventionMessageModelForm(forms.ModelForm):
         fields = '__all__'
         
         widgets = {
+            'prevention_list': autocomplete.ModelSelect2(url='preventionmessagelist-autocomplete'),
             'target_groups': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }
 
