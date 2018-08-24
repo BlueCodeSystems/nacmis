@@ -340,14 +340,14 @@ class FundingSource(models.Model):
         unique_together = ("name_of_organisation", "organisation")
 
 class TargetGroupPreventionMessage(models.Model):
-    prevention_list = models.ManyToManyField(PreventionMessageList, verbose_name='prevention messages \
-        conveyed by the program/ activity')
+    prevention_list = models.ForeignKey(PreventionMessageList,  on_delete=models.CASCADE, null=True, 
+        verbose_name='prevention messages conveyed by the program/ activity')
     target_groups = models.ManyToManyField(OrganisationTarget)
     other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True, blank=True)
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.prevention_list
+        return self.prevention_list.__str__()
 
     #class Meta:
     #    unique_together = ("prevention_list", "organisation")
