@@ -356,13 +356,13 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         ('Organisation classification', {
             'fields': ( ('organisation_type', 'other_organisation_type'), ('organisation_targets', 'other_organisation_target') )
         }),
-        #('Select HIV activities your organisation participates in', {
-        #    'fields': ('iecmaterial', 'iecmaterial2', 'teacher', 'outofschool', 'sexworker', 'inmate', 'personswithdisability', 
-        #    'mobileworker', 'mobilepopulation', 'menwithmen', 'transgenderindividual', 'peoplewhoinjectdrug', 'condomprogramming', 
-        #    'condomprogramming2', 'reportedcase', 'experiencedphysicalviolence', 'experiencedsexualviolence', 
-        #    'postexposureprophylaxis', 'preexposureprophylaxis', 'synergydevelopmentsector', 'supportgroupsetup', 
-        #    'individualcurrentlyenrolled', 'vulnerablepeople', 'supportandcare')
-        #})
+        ('Select HIV activities your organisation participates in', {
+            'fields': ('iecmaterial', 'iecmaterial2', 'teacher', 'outofschool', 'sexworker', 'inmate', 'personswithdisability', 
+                'mobileworker', 'mobilepopulation', 'menwithmen', 'transgenderindividual', 'peoplewhoinjectdrug', 'condomprogramming', 
+                'condomprogramming2', 'reportedcase', 'experiencedphysicalviolence', 'experiencedsexualviolence', 
+                'postexposureprophylaxis', 'preexposureprophylaxis', 'synergydevelopmentsector', 'supportgroupsetup', 
+                'individualcurrentlyenrolled', 'vulnerablepeople', 'supportandcare')
+        })
     )
 
     # exclude inlines OtherQuestionInline, EndOfYearQuestionInline by default

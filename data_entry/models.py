@@ -131,44 +131,6 @@ IEC_MATERIALS = (
     (material_other, 'Other')
 )
 
-AREA_OF_SUPPORT = (
-    (
-        "Critical enablers", (
-            ('gender_equality_equity_and_empowerment', 'Gender Equality, Equity and Empowerment'),
-            ('leadership_commitment_and_good_governance', 'Leadership Commitment and Good Governance'),
-            ('policy_laws_and_human_rights', 'Policy, laws and human rights'),
-            ('elimination_of_stigma_and_discrimination', 'Elimination of Stigma and Discrimination'),
-            ('resource_mobilization_and_sustainable_financing', 'Resource Mobilization and Sustainable Financing'),
-            ('positive_health_dignity_and_prevention', 'Positive Health Dignity and Prevention')
-        )
-    ),
-    (
-        "High impact interventions", (
-            ('condom_programming', 'Condom Programming'),
-            ('elimination_of_mother_to_child_transmission', 'Elimination of Mother to Child Transmission(eMTCT)'),
-            ('voluntary_medical_male_circumcision', 'Voluntary Medical Male Circumcision(VMMC)'),
-            ('hiv_testing_services', 'HIV Testing Services'),
-            ('social_and_behaiviour_change_communication', 'Social and Behaiviour Change Communication'),
-            ('hiv_tb_co_infection_treatment', 'HIV/TB Co-infection treatment'),
-            ('provision_of_preexposure_prophylaxis', 'Provision of Pre-exposure Prophylaxis(PrEP)'),
-            ('sti_screening_and_treatment', 'STI Screening and Treatment'),
-            ('treatment_optimization', 'Treatment Optimization'),
-            ('treatment_of_hiv_aids_sti_and_tb', 'Treatment of HIV/AIDS/STIs and TB')
-        )
-    ),
-    (
-        "Synergies with development sectors", (
-            ('post_exposure_prophylaxis', 'Post Exposure Prophylaxis(PEP)'),
-        )
-    ),
-    (
-        "HIV and AIDS intergration and system strengthening", (
-            ('integration_of_hiv_and_other_services', 
-                'Integration of HIV/AIDS, Sexual reproduction Health and Other Services'),
-        )
-    ),
-)
-
 YES_OR_NO = (
     (yes, 'Yes'),
     (no, 'No')
@@ -283,57 +245,57 @@ class StakeholderDirectory(models.Model):
     other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True, blank=True)
 
     # --> Select HIV activities your organisation participates in
-    '''
+    
     iecmaterial = models.BooleanField('How many Information Education Communication (IEC) materials were distributed by \
-        your organisation this quarter?', default=False)
+        your organisation this quarter?', default=True)
     iecmaterial2 = models.BooleanField('If you distributed Information Education Communication (IEC) materials this \
-        quarter who was your target audience?', default=False)
+        quarter who was your target audience?', default=True)
     teacher = models.BooleanField('Number of teachers who have received training, and taught lessons, in life skills \
-        based comprehensive sexuality eduaction this quarter', default=False)
+        based comprehensive sexuality eduaction this quarter', default=True)
     outofschool = models.BooleanField('Number of Out of School children and young people aged 10-24 years provided \
-        with life skills- based comprehensive sexuality education within this quarter', default=False)
+        with life skills- based comprehensive sexuality education within this quarter', default=True)
     sexworker = models.BooleanField('How many sex workers were reached with HIV prevention programmes by your \
-        organisation this quarter?', default=False)
+        organisation this quarter?', default=True)
     inmate = models.BooleanField('How many inmates were reached with HIV prevention programmes by your organisation \
-        this quarter?', default=False)
+        this quarter?', default=True)
     personswithdisability = models.BooleanField('How many persons with disability were reached with HIV prevention \
-        programmes by your organisation this quarter?', default=False)
+        programmes by your organisation this quarter?', default=True)
     mobileworker = models.BooleanField('How many mobile workers were reached with HIV prevention programmes by your \
-        organisation this quarter?', default=False)
+        organisation this quarter?', default=True)
     mobilepopulation = models.BooleanField('Which types of mobile populations did your organisation reach this \
-        quarter?', default=False)
+        quarter?', default=True)
     menwithmen = models.BooleanField('How many men who have sex with men (MSM) were reached with HIV prevention \
-        programmes by your organisation this quarter?', default=False)
+        programmes by your organisation this quarter?', default=True)
     transgenderindividual = models.BooleanField('How many transgender individuals were reached with HIV prevention \
-        programmes by your organisation this quarter?', default=False)
+        programmes by your organisation this quarter?', default=True)
     peoplewhoinjectdrug = models.BooleanField('How many people who inject drugs (PWID) have been reached by HIV \
-        prevention programmes by your organisation this quarter?', default=False)
+        prevention programmes by your organisation this quarter?', default=True)
     condomprogramming = models.BooleanField('How many condom service distribution points were supplied by your \
-        organisation this quarter (excluding health facilities)?', default=False)
+        organisation this quarter (excluding health facilities)?', default=True)
     condomprogramming2 = models.BooleanField('How many male and/or female condoms were distributed to end users by \
-        your organisation this quarter (excluding health facilities)?', default=False)
+        your organisation this quarter (excluding health facilities)?', default=True)
     reportedcase = models.BooleanField('What is the total number of reported cases on a physical or sexual violence \
-        OR any other type of gender based violence by your organisation?', default=False)
+        OR any other type of gender based violence by your organisation?', default=True)
     experiencedphysicalviolence = models.BooleanField('How many individuals experienced physical violence this \
-        quarter?', default=False)
+        quarter?', default=True)
     experiencedsexualviolence = models.BooleanField('How many individuals experienced sexual violence this quarter?', 
-        default=False)
+        default=True)
     postexposureprophylaxis = models.BooleanField('How many individuals who experienced physical or sexual violence \
         were referred for post exposure prophylaxis(PEP) within 72 hours in accordance with national guidelines this \
-        quarter?', default=False)
+        quarter?', default=True)
     preexposureprophylaxis = models.BooleanField('How many individuals were referred for pre-exposure \
-        prophylaxis(PrEP) by your organisation this quarter?', default=False)
+        prophylaxis(PrEP) by your organisation this quarter?', default=True)
     synergydevelopmentsector = models.BooleanField('How many employees were reached through workplace programmes by \
-        your organisation this quarter?', default=False)
+        your organisation this quarter?', default=True)
     supportgroupsetup = models.BooleanField('How many support groups/ clubs/ after school groups set up by your \
-        organisation were active this quarter?', default=False)
+        organisation were active this quarter?', default=True)
     individualcurrentlyenrolled = models.BooleanField('How many individuals are currently enrolled in support groups/ \
-        clubs/ after school groups set up by your organisation this quarter?', default=False)
+        clubs/ after school groups set up by your organisation this quarter?', default=True)
     vulnerablepeople = models.BooleanField('How many vulnerable people received care and support from your \
-        organisation this quarter?', default=False)
+        organisation this quarter?', default=True)
     supportandcare = models.BooleanField('What types of care and support does your organisation provide? (select \
-        all that apply)', default=False)
-    '''
+        all that apply)', default=True)
+    
     def year_extract_in_start_year(self):
         year = self.start_year.strftime('%Y')
         return year
