@@ -110,6 +110,7 @@ class DHIS2:
 
 class ZambiaHMIS:
     ORG_UNIT_API = "https://www.zambiahmis.org/api/organisationUnits.json?paging=false"
+    DATA_ELEMENTS_API = "https://www.zambiahmis.org/api/dataElements.json"
     LOGIN_URL = "https://www.zambiahmis.org/dhis-web-commons/security/login.action"
 
     def __init__(self, login, password):
@@ -119,6 +120,7 @@ class ZambiaHMIS:
  
         # cached values
         self.orgUnits = []
+        self.dataElements = []
 
         self.login(login, password)
 
@@ -146,7 +148,7 @@ class ZambiaHMIS:
 
     # XXX maybe rename to getResults?
     def getPagedResults(self, url, name, paged=True):
-        """ Get results from an API calls, taking into account that there might
+        """ Get results from an API call, taking into account that there might
             be multiple pages. If there are, fetch all those pages and return
             the combined results.
         """
@@ -191,6 +193,15 @@ class ZambiaHMIS:
                                              paged=False)
         print("%s organisation units found" % len(self.orgUnits))
 
+    def getDataElements(self):
+        """ Get a list of data elements. This is a list of dictionaries like:
+            {"id":"FtxtwvoeA5e", "displayName":"Age females 15-49"}        
+        """
+        print("Loading data elements...")
+        self.dataElements = self.getPagedResults(self.DATA_ELEMENTS_API, 
+                                                 'dataElements')
+        print("%s data elements found" % len(self.dataElements))
+
 
 class Command(BaseCommand):
 
@@ -199,6 +210,7 @@ class Command(BaseCommand):
         hmis = ZambiaHMIS(login, password)
         if hmis.logged_in:
             hmis.getOrgUnits()
+            hmis.getDataElements()
             return
 
         # unclear how to proceed from here...
