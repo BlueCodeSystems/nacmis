@@ -109,9 +109,11 @@ class DHIS2:
 
 
 class ZambiaHMIS:
+    LOGIN_URL = "https://www.zambiahmis.org/dhis-web-commons/security/login.action"
     ORG_UNIT_API = "https://www.zambiahmis.org/api/organisationUnits.json?paging=false"
     DATA_ELEMENTS_API = "https://www.zambiahmis.org/api/dataElements.json"
-    LOGIN_URL = "https://www.zambiahmis.org/dhis-web-commons/security/login.action"
+    DATA_SET_API = "https://www.zambiahmis.org/api/26/dataValueSets.json?"\
+                   "orgUnit={0}&dataSet={1}&period={2}&children=true"
 
     def __init__(self, login, password):
         self.sess = requests.Session()
@@ -121,6 +123,7 @@ class ZambiaHMIS:
         # cached values
         self.orgUnits = []
         self.dataElements = []
+        # XXX should these (also) be in a dict keyed by ID?
 
         self.login(login, password)
 
@@ -202,6 +205,13 @@ class ZambiaHMIS:
                                                  'dataElements')
         print("%s data elements found" % len(self.dataElements))
 
+    def getDataValueSet(self, orgUnit, dataSet, period):
+        url = self.DATA_SET_API.format(orgUnit, dataSet, period)
+        # fetch and return JSON as-is, no pagination or lookup
+        r = self.sess.get(url, cookies=self.cookies, 
+                               headers={'Content-Type': 'application/json'})
+        return r.json()
+
 
 class Command(BaseCommand):
 
@@ -211,19 +221,11 @@ class Command(BaseCommand):
         if hmis.logged_in:
             hmis.getOrgUnits()
             hmis.getDataElements()
-            return
 
-        # unclear how to proceed from here...
-        '''
-        r2 = dhis2.sess.get(dhis2.API_URL, cookies=dhis2.cookies, 
-                        headers={'Content-Type': 'application/json'}, 
-                        params={'orgUnit': "DiszpKrYNg8", 'period': '201801',
-                                'dataSet': 'BfMAe6Itzgt'})
-        print(r2.url)
-        print(r2.status_code)
-        print(r2.headers)
-        print(r2.encoding)
-        j = r2.json()
-        print(json.dumps(j, sort_keys=True, indent=4))
-        '''
+            # test
+            data = hmis.getDataValueSet("G2nVDIpA0mE", "hZnk2wURTuw", "201801")
+            print(json.dumps(data, indent=4, sort_keys=True))
+
+
+            return
 
