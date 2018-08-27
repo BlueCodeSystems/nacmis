@@ -113,12 +113,14 @@ class MaterialInline2(admin.TabularInline):
     verbose_name_plural = '2. If you distributed Information Education Communication (IEC) materials this \
         quarter who was your target audience?'
     filter_horizontal = ('target_audience',)
+    can_delete = False
     extra = 1
 
 class TeachersInline(admin.TabularInline):
     model = Teachers
     verbose_name_plural = '3. Number of teachers who have received training, and taught lessons, in life \
         skills based comprehensive sexuality eduaction this quarter'
+    can_delete = False
     extra = 1
 
 class OutOfSchoolInline(admin.StackedInline):
@@ -144,54 +146,63 @@ class InmateInline(admin.TabularInline):
     model = Inmate
     verbose_name_plural = '6. How many inmates were reached with HIV prevention programmes by your organisation \
         this quarter?'
+    can_delete = False
     extra = 1
 
 class PersonsWithDisabiltyInline(admin.TabularInline):
     model = PersonsWithDisabilty
     verbose_name_plural = '7. How many persons with disability were reached with HIV prevention programmes by your \
         organisation this quarter?'
+    can_delete = False
     extra = 1
 
 class MobileWorkerInline(admin.TabularInline):
     model = MobileWorker
     verbose_name_plural = '8. How many mobile workers were reached with HIV prevention programmes by your organisation \
         this quarter?'
+    can_delete = False
     extra = 1
 
 class MobilePopulationInline(admin.TabularInline):
     model = MobilePopulation
     verbose_name_plural = '9. Which types of mobile populations did your organisation reach this quarter?'
     filter_horizontal = ('mobile_population_types',)
+    can_delete = False
     extra = 1
     
 class MenWithMenInline(admin.TabularInline):
     model = MenWithMen
     verbose_name_plural = '10. How many men who have sex with men (MSM) were reached with HIV prevention programmes by \
         your organisation this quarter?'
+    can_delete = False
     extra = 1
 
 class TransgenderIndividualInline(admin.TabularInline):
     model = TransgenderIndividual
     verbose_name_plural = '11. How many transgender individuals were reached with HIV prevention programmes by your \
         organisation this quarter?'
+    can_delete = False
     extra = 1
 
 class PeopleWhoInjectDrugInline(admin.TabularInline):
     model = PeopleWhoInjectDrug
     verbose_name_plural = '12. How many people who inject drugs (PWID) have been reached by HIV prevention programmes by \
         your organisation this quarter?'
+    can_delete = False
     extra = 1
 
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
     verbose_name_plural = '13. How many condom service distribution points were supplied by your organisation this \
         quarter (excluding health facilities)?'
+    can_delete = False
     extra = 1
 
 class CondomProgramming2Inline(admin.TabularInline):
     model = CondomProgramming2
     verbose_name_plural = '14. How many male and/or female condoms were distributed to end users by \
         your organisation this quarter (excluding health facilities)?'
+    can_delete = False
     extra = 1
 
 class ReportedCaseInline(admin.StackedInline):
@@ -242,12 +253,14 @@ class PreExposureProphylaxisInline(admin.StackedInline):
 class SynergyDevelopmentSectorInline(admin.TabularInline):
     model = SynergyDevelopmentSector
     verbose_name_plural = '20. How many employees were reached through workplace programmes by your organisation this quarter?'
+    can_delete = False
     extra = 1
 
 class SupportGroupSetUpInline(admin.TabularInline):
     model = SupportGroupSetUp
     verbose_name_plural = '21. How many support groups/ clubs/ after school groups set up by your organisation were \
         active this quarter?'
+    can_delete = False
     extra = 1
 
 class IndividualCurrentlyEnrolledInline(admin.StackedInline):
@@ -271,6 +284,7 @@ class SupportAndCareInline(admin.TabularInline):
     model = SupportAndCare
     verbose_name_plural = '24. What types of care and support does your organisation provide? (select all that apply)'
     filter_horizontal = ('type',)
+    can_delete = False
     extra = 1
 
 class GeneralComment2Inline(admin.StackedInline):
@@ -496,7 +510,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         CondomProgramming2Inline, SubheaderLabel4Inline, ReportedCaseInline, ExperiencedPhysicalViolenceInline, 
         ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, PreExposureProphylaxisInline, SubheaderLabel5Inline, 
         SynergyDevelopmentSectorInline, SubheaderLabel6Inline, SupportGroupSetUpInline, IndividualCurrentlyEnrolledInline, 
-        VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, SubheaderLabel7Inline, StakeholderVerificationInline, 
+        VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, StakeholderVerificationInline, SubheaderLabel7Inline, 
         DACAValidationInline, PITMEOValidationInline]
 
     """
