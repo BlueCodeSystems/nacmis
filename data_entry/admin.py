@@ -503,7 +503,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         CondomProgramming2Inline, SubheaderLabel4Inline, ReportedCaseInline, ExperiencedPhysicalViolenceInline, 
         ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, PreExposureProphylaxisInline, SubheaderLabel5Inline, 
         SynergyDevelopmentSectorInline, SubheaderLabel6Inline, SupportGroupSetUpInline, IndividualCurrentlyEnrolledInline, 
-        VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, SubheaderLabel7Inline, StakeholderVerificationInline, 
+        VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, StakeholderVerificationInline, SubheaderLabel7Inline, 
         DACAValidationInline, PITMEOValidationInline]
 
     """
