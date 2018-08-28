@@ -46,7 +46,8 @@ class ProgramActivityModelForm(forms.ModelForm):
         fields = '__all__'
         
         widgets = {
-            'areas_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
+            #'areas_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
+            'areas_of_support2': autocomplete.ModelSelect2Multiple(url='supportbyarea-autocomplete'),
             'ward':  autocomplete.ModelSelect2(url='ward-autocomplete', forward=['organisation_district'])
         }
 

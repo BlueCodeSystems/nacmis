@@ -5,8 +5,8 @@ from django.db.models import Q
 from collections import OrderedDict
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
-OrganisationTarget, PreventionMessageList, MobilePopulationType, SupportField, ProgramActivity, FundingSource, 
-TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
+OrganisationTarget, PreventionMessageList, MobilePopulationType, SupportField, SupportByArea, ProgramActivity, 
+FundingSource, TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
 
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext, gettext_lazy as _
@@ -731,8 +731,11 @@ admin.site.register(PreventionMessageList)
 # Register MobilePopulationType to enable adding of types of workers
 admin.site.register(MobilePopulationType)
 
-# Register to add types of support under Program activities (ie, Program activities by geographic area)
+# Register list to use for Question 24,the SupportAndCare model
 admin.site.register(SupportField)
+
+# Register to add types of support under Program activities (ie, Program activities by geographic area)
+admin.site.register(SupportByArea)
 
 admin.site.register(SourcesOfInformation)
 

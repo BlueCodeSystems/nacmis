@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from .models import District, Ward, OrganisationTarget, PreventionMessageList, \
-    SupportField, SourcesOfInformation,UserProfile, StakeholderDirectory
+    SupportField, SupportByArea, SourcesOfInformation,UserProfile, StakeholderDirectory
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
@@ -22,6 +22,18 @@ class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
 
         if self.q:
             qs = qs.filter(area_of_support__istartswith=self.q)
+        return qs
+
+class SupportByAreaAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        
+        #if not self.request.user.is_authenticated():
+        #    return SupportField.objects.none()
+
+        qs = SupportByArea.objects.all()
+
+        if self.q:
+            qs = qs.filter(area_of_support2__istartswith=self.q)
         return qs
 
 class OrganisationTargetAutocomplete(autocomplete.Select2QuerySetView):
