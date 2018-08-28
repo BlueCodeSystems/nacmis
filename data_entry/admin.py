@@ -458,6 +458,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     list_filter = ('stake_holder_name__organisation_province__name', 'dacavalidation__validation_status', 
         'pitmeovalidation__validation_status', 'stake_holder_name__organisation_district__name',)
     search_fields = ['stake_holder_name__organisation']
+    list_per_page = 30
 
     MaterialInline2.max_num = 1
     PeopleWhoInjectDrugInline.max_num = 1
