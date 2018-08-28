@@ -198,7 +198,7 @@ class ZambiaHMIS:
 
     def getDataElements(self):
         """ Get a list of data elements. This is a list of dictionaries like:
-            {"id":"FtxtwvoeA5e", "displayName":"Age females 15-49"}        
+            {"id": "FtxtwvoeA5e", "displayName": "Age females 15-49"}
         """
         print("Loading data elements...")
         self.dataElements = self.getPagedResults(self.DATA_ELEMENTS_API, 
