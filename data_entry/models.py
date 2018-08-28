@@ -304,13 +304,21 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return "%s"%(self.user.username)
-    
+
+# Activity report form Question 24   
 class SupportField(models.Model):
     area_of_support = models.CharField(max_length=100, unique=True, default="")
 
     def __str__(self):
         return self.area_of_support
 
+# Stakeholder directory Section 4:
+class SupportByArea(models.Model):
+    support_given_at_area = models.CharField(max_length=100, unique=True, default="")
+
+    def __str__(self):
+        return self.support_given_at_area
+        
 class SourcesOfInformation(models.Model):
     source = models.CharField(max_length=100, unique=True, default="")
 
@@ -322,7 +330,8 @@ class SourcesOfInformation(models.Model):
 
 class ProgramActivity(models.Model):
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE, null=True)
-    areas_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
+    #areas_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
+    areas_of_support2 = models.ManyToManyField(SupportByArea, verbose_name='Program activities by geographic area')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     class Meta:
