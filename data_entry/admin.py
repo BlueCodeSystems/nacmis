@@ -559,8 +559,8 @@ ActivityReportForm
                     kwargs["queryset"] = stakeholders.filter(organisation_province=userProfile.province)
                 if request.user.groups.filter(name="DACA"):
                     kwargs["queryset"] = stakeholders.filter(organisation_district=userProfile.district)
-                #if request.user.groups.filter(name="Stakeholder"):
-                    #kwargs["queryset"] = stakeholders.filter(id=userProfile.stakeholder.id)
+                if request.user.groups.filter(name="Stakeholder"):
+                    kwargs["queryset"] = stakeholders.filter(id=userProfile.stakeholder.id)
 
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
