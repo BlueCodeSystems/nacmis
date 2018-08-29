@@ -30,7 +30,7 @@ class UserProfileModelForm(forms.ModelForm):
         }
 
 class ActivityReportFormModelForm(forms.ModelForm):
-    
+    #quarter_been_reported = forms.CharField(choice=year_quarter_tuple(),)
     class Meta:
         model = ActivityReportForm
         fields = ['report_date',]
@@ -46,7 +46,8 @@ class ProgramActivityModelForm(forms.ModelForm):
         fields = '__all__'
         
         widgets = {
-            'areas_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
+            #'areas_of_support': autocomplete.ModelSelect2Multiple(url='supportfield-autocomplete'),
+            'areas_of_support2': autocomplete.ModelSelect2Multiple(url='supportbyarea-autocomplete'),
             'ward':  autocomplete.ModelSelect2(url='ward-autocomplete', forward=['organisation_district'])
         }
 
@@ -75,6 +76,7 @@ class TargetGroupPreventionMessageModelForm(forms.ModelForm):
         fields = '__all__'
         
         widgets = {
+            'prevention_list': autocomplete.ModelSelect2(url='preventionmessagelist-autocomplete',),
             'target_groups': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }
 

@@ -16,9 +16,9 @@ Including another URLconf
 from django.urls import include, path
 from django.contrib import admin
 from data_entry import views
-from data_entry.views import SupportFieldAutocomplete, SourcesOfInformationAutocomplete, \
+from data_entry.views import SupportFieldAutocomplete, SupportByAreaAutocomplete, SourcesOfInformationAutocomplete, \
     DistrictAutocomplete, WardAutocomplete, OrganisationTargetAutocomplete, \
-    comingSoonView, StakeholderAutocomplete
+    PreventionMessageListAutocomplete, comingSoonView, StakeholderAutocomplete
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin-landing'),
@@ -39,10 +39,14 @@ urlpatterns = [
     # urls for autocompletes implementation
     path('supportfield-autocomplete/', SupportFieldAutocomplete.as_view(), 
         name='supportfield-autocomplete'),
+    path('supportbyarea-autocomplete/', SupportByAreaAutocomplete.as_view(), 
+        name='supportbyarea-autocomplete'),
     path('supportofinformation-autocomplete/', SourcesOfInformationAutocomplete.as_view(), 
         name='supportofinformation-autocomplete'),
     path('organisationtarget-autocomplete/', OrganisationTargetAutocomplete.as_view(), 
         name='organisationtarget-autocomplete'),
+    path('preventionmessagelist-autocomplete/', PreventionMessageListAutocomplete.as_view(), 
+        name='preventionmessagelist-autocomplete'),
     path('district-autocomplete/', DistrictAutocomplete.as_view(), name='district-autocomplete'),
     path('ward-autocomplete/', WardAutocomplete.as_view(), name='ward-autocomplete'),
     path('stakeholder-autocomplete/', StakeholderAutocomplete.as_view(), name='stakeholder-autocomplete'),
