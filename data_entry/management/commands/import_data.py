@@ -4,7 +4,7 @@ import json
 import os
 
 from django.core.management.base import BaseCommand, CommandError
-#from polls.models import ...
+from data_entry.models import DataEtl
 
 import requests
 
@@ -30,6 +30,7 @@ class HMISError(Exception):
     pass
 
 
+# XXX OBSOLETE -- remove?
 class DHIS2:
     API_BASE_URL = "https://play.dhis2.org/demo/api/"
     LOGIN_URL = "https://play.dhis2.org/2.30/dhis-web-commons/security/login.action"
@@ -112,8 +113,9 @@ class ZambiaHMIS:
     LOGIN_URL = "https://www.zambiahmis.org/dhis-web-commons/security/login.action"
     ORG_UNIT_API = "https://www.zambiahmis.org/api/organisationUnits.json?paging=false"
     DATA_ELEMENTS_API = "https://www.zambiahmis.org/api/dataElements.json"
-    DATA_SET_API = "https://www.zambiahmis.org/api/26/dataValueSets.json?"\
-                   "orgUnit={0}&dataSet={1}&period={2}&children=true"
+    DATA_SETS_API = "https://www.zambiahmis.org/api/dataSets.json"
+    DATA_VALUE_SET_API = "https://www.zambiahmis.org/api/26/dataValueSets.json?"\
+                         "orgUnit={0}&dataSet={1}&period={2}&children=true"
 
     def __init__(self, login, password):
         self.sess = requests.Session()
@@ -123,7 +125,10 @@ class ZambiaHMIS:
         # cached values
         self.orgUnits = []
         self.dataElements = []
+        self.dataSets = []
         # XXX should these (also) be in a dict keyed by ID?
+
+        self.dataElementsById = {}
 
         self.login(login, password)
 
@@ -203,14 +208,63 @@ class ZambiaHMIS:
         print("Loading data elements...")
         self.dataElements = self.getPagedResults(self.DATA_ELEMENTS_API, 
                                                  'dataElements')
+        self.dataElementsById = dict([(row['id'], row['displayName']) 
+                                      for row in self.dataElements])
         print("%s data elements found" % len(self.dataElements))
 
+    def getDataSets(self):
+        print("Loading data sets...")
+        self.dataSets = self.getPagedResults(self.DATA_SETS_API, 'dataSets')
+        print("%s data sets found" % len(self.dataSets))
+
     def getDataValueSet(self, orgUnit, dataSet, period):
-        url = self.DATA_SET_API.format(orgUnit, dataSet, period)
+        url = self.DATA_VALUE_SET_API.format(orgUnit, dataSet, period)
+        print(url)
         # fetch and return JSON as-is, no pagination or lookup
         r = self.sess.get(url, cookies=self.cookies, 
                                headers={'Content-Type': 'application/json'})
-        return r.json()
+        try:
+            return r.json()
+        except json.decoder.JSONDecodeError as e:
+            print("Invalid JSON:")
+            print(e.args)
+            return None
+
+    def populate(self, test=False):
+        """ Fetch required data from HMIS and populate the DataEtl table with
+            it. 
+            If 'test' is True, then we do a test run with one organisation unit
+            and one data element. 
+        """
+        period = "201801"  # FIXME
+        for orgUnit in self.orgUnits:
+            print("orgUnit:", orgUnit)
+            for dataSet in self.dataSets:
+                print("dataSet:", dataSet)
+                j = self.getDataValueSet(orgUnit['id'], dataSet['id'], period)
+
+                if j is None:
+                    # there was a problem with the JSON; print a
+                    # diagnostic message and continue
+                    continue
+
+                if j.get('dataValues'):
+                    self.store_data(orgUnit, dataSet, period, j)
+                    with open("test.json", "w") as f:
+                        json.dump(j, f, indent=4, sort_keys=True)
+                    if test:
+                        print("Testing ended; exiting")
+                        return
+
+    def store_data(self, orgUnit, dataSet, period, dataValueSets):
+        for dv in dataValueSets['dataValues']:
+            d = DataEtl(dataElementName=self.dataElementsById[dv['dataElement']],
+                        dataElementID=dv['dataElement'],
+                        orgUnitName=orgUnit['displayName'],
+                        orgUnitID=orgUnit['id'],
+                        period=int(period),
+                        value=int(dv['value'] or 0))
+            d.save()
 
 
 class Command(BaseCommand):
@@ -220,11 +274,13 @@ class Command(BaseCommand):
         hmis = ZambiaHMIS(login, password)
         if hmis.logged_in:
             hmis.getOrgUnits()
+            hmis.getDataSets()
             hmis.getDataElements()
+            hmis.populate(test=True)
 
             # test
-            data = hmis.getDataValueSet("G2nVDIpA0mE", "hZnk2wURTuw", "201801")
-            print(json.dumps(data, indent=4, sort_keys=True))
+            #data = hmis.getDataValueSet("mHs8NE6sJBO", "sHbZC96yrxU", "201801")
+            #print(json.dumps(data, indent=4, sort_keys=True))
 
 
             return
