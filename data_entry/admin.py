@@ -456,7 +456,7 @@ def daca_validation_status(obj):
     return label.upper()
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
-    list_display = ('stake_holder_name', daca_validation_status, pitmeo_validation_status, 'quarter_been_reported')
+    list_display = ('stake_holder_name', 'name', daca_validation_status, pitmeo_validation_status, 'quarter_been_reported')
     list_filter = ('stake_holder_name__organisation_province__name', 'dacavalidation__validation_status', 
         'pitmeovalidation__validation_status', 'stake_holder_name__organisation_district__name',)
     search_fields = ['stake_holder_name__organisation']
@@ -567,8 +567,8 @@ ActivityReportForm
                     kwargs["queryset"] = stakeholders.filter(organisation_province=userProfile.province)
                 if request.user.groups.filter(name="DACA"):
                     kwargs["queryset"] = stakeholders.filter(organisation_district=userProfile.district)
-                #if request.user.groups.filter(name="Stakeholder"):
-                    #kwargs["queryset"] = stakeholders.filter(id=userProfile.stakeholder.id)
+                if request.user.groups.filter(name="Stakeholder"):
+                    kwargs["queryset"] = stakeholders.filter(id=userProfile.stakeholder.id)
 
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 

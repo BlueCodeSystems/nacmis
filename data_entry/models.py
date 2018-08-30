@@ -432,7 +432,8 @@ class ActivityReportForm(models.Model):
 
     def __str__(self):
         if self.stake_holder_name:
-            return self.stake_holder_name.organisation + " - " + self.quarter_been_reported
+            return (self.name + ": " + self.stake_holder_name.organisation + 
+                " - " + self.quarter_been_reported)
         else:
             return "unset stakeholder name"
 
@@ -717,12 +718,10 @@ class SubheaderLabel6(models.Model):
 class SubheaderLabel7(models.Model):
     organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
-# FIXME: fill this out
-"""
 class DataEtl(models.Model):
-    id = ...
-    data_element_id = ...
-    org_unit_id = ...
-    period = ...
-    value = ...
-"""
+    dataElementName = models.CharField(max_length=160)
+    dataElementID = models.CharField(max_length=100)
+    orgUnitName = models.CharField(max_length=100)
+    orgUnitID = models.CharField(max_length=100)
+    period = models.PositiveIntegerField(max_length=10)
+    value = models.PositiveIntegerField()
