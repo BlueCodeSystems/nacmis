@@ -507,7 +507,8 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
             'fields': (),
         }),
     )
-
+    inlines = [SubheaderLabel1Inline, MaterialInline, MaterialInline2]
+    """
     inlines = [SubheaderLabel1Inline, MaterialInline, MaterialInline2, SubheaderLabel2Inline, TeachersInline, OutOfSchoolInline, 
         SexWorkerInline, InmateInline, PersonsWithDisabiltyInline, MobileWorkerInline, MobilePopulationInline, MenWithMenInline, 
         TransgenderIndividualInline, PeopleWhoInjectDrugInline, SubheaderLabel3Inline, CondomProgrammingInline, 
@@ -517,7 +518,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, StakeholderVerificationInline, SubheaderLabel7Inline, 
         DACAValidationInline, PITMEOValidationInline]
 
-    """
+    
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = super().get_readonly_fields(request, obj)
 ActivityReportForm
@@ -590,6 +591,13 @@ ActivityReportForm
                 qs = activity_form_province.filter(dacavalidation__validation_status="approved")
         return qs
 
+    def get_formsets_with_inlines(self, request, obj=None):
+        for inline in self.get_inline_instances(request, obj):
+            # hide MyInline in the add view
+            if isinstance(inline, MaterialInline) and obj is None:
+                continue
+            yield inline.get_formset(request, obj), inline   
+    
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
 
