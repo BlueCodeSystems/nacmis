@@ -1,5 +1,6 @@
 #!python
 
+import datetime
 import json
 import os
 
@@ -108,6 +109,31 @@ class DHIS2:
         self.orgUnits = self.getPagedResults(URL, 'organisationUnits')
         print("%s organisationunits found" % len(self.orgUnits))
 
+def current_quarter():
+    month = datetime.date.today().month
+    if month in [1, 2, 3]: return 1
+    elif month in [4, 5, 6]: return 2
+    elif month in [7, 8, 9]: return 3
+    else: return 4
+
+def current_year():
+    return datetime.date.today().year
+
+def gen_quarters():
+    """ Generator to produce all (year, quarter) pairs, starting at (2018, 1),
+        ending (and including) the current year and current quarter. """
+    curr_year = current_year()
+    curr_quarter = current_quarter()
+    year = 2018
+    quarter = 1
+    while True:
+        yield year, quarter
+        if year == curr_year and quarter == curr_quarter:
+            raise StopIteration
+        quarter += 1
+        if quarter > 4:
+            year += 1
+            quarter = 1
 
 class ZambiaHMIS:
     LOGIN_URL = "https://www.zambiahmis.org/dhis-web-commons/security/login.action"
@@ -236,25 +262,27 @@ class ZambiaHMIS:
             If 'test' is True, then we do a test run with one organisation unit
             and one data element. 
         """
-        period = "201801"  # FIXME
-        for orgUnit in self.orgUnits:
-            print("orgUnit:", orgUnit)
-            for dataSet in self.dataSets:
-                print("dataSet:", dataSet)
-                j = self.getDataValueSet(orgUnit['id'], dataSet['id'], period)
+        for year, quarter in gen_quarters():
+            period = "%04d%02d" % (year, quarter)
+            print("Quarter:", period)
+            for orgUnit in self.orgUnits:
+                print("orgUnit:", orgUnit)
+                for dataSet in self.dataSets:
+                    print("dataSet:", dataSet)
+                    j = self.getDataValueSet(orgUnit['id'], dataSet['id'], period)
 
-                if j is None:
-                    # there was a problem with the JSON; print a
-                    # diagnostic message and continue
-                    continue
+                    if j is None:
+                        # there was a problem with the JSON; print a
+                        # diagnostic message and continue
+                        continue
 
-                if j.get('dataValues'):
-                    self.store_data(orgUnit, dataSet, period, j)
-                    with open("test.json", "w") as f:
-                        json.dump(j, f, indent=4, sort_keys=True)
-                    if test:
-                        print("Testing ended; exiting")
-                        return
+                    if j.get('dataValues'):
+                        self.store_data(orgUnit, dataSet, period, j)
+                        with open("test.json", "w") as f:
+                            json.dump(j, f, indent=4, sort_keys=True)
+                        if test:
+                            print("Testing ended; exiting")
+                            return
 
     def store_data(self, orgUnit, dataSet, period, dataValueSets):
         for dv in dataValueSets['dataValues']:
@@ -264,6 +292,7 @@ class ZambiaHMIS:
                         orgUnitID=orgUnit['id'],
                         period=int(period),
                         value=int(dv['value'] or 0))
+                        # XXX FIXME: value might be boolean!
             d.save()
 
 
@@ -276,7 +305,7 @@ class Command(BaseCommand):
             hmis.getOrgUnits()
             hmis.getDataSets()
             hmis.getDataElements()
-            hmis.populate(test=True)
+            hmis.populate(test=False)
 
             # test
             #data = hmis.getDataValueSet("mHs8NE6sJBO", "sHbZC96yrxU", "201801")
