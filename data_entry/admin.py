@@ -28,27 +28,30 @@ import datetime
 # *************************************************
 class ProgramActivityInline(admin.TabularInline):
     model = ProgramActivity
-    verbose_name_plural = 'Program activities'
+    verbose_name_plural = 'Section 5: Geographic activities'
     form = ProgramActivityModelForm
     extra = 1
 
 class FundingSourceInline(admin.TabularInline):
     model = FundingSource
+    verbose_name_plural = 'Section 6: Funding sources'
     extra = 1
 
 class TargetGroupPreventionMessageInline(admin.TabularInline):
     model = TargetGroupPreventionMessage
-    verbose_name_plural = 'Target group and prevention messages'
+    verbose_name_plural = 'Section 7: Target group and prevention messages'
     form = TargetGroupPreventionMessageModelForm
     extra = 1
 
 class OtherQuestionInline(admin.TabularInline):
     model = OtherQuestion
     form = OtherQuestionModelForm
+    verbose_name_plural = 'Section 8: Other questions'
     extra = 1
 
 class EndOfYearQuestionInline(admin.TabularInline):
     model = EndOfYearQuestion
+    verbose_name_plural = 'Section 9: End of year questions'
     extra = 1
 
 class GeneralCommentInline(admin.StackedInline):
@@ -347,16 +350,16 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     EndOfYearQuestionInline.max_num = 1
 
     fieldsets = (
-        ('Basic details on the organisation', {
+        ('Section 1: Basic details on the organisation', {
             #'classes':('collapse',),
             'fields': ('national_organisation','organisation', ('organisation_province', 'organisation_district'), 
             'organisation_address', 'start_year', 'gps', 'website', 'description_of_organisation')
         }),
-        ('Contact details', {
+        ('Section 2: Contact details', {
             'fields': ('key_contact_name', 'position_within_organisation', 'telephone_number', 
             'telephone_number_alternative', 'email_address'),
         }),
-        ('Staff details', {
+        ('Section 3: Staff details', {
             'fields': ( ('permanent_employee_male', 'permanent_employee_female'), ('temporary_employee_male', 
                 'temporary_employee_female'), ('volunteer_employee_male', 'volunteer_employee_female') ),
                 
@@ -367,7 +370,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
                 financial gain. These employees <br/>usually do not displace any other employee types and usually not \
                 entitled to many benefits as compared to other employee types.</p></b>'),
         }),
-        ('Organisation classification', {
+        ('Section 4: Organisation classification', {
             'fields': ( ('organisation_type', 'other_organisation_type'), ('organisation_targets', 'other_organisation_target') )
         })
     )
