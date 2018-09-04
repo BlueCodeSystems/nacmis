@@ -709,5 +709,5 @@ class DataEtl(models.Model):
     dataElementID = models.CharField(max_length=100)
     orgUnitName = models.CharField(max_length=100)
     orgUnitID = models.CharField(max_length=100)
-    period = models.PositiveIntegerField(max_length=10)
+    period = models.PositiveIntegerField()
     value = models.PositiveIntegerField()

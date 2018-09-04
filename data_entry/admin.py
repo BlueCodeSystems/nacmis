@@ -380,7 +380,6 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
 
     current_year = datetime.datetime.now().strftime("%Y")
     current_month = datetime.datetime.now().strftime("%m")
-    print("the curent month and year is ", int(current_month), " and ", current_year)
     
     if( int(current_month) < 4 ):
         endlist = []
@@ -388,7 +387,6 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         
         inlines.extend([OtherQuestionInline, EndOfYearQuestionInline])
         inlines.extend(endlist)
-    print("---",inlines)
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         
