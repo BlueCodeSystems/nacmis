@@ -387,7 +387,7 @@ create or replace view vw_programactivity as
 create or replace view vw_targetgrouppreventionmessage as
   select o.*,
     t.id as targetgrouppreventionmessage_id,
-    t.prevention_message
+    --t.prevention_message
   from data_entry_targetgrouppreventionmessage t
   left outer join vw_organisationtarget o
     on o.id = t.organisation_id;
