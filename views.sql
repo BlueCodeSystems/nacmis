@@ -2,13 +2,14 @@
 -- apply with: 
 -- psql nacmis -f views.sql
 
-create or replace view vw_stakeholderdirectory as
+/*create or replace view vw_stakeholderdirectory as
   select st.*, pr.name as province_name, ds.name as district_name
   from data_entry_stakeholderdirectory st
   left outer join data_entry_province pr 
     on pr.id = st.organisation_province_id
   left outer join data_entry_district ds
-    on ds.id = st.organisation_district_id; 
+    on ds.id = st.organisation_district_id;
+*/ 
 
 create or replace view vw_organisationtarget as
   select st.*, ot.organisation_target_option
