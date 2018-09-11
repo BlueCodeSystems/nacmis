@@ -121,8 +121,8 @@ class MaterialInline2(admin.TabularInline):
 
 class TeachersInline(admin.TabularInline):
     model = Teachers
-    verbose_name_plural = '3. Number of teachers who have received training, and taught lessons, in life \
-        skills based comprehensive sexuality eduaction this quarter'
+    verbose_name_plural = '3. Number of CSE trained teachers who taught lessons, in life skills based \
+        comprehensive sexuality education(CSE) this quarter'
     can_delete = False
     extra = 1
 
