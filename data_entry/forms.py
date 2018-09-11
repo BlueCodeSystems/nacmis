@@ -25,6 +25,7 @@ class UserProfileModelForm(forms.ModelForm):
         fields = ('__all__')
 
         widgets = {
+            'national_organisation' : autocomplete.ModelSelect2(url='national-organisation-autocomplete', forward=['organisation_province']),
             'district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['province']),
             'stakeholder' : autocomplete.ModelSelect2(url='stakeholder-autocomplete', forward=['national_organisation']),
         }
