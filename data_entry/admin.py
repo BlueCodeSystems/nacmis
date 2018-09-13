@@ -121,8 +121,8 @@ class MaterialInline2(admin.TabularInline):
 
 class TeachersInline(admin.TabularInline):
     model = Teachers
-    verbose_name_plural = '3. Number of teachers who have received training, and taught lessons, in life \
-        skills based comprehensive sexuality eduaction this quarter'
+    verbose_name_plural = '3. Number of CSE trained teachers who taught lessons, in life skills based \
+        comprehensive sexuality education(CSE) this quarter'
     can_delete = False
     extra = 1
 
@@ -610,6 +610,9 @@ class WardAdmin(admin.ModelAdmin):
     search_fields = ['name']
     form = WardModelForm
 
+class NationalOrganisationAdmin(admin.ModelAdmin):
+    search_fields = ['organisation_name',]
+
 #The code below is meant to include the user profile process directly into the user creation dialogue
 class UserProfileInline(admin.StackedInline):
     form = UserProfileModelForm
@@ -723,7 +726,7 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
 # Register National Organisation models
-admin.site.register(NationalOrganisation)
+admin.site.register(NationalOrganisation, NationalOrganisationAdmin)
 
 # Register StakeHolder models
 admin.site.register(StakeholderDirectory, StakeholderDirectoryAdmin)

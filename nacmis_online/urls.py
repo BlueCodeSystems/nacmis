@@ -17,7 +17,7 @@ from django.urls import include, path
 from django.contrib import admin
 from data_entry import views
 from data_entry.views import SupportFieldAutocomplete, SupportByAreaAutocomplete, SourcesOfInformationAutocomplete, \
-    DistrictAutocomplete, WardAutocomplete, OrganisationTargetAutocomplete, \
+    NationalOrganisationAutocomplete, DistrictAutocomplete, WardAutocomplete, OrganisationTargetAutocomplete, \
     PreventionMessageListAutocomplete, comingSoonView, StakeholderAutocomplete
 
 urlpatterns = [
@@ -50,6 +50,7 @@ urlpatterns = [
     path('district-autocomplete/', DistrictAutocomplete.as_view(), name='district-autocomplete'),
     path('ward-autocomplete/', WardAutocomplete.as_view(), name='ward-autocomplete'),
     path('stakeholder-autocomplete/', StakeholderAutocomplete.as_view(), name='stakeholder-autocomplete'),
+    path('national-organisation-autocomplete/', NationalOrganisationAutocomplete.as_view(), name='national-organisation-autocomplete'),
 
     # urls for password reset implementation
     path('', include('django.contrib.auth.urls')),

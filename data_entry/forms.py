@@ -10,9 +10,11 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
 
     class Meta:
         model = StakeholderDirectory
-        fields = ['organisation_address', 'organisation_targets', 'organisation_province', 'organisation_district', 'start_year']
+        fields = ['national_organisation', 'organisation_address', 'organisation_targets', 'organisation_province', 
+            'organisation_district', 'start_year']
 
         widgets = {
+            'national_organisation' : autocomplete.ModelSelect2(url='national-organisation-autocomplete'),
             'organisation_address' : forms.TextInput(attrs={'placeholder':'Enter district address'}),
             'organisation_targets' : autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
             'organisation_district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['organisation_province']),
@@ -25,6 +27,7 @@ class UserProfileModelForm(forms.ModelForm):
         fields = ('__all__')
 
         widgets = {
+            'national_organisation' : autocomplete.ModelSelect2(url='national-organisation-autocomplete', forward=['organisation_province']),
             'district' : autocomplete.ModelSelect2(url='district-autocomplete', forward=['province']),
             'stakeholder' : autocomplete.ModelSelect2(url='stakeholder-autocomplete', forward=['national_organisation']),
         }

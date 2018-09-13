@@ -6,8 +6,9 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from .models import District, Ward, OrganisationTarget, PreventionMessageList, \
-    SupportField, SupportByArea, SourcesOfInformation,UserProfile, StakeholderDirectory
+from .models import NationalOrganisation, District, Ward, OrganisationTarget, \
+    PreventionMessageList, SupportField, SupportByArea, SourcesOfInformation, \
+    UserProfile, StakeholderDirectory
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
@@ -72,6 +73,17 @@ class SourcesOfInformationAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(source__istartswith=self.q)
         return qs
 
+class NationalOrganisationAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        qs = NationalOrganisation.objects.all()
+
+
+        if self.q:
+            qs = qs.filter(organisation_name__istartswith=self.q)
+        return qs
+        
+
 class DistrictAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         
@@ -89,7 +101,6 @@ class DistrictAutocomplete(autocomplete.Select2QuerySetView):
                     qs = qs.filter(id=userProfile.stakeholder.id)
                 #if self.request.user.groups.filter(name="DACA"):
                     #qs = qs.filter(name=userProfile.district.name)
-
 
         province = self.forwarded.get('organisation_province', None) or self.forwarded.get('province', None)
 

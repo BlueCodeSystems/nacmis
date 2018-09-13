@@ -3,12 +3,13 @@
 -- psql nacmis -f views.sql
 
 create or replace view vw_stakeholderdirectory as
-  select st.*, pr.name as province_name, ds.name as district_name
+  select st.*, pr.name as province_name,  ds.district_longitude, ds.district_latitude, ds.name as district_name
   from data_entry_stakeholderdirectory st
   left outer join data_entry_province pr 
     on pr.id = st.organisation_province_id
   left outer join data_entry_district ds
-    on ds.id = st.organisation_district_id; 
+    on ds.id = st.organisation_district_id;
+ 
 
 create or replace view vw_organisationtarget as
   select st.*, ot.organisation_target_option
@@ -382,7 +383,7 @@ create or replace view vw_programactivity as
     on o.id = p.organisation_id
   left outer join data_entry_ward w
     on p.ward_id = w.id;
-
+/*
 create or replace view vw_targetgrouppreventionmessage as
   select o.*,
     t.id as targetgrouppreventionmessage_id,
@@ -390,7 +391,7 @@ create or replace view vw_targetgrouppreventionmessage as
   from data_entry_targetgrouppreventionmessage t
   left outer join vw_organisationtarget o
     on o.id = t.organisation_id;
-
+*/
 drop view if exists vw_mobilepopulation_types;
 create or replace view vw_mobilepopulation_types as
   select mp.*,
@@ -462,8 +463,7 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_sex_workers_by_age_and_sex;
-create view vw_sex_workers_by_age_and_sex as
+create or replace view vw_sex_workers_by_age_and_sex as
 select ac.*, vw.*
 from sp_sex_workers_by_age_and_sex() vw
 left join vw_activityreportform ac
@@ -513,8 +513,8 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_out_of_school_by_age_and_sex;
-create view vw_out_of_school_by_age_and_sex as
+/*drop view if exists vw_out_of_school_by_age_and_sex;*/
+create or replace view vw_out_of_school_by_age_and_sex as
 select ac.*, vw.*
 from sp_out_of_school_by_age_and_sex() vw
 left join vw_activityreportform ac
@@ -572,8 +572,8 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_reported_case_by_age_and_sex;
-create view vw_reported_case_by_age_and_sex as
+/*drop view if exists vw_reported_case_by_age_and_sex;*/
+create  or replace view vw_reported_case_by_age_and_sex as
 select ac.*, vw.*
 from sp_reported_case_by_age_and_sex() vw
 left outer join vw_activityreportform ac
@@ -863,8 +863,7 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_vulnerable_people_by_age_and_sex;
-create view vw_vulnerable_people_by_age_and_sex as
+create or replace view vw_vulnerable_people_by_age_and_sex as
 select ac.*, vw.* 
 from sp_vulnerable_people_by_age_and_sex() vw
 left outer join vw_activityreportform ac
