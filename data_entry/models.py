@@ -2,6 +2,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
 from django.contrib.auth.models import User
 
+import re
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 
 # Create your models here.
@@ -201,7 +202,7 @@ class Ward(models.Model):
 #                       NATIONAL ORGANISATION
 # *********************************************************************
 class NationalOrganisation(models.Model):
-    alphanumeric = RegexValidator(r'(?!^\d+$)^.+$', 'Only alphanumeric characters are allowed and not numbers only.')
+    alphanumeric = RegexValidator(r'(?!^\d+$)^.+$/i', 'Only alphanumeric characters are allowed and not numbers only.')
     organisation_name = models.CharField(max_length=200, unique=True, validators=[alphanumeric])
     organisation_address = models.CharField('address of the organisation', max_length=100)
     organisation_contact_email = models.EmailField(max_length=254)
@@ -429,7 +430,6 @@ class ActivityReportForm(models.Model):
         verbose_name_plural = 'Stakeholder Activity Report Form (SARF)'
 
 VALIDATION_STATUS = (
-    ('submitted', 'Submitted'),
     ('needs_review', 'Needs Review'),
     ('approved', 'Approved'),
 )
