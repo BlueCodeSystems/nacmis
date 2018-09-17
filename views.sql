@@ -631,7 +631,7 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_experienced_physical_violence_by_age_and_sex;
+/*drop view if exists vw_experienced_physical_violence_by_age_and_sex;*/
 create view vw_experienced_physical_violence_by_age_and_sex as
 select ac.*, vw.*
 from sp_experienced_physical_violence_by_age_and_sex() vw
