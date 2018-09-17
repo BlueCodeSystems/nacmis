@@ -184,6 +184,8 @@ class Province(models.Model):
 class District(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50, unique=True)
+    district_latitude = models.CharField(max_length=50, null=True)
+    district_longitude = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.name
