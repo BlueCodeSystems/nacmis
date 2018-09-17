@@ -429,7 +429,6 @@ class ActivityReportForm(models.Model):
         verbose_name_plural = 'Stakeholder Activity Report Form (SARF)'
 
 VALIDATION_STATUS = (
-    ('submitted', 'Submitted'),
     ('needs_review', 'Needs Review'),
     ('approved', 'Approved'),
 )
