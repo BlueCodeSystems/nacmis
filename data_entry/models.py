@@ -202,7 +202,7 @@ class Ward(models.Model):
 #                       NATIONAL ORGANISATION
 # *********************************************************************
 class NationalOrganisation(models.Model):
-    alphanumeric = RegexValidator(r'(?!^\d+$)^.+$/i', 'Only alphanumeric characters are allowed and not numbers only.')
+    alphanumeric = RegexValidator(r'(?!^\d+$)^.+$', 'Only alphanumeric characters are allowed and not numbers only.')
     organisation_name = models.CharField(max_length=200, unique=True, validators=[alphanumeric])
     organisation_address = models.CharField('address of the organisation', max_length=100)
     organisation_contact_email = models.EmailField(max_length=254)
