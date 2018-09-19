@@ -542,17 +542,17 @@ begin
         insert into temp_outofschool
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10_14', 'female', row.out_school_female_10_14, 
+            ('10_14', 'Female', row.inmate_female_10_14, 
              row.activity_form_id),
-            ('15_19', 'female', row.out_school_female_15_19, 
+            ('15_19', 'Female', row.inmate_female_15_19, 
              row.activity_form_id),
-            ('20_24', 'female', row.out_school_female_20_24, 
+            ('20_24', 'Female', row.inmate_female_20_24, 
              row.activity_form_id),
-            ('10_14', 'male', row.out_school_male_10_14, 
+            ('10_14', 'Male', row.inmate_male_10_14, 
              row.activity_form_id),
-            ('15_19', 'male', row.out_school_male_15_19, 
+            ('15_19', 'Male', row.inmate_male_15_19, 
              row.activity_form_id),
-            ('20_24', 'male', row.out_school_male_20_24, 
+            ('20_24', 'Male', row.inmate_male_20_24, 
              row.activity_form_id);
     end loop;
 
