@@ -518,6 +518,56 @@ from sp_out_of_school_by_age_and_sex() vw
 left join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id;
 
+create or replace function sp_inmates_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_outofschool;
+    create temp table temp_outofschool (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_inmates
+    loop
+        insert into temp_outofschool
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('10_14', 'female', row.out_school_female_10_14, 
+             row.activity_form_id),
+            ('15_19', 'female', row.out_school_female_15_19, 
+             row.activity_form_id),
+            ('20_24', 'female', row.out_school_female_20_24, 
+             row.activity_form_id),
+            ('10_14', 'male', row.out_school_male_10_14, 
+             row.activity_form_id),
+            ('15_19', 'male', row.out_school_male_15_19, 
+             row.activity_form_id),
+            ('20_24', 'male', row.out_school_male_20_24, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_outofschool;
+end;
+$$ language plpgsql;
+
+/*drop view if exists vw_inmate_by_age_and_sex;*/
+create or replace view vw_inmate_by_age_and_sex as
+select ac.*, vw.*
+from sp_inmate_by_age_and_sex() vw
+left join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id;
+
 create or replace function sp_reported_case_by_age_and_sex()
 returns table (
     age_group text, 
