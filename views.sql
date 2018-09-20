@@ -854,7 +854,7 @@ begin
             ('10-14', 'Female', row.ovc_female_10_14, 
              row.activity_form_id),
             ('15-19', 'Female', row.ovc_female_15_19, 
-             row.activity_form_id),
+               row.activity_form_id),
             ('20-24', 'Female', row.ovc_female_20_24, 
              row.activity_form_id),
             ('25 plus', 'Female', row.ovc_female_25_plus, 
