@@ -3,13 +3,12 @@
 -- psql nacmis -f views.sql
 
 create or replace view vw_stakeholderdirectory as
-  select st.*, pr.name as province_name,  ds.district_longitude, ds.district_latitude, ds.name as district_name
+ select st.*, pr.name as province_name,  ds.district_longitude, ds.district_latitude, ds.name as district_name
   from data_entry_stakeholderdirectory st
   left outer join data_entry_province pr 
     on pr.id = st.organisation_province_id
   left outer join data_entry_district ds
-    on ds.id = st.organisation_district_id;
- 
+    on ds.id = st.organisation_district_id; 
 
 create or replace view vw_organisationtarget as
   select st.*, ot.organisation_target_option
@@ -407,6 +406,7 @@ create or replace view vw_mobilepopulation_types as
 -- pick apart the data_entry_sexworker table, i.e. split the data up by age
 -- group and sex, and present these as fields in a different table, so we can
 -- filter by them.
+
 create or replace function sp_sex_workers_by_age_and_sex()
 returns table (
     age_group text, 
@@ -512,7 +512,7 @@ begin
 end;
 $$ language plpgsql;
 
-/*drop view if exists vw_out_of_school_by_age_and_sex;*/
+/*drop view if exists vw_out_of_school_by_age_and_sex;*/ 
 create or replace view vw_out_of_school_by_age_and_sex as
 select ac.*, vw.*
 from sp_out_of_school_by_age_and_sex() vw
@@ -530,8 +530,8 @@ returns table (
 declare 
     row record;
 begin
-    drop table if exists temp_outofschool;
-    create temp table temp_outofschool (
+    drop table if exists temp_inmate;
+    create temp table temp_inmate (
         age_group text,
         sex text, 
         value integer,
@@ -539,36 +539,36 @@ begin
     );
 
     for row in
-        select * from data_entry_inmates
+        select * from data_entry_inmate
     loop
-        insert into temp_outofschool
+        insert into temp_inmate
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10_14', 'Female', row.inmate_female_10_14, 
+            ('10 to 14', 'Female', row.inmate_female_10_14, 
              row.activity_form_id),
-            ('15_19', 'Female', row.inmate_female_15_19, 
+            ('15 to 19', 'Female', row.inmate_female_15_19, 
              row.activity_form_id),
-            ('20_24', 'Female', row.inmate_female_20_24, 
+            ('20 to 24', 'Female', row.inmate_female_20_24, 
              row.activity_form_id),
-            ('10_14', 'Male', row.inmate_male_10_14, 
+            ('10 to 14', 'Male', row.inmate_male_10_14, 
              row.activity_form_id),
-            ('15_19', 'Male', row.inmate_male_15_19, 
+            ('15 to 19', 'Male', row.inmate_male_15_19, 
              row.activity_form_id),
-            ('20_24', 'Male', row.inmate_male_20_24, 
+            ('20 to 24', 'Male', row.inmate_male_20_24, 
              row.activity_form_id);
     end loop;
 
     return query
-        select * from temp_outofschool;
+        select * from temp_inmate;
 end;
 $$ language plpgsql;
 
-/*drop view if exists vw_inmate_by_age_and_sex;*/
 create or replace view vw_inmate_by_age_and_sex as
 select ac.*, vw.*
 from sp_inmate_by_age_and_sex() vw
 left join vw_activityreportform ac
-  on ac.id = vw.activity_report_form_id;
+  on ac.id = vw.activity_report_form_id
+  Order by age_group;
 
 create or replace function sp_reported_case_by_age_and_sex()
 returns table (
@@ -621,8 +621,7 @@ begin
 end;
 $$ language plpgsql;
 
-/*drop view if exists vw_reported_case_by_age_and_sex;*/
-create  or replace view vw_reported_case_by_age_and_sex as
+create or replace view vw_reported_case_by_age_and_sex as
 select ac.*, vw.*
 from sp_reported_case_by_age_and_sex() vw
 left outer join vw_activityreportform ac
