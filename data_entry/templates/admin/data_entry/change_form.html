@@ -1,5 +1,5 @@
 {% extends "admin/change_form.html" %}
-{% load i18n admin_urls %}
+{% load i18n admin_urls static %}
 
 {% block extrastyle %}
     {{ block.super }}
@@ -13,5 +13,29 @@
         .description_fit_in {
             font-style: italic;
         }
+
+        #subheaderlabel1_set-group h2, #subheaderlabel1_set-group h2, #subheaderlabel2_set-group h2, 
+        #subheaderlabel3_set-group h2, #subheaderlabel4_set-group h2, #subheaderlabel5_set-group h2, 
+        #subheaderlabel6_set-group h2, #subheaderlabel7_set-group h2{
+            background-color: transparent;
+            color: black;
+            font-size: 1em;
+            font-weight: bold;
+            text-align: center;
+            
+        }
+
+        .hide_acknowledgement {
+            display: none;
+        }
+
+        .show_acknowledgement {
+            display: inline;
+        }
     </style>
+{% endblock %}
+
+{% block  admin_change_form_document_ready  %} 
+{{ block.super }}
+<!--<script type="text/javascript" src="{% static 'admin/js/script.js' %}"></script>-->
 {% endblock %}

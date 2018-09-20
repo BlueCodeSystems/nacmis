@@ -17,7 +17,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<head>
 		<meta charset="utf-8" />
 		<title>
-			{% block title %} National AIDS Council Management Information System {% endblock  %}
+			{% block title %} National HIV/AIDS/STI/TB Council Management Information System{% endblock  %}
 		</title>
 		<meta name="description" content="Latest updates and statistic charts">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
@@ -50,6 +50,15 @@ License: You must have a valid license purchased only from themeforest(the above
 				color: #f7a63e;
 				font-size: 1.07rem;
 			}
+
+			/* mouse over link */
+			a:hover {
+				color: #f7a63e;
+			}
+			h4 {
+				text-decoration: underline;
+				text-transform: capitalize;
+			}
 		</style>
 	</head>
 	<!-- end::Head -->
@@ -59,7 +68,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<div class="m-grid m-grid--hor m-grid--root m-page">
 			<!-- begin::Header -->
 			<!-- begin::Header -->
-			<header id="m_header" class="m-grid__item m-header "  m-minimize="minimize" m-minimize-offset="200" m-minimize-mobile-offset="200" >
+			<header id="m_header" class="m-grid__item m-header " >
 				<div class="m-header__top">
 					<div class="m-container m-container--responsive m-container--xxl m-container--full-height m-page__container">
 						<div class="m-stack m-stack--ver m-stack--desktop">
@@ -68,7 +77,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div class="m-stack m-stack--ver m-stack--general m-stack--inline">
 									<div class="m-stack__item m-stack__item--middle m-brand__logo">
 										<a href="{% url 'home-view' %}" class="m-brand__logo-wrapper">
-											<img alt="" src="{% static 'data_entry/assets/demo/demo2/media/img/logo/logo.png' %}"/>
+											<img alt="NAC Logo" src="{% static 'data_entry/assets/demo/demo2/media/img/logo/logo.png' %}"/>
 										</a>
 									</div>
 									<div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -108,14 +117,8 @@ License: You must have a valid license purchased only from themeforest(the above
 																		</span>
 																	</a>
 																</li>
-																<li class="m-nav__separator m-nav__separator--fit"></li>
-																<li class="m-nav__item">
-																	<a href="{% url 'internal-monitoring-view' %}" class="m-nav__link">
-																		<span class="m-nav__link-text">
-																			Internal Monitoring
-																		</span>
-																	</a>
-																</li>
+																<!--
+																{% if request.user.is_authenticated and request.user|has_group:"PACA" or request.user.is_superuser %}
 																<li class="m-nav__separator m-nav__separator--fit"></li>
 																<li class="m-nav__item">
 																	<a href="{% url 'paca-dashboard-view' %}" class="m-nav__link">
@@ -124,22 +127,38 @@ License: You must have a valid license purchased only from themeforest(the above
 																		</span>
 																	</a>
 																</li>
+																{% endif %}
+																-->
+																{% if request.user.is_authenticated and request.user|has_group:"PITMEO" or request.user|has_group:"PACA" or request.user.is_superuser %}
 																<li class="m-nav__separator m-nav__separator--fit"></li>
 																<li class="m-nav__item">
 																	<a href="{% url 'pitmeo-dashboard-view' %}" class="m-nav__link">
 																		<span class="m-nav__link-text">
-																			PITMEO Dashboard
+																			Provincial Dashboard
 																		</span>
 																	</a>
 																</li>
+																{% endif %}
+																{% if request.user.is_authenticated and request.user|has_group:"DACA" or request.user|has_group:"PACA" or request.user|has_group:"PITMEO" or request.user.is_superuser %}
 																<li class="m-nav__separator m-nav__separator--fit"></li>
 																<li class="m-nav__item">
 																	<a href="{% url 'daca-dashboard-view' %}" class="m-nav__link">
 																		<span class="m-nav__link-text">
-																			DACA Dashboard
+																			District Dashboard
 																		</span>
 																	</a>
 																</li>
+																{% endif %}
+																{% if request.user.is_authenticated and request.user|has_group:"NAC- central m and e" or request.user.is_superuser %}
+																<li class="m-nav__separator m-nav__separator--fit"></li>
+																<li class="m-nav__item">
+																	<a href="{% url 'internal-monitoring-view' %}" class="m-nav__link">
+																		<span class="m-nav__link-text">
+																			Internal Monitoring
+																		</span>
+																	</a>
+																</li>
+																{% endif %}
 															</ul>
 														</div>
 													</div>
@@ -193,6 +212,11 @@ License: You must have a valid license purchased only from themeforest(the above
 											</li>
 										</ul>
 									</div>
+									<div class="m-stack__item m-stack__item--middle m-brand__logo">
+										<a href="{% url 'home-view' %}" class="m-brand__logo-wrapper">
+											<img alt="" src="{% static 'data_entry/assets/demo/demo2/media/img/logo/Coat_of_arms_of_Zambia_75x87.png' %}"/>
+										</a>
+									</div>
 								</div>
 							</div>
 							<!-- end::Topbar -->
@@ -217,6 +241,22 @@ License: You must have a valid license purchased only from themeforest(the above
 												</span>
 											</a>
 										</li>
+										<li class="m-menu__item  m-menu__item" aria-haspopup="true">
+											<a  href="../admin/data_entry/activityreportform" class="m-menu__link">
+												<span class="m-menu__item-here"></span>
+												<span class="m-menu__link-text">
+													Stakeholder Reporting
+												</span>
+											</a>
+										</li>
+                                        <li class="m-menu__item  m-menu__item" aria-haspopup="true">
+											<a  href="/resources" class="m-menu__link">
+												<span class="m-menu__item-here"></span>
+												<span class="m-menu__link-text">
+													Resources
+												</span>
+											</a>
+										</li>
 										{% if request.user.is_authenticated and not request.user|has_group:"Stakeholder" %}
 										<li class="m-menu__item  m-menu__item"  aria-haspopup="true">
 											<a  href="/admin" class="m-menu__link ">
@@ -227,22 +267,6 @@ License: You must have a valid license purchased only from themeforest(the above
 											</a>
 										</li>
 										{% endif %}
-                                        <li class="m-menu__item  m-menu__item" aria-haspopup="true">
-											<a  href="javascript:;" class="m-menu__link">
-												<span class="m-menu__item-here"></span>
-												<span class="m-menu__link-text">
-													Resources
-												</span>
-											</a>
-										</li>
-										<li class="m-menu__item  m-menu__item" aria-haspopup="true">
-											<a  href="admin/data_entry/activityreportform" class="m-menu__link">
-												<span class="m-menu__item-here"></span>
-												<span class="m-menu__link-text">
-													Stakeholder Reporting
-												</span>
-											</a>
-										</li>
 										<!--
 										class m-menu__item--submenu, sttributes m-menu-submenu-toggle and m-menu-link-redirect affect the clicking.
 										<li class="m-menu__item  m-menu__item--submenu"  m-menu-submenu-toggle="click" m-menu-link-redirect="1" aria-haspopup="true">
@@ -306,7 +330,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						<div class="d-flex align-items-center">
 							<div class="mr-auto">
 								<h3 class="m-subheader__title ">
-									{% block subheader_title %} National AIDS Council Management Information System {% endblock %}
+									{% block subheader_title %} National HIV/AIDS/STI/TB Council Management Information System{% endblock %}
 								</h3>
 							</div>
 						</div>

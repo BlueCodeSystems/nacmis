@@ -2,6 +2,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
 from django.contrib.auth.models import User
 
+import re
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 
 # Create your models here.
@@ -118,53 +119,6 @@ PROVINCES_ZAMBIA = (
     (western, 'Western')
 ) 
 
-ORGANISATION_TARGET_LIST = (
-    (adolecents, 'Adolecents/ Youth'),
-    (care_givers, 'Care givers'),
-    (persons_with_disabilities, 'Persons with Disabilities'),
-    (govt_workers, 'Government workers (work place)'),
-    (health_workers, 'Heath workers'),
-    (widows, 'Widows'),
-    (inmates, 'Inmates'),
-    (msm, 'Men who have sex with men (MSM)'),
-    (elderly, 'Elderly/ Pensioners'),
-    (vp, 'Vulnerable People'),
-    (plhiv, 'People living with HIV/ AIDS'),
-    (pregnant_women, 'Pregnant Women'),
-    (sex_workers, 'Sex workers'),
-    (teachers, 'Teachers'),
-    (target_others, 'Other target groups - please specify')
-)
-
-TYPE_OF_SUPPORT_LIST = (
-    (economic_strengthening, 'Economic strengthening'),
-    (education_and_vocational_training, 'Education and Vocational training'),
-    (food_and_nutrition, 'Food and Nutrition'),
-    (healthcare, 'Healthcare'),
-    (protection_and_legal_aid, 'Protection and Legal aid'),
-    (psychosocial, 'Psychosocial'),
-    (shelter_and_care, 'Shelter and Care'),
-    (social_support, 'Social support'),
-    (spiritual_support, 'Spiritual support')
-)
-
-TYPE_OF_MOBILE_POPULATION = (
-    (truck_driver, 'Long distance truck drivers'),
-    (fish_traders, 'Fish traders'),
-    (miners, 'Miners'),
-    (cross_boarder_traders, 'Cross-border traders'),
-    (seasonal_workers, 'Seasonal workers (plantations, farming, etc.)'),
-    (contruction_workers, 'Construction workers'),
-    (mobile_others, 'Others')
-)
-PREVENTION_MESSAGES_LIST = (
-    ('Condom use','Condom use'),
-    ('MC information','MC information'),
-    ('MCP information','MCP information'),
-    ('PMTCT Promotion','PMTCT Promotion'),
-    ('VCT/ HCT Promotion','VCT/ HCT Promotion')
-)
-
 IEC_MATERIALS = (
     (books, 'Books'),
     (billboards, 'Billboards'),
@@ -231,6 +185,8 @@ class Province(models.Model):
 class District(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50, unique=True)
+    district_latitude = models.CharField(max_length=50, null=True)
+    district_longitude = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.name
@@ -271,6 +227,12 @@ class OrganisationTarget(models.Model):
 
     def __str__(self):
         return self.organisation_target_option
+
+class PreventionMessageList(models.Model):
+    prevention_message = models.CharField(max_length=100, unique=True, default="")
+    
+    def __str__(self):
+        return self.prevention_message
 
 #               HELPER CLASSES FOR ACTIVITYREPORTFORM 
 # *********************************************************************
@@ -318,8 +280,10 @@ class StakeholderDirectory(models.Model):
     # --> Organisation Classification
     organisation_type = models.CharField('which of the following \'types\' would best describe your \
         organisation? (Please only tick one type of organisation)', max_length=100, choices=ORGANISATION_TYPE_LIST)
+    other_organisation_type = models.CharField('other organisation/ group - please specify', max_length=100, null=True, blank=True)
     organisation_targets = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
         different groups that are targeted by your organisation)')
+    other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True, blank=True)
 
     def year_extract_in_start_year(self):
         year = self.start_year.strftime('%Y')
@@ -343,13 +307,21 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return "%s"%(self.user.username)
-    
+
+# Activity report form Question 24   
 class SupportField(models.Model):
     area_of_support = models.CharField(max_length=100, unique=True, default="")
 
     def __str__(self):
         return self.area_of_support
 
+# Stakeholder directory Section 4:
+class SupportByArea(models.Model):
+    support_given_at_area = models.CharField(max_length=100, unique=True, default="")
+
+    def __str__(self):
+        return self.support_given_at_area
+        
 class SourcesOfInformation(models.Model):
     source = models.CharField(max_length=100, unique=True, default="")
 
@@ -361,25 +333,36 @@ class SourcesOfInformation(models.Model):
 
 class ProgramActivity(models.Model):
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE, null=True)
-    areas_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
+    #areas_of_support = models.ManyToManyField(SupportField, verbose_name='Program activities by geographic area')
+    areas_of_support2 = models.ManyToManyField(SupportByArea, verbose_name='Program activities by geographic area')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        unique_together = ("ward", "organisation")
 
 class FundingSource(models.Model):
     name_of_organisation =  models.CharField(max_length=100, default="")
-    funding_amount =  models.PositiveIntegerField('Funding Amount(In Zambian Kwacha)')
+    funding_amount = models.PositiveIntegerField('Funding Amount(In Zambian Kwacha)')
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name_of_organisation
 
+    class Meta:
+        unique_together = ("name_of_organisation", "organisation")
+
 class TargetGroupPreventionMessage(models.Model):
-    prevention_message = models.CharField(max_length=100, choices=PREVENTION_MESSAGES_LIST, null=True)
+    prevention_list = models.ForeignKey(PreventionMessageList,  on_delete=models.CASCADE, null=True, 
+        verbose_name='prevention messages conveyed by the program/ activity')
     target_groups = models.ManyToManyField(OrganisationTarget)
+    other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True, blank=True)
     organisation = models.ForeignKey(StakeholderDirectory, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        #return self.target_group + " " + self.prevention_message
-        return self.prevention_message
+        return self.prevention_list.__str__()
+
+    #class Meta:
+    #    unique_together = ("prevention_list", "organisation")
 
 class TypesOfFundingSupport(models.Model):
     support_option =  models.CharField(max_length=100, default="")
@@ -430,10 +413,16 @@ class ActivityReportForm(models.Model):
     name = models.CharField(max_length=50)
     telephone_number = PhoneNumberField(help_text='0xxxxxxxxx')
     email_address = models.EmailField(max_length=50)
+    '''
+    def year_quarter_tuple(self):
+        return (("201801", "2018 - quarter 1"), ("201802", "2018 - quarter 2"), 
+            ("201803", "2018 - quarter 3"), ("201804", "2018 - quarter 4"))
+    '''
 
     def __str__(self):
         if self.stake_holder_name:
-            return self.stake_holder_name.organisation + " - " + self.quarter_been_reported
+            return (self.name + ": " + self.stake_holder_name.organisation + 
+                " - " + self.quarter_been_reported)
         else:
             return "unset stakeholder name"
 
@@ -441,7 +430,6 @@ class ActivityReportForm(models.Model):
         verbose_name_plural = 'Stakeholder Activity Report Form (SARF)'
 
 VALIDATION_STATUS = (
-    ('submitted', 'Submitted'),
     ('needs_review', 'Needs Review'),
     ('approved', 'Approved'),
 )
@@ -467,6 +455,9 @@ class DACAValidation(models.Model):
     acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
     daca_initials = models.CharField('DACA Initials', max_length=5)#We will add the validation statement as read only from the admin.
     validation_comment = models.TextField('Validation Comment', max_length=600, null=True, blank=True)
+
+    def __str__(self):
+        return self.validation_status
    
 class PITMEOValidation(models.Model):
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
@@ -476,6 +467,9 @@ class PITMEOValidation(models.Model):
     acknowledgement = models.TextField(max_length=1200, default=DACA_ACKNOWLEDGEMENT_STATEMENT)
     pitmeo_initials = models.CharField('PITMEO Initials', max_length=5)
     validation_comment = models.TextField('Validation Comment', max_length=600, null=True, blank=True)
+
+    def __str__(self):
+        return self.validation_status
   
 # --> Social behaviour change communication 
 class IECMaterial(models.Model):
@@ -487,8 +481,12 @@ class IECMaterial(models.Model):
     def __str__(self):
         return self.material_type
 
+    class Meta:
+        unique_together = ("material_type", "activity_form")
+
 class IECMaterial2(models.Model):
     target_audience = models.ManyToManyField(OrganisationTarget)
+    other_target_audience = models.CharField('other', max_length=100, null=True, blank=True)
     activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -543,6 +541,7 @@ class MobileWorker(models.Model):
 
 class MobilePopulation(models.Model):
         mobile_population_types = models.ManyToManyField(MobilePopulationType)
+        other_mobile_population = models.CharField('other', max_length=100, null=True, blank=True)
         activity_form = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE, null=True)
 
 class MenWithMen(models.Model):
@@ -685,3 +684,32 @@ class GeneralComment2(models.Model):
     
     class Meta:
         verbose_name = 'additional comment'
+# Subheader for Question 2 in ActivityReportForm
+class SubheaderLabel1(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel2(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel3(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel4(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel5(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel6(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class SubheaderLabel7(models.Model):
+    organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
+
+class DataEtl(models.Model):
+    dataElementName = models.CharField(max_length=160)
+    dataElementID = models.CharField(max_length=100)
+    orgUnitName = models.CharField(max_length=100)
+    orgUnitID = models.CharField(max_length=100)
+    period = models.PositiveIntegerField()
+    value = models.PositiveIntegerField()

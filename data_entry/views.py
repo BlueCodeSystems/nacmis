@@ -6,37 +6,12 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from .models import District, Ward, OrganisationTarget, SupportField, SourcesOfInformation,\
+from .models import NationalOrganisation, District, Ward, OrganisationTarget, \
+    PreventionMessageList, SupportField, SupportByArea, SourcesOfInformation, \
     UserProfile, StakeholderDirectory
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
-
-class IndexView(generic.ListView):
-    template_name = 'data_entry/index.html'
-    context_object_name = 'test_list'
-
-class Login(generic.DetailView):
-    template_name = 'data_entry/login.html'
-    def get_queryset(self):
-        return
-
-def get_nameinmodel(request):
-    if request.method == 'POST':
-        form = StakeholderDirectoryModelForm(request.POST)
-        if form.is_valid():
-            model_instance = form.save(commit=False)
-            return redirect('data_entry/next_page.html')
-        else:
-            form = StakeholderDirectoryModelForm()
-    else:
-        form = StakeholderDirectoryModelForm()
-    
-    return render(request, 'data_entry/index.html', {'form': form})
-
-def myform_test(request):
-    formsample = MyForm()
-    return render(request, 'data_entry/index.html', {'the_insert': formsample} )
 
 class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -48,6 +23,18 @@ class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
 
         if self.q:
             qs = qs.filter(area_of_support__istartswith=self.q)
+        return qs
+
+class SupportByAreaAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        
+        #if not self.request.user.is_authenticated():
+        #    return SupportField.objects.none()
+
+        qs = SupportByArea.objects.all()
+
+        if self.q:
+            qs = qs.filter(area_of_support2__istartswith=self.q)
         return qs
 
 class OrganisationTargetAutocomplete(autocomplete.Select2QuerySetView):
@@ -62,6 +49,18 @@ class OrganisationTargetAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(organisation_target_option__istartswith=self.q)
         return qs
 
+class PreventionMessageListAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        
+        #if not self.request.user.is_authenticated():
+        #    return OrganisationTarget.objects.none()
+
+        qs = PreventionMessageList.objects.all()
+
+        if self.q:
+            qs = qs.filter(prevention_message__istartswith=self.q)
+        return qs
+
 class SourcesOfInformationAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
     
@@ -73,6 +72,17 @@ class SourcesOfInformationAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(source__istartswith=self.q)
         return qs
+
+class NationalOrganisationAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        qs = NationalOrganisation.objects.all()
+
+
+        if self.q:
+            qs = qs.filter(organisation_name__istartswith=self.q)
+        return qs
+        
 
 class DistrictAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -91,7 +101,6 @@ class DistrictAutocomplete(autocomplete.Select2QuerySetView):
                     qs = qs.filter(id=userProfile.stakeholder.id)
                 #if self.request.user.groups.filter(name="DACA"):
                     #qs = qs.filter(name=userProfile.district.name)
-
 
         province = self.forwarded.get('organisation_province', None) or self.forwarded.get('province', None)
 
@@ -163,6 +172,27 @@ class HomeView(View):
             form = forms.Form()
         return render(request, self.template_name, {'form': form})
 
+    # POST logic
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
+
+class ResourcesView(View):
+    form_class = MyForm
+    #form_class = None
+    initial = {'key': 'value'}
+    template_name = 'data_entry/nacmis_metronic/resources.html'
+
+    # GET logic
+    def get(self, request, *args, **kwargs):
+        if self.form_class:
+            form = self.form_class(initial=self.initial)
+        else:
+            form = forms.Form()
+        return render(request, self.template_name, {'form': form})
+    
     # POST logic
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -378,3 +408,31 @@ class HelpView(View):
             except UserProfile.DoesNotExist:
                 userProfile = None
         return render(request, self.template_name, {'form': form})
+
+# test classes
+
+class IndexView(generic.ListView):
+    template_name = 'data_entry/index.html'
+    context_object_name = 'test_list'
+
+class Login(generic.DetailView):
+    template_name = 'data_entry/login.html'
+    def get_queryset(self):
+        return
+
+def get_nameinmodel(request):
+    if request.method == 'POST':
+        form = StakeholderDirectoryModelForm(request.POST)
+        if form.is_valid():
+            model_instance = form.save(commit=False)
+            return redirect('data_entry/next_page.html')
+        else:
+            form = StakeholderDirectoryModelForm()
+    else:
+        form = StakeholderDirectoryModelForm()
+    
+    return render(request, 'data_entry/index.html', {'form': form})
+
+def myform_test(request):
+    formsample = MyForm()
+    return render(request, 'data_entry/index.html', {'the_insert': formsample} )

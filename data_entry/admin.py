@@ -5,8 +5,8 @@ from django.db.models import Q
 from collections import OrderedDict
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
-OrganisationTarget, MobilePopulationType, SupportField, ProgramActivity, FundingSource, 
-TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
+OrganisationTarget, PreventionMessageList, MobilePopulationType, SupportField, SupportByArea, ProgramActivity, 
+FundingSource, TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
 
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext, gettext_lazy as _
@@ -15,35 +15,43 @@ from .models import (IECMaterial, IECMaterial2, Teachers, OutOfSchool, SexWorker
 MobileWorker,MobilePopulation, MenWithMen, SourcesOfInformation, TransgenderIndividual, PeopleWhoInjectDrug, CondomProgramming, 
 CondomProgramming2, ReportedCase, ExperiencedPhysicalViolence, ExperiencedSexualViolence, PostExposureProphylaxis,
 PreExposureProphylaxis, SynergyDevelopmentSector, SupportGroupSetUp, IndividualCurrentlyEnrolled, VulnerablePeople, 
-SupportAndCare, GeneralComment2, StakeholderVerification, DACAValidation, PITMEOValidation)
+SupportAndCare, GeneralComment2, StakeholderVerification, DACAValidation, PITMEOValidation, SubheaderLabel1, 
+SubheaderLabel2, SubheaderLabel3, SubheaderLabel4, SubheaderLabel5, SubheaderLabel6, SubheaderLabel7)
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
-TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm
+TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm, \
+DACAValidationForm, PITMEOValidationForm
+
+import datetime
 
 # INLINES FOR STAKEHOLDER DIRECTORY ADMIN
 # *************************************************
 class ProgramActivityInline(admin.TabularInline):
     model = ProgramActivity
-    verbose_name_plural = 'Program activities'
+    verbose_name_plural = 'Section 5: Geographic activities'
     form = ProgramActivityModelForm
     extra = 1
 
 class FundingSourceInline(admin.TabularInline):
     model = FundingSource
+    verbose_name_plural = 'Section 6: Funding sources'
     extra = 1
 
 class TargetGroupPreventionMessageInline(admin.TabularInline):
     model = TargetGroupPreventionMessage
+    verbose_name_plural = 'Section 7: Target group and prevention messages'
     form = TargetGroupPreventionMessageModelForm
     extra = 1
 
 class OtherQuestionInline(admin.TabularInline):
     model = OtherQuestion
     form = OtherQuestionModelForm
+    verbose_name_plural = 'Section 8: Other questions'
     extra = 1
 
 class EndOfYearQuestionInline(admin.TabularInline):
     model = EndOfYearQuestion
+    verbose_name_plural = 'Section 9: End of year questions'
     extra = 1
 
 class GeneralCommentInline(admin.StackedInline):
@@ -53,6 +61,7 @@ class GeneralCommentInline(admin.StackedInline):
 
 class DACAValidationInline(admin.StackedInline):
     model = DACAValidation
+    #form = DACAValidationForm
     extra = 1
     fields = ("validated_by", "validation_status", "acknowledgement", "daca_initials", "validation_comment")
     readonly_fields = ("acknowledgement",)
@@ -73,6 +82,7 @@ class DACAValidationInline(admin.StackedInline):
 
 class PITMEOValidationInline(admin.StackedInline):
     model = PITMEOValidation
+    #form = PITMEOValidationForm
     extra = 1
     fields = ("validated_by", "validation_status", "acknowledgement", "pitmeo_initials", "validation_comment")
     readonly_fields = ("acknowledgement",)
@@ -106,12 +116,14 @@ class MaterialInline2(admin.TabularInline):
     verbose_name_plural = '2. If you distributed Information Education Communication (IEC) materials this \
         quarter who was your target audience?'
     filter_horizontal = ('target_audience',)
+    can_delete = False
     extra = 1
 
 class TeachersInline(admin.TabularInline):
     model = Teachers
-    verbose_name_plural = '3. Number of teachers who have received training, and taught lessons, in life \
-        skills based comprehensive sexuality eduaction this quarter'
+    verbose_name_plural = '3. Number of CSE trained teachers who taught lessons, in life skills based \
+        comprehensive sexuality education(CSE) this quarter'
+    can_delete = False
     extra = 1
 
 class OutOfSchoolInline(admin.StackedInline):
@@ -137,54 +149,63 @@ class InmateInline(admin.TabularInline):
     model = Inmate
     verbose_name_plural = '6. How many inmates were reached with HIV prevention programmes by your organisation \
         this quarter?'
+    can_delete = False
     extra = 1
 
 class PersonsWithDisabiltyInline(admin.TabularInline):
     model = PersonsWithDisabilty
     verbose_name_plural = '7. How many persons with disability were reached with HIV prevention programmes by your \
         organisation this quarter?'
+    can_delete = False
     extra = 1
 
 class MobileWorkerInline(admin.TabularInline):
     model = MobileWorker
     verbose_name_plural = '8. How many mobile workers were reached with HIV prevention programmes by your organisation \
         this quarter?'
+    can_delete = False
     extra = 1
 
 class MobilePopulationInline(admin.TabularInline):
     model = MobilePopulation
     verbose_name_plural = '9. Which types of mobile populations did your organisation reach this quarter?'
     filter_horizontal = ('mobile_population_types',)
+    can_delete = False
     extra = 1
     
 class MenWithMenInline(admin.TabularInline):
     model = MenWithMen
     verbose_name_plural = '10. How many men who have sex with men (MSM) were reached with HIV prevention programmes by \
         your organisation this quarter?'
+    can_delete = False
     extra = 1
 
 class TransgenderIndividualInline(admin.TabularInline):
     model = TransgenderIndividual
     verbose_name_plural = '11. How many transgender individuals were reached with HIV prevention programmes by your \
         organisation this quarter?'
+    can_delete = False
     extra = 1
 
 class PeopleWhoInjectDrugInline(admin.TabularInline):
     model = PeopleWhoInjectDrug
     verbose_name_plural = '12. How many people who inject drugs (PWID) have been reached by HIV prevention programmes by \
         your organisation this quarter?'
+    can_delete = False
     extra = 1
 
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
     verbose_name_plural = '13. How many condom service distribution points were supplied by your organisation this \
         quarter (excluding health facilities)?'
+    can_delete = False
     extra = 1
 
 class CondomProgramming2Inline(admin.TabularInline):
     model = CondomProgramming2
     verbose_name_plural = '14. How many male and/or female condoms were distributed to end users by \
         your organisation this quarter (excluding health facilities)?'
+    can_delete = False
     extra = 1
 
 class ReportedCaseInline(admin.StackedInline):
@@ -235,12 +256,14 @@ class PreExposureProphylaxisInline(admin.StackedInline):
 class SynergyDevelopmentSectorInline(admin.TabularInline):
     model = SynergyDevelopmentSector
     verbose_name_plural = '20. How many employees were reached through workplace programmes by your organisation this quarter?'
+    can_delete = False
     extra = 1
 
 class SupportGroupSetUpInline(admin.TabularInline):
     model = SupportGroupSetUp
     verbose_name_plural = '21. How many support groups/ clubs/ after school groups set up by your organisation were \
         active this quarter?'
+    can_delete = False
     extra = 1
 
 class IndividualCurrentlyEnrolledInline(admin.StackedInline):
@@ -264,6 +287,7 @@ class SupportAndCareInline(admin.TabularInline):
     model = SupportAndCare
     verbose_name_plural = '24. What types of care and support does your organisation provide? (select all that apply)'
     filter_horizontal = ('type',)
+    can_delete = False
     extra = 1
 
 class GeneralComment2Inline(admin.StackedInline):
@@ -275,6 +299,35 @@ class StakeholderVerificationInline(admin.StackedInline):
     model = StakeholderVerification
     readonly_fields = ("acknowledgement",)
     fields = ( 'acknowledgement', 'stakeholder_initials' )
+
+# Inlines for the subsection headers
+class SubheaderLabel1Inline(admin.StackedInline):
+    model = SubheaderLabel1
+    verbose_name_plural = 'SOCIAL BEHAVIOUR CHANGE COMMUNICATION'
+
+class SubheaderLabel2Inline(admin.StackedInline):
+    model = SubheaderLabel2
+    verbose_name_plural = 'SOCIAL BEHAVIOUR CHANGE COMMUNICATION FOR KEY POPULATIONS'
+
+class SubheaderLabel3Inline(admin.StackedInline):
+    model = SubheaderLabel3
+    verbose_name_plural = 'CONDOM PROGRAMMING'
+
+class SubheaderLabel4Inline(admin.StackedInline):
+    model = SubheaderLabel4
+    verbose_name_plural = 'CRITICAL ENABLERS'
+
+class SubheaderLabel5Inline(admin.StackedInline):
+    model = SubheaderLabel5
+    verbose_name_plural = 'SYNERGIES WITH OTHER DEVELOPMENT SECTORS'
+
+class SubheaderLabel6Inline(admin.StackedInline):
+    model = SubheaderLabel6
+    verbose_name_plural = 'COMMUNITY HEALTH SYSTEMS'
+
+class SubheaderLabel7Inline(admin.StackedInline):
+    model = SubheaderLabel7
+    verbose_name_plural = 'BELOW SECTION TO BE FILLED BY DACA / LOCAL AUTHORITY ONLY'
 
 # ADMIN CLASSES
 # *************************************************
@@ -295,19 +348,18 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
     SynergyDevelopmentSectorInline.max_num = 1
     OtherQuestionInline.max_num = 1
     EndOfYearQuestionInline.max_num = 1
-    GeneralCommentInline.max_num = 1
-    
+
     fieldsets = (
-        ('Basic details on the organisation', {
+        ('Section 1: Basic details on the organisation', {
             #'classes':('collapse',),
             'fields': ('national_organisation','organisation', ('organisation_province', 'organisation_district'), 
             'organisation_address', 'start_year', 'gps', 'website', 'description_of_organisation')
         }),
-        ('Contact details', {
+        ('Section 2: Contact details', {
             'fields': ('key_contact_name', 'position_within_organisation', 'telephone_number', 
             'telephone_number_alternative', 'email_address'),
         }),
-        ('Staff details', {
+        ('Section 3: Staff details', {
             'fields': ( ('permanent_employee_male', 'permanent_employee_female'), ('temporary_employee_male', 
                 'temporary_employee_female'), ('volunteer_employee_male', 'volunteer_employee_female') ),
                 
@@ -318,13 +370,23 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
                 financial gain. These employees <br/>usually do not displace any other employee types and usually not \
                 entitled to many benefits as compared to other employee types.</p></b>'),
         }),
-        ('Organisation classification', {
-            'fields': ('organisation_type', 'organisation_targets')
+        ('Section 4: Organisation classification', {
+            'fields': ( ('organisation_type', 'other_organisation_type'), ('organisation_targets', 'other_organisation_target') )
         })
     )
 
-    inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline, OtherQuestionInline, EndOfYearQuestionInline, GeneralCommentInline]
+    # exclude inlines OtherQuestionInline, EndOfYearQuestionInline by default
+    inlines = [ProgramActivityInline, FundingSourceInline, TargetGroupPreventionMessageInline, GeneralCommentInline]
 
+    current_year = datetime.datetime.now().strftime("%Y")
+    current_month = datetime.datetime.now().strftime("%m")
+    
+    if( int(current_month) < 4 ):
+        endlist = []
+        endlist.append(inlines.pop()) #append the last element to a new list
+        
+        inlines.extend([OtherQuestionInline, EndOfYearQuestionInline])
+        inlines.extend(endlist)
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         
@@ -358,9 +420,14 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
             return qs.none()
         else: 
             if request.user.groups.filter(name="Stakeholder"):
-                qs = qs.filter(id=userProfile.stakeholder.id)
+                try:
+                    qs = qs.filter(id=userProfile.stakeholder.id)
+                except AttributeError:
+                    qs = qs.none()
             if request.user.groups.filter(name="DACA"):
                 qs = qs.filter(organisation_district=userProfile.district)
+            if request.user.groups.filter(name="PITMEO"):
+                qs = qs.filter(organisation_province=userProfile.province)
         return qs
 
     class Media:
@@ -383,9 +450,10 @@ def daca_validation_status(obj):
     return label.upper()
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
-    list_display = ('stake_holder_name', daca_validation_status, pitmeo_validation_status, 'quarter_been_reported')
+    list_display = ('stake_holder_name', 'name', daca_validation_status, pitmeo_validation_status, 'quarter_been_reported')
     list_filter = ('stake_holder_name__organisation_province__name', 'dacavalidation__validation_status', 
         'pitmeovalidation__validation_status', 'stake_holder_name__organisation_district__name',)
+    search_fields = ['stake_holder_name__organisation']
 
     MaterialInline2.max_num = 1
     PeopleWhoInjectDrugInline.max_num = 1
@@ -413,6 +481,14 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     StakeholderVerificationInline.max_num = 1
     DACAValidationInline.max_num = 1
     PITMEOValidationInline.max_num = 1
+    GeneralCommentInline.max_num = 1
+    SubheaderLabel1Inline.max_num = 1
+    SubheaderLabel2Inline.max_num = 1
+    SubheaderLabel3Inline.max_num = 1
+    SubheaderLabel4Inline.max_num = 1
+    SubheaderLabel5Inline.max_num = 1
+    SubheaderLabel6Inline.max_num = 1
+    SubheaderLabel7Inline.max_num = 1
 
     fieldsets = (
         ('1. REPORT DETAIL', {
@@ -425,13 +501,14 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
         }),
     )
 
-    inlines = [MaterialInline, MaterialInline2, TeachersInline, OutOfSchoolInline, SexWorkerInline, InmateInline, 
-        PersonsWithDisabiltyInline, MobileWorkerInline, MobilePopulationInline, MenWithMenInline, TransgenderIndividualInline, 
-        PeopleWhoInjectDrugInline,CondomProgrammingInline, CondomProgramming2Inline, ReportedCaseInline, 
-        ExperiencedPhysicalViolenceInline, ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, 
-        PreExposureProphylaxisInline, SynergyDevelopmentSectorInline, SupportGroupSetUpInline, 
-        IndividualCurrentlyEnrolledInline, VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, 
-        StakeholderVerificationInline, DACAValidationInline, PITMEOValidationInline]
+    inlines = [SubheaderLabel1Inline, MaterialInline, MaterialInline2, SubheaderLabel2Inline, TeachersInline, OutOfSchoolInline, 
+        SexWorkerInline, InmateInline, PersonsWithDisabiltyInline, MobileWorkerInline, MobilePopulationInline, MenWithMenInline, 
+        TransgenderIndividualInline, PeopleWhoInjectDrugInline, SubheaderLabel3Inline, CondomProgrammingInline, 
+        CondomProgramming2Inline, SubheaderLabel4Inline, ReportedCaseInline, ExperiencedPhysicalViolenceInline, 
+        ExperiencedSexualViolenceInline, PostExposureProphylaxisInline, PreExposureProphylaxisInline, SubheaderLabel5Inline, 
+        SynergyDevelopmentSectorInline, SubheaderLabel6Inline, SupportGroupSetUpInline, IndividualCurrentlyEnrolledInline, 
+        VulnerablePeopleInline, SupportAndCareInline, GeneralComment2Inline, StakeholderVerificationInline, SubheaderLabel7Inline, 
+        DACAValidationInline, PITMEOValidationInline]
 
     """
     def get_readonly_fields(self, request, obj=None):
@@ -501,6 +578,9 @@ ActivityReportForm
                 qs = qs.filter(stake_holder_name=userProfile.stakeholder)
             if request.user.groups.filter(name="DACA"):
                 qs = qs.filter(stake_holder_name__organisation_district=userProfile.district)
+            if request.user.groups.filter(name="PITMEO"):
+                activity_form_province = qs.filter(stake_holder_name__organisation_province=userProfile.province)
+                qs = activity_form_province.filter(dacavalidation__validation_status="approved")
         return qs
 
     class Media:
@@ -513,6 +593,9 @@ class WardAdmin(admin.ModelAdmin):
     list_filter = ['district',]
     search_fields = ['name']
     form = WardModelForm
+
+class NationalOrganisationAdmin(admin.ModelAdmin):
+    search_fields = ['organisation_name',]
 
 #The code below is meant to include the user profile process directly into the user creation dialogue
 class UserProfileInline(admin.StackedInline):
@@ -627,7 +710,7 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
 # Register National Organisation models
-admin.site.register(NationalOrganisation)
+admin.site.register(NationalOrganisation, NationalOrganisationAdmin)
 
 # Register StakeHolder models
 admin.site.register(StakeholderDirectory, StakeholderDirectoryAdmin)
@@ -639,10 +722,16 @@ admin.site.register(ActivityReportForm, ActivityReportFormAdmin)
 admin.site.register(OrganisationTarget)
 
 # Register MobilePopulationType to enable adding of types of workers
+admin.site.register(PreventionMessageList)
+
+# Register MobilePopulationType to enable adding of types of workers
 admin.site.register(MobilePopulationType)
 
-# Register to add types of support under Program activities (ie, Program activities by geographic area)
+# Register list to use for Question 24,the SupportAndCare model
 admin.site.register(SupportField)
+
+# Register to add types of support under Program activities (ie, Program activities by geographic area)
+admin.site.register(SupportByArea)
 
 admin.site.register(SourcesOfInformation)
 

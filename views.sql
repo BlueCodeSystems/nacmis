@@ -3,12 +3,13 @@
 -- psql nacmis -f views.sql
 
 create or replace view vw_stakeholderdirectory as
-  select st.*, pr.name as province_name, ds.name as district_name
+  select st.*, pr.name as province_name,  ds.district_longitude, ds.district_latitude, ds.name as district_name
   from data_entry_stakeholderdirectory st
   left outer join data_entry_province pr 
     on pr.id = st.organisation_province_id
   left outer join data_entry_district ds
-    on ds.id = st.organisation_district_id; 
+    on ds.id = st.organisation_district_id;
+ 
 
 create or replace view vw_organisationtarget as
   select st.*, ot.organisation_target_option
@@ -382,7 +383,7 @@ create or replace view vw_programactivity as
     on o.id = p.organisation_id
   left outer join data_entry_ward w
     on p.ward_id = w.id;
-
+/*
 create or replace view vw_targetgrouppreventionmessage as
   select o.*,
     t.id as targetgrouppreventionmessage_id,
@@ -390,7 +391,7 @@ create or replace view vw_targetgrouppreventionmessage as
   from data_entry_targetgrouppreventionmessage t
   left outer join vw_organisationtarget o
     on o.id = t.organisation_id;
-
+*/
 drop view if exists vw_mobilepopulation_types;
 create or replace view vw_mobilepopulation_types as
   select mp.*,
@@ -406,7 +407,6 @@ create or replace view vw_mobilepopulation_types as
 -- pick apart the data_entry_sexworker table, i.e. split the data up by age
 -- group and sex, and present these as fields in a different table, so we can
 -- filter by them.
-drop function if exists sp_sex_workers_by_age_and_sex() cascade;
 create or replace function sp_sex_workers_by_age_and_sex()
 returns table (
     age_group text, 
@@ -462,15 +462,13 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_sex_workers_by_age_and_sex;
-create view vw_sex_workers_by_age_and_sex as
+create or replace view vw_sex_workers_by_age_and_sex as
 select ac.*, vw.*
 from sp_sex_workers_by_age_and_sex() vw
 left join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id
   order by age_group;
 
-drop function if exists sp_out_of_school_by_age_and_sex() cascade;
 create or replace function sp_out_of_school_by_age_and_sex()
 returns table (
     age_group text, 
@@ -514,15 +512,64 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_out_of_school_by_age_and_sex;
-create view vw_out_of_school_by_age_and_sex as
+/*drop view if exists vw_out_of_school_by_age_and_sex;*/
+create or replace view vw_out_of_school_by_age_and_sex as
 select ac.*, vw.*
 from sp_out_of_school_by_age_and_sex() vw
 left join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id
   Order by age_group;
 
-drop function if exists sp_reported_case_by_age_and_sex() cascade;
+create or replace function sp_inmates_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_outofschool;
+    create temp table temp_outofschool (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_inmates
+    loop
+        insert into temp_outofschool
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('10_14', 'Female', row.inmate_female_10_14, 
+             row.activity_form_id),
+            ('15_19', 'Female', row.inmate_female_15_19, 
+             row.activity_form_id),
+            ('20_24', 'Female', row.inmate_female_20_24, 
+             row.activity_form_id),
+            ('10_14', 'Male', row.inmate_male_10_14, 
+             row.activity_form_id),
+            ('15_19', 'Male', row.inmate_male_15_19, 
+             row.activity_form_id),
+            ('20_24', 'Male', row.inmate_male_20_24, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_outofschool;
+end;
+$$ language plpgsql;
+
+/*drop view if exists vw_inmate_by_age_and_sex;*/
+create or replace view vw_inmate_by_age_and_sex as
+select ac.*, vw.*
+from sp_inmate_by_age_and_sex() vw
+left join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id;
+
 create or replace function sp_reported_case_by_age_and_sex()
 returns table (
     age_group text, 
@@ -574,15 +621,14 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_reported_case_by_age_and_sex;
-create view vw_reported_case_by_age_and_sex as
+/*drop view if exists vw_reported_case_by_age_and_sex;*/
+create  or replace view vw_reported_case_by_age_and_sex as
 select ac.*, vw.*
 from sp_reported_case_by_age_and_sex() vw
 left outer join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id
   order by age_group;
 
-drop function if exists sp_experienced_physical_violence_by_age_and_sex() cascade;
 create or replace function sp_experienced_physical_violence_by_age_and_sex()
 returns table (
     age_group text, 
@@ -634,15 +680,13 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_experienced_physical_violence_by_age_and_sex;
-create view vw_experienced_physical_violence_by_age_and_sex as
+create or replace view vw_experienced_physical_violence_by_age_and_sex as
 select ac.*, vw.*
 from sp_experienced_physical_violence_by_age_and_sex() vw
 left outer join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id
   order BY age_group;
 
-drop function if exists sp_experienced_sexual_violence_by_age_and_sex() cascade;
 create or replace function sp_experienced_sexual_violence_by_age_and_sex()
 returns table (
     age_group text, 
@@ -694,15 +738,13 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_experienced_sexual_violence_by_age_and_sex;
-create view vw_experienced_sexual_violence_by_age_and_sex as
+create or replace view vw_experienced_sexual_violence_by_age_and_sex as
 select ac.*, vw.* 
 from sp_experienced_sexual_violence_by_age_and_sex() vw
 left outer join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id
   order by age_group;
 
-drop function if exists sp_post_exposure_prophylaxis_by_age_and_sex() cascade;
 create or replace function sp_post_exposure_prophylaxis_by_age_and_sex()
 returns table (
     age_group text, 
@@ -754,15 +796,13 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_post_exposure_prophylaxis_by_age_and_sex;
-create view vw_post_exposure_prophylaxis_by_age_and_sex as
+create or replace view vw_post_exposure_prophylaxis_by_age_and_sex as
 select ac.*, vw.* 
 from sp_post_exposure_prophylaxis_by_age_and_sex() vw
 left outer join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id
   order by age_group;
 
-drop function if exists sp_individual_currently_enrolled_by_age_and_sex() cascade;
 create or replace function sp_individual_currently_enrolled_by_age_and_sex()
 returns table (
     age_group text, 
@@ -816,15 +856,13 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_individual_currently_enrolled_by_age_and_sex;
-create view vw_individual_currently_enrolled_by_age_and_sex as
+create or replace view vw_individual_currently_enrolled_by_age_and_sex as
 select ac.*, vw.*
 from sp_individual_currently_enrolled_by_age_and_sex() vw
 left outer join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id
   order by age_group;
 
-drop function if exists sp_vulnerable_people_by_age_and_sex() cascade;
 create or replace function sp_vulnerable_people_by_age_and_sex()
 returns table (
     age_group text, 
@@ -876,15 +914,13 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_vulnerable_people_by_age_and_sex;
-create view vw_vulnerable_people_by_age_and_sex as
+create or replace view vw_vulnerable_people_by_age_and_sex as
 select ac.*, vw.* 
 from sp_vulnerable_people_by_age_and_sex() vw
 left outer join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id
   order by age_group;
 
-drop function if exists sp_pre_exposure_prophylaxis_by_age_and_sex() cascade;
 create or replace function sp_pre_exposure_prophylaxis_by_age_and_sex()
 returns table (
     age_group text, 
@@ -928,8 +964,7 @@ begin
 end;
 $$ language plpgsql;
 
-drop view if exists vw_pre_exposure_prophylaxis_by_age_and_sex;
-create view vw_pre_exposure_prophylaxis_by_age_and_sex as
+create or replace view vw_pre_exposure_prophylaxis_by_age_and_sex as
 select ac.*, vw.* 
 from sp_pre_exposure_prophylaxis_by_age_and_sex() vw
 left outer join vw_activityreportform ac

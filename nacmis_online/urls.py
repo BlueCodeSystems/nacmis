@@ -16,9 +16,9 @@ Including another URLconf
 from django.urls import include, path
 from django.contrib import admin
 from data_entry import views
-from data_entry.views import SupportFieldAutocomplete, SourcesOfInformationAutocomplete, \
-    DistrictAutocomplete, WardAutocomplete, OrganisationTargetAutocomplete, \
-    comingSoonView, StakeholderAutocomplete
+from data_entry.views import SupportFieldAutocomplete, SupportByAreaAutocomplete, SourcesOfInformationAutocomplete, \
+    NationalOrganisationAutocomplete, DistrictAutocomplete, WardAutocomplete, OrganisationTargetAutocomplete, \
+    PreventionMessageListAutocomplete, comingSoonView, StakeholderAutocomplete
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin-landing'),
@@ -34,17 +34,23 @@ urlpatterns = [
     path('pitmeo-dashboard', views.PITMEODashboardView.as_view(), name='pitmeo-dashboard-view'),
     path('daca-dashboard', views.DACADashboardView.as_view(), name='daca-dashboard-view'),
     path('help/', views.HelpView.as_view(), name='help-view'),
+    path('resources/', views.ResourcesView.as_view(), name='resources-view'),
 
     # urls for autocompletes implementation
     path('supportfield-autocomplete/', SupportFieldAutocomplete.as_view(), 
         name='supportfield-autocomplete'),
+    path('supportbyarea-autocomplete/', SupportByAreaAutocomplete.as_view(), 
+        name='supportbyarea-autocomplete'),
     path('supportofinformation-autocomplete/', SourcesOfInformationAutocomplete.as_view(), 
         name='supportofinformation-autocomplete'),
     path('organisationtarget-autocomplete/', OrganisationTargetAutocomplete.as_view(), 
         name='organisationtarget-autocomplete'),
+    path('preventionmessagelist-autocomplete/', PreventionMessageListAutocomplete.as_view(), 
+        name='preventionmessagelist-autocomplete'),
     path('district-autocomplete/', DistrictAutocomplete.as_view(), name='district-autocomplete'),
     path('ward-autocomplete/', WardAutocomplete.as_view(), name='ward-autocomplete'),
     path('stakeholder-autocomplete/', StakeholderAutocomplete.as_view(), name='stakeholder-autocomplete'),
+    path('national-organisation-autocomplete/', NationalOrganisationAutocomplete.as_view(), name='national-organisation-autocomplete'),
 
     # urls for password reset implementation
     path('', include('django.contrib.auth.urls')),
