@@ -944,15 +944,15 @@ begin
         insert into temp_preexposureprophylaxis
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('15-19', 'Female', row.referred_pep_female_15_19, 
+            ('15 to 19', 'Female', row.referred_pep_female_15_19, 
              row.activity_form_id),
-            ('20-24', 'Female', row.referred_pep_female_20_24, 
+            ('20 to 24', 'Female', row.referred_pep_female_20_24, 
              row.activity_form_id),
             ('25 plus', 'Female', row.referred_pep_female_25_plus, 
              row.activity_form_id),
-            ('15-19', 'Male', row.referred_pep_male_15_19, 
+            ('15 to 19', 'Male', row.referred_pep_male_15_19, 
              row.activity_form_id),
-            ('20-24', 'Male', row.referred_pep_male_20_24, 
+            ('20 to 24', 'Male', row.referred_pep_male_20_24, 
              row.activity_form_id),
             ('25 plus', 'Male', row.referred_pep_male_25_plus, 
              row.activity_form_id);
