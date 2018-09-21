@@ -235,6 +235,8 @@ class ZambiaHMIS:
         print("Loading organisation units...")
         self.orgUnits = self.getPagedResults(self.ORG_UNIT_API, 'organisationUnits', 
                                              paged=False)
+        self.orgUnits = [org for org in self.orgUnits 
+                         if org['displayName'].endswith('District')]
         print("%s organisation units found" % len(self.orgUnits))
 
     def getDataElements(self):
