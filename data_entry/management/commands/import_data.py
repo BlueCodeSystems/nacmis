@@ -135,6 +135,16 @@ def gen_quarters():
             year += 1
             quarter = 1
 
+def convert_value(s):
+    if not s:
+        return 0
+    if s.lower() == "true": 
+        return 1
+    elif s.lower() == "false":
+        return 0
+    # assume it's an integer
+    return int(s)
+
 class ZambiaHMIS:
     LOGIN_URL = "https://www.zambiahmis.org/dhis-web-commons/security/login.action"
     ORG_UNIT_API = "https://www.zambiahmis.org/api/organisationUnits.json?paging=false"
@@ -286,13 +296,25 @@ class ZambiaHMIS:
 
     def store_data(self, orgUnit, dataSet, period, dataValueSets):
         for dv in dataValueSets['dataValues']:
+            try:
+                value = convert_value(dv['value'])
+            except:
+                print("*** ERROR")
+                if 'value' in dv: 
+                    print("Invalid value:", dv['value'])
+                else:
+                    print("key 'value' does not exist!")
+                print("orgUnit:", orgUnit, "dataSet:", dataSet, "period:",
+                        period)
+                print("data value set:", dv)
+                continue
             d = DataEtl(dataElementName=self.dataElementsById[dv['dataElement']],
                         dataElementID=dv['dataElement'],
                         orgUnitName=orgUnit['displayName'],
                         orgUnitID=orgUnit['id'],
                         period=int(period),
-                        value=int(dv['value'] or 0))
-                        # XXX FIXME: value might be boolean!
+                        #value=int(dv['value'] or 0))
+                        value=value)
             d.save()
 
 
