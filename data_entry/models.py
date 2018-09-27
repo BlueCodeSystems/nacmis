@@ -92,8 +92,8 @@ no = 'No'
 QUARTER_LIST = (
     (Q1, 'Jan - Mar'),
     (Q2, 'Apr - Jun'),
-    (Q3, 'Jul - Oct'),
-    (Q4, 'Nov - Dec')
+    (Q3, 'Jul - Sep'),
+    (Q4, 'Oct - Dec')
 )
 
 ORGANISATION_TYPE_LIST = (
