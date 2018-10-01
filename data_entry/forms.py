@@ -9,15 +9,11 @@ from dal import autocomplete
 
 class NationalOrganisationModelForm(forms.ModelForm):
 
+    error_messages = { 'required' : 'Please enter parent organisation' }
+    
     class Meta: 
         model =NationalOrganisation
         fields = '__all__'
-        error_messages = { 
-            'invalid' : 'Please enter parent organisation', 
-            'null' : 'No value for parent organisation in database',
-            'blank' : 'Please enter parent organisation, field left blank',
-        }
-
 
 class StakeholderDirectoryModelForm(forms.ModelForm):
 
