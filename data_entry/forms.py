@@ -1,10 +1,23 @@
 from django import forms
 
 
-from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District, Ward, \
-    UserProfile, OtherQuestion, DACAValidation, PITMEOValidation
+from .models import NationalOrganisation, StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, \
+    District, Ward, UserProfile, OtherQuestion, DACAValidation, PITMEOValidation
 from .models import ActivityReportForm, IECMaterial
 from dal import autocomplete
+
+
+class NationalOrganisationModelForm(forms.ModelForm):
+
+    class Meta: 
+        model =NationalOrganisation
+        fields = '__all__'
+        error_messages = { 
+            'invalid' : 'Please enter parent organisation', 
+            'null' : 'No value for parent organisation in database',
+            'blank' : 'Please enter parent organisation, field left blank',
+        }
+
 
 class StakeholderDirectoryModelForm(forms.ModelForm):
 
