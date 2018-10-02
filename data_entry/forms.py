@@ -1,10 +1,26 @@
 from django import forms
 
 
-from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District, Ward, \
-    UserProfile, OtherQuestion, DACAValidation, PITMEOValidation
+from .models import NationalOrganisation, StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, \
+    District, Ward, UserProfile, OtherQuestion, DACAValidation, PITMEOValidation
 from .models import ActivityReportForm, IECMaterial
 from dal import autocomplete
+
+
+class NationalOrganisationModelForm(forms.ModelForm):
+
+    def clean(self):
+        cleaned_data = super().clean()
+        organisation_name = cleaned_data.get("organisation_name")
+        organisation_address = cleaned_data.get("organisation_address")
+        organisation_contact_email = cleaned_data.get("organisation_contact_email")
+
+        if not organisation_name or organisation_address or organisation_contact_email:
+            raise forms.ValidationError('The System requires you to enter all fields.')
+    
+    class Meta: 
+        model =NationalOrganisation
+        fields = '__all__'
 
 class StakeholderDirectoryModelForm(forms.ModelForm):
 
@@ -22,6 +38,15 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
         }
 
 class UserProfileModelForm(forms.ModelForm):
+
+    def clean(self):
+        cleaned_data = super().clean()
+        national_organisation = cleaned_data.get("national_organisation")
+        stakeholder = cleaned_data.get("stakeholder")
+
+        if not (national_organisation and stakeholder):
+            raise forms.ValidationError('Please complete the User profile by selecting National organisation and stakeholder.')
+        
     class Meta:
         model = UserProfile
         fields = ('__all__')
