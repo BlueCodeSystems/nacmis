@@ -20,7 +20,7 @@ SubheaderLabel2, SubheaderLabel3, SubheaderLabel4, SubheaderLabel5, SubheaderLab
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
 TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm, \
-DACAValidationForm, PITMEOValidationForm
+NationalOrganisationModelForm, DACAValidationForm, PITMEOValidationForm
 
 import datetime
 
@@ -595,6 +595,7 @@ class WardAdmin(admin.ModelAdmin):
     form = WardModelForm
 
 class NationalOrganisationAdmin(admin.ModelAdmin):
+    form = NationalOrganisationModelForm
     search_fields = ['organisation_name',]
 
 #The code below is meant to include the user profile process directly into the user creation dialogue
