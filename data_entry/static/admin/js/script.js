@@ -7,7 +7,7 @@ var pitmeoValidationStatus = document.getElementById('id_pitmeovalidation_set-0-
 var hideMePlease2 = document.getElementById('id_pitmeovalidation_set-0-pitmeo_initials');
 
 dacaValidationStatus.onchange = function name(event) {
-    var showOptions = ['approved','submitted','needs_review']
+    var showOptions = ['approved','needs_review'];
     var selectedOption = event.target['value'];
 
     if (showOptions.indexOf(selectedOption) >= 0){
@@ -16,10 +16,10 @@ dacaValidationStatus.onchange = function name(event) {
     } else {
         hideMePlease.classList.remove("show_acknowledgement");
     }
-}
+};
 
 pitmeoValidationStatus.onchange = function name(event) {
-    var showOptions = ['approved','submitted','needs_review']
+    var showOptions = ['approved','needs_review'];
     var selectedOption = event.target['value'];
 
     if (showOptions.indexOf(selectedOption) >= 0){
@@ -28,4 +28,4 @@ pitmeoValidationStatus.onchange = function name(event) {
     } else {
         hideMePlease2.classList.remove("show_acknowledgement");
     }
-}
+};
