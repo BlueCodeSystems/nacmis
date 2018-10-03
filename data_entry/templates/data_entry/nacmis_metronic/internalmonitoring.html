@@ -1,14 +1,13 @@
 {% extends "data_entry/nacmis_metronic/base.html" %}
 
 {% block content %}
-<p>Internal monitoring dashboard coming soon</p>
 <iframe
-  height="1000px"
+  height="500px"
   width="100%"
   seamless
   frameBorder="0"
   scrolling="no"
-  {% if request.user.is_authenticated %}
+  {% if request.user.is_authenticated and not request.user|has_group:"Stakeholder" %}
   src="https://nacmis-data.bluecodeltd.com/superset/dashboard/14/"
   {% endif %}
 >
