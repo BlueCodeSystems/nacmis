@@ -6,7 +6,7 @@ var hideMePlease = document.getElementById('id_dacavalidation_set-0-daca_initial
 var pitmeoValidationStatus = document.getElementById('id_pitmeovalidation_set-0-validation_status');
 var hideMePlease2 = document.getElementById('id_pitmeovalidation_set-0-pitmeo_initials');
 
-dacaValidationStatus.onchange = function name(event) {
+dacaValidationStatus.onchange = function (event) {
     var showOptions = ['approved','needs_review'];
     var selectedOption = event.target['value'];
 
@@ -18,7 +18,7 @@ dacaValidationStatus.onchange = function name(event) {
     }
 };
 
-pitmeoValidationStatus.onchange = function name(event) {
+pitmeoValidationStatus.onchange = function (event) {
     var showOptions = ['approved','needs_review'];
     var selectedOption = event.target['value'];
 
