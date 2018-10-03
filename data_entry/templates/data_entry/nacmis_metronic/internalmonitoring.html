@@ -8,10 +8,8 @@
   seamless
   frameBorder="0"
   scrolling="no"
-  {% if userProfile.province and userProfile.district %}
-  src="javascript:;"
-  {% else %}
-  src="javascript:;"
+  {% if request.user.is_authenticated %}
+  src="https://nacmis-data.bluecodeltd.com/superset/dashboard/14/"
   {% endif %}
 >
 </iframe>
