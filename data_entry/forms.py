@@ -121,19 +121,11 @@ class DACAValidationForm(forms.ModelForm):
     class Meta:
         model = DACAValidation
         fields = '__all__'
-        widgets = {
-            'acknowledgement': forms.Textarea(attrs={'class':'hide_acknowledgement'}),
-            'daca_initials': forms.TextInput(attrs={'class':'hide_acknowledgement'})
-        }
 
 class PITMEOValidationForm(forms.ModelForm):
     class Meta:
         model = PITMEOValidation
         fields = '__all__'
-        widgets = {
-            'acknowledgement': forms.Textarea(attrs={'class':'hide_acknowledgement'}),
-            'pitmeo_initials': forms.TextInput(attrs={'class':'hide_acknowledgement'})
-        }
 
 class MyForm(forms.Form):
     subject = forms.CharField(max_length=100)
