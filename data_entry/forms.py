@@ -15,7 +15,7 @@ class NationalOrganisationModelForm(forms.ModelForm):
         organisation_address = cleaned_data.get("organisation_address")
         organisation_contact_email = cleaned_data.get("organisation_contact_email")
 
-        if not organisation_name or organisation_address or organisation_contact_email:
+        if not (organisation_name and organisation_address and organisation_contact_email):
             raise forms.ValidationError('The System requires you to enter all fields.')
     
     class Meta: 
