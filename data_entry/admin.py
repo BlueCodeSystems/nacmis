@@ -82,7 +82,7 @@ class DACAValidationInline(admin.StackedInline):
 
 class PITMEOValidationInline(admin.StackedInline):
     model = PITMEOValidation
-    #form = PITMEOValidationForm
+    form = PITMEOValidationForm
     extra = 1
     fields = ("validated_by", "validation_status", "acknowledgement", "pitmeo_initials", "validation_comment")
     readonly_fields = ("acknowledgement",)
