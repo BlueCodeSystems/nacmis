@@ -712,4 +712,4 @@ class DataEtl(models.Model):
     orgUnitName = models.CharField(max_length=100)
     orgUnitID = models.CharField(max_length=100)
     period = models.PositiveIntegerField()
-    value = models.PositiveIntegerField()
+    value = models.DecimalField(decimal_places=5, max_digits=20)
