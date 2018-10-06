@@ -1,6 +1,7 @@
 #!python
 
 import datetime
+import decimal
 import json
 import os
 
@@ -142,8 +143,8 @@ def convert_value(s):
         return 1
     elif s.lower() == "false":
         return 0
-    # assume it's an integer
-    return int(s)
+    # assume it's a decimal (probably integer, sometimes float)
+    return decimal.Decimal(s)
 
 class ZambiaHMIS:
     LOGIN_URL = "https://www.zambiahmis.org/dhis-web-commons/security/login.action"
@@ -297,6 +298,7 @@ class ZambiaHMIS:
                             return
 
     def store_data(self, orgUnit, dataSet, period, dataValueSets):
+        saved = 0
         for dv in dataValueSets['dataValues']:
             try:
                 value = convert_value(dv['value'])
@@ -310,14 +312,25 @@ class ZambiaHMIS:
                         period)
                 print("data value set:", dv)
                 continue
+
+            # check if keys actually exist
+            try:
+                self.dataElementsById[dv['dataElement']]
+            except KeyError:
+                print("dataElement key does not exist:", dv['dataElement'])
+                continue
+
             d = DataEtl(dataElementName=self.dataElementsById[dv['dataElement']],
                         dataElementID=dv['dataElement'],
                         orgUnitName=orgUnit['displayName'],
                         orgUnitID=orgUnit['id'],
                         period=int(period),
-                        #value=int(dv['value'] or 0))
                         value=value)
             d.save()
+            saved += 1
+
+        failed = len(dataValueSets['dataValues']) - saved
+        print("-- Records saved: %d; failed: %d" % (saved, failed))
 
 
 class Command(BaseCommand):
