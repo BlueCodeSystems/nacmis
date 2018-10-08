@@ -132,44 +132,6 @@ IEC_MATERIALS = (
     (material_other, 'Other')
 )
 
-AREA_OF_SUPPORT = (
-    (
-        "Critical enablers", (
-            ('gender_equality_equity_and_empowerment', 'Gender Equality, Equity and Empowerment'),
-            ('leadership_commitment_and_good_governance', 'Leadership Commitment and Good Governance'),
-            ('policy_laws_and_human_rights', 'Policy, laws and human rights'),
-            ('elimination_of_stigma_and_discrimination', 'Elimination of Stigma and Discrimination'),
-            ('resource_mobilization_and_sustainable_financing', 'Resource Mobilization and Sustainable Financing'),
-            ('positive_health_dignity_and_prevention', 'Positive Health Dignity and Prevention')
-        )
-    ),
-    (
-        "High impact interventions", (
-            ('condom_programming', 'Condom Programming'),
-            ('elimination_of_mother_to_child_transmission', 'Elimination of Mother to Child Transmission(eMTCT)'),
-            ('voluntary_medical_male_circumcision', 'Voluntary Medical Male Circumcision(VMMC)'),
-            ('hiv_testing_services', 'HIV Testing Services'),
-            ('social_and_behaiviour_change_communication', 'Social and Behaiviour Change Communication'),
-            ('hiv_tb_co_infection_treatment', 'HIV/TB Co-infection treatment'),
-            ('provision_of_preexposure_prophylaxis', 'Provision of Pre-exposure Prophylaxis(PrEP)'),
-            ('sti_screening_and_treatment', 'STI Screening and Treatment'),
-            ('treatment_optimization', 'Treatment Optimization'),
-            ('treatment_of_hiv_aids_sti_and_tb', 'Treatment of HIV/AIDS/STIs and TB')
-        )
-    ),
-    (
-        "Synergies with development sectors", (
-            ('post_exposure_prophylaxis', 'Post Exposure Prophylaxis(PEP)'),
-        )
-    ),
-    (
-        "HIV and AIDS intergration and system strengthening", (
-            ('integration_of_hiv_and_other_services', 
-                'Integration of HIV/AIDS, Sexual reproduction Health and Other Services'),
-        )
-    ),
-)
-
 YES_OR_NO = (
     (yes, 'Yes'),
     (no, 'No')
@@ -284,7 +246,7 @@ class StakeholderDirectory(models.Model):
     organisation_targets = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
         different groups that are targeted by your organisation)')
     other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True, blank=True)
-
+    
     def year_extract_in_start_year(self):
         year = self.start_year.strftime('%Y')
         return year

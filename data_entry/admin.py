@@ -118,6 +118,7 @@ class MaterialInline2(admin.TabularInline):
         quarter who was your target audience?'
     filter_horizontal = ('target_audience',)
     can_delete = False
+    template = 'admin/tabular.html'
     extra = 1
 
 class TeachersInline(admin.TabularInline):
@@ -125,6 +126,7 @@ class TeachersInline(admin.TabularInline):
     verbose_name_plural = '3. Number of CSE trained teachers who taught lessons, in life skills based \
         comprehensive sexuality education(CSE) this quarter'
     can_delete = False
+    template = 'admin/tabular.html'
     extra = 1
 
 class OutOfSchoolInline(admin.StackedInline):
@@ -152,6 +154,7 @@ class InmateInline(admin.TabularInline):
         this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class PersonsWithDisabiltyInline(admin.TabularInline):
     model = PersonsWithDisabilty
@@ -159,6 +162,7 @@ class PersonsWithDisabiltyInline(admin.TabularInline):
         organisation this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class MobileWorkerInline(admin.TabularInline):
     model = MobileWorker
@@ -166,6 +170,7 @@ class MobileWorkerInline(admin.TabularInline):
         this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class MobilePopulationInline(admin.TabularInline):
     model = MobilePopulation
@@ -173,6 +178,7 @@ class MobilePopulationInline(admin.TabularInline):
     filter_horizontal = ('mobile_population_types',)
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
     
 class MenWithMenInline(admin.TabularInline):
     model = MenWithMen
@@ -180,6 +186,7 @@ class MenWithMenInline(admin.TabularInline):
         your organisation this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class TransgenderIndividualInline(admin.TabularInline):
     model = TransgenderIndividual
@@ -187,6 +194,7 @@ class TransgenderIndividualInline(admin.TabularInline):
         organisation this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class PeopleWhoInjectDrugInline(admin.TabularInline):
     model = PeopleWhoInjectDrug
@@ -194,6 +202,7 @@ class PeopleWhoInjectDrugInline(admin.TabularInline):
         your organisation this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
@@ -201,6 +210,7 @@ class CondomProgrammingInline(admin.TabularInline):
         quarter (excluding health facilities)?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class CondomProgramming2Inline(admin.TabularInline):
     model = CondomProgramming2
@@ -208,6 +218,7 @@ class CondomProgramming2Inline(admin.TabularInline):
         your organisation this quarter (excluding health facilities)?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class ReportedCaseInline(admin.StackedInline):
     model = ReportedCase
@@ -259,6 +270,7 @@ class SynergyDevelopmentSectorInline(admin.TabularInline):
     verbose_name_plural = '20. How many employees were reached through workplace programmes by your organisation this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class SupportGroupSetUpInline(admin.TabularInline):
     model = SupportGroupSetUp
@@ -266,6 +278,7 @@ class SupportGroupSetUpInline(admin.TabularInline):
         active this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class IndividualCurrentlyEnrolledInline(admin.StackedInline):
     model = IndividualCurrentlyEnrolled
@@ -290,6 +303,7 @@ class SupportAndCareInline(admin.TabularInline):
     filter_horizontal = ('type',)
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class GeneralComment2Inline(admin.StackedInline):
     model = GeneralComment2
@@ -374,7 +388,7 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         }),
         ('Section 4: Organisation classification', {
             'fields': ( ('organisation_type', 'other_organisation_type'), ('organisation_targets', 'other_organisation_target') )
-        })
+        }),
     )
 
     # exclude inlines OtherQuestionInline, EndOfYearQuestionInline by default
@@ -456,6 +470,7 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
     list_filter = ('stake_holder_name__organisation_province__name', 'dacavalidation__validation_status', 
         'pitmeovalidation__validation_status', 'stake_holder_name__organisation_district__name',)
     search_fields = ['stake_holder_name__organisation']
+    list_per_page = 30
 
     MaterialInline2.max_num = 1
     PeopleWhoInjectDrugInline.max_num = 1
@@ -502,7 +517,8 @@ class ActivityReportFormAdmin(admin.ModelAdmin):
             'fields': (),
         }),
     )
-
+    #inlines = [SubheaderLabel1Inline, MaterialInline, MaterialInline2]
+    
     inlines = [SubheaderLabel1Inline, MaterialInline, MaterialInline2, SubheaderLabel2Inline, TeachersInline, OutOfSchoolInline, 
         SexWorkerInline, InmateInline, PersonsWithDisabiltyInline, MobileWorkerInline, MobilePopulationInline, MenWithMenInline, 
         TransgenderIndividualInline, PeopleWhoInjectDrugInline, SubheaderLabel3Inline, CondomProgrammingInline, 
@@ -584,7 +600,15 @@ ActivityReportForm
                 activity_form_province = qs.filter(stake_holder_name__organisation_province=userProfile.province)
                 qs = activity_form_province.filter(dacavalidation__validation_status="approved")
         return qs
-
+    """
+    def get_formsets_with_inlines(self, request, obj=None):
+        for inline in self.get_inline_instances(request, obj):
+            # hide MyInline in the add view
+            if isinstance(inline, MaterialInline) and obj is None:
+                continue
+            yield inline.get_formset(request, obj), inline   
+    """
+    
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
 
