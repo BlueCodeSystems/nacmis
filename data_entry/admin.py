@@ -20,7 +20,7 @@ SubheaderLabel2, SubheaderLabel3, SubheaderLabel4, SubheaderLabel5, SubheaderLab
 
 from .forms import ActivityReportFormModelForm, StakeholderDirectoryModelForm, ProgramActivityModelForm, \
 TargetGroupPreventionMessageModelForm, WardModelForm, UserProfileModelForm, OtherQuestionModelForm, \
-DACAValidationForm, PITMEOValidationForm
+NationalOrganisationModelForm, DACAValidationForm, PITMEOValidationForm
 
 import datetime
 
@@ -82,7 +82,7 @@ class DACAValidationInline(admin.StackedInline):
 
 class PITMEOValidationInline(admin.StackedInline):
     model = PITMEOValidation
-    #form = PITMEOValidationForm
+    form = PITMEOValidationForm
     extra = 1
     fields = ("validated_by", "validation_status", "acknowledgement", "pitmeo_initials", "validation_comment")
     readonly_fields = ("acknowledgement",)
@@ -333,7 +333,8 @@ class SubheaderLabel7Inline(admin.StackedInline):
 # *************************************************
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
     list_filter = ('organisation_province', 'organisation_district', )
-    list_display = ('organisation', 'key_contact_name', 'telephone_number',)
+    list_display = ('organisation', 'organisation_district', 'key_contact_name', 'telephone_number',)
+    search_fields = ['organisation']
 
     form = StakeholderDirectoryModelForm
 
@@ -612,6 +613,7 @@ class WardAdmin(admin.ModelAdmin):
     form = WardModelForm
 
 class NationalOrganisationAdmin(admin.ModelAdmin):
+    form = NationalOrganisationModelForm
     search_fields = ['organisation_name',]
 
 #The code below is meant to include the user profile process directly into the user creation dialogue

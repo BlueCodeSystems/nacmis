@@ -2,6 +2,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
 from django.contrib.auth.models import User
 
+import re
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 
 # Create your models here.
@@ -146,6 +147,8 @@ class Province(models.Model):
 class District(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50, unique=True)
+    district_latitude = models.CharField(max_length=50, null=True)
+    district_longitude = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.name
@@ -441,7 +444,6 @@ class ActivityReportForm(models.Model):
         verbose_name_plural = 'Stakeholder Activity Report Form (SARF)'
 
 VALIDATION_STATUS = (
-    ('submitted', 'Submitted'),
     ('needs_review', 'Needs Review'),
     ('approved', 'Approved'),
 )
