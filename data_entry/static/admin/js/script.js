@@ -32,3 +32,5 @@ function validationStatusToggle(event, initials){
         initials.classList.add("hide_acknowledgement");
     }
 }
+
+

@@ -109,6 +109,7 @@ class MaterialInline(admin.TabularInline):
     verbose_name_plural = '1. How many Information Education Communication (IEC) materials were distributed by \
         your organisation this quarter?'
     extra = 1
+    template = 'admin/tabular.html'
 
 class MaterialInline2(admin.TabularInline):
     model = IECMaterial2
