@@ -31,23 +31,27 @@ class ProgramActivityInline(admin.TabularInline):
     verbose_name_plural = 'Section 5: Geographic activities'
     form = ProgramActivityModelForm
     extra = 1
+    template = 'admin/tabular.html'
 
 class FundingSourceInline(admin.TabularInline):
     model = FundingSource
     verbose_name_plural = 'Section 6: Funding sources'
     extra = 1
+    template = 'admin/tabular.html'
 
 class TargetGroupPreventionMessageInline(admin.TabularInline):
     model = TargetGroupPreventionMessage
     verbose_name_plural = 'Section 7: Target group and prevention messages'
     form = TargetGroupPreventionMessageModelForm
     extra = 1
+    template = 'admin/tabular.html'
 
 class OtherQuestionInline(admin.TabularInline):
     model = OtherQuestion
     form = OtherQuestionModelForm
     verbose_name_plural = 'Section 8: Other questions'
     extra = 1
+    template = 'admin/tabular.html'
 
 class EndOfYearQuestionInline(admin.TabularInline):
     model = EndOfYearQuestion
@@ -126,6 +130,7 @@ class TeachersInline(admin.TabularInline):
     verbose_name_plural = '3. Number of CSE trained teachers who taught lessons, in life skills based \
         comprehensive sexuality education(CSE) this quarter'
     can_delete = False
+    template = 'admin/tabular.html'
     extra = 1
 
 class OutOfSchoolInline(admin.StackedInline):
@@ -136,6 +141,7 @@ class OutOfSchoolInline(admin.StackedInline):
         ('out_school_male_10_14', 'out_school_male_15_19', 'out_school_male_20_24') 
     )
     extra = 1
+    template = 'admin/stacked.html'
 
 class SexWorkerInline(admin.StackedInline):
     model = SexWorker
@@ -146,6 +152,7 @@ class SexWorkerInline(admin.StackedInline):
         ('sex_workers_male_10_14','sex_workers_male_15_19', 'sex_workers_male_20_24', 'sex_workers_male_25_29', 
         'sex_workers_male_30_34', 'sex_workers_male_35_plus') )
     extra = 1
+    template = 'admin/stacked.html'
 
 class InmateInline(admin.TabularInline):
     model = Inmate
@@ -153,6 +160,7 @@ class InmateInline(admin.TabularInline):
         this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class PersonsWithDisabiltyInline(admin.TabularInline):
     model = PersonsWithDisabilty
@@ -160,6 +168,7 @@ class PersonsWithDisabiltyInline(admin.TabularInline):
         organisation this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class MobileWorkerInline(admin.TabularInline):
     model = MobileWorker
@@ -167,6 +176,7 @@ class MobileWorkerInline(admin.TabularInline):
         this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class MobilePopulationInline(admin.TabularInline):
     model = MobilePopulation
@@ -174,6 +184,7 @@ class MobilePopulationInline(admin.TabularInline):
     filter_horizontal = ('mobile_population_types',)
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
     
 class MenWithMenInline(admin.TabularInline):
     model = MenWithMen
@@ -181,6 +192,7 @@ class MenWithMenInline(admin.TabularInline):
         your organisation this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class TransgenderIndividualInline(admin.TabularInline):
     model = TransgenderIndividual
@@ -188,6 +200,7 @@ class TransgenderIndividualInline(admin.TabularInline):
         organisation this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class PeopleWhoInjectDrugInline(admin.TabularInline):
     model = PeopleWhoInjectDrug
@@ -195,6 +208,7 @@ class PeopleWhoInjectDrugInline(admin.TabularInline):
         your organisation this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class CondomProgrammingInline(admin.TabularInline):
     model = CondomProgramming
@@ -202,6 +216,7 @@ class CondomProgrammingInline(admin.TabularInline):
         quarter (excluding health facilities)?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class CondomProgramming2Inline(admin.TabularInline):
     model = CondomProgramming2
@@ -209,6 +224,7 @@ class CondomProgramming2Inline(admin.TabularInline):
         your organisation this quarter (excluding health facilities)?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class ReportedCaseInline(admin.StackedInline):
     model = ReportedCase
@@ -219,6 +235,7 @@ class ReportedCaseInline(admin.StackedInline):
         ('reported_male_less_10', 'reported_male_10_14', 'reported_male_15_19', 'reported_male_20_24', 
         'reported_male_25_plus') )
     extra = 1
+    template = 'admin/stacked.html'
     
 class ExperiencedPhysicalViolenceInline(admin.StackedInline):
     model = ExperiencedPhysicalViolence
@@ -228,6 +245,7 @@ class ExperiencedPhysicalViolenceInline(admin.StackedInline):
         ('physical_male_less_10', 'physical_male_10_14', 'physical_male_15_19', 
         'physical_male_20_24', 'physical_male_25_plus') )
     extra = 1
+    template = 'admin/stacked.html'
 
 class ExperiencedSexualViolenceInline(admin.StackedInline):
     model = ExperiencedSexualViolence
@@ -236,6 +254,7 @@ class ExperiencedSexualViolenceInline(admin.StackedInline):
         'sexual_female_20_24', 'sexual_female_25_plus'),
         ('sexual_male_less_10', 'sexual_male_10_14', 'sexual_male_15_19', 'sexual_male_20_24', 'sexual_male_25_plus') )
     extra = 1
+    template = 'admin/stacked.html'
 
 class PostExposureProphylaxisInline(admin.StackedInline):
     model = PostExposureProphylaxis
@@ -246,6 +265,7 @@ class PostExposureProphylaxisInline(admin.StackedInline):
         ('accessed_pep_male_less_10', 'accessed_pep_male_10_14', 'accessed_pep_male_15_19', 'accessed_pep_male_20_24', 
         'accessed_pep_male_25_plus') )
     extra = 1
+    template = 'admin/stacked.html'
 
 class PreExposureProphylaxisInline(admin.StackedInline):
     model = PreExposureProphylaxis
@@ -254,12 +274,14 @@ class PreExposureProphylaxisInline(admin.StackedInline):
     fields = ( ('referred_pep_female_15_19', 'referred_pep_female_20_24', 'referred_pep_female_25_plus'), 
         ('referred_pep_male_15_19', 'referred_pep_male_20_24', 'referred_pep_male_25_plus'), )
     extra = 1
+    template = 'admin/stacked.html'
 
 class SynergyDevelopmentSectorInline(admin.TabularInline):
     model = SynergyDevelopmentSector
     verbose_name_plural = '20. How many employees were reached through workplace programmes by your organisation this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class SupportGroupSetUpInline(admin.TabularInline):
     model = SupportGroupSetUp
@@ -267,6 +289,7 @@ class SupportGroupSetUpInline(admin.TabularInline):
         active this quarter?'
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class IndividualCurrentlyEnrolledInline(admin.StackedInline):
     model = IndividualCurrentlyEnrolled
@@ -277,6 +300,7 @@ class IndividualCurrentlyEnrolledInline(admin.StackedInline):
         ('individuals_enrolled_male_10_14', 'individuals_enrolled_male_15_19', 'individuals_enrolled_male_20_24', 
         'individuals_enrolled_male_25_plus') )
     extra = 1
+    template = 'admin/stacked.html'
 
 class VulnerablePeopleInline(admin.StackedInline):
     model = VulnerablePeople
@@ -284,6 +308,7 @@ class VulnerablePeopleInline(admin.StackedInline):
     fields = ( ('ovc_female_less_10', 'ovc_female_10_14', 'ovc_female_15_19', 'ovc_female_20_24', 
         'ovc_female_25_plus'), ('ovc_male_less_10', 'ovc_male_10_14', 'ovc_male_15_19', 'ovc_male_20_24', 'ovc_male_25_plus') )
     extra = 1
+    template = 'admin/stacked.html'
 
 class SupportAndCareInline(admin.TabularInline):
     model = SupportAndCare
@@ -291,6 +316,7 @@ class SupportAndCareInline(admin.TabularInline):
     filter_horizontal = ('type',)
     can_delete = False
     extra = 1
+    template = 'admin/tabular.html'
 
 class GeneralComment2Inline(admin.StackedInline):
     model = GeneralComment2
@@ -587,6 +613,7 @@ ActivityReportForm
 
     class Media:
         css = { "all" : ("css/hide_admin_original.css",) }
+        js = ('admin/js/hide_na_inlines.js',)
 
 class DistrictAdmin(admin.ModelAdmin):
     list_filter = ['province',]
