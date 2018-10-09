@@ -6,7 +6,6 @@ import json
 import os
 
 from django.core.management.base import BaseCommand, CommandError
-from data_entry.models import DataEtl
 
 import requests
 
@@ -298,6 +297,7 @@ class ZambiaHMIS:
                             return
 
     def store_data(self, orgUnit, dataSet, period, dataValueSets):
+        from data_entry.models import DataEtl#Moved here to avoid circular imports
         saved = 0
         for dv in dataValueSets['dataValues']:
             try:

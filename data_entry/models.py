@@ -96,6 +96,22 @@ QUARTER_LIST = (
     (Q4, 'Nov - Dec')
 )
 
+
+def generate_quarter_list():
+    from data_entry.management.commands.import_data import gen_quarters
+    formatted_list = []
+    for year, quarter in list(gen_quarters()):
+        if quarter == 1:
+            formatted_list.append(("%s%s"%(year,quarter), "%sst Quarter-%s"%(quarter, year)))
+        if quarter == 2:
+            formatted_list.append(("%s%s"%(year,quarter), "%snd Quarter-%s"%(quarter, year)))
+        if quarter == 3:
+            formatted_list.append(("%s%s"%(year,quarter), "%srd Quarter-%s"%(quarter, year)))
+        if quarter == 4:
+            formatted_list.append(("%s%s"%(year,quarter), "%sth Quarter-%s"%(quarter, year)))
+    return formatted_list
+        
+
 ORGANISATION_TYPE_LIST = (
     (cbo, 'Community Based Organisation'),
     (fbo, 'Faith Based Organisation'),
@@ -367,7 +383,7 @@ class GeneralComment(models.Model):
 class ActivityReportForm(models.Model):
 
     report_date = models.DateField(null=True)
-    quarter_been_reported = models.CharField(verbose_name='quarter being reported', max_length=20, choices=QUARTER_LIST)
+    quarter_been_reported = models.CharField(verbose_name='quarter being reported', max_length=20, choices=generate_quarter_list())
     stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organisation', \
         on_delete=models.SET_NULL, null=True)
     
