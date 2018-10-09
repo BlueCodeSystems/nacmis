@@ -1,12 +1,14 @@
-$(document).ready(function(){
-   $(".grey_out_checkbox").on("click", function(){
+jQuery(document).ready(function(){jQuery
+  jQuery(".grey_out_checkbox").on("click", function(){
       if(this.checked){
-	      sibling_div = $(this).siblings(".tabular")
-	      overlay = $("<div class='overlay'></div>")
+	      sibling_div = jQuery(this).siblings(".tabular, .stacked_inline")
+		  overlay = jQuery("<div class='overlay'></div>")
+		  
 	      sibling_div.prepend(overlay)
 	      overlay.height(sibling_div.height())
+	      overlay.width(sibling_div.width())
 
-	    $(sibling_div).find(':input').each(function() {
+	    jQuery(sibling_div).find(':input').each(function() {
 	    switch(this.type) {
 		case 'password':
 		case 'text':
@@ -18,7 +20,7 @@ $(document).ready(function(){
 		case 'number':
 		case 'tel':
 		case 'email':
-		    $(this).val('');
+		    jQuery(this).val('');
 		    break;
 		case 'checkbox':
 		case 'radio':
@@ -27,7 +29,7 @@ $(document).ready(function(){
 	    }
 	  })
       } else {
-       $(this).siblings(".tabular").children('.overlay').remove()
+       jQuery(this).siblings(".tabular, .stacked_inline").children('.overlay').remove()
       }
 
     })
