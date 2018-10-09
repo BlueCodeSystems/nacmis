@@ -20,8 +20,8 @@
      id="{{ inline_admin_formset.formset.prefix }}-group"
      data-inline-type="stacked"
      data-inline-formset="{{ inline_admin_formset.inline_formset_data }}">
-<input type="checkbox" class="grey_out_checkbox"> Question not applicable
-  <div class="stacked inline-related {% if forloop.last %}last-related{% endif %}">
+<input type="checkbox" class="grey_out_checkbox" /> Question not applicable
+<div class="around_stacked">
 <fieldset class="module {{ inline_admin_formset.classes }}">
   <h2>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}</h2>
 {{ inline_admin_formset.formset.management_form }}
@@ -42,3 +42,9 @@
 </div>{% endfor %}
 </fieldset>
 </div>
+</div>
+
+{% load static %}
+{% block scripts %}
+<script src="{% static 'admin/js/hide_na_inlines.js' %}"></script>
+{% endblock %}

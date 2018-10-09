@@ -136,6 +136,7 @@ class OutOfSchoolInline(admin.StackedInline):
     fields = ( ('out_school_female_10_14', 'out_school_female_15_19', 'out_school_female_20_24'), 
         ('out_school_male_10_14', 'out_school_male_15_19', 'out_school_male_20_24') 
     )
+    template = 'admin/stacked.html'
     extra = 1
 
 class SexWorkerInline(admin.StackedInline):
