@@ -320,10 +320,10 @@ class ZambiaHMIS:
                 print("dataElement key does not exist:", dv['dataElement'])
                 continue
 
-            d = DataEtl(dataElementName=self.dataElementsById[dv['dataElement']],
-                        dataElementID=dv['dataElement'],
-                        orgUnitName=orgUnit['displayName'],
-                        orgUnitID=orgUnit['id'],
+            d = DataEtl(data_element_name=self.dataElementsById[dv['dataElement']],
+                        data_element_id=dv['dataElement'],
+                        org_unit_name=orgUnit['displayName'],
+                        org_unit_id=orgUnit['id'],
                         period=int(period),
                         value=value)
             d.save()
