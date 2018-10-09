@@ -669,9 +669,9 @@ class SubheaderLabel7(models.Model):
     organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class DataEtl(models.Model):
-    dataElementName = models.CharField(max_length=160)
-    dataElementID = models.CharField(max_length=100)
-    orgUnitName = models.CharField(max_length=100)
-    orgUnitID = models.CharField(max_length=100)
+    data_element_name = models.CharField(max_length=160)
+    data_element_id = models.CharField(max_length=100)
+    org_unit_name = models.CharField(max_length=100)
+    org_unit_id = models.CharField(max_length=100)
     period = models.PositiveIntegerField()
-    value = models.PositiveIntegerField()
+    value = models.DecimalField(decimal_places=5, max_digits=20)
