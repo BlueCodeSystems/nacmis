@@ -118,7 +118,8 @@ class MaterialInline2(admin.TabularInline):
         quarter who was your target audience?'
     filter_horizontal = ('target_audience',)
     can_delete = False
-    extra = 1
+    #extra = 0
+    template = 'admin/tabular.html'
 
 class TeachersInline(admin.TabularInline):
     model = Teachers
