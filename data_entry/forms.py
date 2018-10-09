@@ -58,7 +58,6 @@ class UserProfileModelForm(forms.ModelForm):
         }
 
 class ActivityReportFormModelForm(forms.ModelForm):
-    #quarter_been_reported = forms.CharField(choice=year_quarter_tuple(),)
     class Meta:
         model = ActivityReportForm
         fields = ['report_date',]
@@ -66,6 +65,7 @@ class ActivityReportFormModelForm(forms.ModelForm):
         widgets = {
             'report_date' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD', 'type':'date',}),
         }
+                  
 
 class ProgramActivityModelForm(forms.ModelForm):
     # organisation_district

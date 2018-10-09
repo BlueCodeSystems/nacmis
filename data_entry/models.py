@@ -1,5 +1,6 @@
 from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
+from django.forms import ValidationError
 from django.contrib.auth.models import User
 
 import re
@@ -391,11 +392,6 @@ class ActivityReportForm(models.Model):
     name = models.CharField(max_length=50)
     telephone_number = PhoneNumberField(help_text='0xxxxxxxxx')
     email_address = models.EmailField(max_length=50)
-    '''
-    def year_quarter_tuple(self):
-        return (("201801", "2018 - quarter 1"), ("201802", "2018 - quarter 2"), 
-            ("201803", "2018 - quarter 3"), ("201804", "2018 - quarter 4"))
-    '''
 
     def __str__(self):
         if self.stake_holder_name:
@@ -406,6 +402,11 @@ class ActivityReportForm(models.Model):
 
     class Meta:
         verbose_name_plural = 'Stakeholder Activity Report Form (SARF)'
+
+    def clean(self):
+        existing_sarf_for_quarter = ActivityReportForm.objects.filter(quarter_been_reported=self.quarter_been_reported, stake_holder_name=self.stake_holder_name)
+        if existing_sarf_for_quarter:
+            raise ValidationError("A Stakeholder Activity Report Form for this stakeholder: '%s' has already been recorded for %s"%(self.stake_holder_name, self.get_quarter_been_reported_display()))
 
 VALIDATION_STATUS = (
     ('needs_review', 'Needs Review'),
