@@ -103,13 +103,13 @@ def generate_quarter_list():
     formatted_list = []
     for year, quarter in list(gen_quarters()):
         if quarter == 1:
-            formatted_list.append(("%s%s"%(year,quarter), "%sst Quarter-%s"%(quarter, year)))
+            formatted_list.append(("%s0%s"%(year,quarter), "%sst Quarter-%s"%(quarter, year)))
         if quarter == 2:
-            formatted_list.append(("%s%s"%(year,quarter), "%snd Quarter-%s"%(quarter, year)))
+            formatted_list.append(("%s0%s"%(year,quarter), "%snd Quarter-%s"%(quarter, year)))
         if quarter == 3:
-            formatted_list.append(("%s%s"%(year,quarter), "%srd Quarter-%s"%(quarter, year)))
+            formatted_list.append(("%s0%s"%(year,quarter), "%srd Quarter-%s"%(quarter, year)))
         if quarter == 4:
-            formatted_list.append(("%s%s"%(year,quarter), "%sth Quarter-%s"%(quarter, year)))
+            formatted_list.append(("%s0%s"%(year,quarter), "%sth Quarter-%s"%(quarter, year)))
     return formatted_list
         
 
