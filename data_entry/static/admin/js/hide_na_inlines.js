@@ -1,7 +1,7 @@
 $(document).ready(function(){
    $(".grey_out_checkbox").on("click", function(){
       if(this.checked){
-	      sibling_div = $(this).siblings(".tabular")
+	      sibling_div = $(this).siblings(".tabular, .around_stacked")
 	      overlay = $("<div class='overlay'></div>")
 	      sibling_div.prepend(overlay)
 	      overlay.height(sibling_div.height())
@@ -27,7 +27,7 @@ $(document).ready(function(){
 	    }
 	  })
       } else {
-       $(this).siblings(".tabular").children('.overlay').remove()
+       $(this).siblings(".tabular, .around_stacked").children('.overlay').remove()
       }
 
     })
