@@ -479,7 +479,7 @@ def daca_validation_status(obj):
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
     list_display = ('stake_holder_name', 'name', daca_validation_status, pitmeo_validation_status, 'quarter_been_reported')
-    list_filter = ('stake_holder_name__organisation_province__name', 'dacavalidation__validation_status', 
+    list_filter = ('stake_holder_name__organisation_province__name', 'quarter_been_reported', 'dacavalidation__validation_status', 
         'pitmeovalidation__validation_status', 'stake_holder_name__organisation_district__name',)
     search_fields = ['stake_holder_name__organisation']
 
