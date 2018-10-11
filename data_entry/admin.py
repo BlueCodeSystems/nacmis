@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User, Group
 from django.db.models import Q
 from collections import OrderedDict
+from django.forms import ValidationError
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
 OrganisationTarget, PreventionMessageList, MobilePopulationType, SupportField, SupportByArea, ProgramActivity, 
@@ -478,6 +479,7 @@ def daca_validation_status(obj):
     return label.upper()
 
 class ActivityReportFormAdmin(admin.ModelAdmin):
+    form =  ActivityReportFormModelForm
     list_display = ('stake_holder_name', 'name', daca_validation_status, pitmeo_validation_status, 'quarter_been_reported')
     list_filter = ('stake_holder_name__organisation_province__name', 'quarter_been_reported', 'dacavalidation__validation_status', 
         'pitmeovalidation__validation_status', 'stake_holder_name__organisation_district__name',)
