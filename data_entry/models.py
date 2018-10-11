@@ -101,7 +101,10 @@ QUARTER_LIST = (
 def generate_quarter_list():
     from data_entry.management.commands.import_data import gen_quarters
     formatted_list = []
-    for year, quarter in list(gen_quarters()):
+
+    generated_quarters = list(gen_quarters())
+    #We should only go up to the last quarter, NOT the current one so we pick the slice that doesn't include the very last item n the list.
+    for year, quarter in list(generated_quarters[:-1]):
         if quarter == 1:
             formatted_list.append(("%s0%s"%(year,quarter), "%sst Quarter-%s"%(quarter, year)))
         if quarter == 2:
@@ -111,7 +114,6 @@ def generate_quarter_list():
         if quarter == 4:
             formatted_list.append(("%s0%s"%(year,quarter), "%sth Quarter-%s"%(quarter, year)))
     return formatted_list
-        
 
 ORGANISATION_TYPE_LIST = (
     (cbo, 'Community Based Organisation'),
