@@ -6,6 +6,7 @@ import json
 import os
 
 from django.core.management.base import BaseCommand, CommandError
+from data_entry.models import District
 
 import requests
 
@@ -298,6 +299,9 @@ class ZambiaHMIS:
 
     def store_data(self, orgUnit, dataSet, period, dataValueSets):
         from data_entry.models import DataEtl#Moved here to avoid circular imports
+        cached_district_provinces = {}
+        for district in District.objects.all():
+            cached_district_provinces[district] = district.province.name
         saved = 0
         for dv in dataValueSets['dataValues']:
             try:
@@ -319,10 +323,13 @@ class ZambiaHMIS:
             except KeyError:
                 print("dataElement key does not exist:", dv['dataElement'])
                 continue
+            district_name = orgUnit['displayName'][3:]
 
             d = DataEtl(data_element_name=self.dataElementsById[dv['dataElement']],
                         data_element_id=dv['dataElement'],
                         org_unit_name=orgUnit['displayName'],
+                        district_name=district_name,
+                        province_name=cached_district_provinces['district_name'],
                         org_unit_id=orgUnit['id'],
                         period=int(period),
                         value=value)

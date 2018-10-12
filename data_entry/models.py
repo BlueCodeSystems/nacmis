@@ -687,6 +687,8 @@ class DataEtl(models.Model):
     data_element_name = models.CharField(max_length=160)
     data_element_id = models.CharField(max_length=100)
     org_unit_name = models.CharField(max_length=100)
+    district_name = models.CharField(max_length=100)
+    province_name = models.CharField(max_length=100)
     org_unit_id = models.CharField(max_length=100)
     period = models.PositiveIntegerField()
     value = models.DecimalField(decimal_places=5, max_digits=20)
