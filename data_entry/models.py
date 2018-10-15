@@ -215,6 +215,16 @@ class PreventionMessageList(models.Model):
     def __str__(self):
         return self.prevention_message
 
+
+class StakeholderDirectoryStaff(models.Model):
+    position = models.CharField(max_length=50,)
+
+    def __str__(self):
+        return '%s' % (self.position)
+    
+    class Meta:
+        verbose_name = 'position'
+
 #               HELPER CLASSES FOR ACTIVITYREPORTFORM 
 # *********************************************************************
 class MobilePopulationType(models.Model):
@@ -257,6 +267,8 @@ class StakeholderDirectory(models.Model):
     temporary_employee_male = models.PositiveIntegerField('current number of temporary male employees', null=True)
     volunteer_employee_female = models.PositiveIntegerField('current number of volunteer female employees', null=True)
     volunteer_employee_male = models.PositiveIntegerField('current number of volunteer male employees', null=True)
+    position_available = models.ManyToManyField(StakeholderDirectoryStaff, verbose_name='Please Tick(if position or \
+        equivalent is available in the organisation structure')
 
     # --> Organisation Classification
     organisation_type = models.CharField('which of the following \'types\' would best describe your \
