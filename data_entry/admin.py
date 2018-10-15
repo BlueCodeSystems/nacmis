@@ -7,7 +7,8 @@ from django.forms import ValidationError
 
 from .models import (NationalOrganisation, ActivityReportForm, StakeholderDirectory, Province, District, Ward,
 OrganisationTarget, PreventionMessageList, MobilePopulationType, SupportField, SupportByArea, ProgramActivity, 
-FundingSource, TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile)
+FundingSource, TargetGroupPreventionMessage, OtherQuestion, EndOfYearQuestion, GeneralComment, UserProfile, 
+StakeholderDirectoryStaff)
 
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext, gettext_lazy as _
@@ -123,7 +124,7 @@ class MaterialInline2(admin.TabularInline):
         quarter who was your target audience?'
     filter_horizontal = ('target_audience',)
     can_delete = False
-    #extra = 0
+    extra = 1
     template = 'admin/tabular.html'
 
 class TeachersInline(admin.TabularInline):
@@ -363,6 +364,7 @@ class SubheaderLabel7Inline(admin.StackedInline):
 class StakeholderDirectoryAdmin(admin.ModelAdmin):
     list_filter = ('organisation_province', 'organisation_district', )
     list_display = ('organisation', 'key_contact_name', 'telephone_number',)
+    filter_horizontal = ('position_available',)
 
     form = StakeholderDirectoryModelForm
 
@@ -390,7 +392,8 @@ class StakeholderDirectoryAdmin(admin.ModelAdmin):
         }),
         ('Section 3: Staff details', {
             'fields': ( ('permanent_employee_male', 'permanent_employee_female'), ('temporary_employee_male', 
-                'temporary_employee_female'), ('volunteer_employee_male', 'volunteer_employee_female') ),
+                'temporary_employee_female'), ('volunteer_employee_male', 'volunteer_employee_female'), 
+                'position_available' ),
                 
                 'description':('<b><p class="description_fit_in">Employee\'s fall in different groups. Permanent employees \
                 are those who is hired to work without any time frame for his/her exit. Temporary employees are those that \
@@ -771,3 +774,5 @@ admin.site.register(Province)
 admin.site.register(District, DistrictAdmin)
 
 admin.site.register(Ward, WardAdmin)
+
+admin.site.register(StakeholderDirectoryStaff)
