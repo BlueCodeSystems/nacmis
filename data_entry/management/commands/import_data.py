@@ -3,6 +3,7 @@
 import datetime
 import decimal
 import json
+import simplejson
 import os
 
 from django.core.management.base import BaseCommand, CommandError
@@ -306,7 +307,7 @@ class ZambiaHMIS:
         from data_entry.models import DataEtl#Moved here to avoid circular imports
         cached_district_provinces = {}
         for district in District.objects.all():
-            cached_district_provinces[district] = district.province.name
+            cached_district_provinces["%s"%district] = district.province.name
         saved = 0
         for dv in dataValueSets['dataValues']:
             try:
@@ -328,14 +329,21 @@ class ZambiaHMIS:
             except KeyError:
                 print("dataElement key does not exist:", dv['dataElement'])
                 continue
-            district_name = orgUnit['displayName'][3:]
-            province_name = cached_district_provinces[district_name]
+            district_name = orgUnit['displayName'][3:-9] #Strip out the province prefix and the 'District' part.
+            try:
+                province_name = cached_district_provinces[district_name]
+            except KeyError:
+                if district_name == "Itezhi-tezhi":
+                    district_name = "Itezhi Tezhi"
+                elif district_name == "Kapiri-Mposhi":
+                    district_name = "Kapiri Mposhi"
+                province_name = cached_district_provinces[district_name]
 
             d = DataEtl(data_element_name=self.dataElementsById[dv['dataElement']],
                         data_element_id=dv['dataElement'],
                         org_unit_name=orgUnit['displayName'],
                         district_name=district_name,
-                        province_name=cached_district_provinces['district_name'],
+                        province_name=province_name,
                         org_unit_id=orgUnit['id'],
                         period=int(period),
                         value=value)
