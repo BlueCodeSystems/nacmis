@@ -3,13 +3,12 @@
 -- psql nacmis -f views.sql
 
 create or replace view vw_stakeholderdirectory as
-  select st.*, pr.name as province_name,  ds.district_longitude, ds.district_latitude, ds.name as district_name
+ select st.*, pr.name as province_name,  ds.district_longitude, ds.district_latitude, ds.name as district_name
   from data_entry_stakeholderdirectory st
   left outer join data_entry_province pr 
     on pr.id = st.organisation_province_id
   left outer join data_entry_district ds
-    on ds.id = st.organisation_district_id;
- 
+    on ds.id = st.organisation_district_id; 
 
 create or replace view vw_organisationtarget as
   select st.*, ot.organisation_target_option
@@ -407,6 +406,7 @@ create or replace view vw_mobilepopulation_types as
 -- pick apart the data_entry_sexworker table, i.e. split the data up by age
 -- group and sex, and present these as fields in a different table, so we can
 -- filter by them.
+
 create or replace function sp_sex_workers_by_age_and_sex()
 returns table (
     age_group text, 
@@ -431,29 +431,29 @@ begin
         insert into temp_sex_workers
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10_14', 'female', row.sex_workers_female_10_14, 
+            ('10 to 14', 'Female', row.sex_workers_female_10_14, 
              row.activity_form_id),
-            ('15_19', 'female', row.sex_workers_female_15_19, 
+            ('15 to 19', 'Female', row.sex_workers_female_15_19, 
              row.activity_form_id),
-            ('20_24', 'female', row.sex_workers_female_20_24, 
+            ('20 to 24', 'Female', row.sex_workers_female_20_24, 
              row.activity_form_id),
-            ('25_29', 'female', row.sex_workers_female_25_29, 
+            ('25 to 29', 'Female', row.sex_workers_female_25_29, 
              row.activity_form_id),
-            ('30_34', 'female', row.sex_workers_female_30_34, 
+            ('30 to 34', 'Female', row.sex_workers_female_30_34, 
              row.activity_form_id),
-            ('35_plus', 'female', row.sex_workers_female_35_plus, 
+            ('35 plus', 'Female', row.sex_workers_female_35_plus, 
              row.activity_form_id),
-            ('10_14', 'male', row.sex_workers_male_10_14, 
+            ('10 to 14', 'Male', row.sex_workers_male_10_14, 
              row.activity_form_id),
-            ('15_19', 'male', row.sex_workers_male_15_19, 
+            ('15 to 19', 'Male', row.sex_workers_male_15_19, 
              row.activity_form_id),
-            ('20_24', 'male', row.sex_workers_male_20_24, 
+            ('20 to 24', 'Male', row.sex_workers_male_20_24, 
              row.activity_form_id),
-            ('25_29', 'male', row.sex_workers_male_25_29, 
+            ('25 to 29', 'Male', row.sex_workers_male_25_29, 
              row.activity_form_id),
-            ('30_34', 'male', row.sex_workers_male_30_34, 
+            ('30 to 34', 'Male', row.sex_workers_male_30_34, 
              row.activity_form_id),
-            ('35_plus', 'male', row.sex_workers_male_35_plus, 
+            ('35 plus', 'Male', row.sex_workers_male_35_plus, 
              row.activity_form_id);
     end loop;
 
@@ -466,7 +466,8 @@ create or replace view vw_sex_workers_by_age_and_sex as
 select ac.*, vw.*
 from sp_sex_workers_by_age_and_sex() vw
 left join vw_activityreportform ac
-  on ac.id = vw.activity_report_form_id;
+  on ac.id = vw.activity_report_form_id
+  order by age_group;
 
 create or replace function sp_out_of_school_by_age_and_sex()
 returns table (
@@ -492,17 +493,17 @@ begin
         insert into temp_outofschool
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10_14', 'female', row.out_school_female_10_14, 
+            ('10 to 14', 'Female', row.out_school_female_10_14, 
              row.activity_form_id),
-            ('15_19', 'female', row.out_school_female_15_19, 
+            ('15 to 19', 'Female', row.out_school_female_15_19, 
              row.activity_form_id),
-            ('20_24', 'female', row.out_school_female_20_24, 
+            ('20 to 24', 'Female', row.out_school_female_20_24, 
              row.activity_form_id),
-            ('10_14', 'male', row.out_school_male_10_14, 
+            ('10 to 14', 'Male', row.out_school_male_10_14, 
              row.activity_form_id),
-            ('15_19', 'male', row.out_school_male_15_19, 
+            ('15 to 19', 'Male', row.out_school_male_15_19, 
              row.activity_form_id),
-            ('20_24', 'male', row.out_school_male_20_24, 
+            ('20 to 24', 'Male', row.out_school_male_20_24, 
              row.activity_form_id);
     end loop;
 
@@ -511,12 +512,63 @@ begin
 end;
 $$ language plpgsql;
 
-/*drop view if exists vw_out_of_school_by_age_and_sex;*/
+/*drop view if exists vw_out_of_school_by_age_and_sex;*/ 
 create or replace view vw_out_of_school_by_age_and_sex as
 select ac.*, vw.*
 from sp_out_of_school_by_age_and_sex() vw
 left join vw_activityreportform ac
-  on ac.id = vw.activity_report_form_id;
+  on ac.id = vw.activity_report_form_id
+  Order by age_group;
+
+create or replace function sp_inmates_by_age_and_sex()
+returns table (
+    age_group text, 
+    sex text, 
+    value integer, 
+    activity_report_form_id integer
+) as $$
+declare 
+    row record;
+begin
+    drop table if exists temp_inmate;
+    create temp table temp_inmate (
+        age_group text,
+        sex text, 
+        value integer,
+        activity_report_form_id integer
+    );
+
+    for row in
+        select * from data_entry_inmate
+    loop
+        insert into temp_inmate
+            (age_group, sex, value, activity_report_form_id)
+        values 
+            ('10 to 14', 'Female', row.inmate_female_10_14, 
+             row.activity_form_id),
+            ('15 to 19', 'Female', row.inmate_female_15_19, 
+             row.activity_form_id),
+            ('20 to 24', 'Female', row.inmate_female_20_24, 
+             row.activity_form_id),
+            ('10 to 14', 'Male', row.inmate_male_10_14, 
+             row.activity_form_id),
+            ('15 to 19', 'Male', row.inmate_male_15_19, 
+             row.activity_form_id),
+            ('20 to 24', 'Male', row.inmate_male_20_24, 
+             row.activity_form_id);
+    end loop;
+
+    return query
+        select * from temp_inmate;
+end;
+$$ language plpgsql;
+
+create or replace view vw_inmate_by_age_and_sex as
+select ac.*, vw.*
+from sp_inmate_by_age_and_sex() vw
+left join vw_activityreportform ac
+  on ac.id = vw.activity_report_form_id
+  Order by age_group;
 
 create or replace function sp_reported_case_by_age_and_sex()
 returns table (
@@ -542,25 +594,25 @@ begin
         insert into temp_reportedcase
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10_and_less', 'female', row.reported_female_less_10, 
+            ('10 and less', 'Female', row.reported_female_less_10, 
              row.activity_form_id),
-            ('10_14', 'female', row.reported_female_10_14, 
+            ('10 to 14', 'Female', row.reported_female_10_14, 
              row.activity_form_id),
-            ('15_19', 'female', row.reported_female_15_19, 
+            ('15 to 19', 'Female', row.reported_female_15_19, 
              row.activity_form_id),
-            ('20_24', 'female', row.reported_female_20_24, 
+            ('20 to 24', 'Female', row.reported_female_20_24, 
              row.activity_form_id),
-            ('25_plus', 'female', row.reported_female_25_plus, 
+            ('25 plus', 'Female', row.reported_female_25_plus, 
              row.activity_form_id),
-            ('10_and_less', 'male', row.reported_male_less_10, 
+            ('10 and less', 'Male', row.reported_male_less_10, 
              row.activity_form_id),
-            ('10_14', 'male', row.reported_male_10_14, 
+            ('10 to 14', 'Male', row.reported_male_10_14, 
              row.activity_form_id),
-            ('15_19', 'male', row.reported_male_15_19, 
+            ('15 to 19', 'Male', row.reported_male_15_19, 
              row.activity_form_id),
-            ('20_24', 'male', row.reported_male_20_24, 
+            ('20 to 24', 'Male', row.reported_male_20_24, 
              row.activity_form_id),
-            ('25_plus', 'male', row.reported_male_25_plus, 
+            ('25 plus', 'Male', row.reported_male_25_plus, 
              row.activity_form_id);
     end loop;
 
@@ -569,12 +621,12 @@ begin
 end;
 $$ language plpgsql;
 
-/*drop view if exists vw_reported_case_by_age_and_sex;*/
-create  or replace view vw_reported_case_by_age_and_sex as
+create or replace view vw_reported_case_by_age_and_sex as
 select ac.*, vw.*
 from sp_reported_case_by_age_and_sex() vw
 left outer join vw_activityreportform ac
-  on ac.id = vw.activity_report_form_id;
+  on ac.id = vw.activity_report_form_id
+  order by age_group;
 
 create or replace function sp_experienced_physical_violence_by_age_and_sex()
 returns table (
@@ -600,25 +652,25 @@ begin
         insert into temp_experiencedphysicalviolence
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10_and_less', 'female', row.physical_female_less_10, 
+            ('10 and less', 'Female', row.physical_female_less_10, 
              row.activity_form_id),
-            ('10_14', 'female', row.physical_female_10_14, 
+            ('10 to 14', 'Female', row.physical_female_10_14, 
              row.activity_form_id),
-            ('15_19', 'female', row.physical_female_15_19, 
+            ('15 to 19', 'Female', row.physical_female_15_19, 
              row.activity_form_id),
-            ('20_24', 'female', row.physical_female_20_24, 
+            ('20 to 24', 'Female', row.physical_female_20_24, 
              row.activity_form_id),
-            ('25_plus', 'female', row.physical_female_25_plus, 
+            ('25 plus', 'Female', row.physical_female_25_plus, 
              row.activity_form_id),
-            ('10_and_less', 'male', row.physical_male_less_10, 
+            ('10 and less', 'Male', row.physical_male_less_10, 
              row.activity_form_id),
-            ('10_14', 'male', row.physical_male_10_14, 
+            ('10 to 14', 'Male', row.physical_male_10_14, 
              row.activity_form_id),
-            ('15_19', 'male', row.physical_male_15_19, 
+            ('15 to 19', 'Male', row.physical_male_15_19, 
              row.activity_form_id),
-            ('20_24', 'male', row.physical_male_20_24, 
+            ('20 to 24', 'Male', row.physical_male_20_24, 
              row.activity_form_id),
-            ('25_plus', 'male', row.physical_male_25_plus, 
+            ('25 plus', 'Male', row.physical_male_25_plus, 
              row.activity_form_id);
     end loop;
 
@@ -631,7 +683,8 @@ create or replace view vw_experienced_physical_violence_by_age_and_sex as
 select ac.*, vw.*
 from sp_experienced_physical_violence_by_age_and_sex() vw
 left outer join vw_activityreportform ac
-  on ac.id = vw.activity_report_form_id;
+  on ac.id = vw.activity_report_form_id
+  order BY age_group;
 
 create or replace function sp_experienced_sexual_violence_by_age_and_sex()
 returns table (
@@ -657,25 +710,25 @@ begin
         insert into temp_experiencedsexualviolence
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10_and_less', 'female', row.sexual_female_less_10, 
+            ('10 and less', 'Female', row.sexual_female_less_10, 
              row.activity_form_id),
-            ('10_14', 'female', row.sexual_female_10_14, 
+            ('10 to 14', 'Female', row.sexual_female_10_14, 
              row.activity_form_id),
-            ('15_19', 'female', row.sexual_female_15_19, 
+            ('15 to 19', 'Female', row.sexual_female_15_19, 
              row.activity_form_id),
-            ('20_24', 'female', row.sexual_female_20_24, 
+            ('20 to 24', 'Female', row.sexual_female_20_24, 
              row.activity_form_id),
-            ('25_plus', 'female', row.sexual_female_25_plus, 
+            ('25 plus', 'Female', row.sexual_female_25_plus, 
              row.activity_form_id),
-            ('10_and_less', 'male', row.sexual_male_less_10, 
+            ('10 and less', 'Male', row.sexual_male_less_10, 
              row.activity_form_id),
-            ('10_14', 'male', row.sexual_male_10_14, 
+            ('10 to 14', 'Male', row.sexual_male_10_14, 
              row.activity_form_id),
-            ('15_19', 'male', row.sexual_male_15_19, 
+            ('15 to 19', 'Male', row.sexual_male_15_19, 
              row.activity_form_id),
-            ('20_24', 'male', row.sexual_male_20_24, 
+            ('20 to 24', 'Male', row.sexual_male_20_24, 
              row.activity_form_id),
-            ('25_plus', 'male', row.sexual_male_25_plus, 
+            ('25 plus', 'Male', row.sexual_male_25_plus, 
              row.activity_form_id);
     end loop;
 
@@ -688,7 +741,8 @@ create or replace view vw_experienced_sexual_violence_by_age_and_sex as
 select ac.*, vw.* 
 from sp_experienced_sexual_violence_by_age_and_sex() vw
 left outer join vw_activityreportform ac
-  on ac.id = vw.activity_report_form_id;
+  on ac.id = vw.activity_report_form_id
+  order by age_group;
 
 create or replace function sp_post_exposure_prophylaxis_by_age_and_sex()
 returns table (
@@ -714,25 +768,25 @@ begin
         insert into temp_postexposureprophylaxis
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10_and_less', 'female', row.accessed_pep_female_less_10, 
+            ('10 and less', 'Female', row.accessed_pep_female_less_10, 
              row.activity_form_id),
-            ('10_14', 'female', row.accessed_pep_female_10_14, 
+            ('10 to 14', 'Female', row.accessed_pep_female_10_14, 
              row.activity_form_id),
-            ('15_19', 'female', row.accessed_pep_female_15_19, 
+            ('15 to 19', 'Female', row.accessed_pep_female_15_19, 
              row.activity_form_id),
-            ('20_24', 'female', row.accessed_pep_female_20_24, 
+            ('20 to 24', 'Female', row.accessed_pep_female_20_24, 
              row.activity_form_id),
-            ('25_plus', 'female', row.accessed_pep_female_25_plus, 
+            ('25 plus', 'Female', row.accessed_pep_female_25_plus, 
              row.activity_form_id),
-            ('10_and_less', 'male', row.accessed_pep_male_less_10, 
+            ('10 and less', 'Male', row.accessed_pep_male_less_10, 
              row.activity_form_id),
-            ('10_14', 'male', row.accessed_pep_male_10_14, 
+            ('10 to 14', 'Male', row.accessed_pep_male_10_14, 
              row.activity_form_id),
-            ('15_19', 'male', row.accessed_pep_male_15_19, 
+            ('15 to 19', 'Male', row.accessed_pep_male_15_19, 
              row.activity_form_id),
-            ('20_24', 'male', row.accessed_pep_male_20_24, 
+            ('20 to 24', 'Male', row.accessed_pep_male_20_24, 
              row.activity_form_id),
-            ('25_plus', 'male', row.accessed_pep_male_25_plus, 
+            ('25 plus', 'Male', row.accessed_pep_male_25_plus, 
              row.activity_form_id);
     end loop;
 
@@ -745,7 +799,8 @@ create or replace view vw_post_exposure_prophylaxis_by_age_and_sex as
 select ac.*, vw.* 
 from sp_post_exposure_prophylaxis_by_age_and_sex() vw
 left outer join vw_activityreportform ac
-  on ac.id = vw.activity_report_form_id;
+  on ac.id = vw.activity_report_form_id
+  order by age_group;
 
 create or replace function sp_individual_currently_enrolled_by_age_and_sex()
 returns table (
@@ -771,21 +826,27 @@ begin
         insert into temp_individualcurrentlyenrolled
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10_14', 'female', row.individuals_enrolled_female_10_14, 
+            ('10 and less', 'Female', row.individuals_enrolled_female_10_less,
+            	row.activity_form_id),
+
+            ('10 to 14', 'Female', row.individuals_enrolled_female_10_14, 
              row.activity_form_id),
-            ('15_19', 'female', row.individuals_enrolled_female_15_19, 
+            ('15 to 19', 'Female', row.individuals_enrolled_female_15_19, 
              row.activity_form_id),
-            ('20_24', 'female', row.individuals_enrolled_female_20_24, 
+            ('20 to 24', 'Female', row.individuals_enrolled_female_20_24, 
              row.activity_form_id),
-            ('25_plus', 'female', row.individuals_enrolled_female_25_plus, 
+            ('25 and above', 'Female', row.individuals_enrolled_female_25_plus, 
              row.activity_form_id),
-            ('10_14', 'male', row.individuals_enrolled_male_10_14, 
+            ('10 and less', 'Male', row.individuals_enrolled_female_10_less,
+            	row.activity_form_id),
+
+            ('10 to 14', 'Male', row.individuals_enrolled_male_10_14, 
              row.activity_form_id),
-            ('15_19', 'male', row.individuals_enrolled_male_15_19, 
+            ('15 to 19', 'Male', row.individuals_enrolled_male_15_19, 
              row.activity_form_id),
-            ('20_24', 'male', row.individuals_enrolled_male_20_24, 
+            ('20 to 24', 'Male', row.individuals_enrolled_male_20_24, 
              row.activity_form_id),
-            ('25_plus', 'male', row.individuals_enrolled_male_25_plus, 
+            ('25 and above', 'Male', row.individuals_enrolled_male_25_plus, 
              row.activity_form_id);
     end loop;
 
@@ -798,7 +859,8 @@ create or replace view vw_individual_currently_enrolled_by_age_and_sex as
 select ac.*, vw.*
 from sp_individual_currently_enrolled_by_age_and_sex() vw
 left outer join vw_activityreportform ac
-  on ac.id = vw.activity_report_form_id;
+  on ac.id = vw.activity_report_form_id
+  order by age_group;
 
 create or replace function sp_vulnerable_people_by_age_and_sex()
 returns table (
@@ -824,25 +886,25 @@ begin
         insert into temp_vulnerablepeople
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10_and_less', 'female', row.ovc_female_less_10, 
+            ('10 and less', 'Female', row.ovc_female_less_10, 
              row.activity_form_id),
-            ('10_14', 'female', row.ovc_female_10_14, 
+            ('10 to 14', 'Female', row.ovc_female_10_14, 
              row.activity_form_id),
-            ('15_19', 'female', row.ovc_female_15_19, 
+            ('15 to 19', 'Female', row.ovc_female_15_19, 
+               row.activity_form_id),
+            ('20 to 24', 'Female', row.ovc_female_20_24, 
              row.activity_form_id),
-            ('20_24', 'female', row.ovc_female_20_24, 
+            ('25 plus', 'Female', row.ovc_female_25_plus, 
              row.activity_form_id),
-            ('25_plus', 'female', row.ovc_female_25_plus, 
+            ('10 and less', 'Male', row.ovc_male_less_10, 
              row.activity_form_id),
-            ('10_and_less', 'male', row.ovc_male_less_10, 
+            ('10 to 14', 'Male', row.ovc_male_10_14, 
              row.activity_form_id),
-            ('10_14', 'male', row.ovc_male_10_14, 
+            ('15 to 19', 'Male', row.ovc_male_15_19, 
              row.activity_form_id),
-            ('15_19', 'male', row.ovc_male_15_19, 
+            ('20 to 24', 'Male', row.ovc_male_20_24, 
              row.activity_form_id),
-            ('20_24', 'male', row.ovc_male_20_24, 
-             row.activity_form_id),
-            ('25_plus', 'male', row.ovc_male_25_plus, 
+            ('25 plus', 'Male', row.ovc_male_25_plus, 
              row.activity_form_id);
     end loop;
 
@@ -855,7 +917,8 @@ create or replace view vw_vulnerable_people_by_age_and_sex as
 select ac.*, vw.* 
 from sp_vulnerable_people_by_age_and_sex() vw
 left outer join vw_activityreportform ac
-  on ac.id = vw.activity_report_form_id;
+  on ac.id = vw.activity_report_form_id
+  order by age_group;
 
 create or replace function sp_pre_exposure_prophylaxis_by_age_and_sex()
 returns table (
@@ -881,17 +944,17 @@ begin
         insert into temp_preexposureprophylaxis
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('15_19', 'female', row.referred_pep_female_15_19, 
+            ('15 to 19', 'Female', row.referred_pep_female_15_19, 
              row.activity_form_id),
-            ('20_24', 'female', row.referred_pep_female_20_24, 
+            ('20 to 24', 'Female', row.referred_pep_female_20_24, 
              row.activity_form_id),
-            ('25_plus', 'female', row.referred_pep_female_25_plus, 
+            ('25 plus', 'Female', row.referred_pep_female_25_plus, 
              row.activity_form_id),
-            ('15_19', 'male', row.referred_pep_male_15_19, 
+            ('15 to 19', 'Male', row.referred_pep_male_15_19, 
              row.activity_form_id),
-            ('20_24', 'male', row.referred_pep_male_20_24, 
+            ('20 to 24', 'Male', row.referred_pep_male_20_24, 
              row.activity_form_id),
-            ('25_plus', 'male', row.referred_pep_male_25_plus, 
+            ('25 plus', 'Male', row.referred_pep_male_25_plus, 
              row.activity_form_id);
     end loop;
 
@@ -904,5 +967,6 @@ create or replace view vw_pre_exposure_prophylaxis_by_age_and_sex as
 select ac.*, vw.* 
 from sp_pre_exposure_prophylaxis_by_age_and_sex() vw
 left outer join vw_activityreportform ac
-  on ac.id = vw.activity_report_form_id;
+  on ac.id = vw.activity_report_form_id
+  order by age_group;
 

@@ -1,12 +1,12 @@
 {% extends "admin/base.html" %}
-{% load static %}
 {% block title %}NACMIS{% endblock %}
     
+{% load static %}
 {% block extrastyle %}
 <style>
     #header {
         background-color: hsl(146, 100%, 29%); /* NAC base color (equivalent to #009240)*/
-        height: 95px;
+        height: 110px;
     }
 
     div.breadcrumbs {
@@ -18,7 +18,8 @@
         text-transform: unset;
     }
 
-    .inline-related .module h2, div[data-inline-type="stacked"] .module h2 {
+    .inline-related .module h2, div[data-inline-type="stacked"] .module h2, 
+    .module .selector-chosen h2 {
         background-color: #199d52;
     }
     

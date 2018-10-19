@@ -1,7 +1,9 @@
 from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
+from django.forms import ValidationError
 from django.contrib.auth.models import User
 
+import re
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 
 # Create your models here.
@@ -95,6 +97,24 @@ QUARTER_LIST = (
     (Q4, 'Nov - Dec')
 )
 
+
+def generate_quarter_list():
+    from data_entry.management.commands.import_data import gen_quarters
+    formatted_list = []
+
+    generated_quarters = list(gen_quarters())
+    #We should only go up to the last quarter, NOT the current one so we pick the slice that doesn't include the very last item n the list.
+    for year, quarter in list(generated_quarters[:-1]):
+        if quarter == 1:
+            formatted_list.append(("%s0%s"%(year,quarter), "%sst Quarter-%s"%(quarter, year)))
+        if quarter == 2:
+            formatted_list.append(("%s0%s"%(year,quarter), "%snd Quarter-%s"%(quarter, year)))
+        if quarter == 3:
+            formatted_list.append(("%s0%s"%(year,quarter), "%srd Quarter-%s"%(quarter, year)))
+        if quarter == 4:
+            formatted_list.append(("%s0%s"%(year,quarter), "%sth Quarter-%s"%(quarter, year)))
+    return formatted_list
+
 ORGANISATION_TYPE_LIST = (
     (cbo, 'Community Based Organisation'),
     (fbo, 'Faith Based Organisation'),
@@ -129,44 +149,6 @@ IEC_MATERIALS = (
     (tv_spots, 'TV Spots'),
     (t_shirts, 'T-Shirts'),
     (material_other, 'Other')
-)
-
-AREA_OF_SUPPORT = (
-    (
-        "Critical enablers", (
-            ('gender_equality_equity_and_empowerment', 'Gender Equality, Equity and Empowerment'),
-            ('leadership_commitment_and_good_governance', 'Leadership Commitment and Good Governance'),
-            ('policy_laws_and_human_rights', 'Policy, laws and human rights'),
-            ('elimination_of_stigma_and_discrimination', 'Elimination of Stigma and Discrimination'),
-            ('resource_mobilization_and_sustainable_financing', 'Resource Mobilization and Sustainable Financing'),
-            ('positive_health_dignity_and_prevention', 'Positive Health Dignity and Prevention')
-        )
-    ),
-    (
-        "High impact interventions", (
-            ('condom_programming', 'Condom Programming'),
-            ('elimination_of_mother_to_child_transmission', 'Elimination of Mother to Child Transmission(eMTCT)'),
-            ('voluntary_medical_male_circumcision', 'Voluntary Medical Male Circumcision(VMMC)'),
-            ('hiv_testing_services', 'HIV Testing Services'),
-            ('social_and_behaiviour_change_communication', 'Social and Behaiviour Change Communication'),
-            ('hiv_tb_co_infection_treatment', 'HIV/TB Co-infection treatment'),
-            ('provision_of_preexposure_prophylaxis', 'Provision of Pre-exposure Prophylaxis(PrEP)'),
-            ('sti_screening_and_treatment', 'STI Screening and Treatment'),
-            ('treatment_optimization', 'Treatment Optimization'),
-            ('treatment_of_hiv_aids_sti_and_tb', 'Treatment of HIV/AIDS/STIs and TB')
-        )
-    ),
-    (
-        "Synergies with development sectors", (
-            ('post_exposure_prophylaxis', 'Post Exposure Prophylaxis(PEP)'),
-        )
-    ),
-    (
-        "HIV and AIDS intergration and system strengthening", (
-            ('integration_of_hiv_and_other_services', 
-                'Integration of HIV/AIDS, Sexual reproduction Health and Other Services'),
-        )
-    ),
 )
 
 YES_OR_NO = (
@@ -233,6 +215,16 @@ class PreventionMessageList(models.Model):
     def __str__(self):
         return self.prevention_message
 
+
+class StakeholderDirectoryStaff(models.Model):
+    position = models.CharField(max_length=50,)
+
+    def __str__(self):
+        return '%s' % (self.position)
+    
+    class Meta:
+        verbose_name = 'position'
+
 #               HELPER CLASSES FOR ACTIVITYREPORTFORM 
 # *********************************************************************
 class MobilePopulationType(models.Model):
@@ -275,6 +267,8 @@ class StakeholderDirectory(models.Model):
     temporary_employee_male = models.PositiveIntegerField('current number of temporary male employees', null=True)
     volunteer_employee_female = models.PositiveIntegerField('current number of volunteer female employees', null=True)
     volunteer_employee_male = models.PositiveIntegerField('current number of volunteer male employees', null=True)
+    position_available = models.ManyToManyField(StakeholderDirectoryStaff, verbose_name='Please Tick(if position or \
+        equivalent is available in the organisation structure')
 
     # --> Organisation Classification
     organisation_type = models.CharField('which of the following \'types\' would best describe your \
@@ -283,7 +277,7 @@ class StakeholderDirectory(models.Model):
     organisation_targets = models.ManyToManyField(OrganisationTarget, verbose_name='which group(s) does your organisation target? (please tick as many \
         different groups that are targeted by your organisation)')
     other_organisation_target = models.CharField('other target groups - please specify', max_length=100, null=True, blank=True)
-
+    
     def year_extract_in_start_year(self):
         year = self.start_year.strftime('%Y')
         return year
@@ -404,7 +398,7 @@ class GeneralComment(models.Model):
 class ActivityReportForm(models.Model):
 
     report_date = models.DateField(null=True)
-    quarter_been_reported = models.CharField(verbose_name='quarter being reported', max_length=20, choices=QUARTER_LIST)
+    quarter_been_reported = models.CharField(verbose_name='quarter being reported', max_length=20, choices=generate_quarter_list())
     stake_holder_name = models.ForeignKey(StakeholderDirectory, verbose_name='Name of the Organisation', \
         on_delete=models.SET_NULL, null=True)
     
@@ -412,11 +406,6 @@ class ActivityReportForm(models.Model):
     name = models.CharField(max_length=50)
     telephone_number = PhoneNumberField(help_text='0xxxxxxxxx')
     email_address = models.EmailField(max_length=50)
-    '''
-    def year_quarter_tuple(self):
-        return (("201801", "2018 - quarter 1"), ("201802", "2018 - quarter 2"), 
-            ("201803", "2018 - quarter 3"), ("201804", "2018 - quarter 4"))
-    '''
 
     def __str__(self):
         if self.stake_holder_name:
@@ -428,8 +417,8 @@ class ActivityReportForm(models.Model):
     class Meta:
         verbose_name_plural = 'Stakeholder Activity Report Form (SARF)'
 
+
 VALIDATION_STATUS = (
-    ('submitted', 'Submitted'),
     ('needs_review', 'Needs Review'),
     ('approved', 'Approved'),
 )
@@ -707,9 +696,11 @@ class SubheaderLabel7(models.Model):
     organisation = models.ForeignKey(ActivityReportForm, on_delete=models.CASCADE)
 
 class DataEtl(models.Model):
-    dataElementName = models.CharField(max_length=160)
-    dataElementID = models.CharField(max_length=100)
-    orgUnitName = models.CharField(max_length=100)
-    orgUnitID = models.CharField(max_length=100)
+    data_element_name = models.CharField(max_length=160)
+    data_element_id = models.CharField(max_length=100)
+    org_unit_name = models.CharField(max_length=100)
+    district_name = models.CharField(max_length=100)
+    province_name = models.CharField(max_length=100)
+    org_unit_id = models.CharField(max_length=100)
     period = models.PositiveIntegerField()
-    value = models.PositiveIntegerField()
+    value = models.DecimalField(decimal_places=5, max_digits=20)

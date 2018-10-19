@@ -1,11 +1,13 @@
 #!python
 
 import datetime
+import decimal
 import json
+import simplejson
 import os
 
 from django.core.management.base import BaseCommand, CommandError
-from data_entry.models import DataEtl
+from data_entry.models import District
 
 import requests
 
@@ -135,6 +137,16 @@ def gen_quarters():
             year += 1
             quarter = 1
 
+def convert_value(s):
+    if not s:
+        return 0
+    if s.lower() == "true": 
+        return 1
+    elif s.lower() == "false":
+        return 0
+    # assume it's a decimal (probably integer, sometimes float)
+    return decimal.Decimal(s)
+
 class ZambiaHMIS:
     LOGIN_URL = "https://www.zambiahmis.org/dhis-web-commons/security/login.action"
     ORG_UNIT_API = "https://www.zambiahmis.org/api/organisationUnits.json?paging=false"
@@ -225,6 +237,8 @@ class ZambiaHMIS:
         print("Loading organisation units...")
         self.orgUnits = self.getPagedResults(self.ORG_UNIT_API, 'organisationUnits', 
                                              paged=False)
+        self.orgUnits = [org for org in self.orgUnits 
+                         if org['displayName'].endswith('District')]
         print("%s organisation units found" % len(self.orgUnits))
 
     def getDataElements(self):
@@ -255,6 +269,11 @@ class ZambiaHMIS:
             print("Invalid JSON:")
             print(e.args)
             return None
+        except simplejson.errors.JSONDecodeError as e:
+            print("Invalid JSON:")
+            print(e.args)
+            return None
+          
 
     def populate(self, test=False):
         """ Fetch required data from HMIS and populate the DataEtl table with
@@ -285,15 +304,54 @@ class ZambiaHMIS:
                             return
 
     def store_data(self, orgUnit, dataSet, period, dataValueSets):
+        from data_entry.models import DataEtl#Moved here to avoid circular imports
+        cached_district_provinces = {}
+        for district in District.objects.all():
+            cached_district_provinces["%s"%district] = district.province.name
+        saved = 0
         for dv in dataValueSets['dataValues']:
-            d = DataEtl(dataElementName=self.dataElementsById[dv['dataElement']],
-                        dataElementID=dv['dataElement'],
-                        orgUnitName=orgUnit['displayName'],
-                        orgUnitID=orgUnit['id'],
+            try:
+                value = convert_value(dv['value'])
+            except:
+                print("*** ERROR")
+                if 'value' in dv: 
+                    print("Invalid value:", dv['value'])
+                else:
+                    print("key 'value' does not exist!")
+                print("orgUnit:", orgUnit, "dataSet:", dataSet, "period:",
+                        period)
+                print("data value set:", dv)
+                continue
+
+            # check if keys actually exist
+            try:
+                self.dataElementsById[dv['dataElement']]
+            except KeyError:
+                print("dataElement key does not exist:", dv['dataElement'])
+                continue
+            district_name = orgUnit['displayName'][3:-9] #Strip out the province prefix and the 'District' part.
+            try:
+                province_name = cached_district_provinces[district_name]
+            except KeyError:
+                if district_name == "Itezhi-tezhi":
+                    district_name = "Itezhi Tezhi"
+                elif district_name == "Kapiri-Mposhi":
+                    district_name = "Kapiri Mposhi"
+                province_name = cached_district_provinces[district_name]
+
+            d = DataEtl(data_element_name=self.dataElementsById[dv['dataElement']],
+                        data_element_id=dv['dataElement'],
+                        org_unit_name=orgUnit['displayName'],
+                        district_name=district_name,
+                        province_name=province_name,
+                        org_unit_id=orgUnit['id'],
                         period=int(period),
-                        value=int(dv['value'] or 0))
-                        # XXX FIXME: value might be boolean!
+                        value=value)
             d.save()
+            saved += 1
+
+        failed = len(dataValueSets['dataValues']) - saved
+        print("-- Records saved: %d; failed: %d" % (saved, failed))
 
 
 class Command(BaseCommand):

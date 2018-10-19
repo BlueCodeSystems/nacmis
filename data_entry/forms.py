@@ -1,10 +1,27 @@
 from django import forms
 
 
-from .models import StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, District, Ward, \
-    UserProfile, OtherQuestion, DACAValidation, PITMEOValidation
+from .models import NationalOrganisation, StakeholderDirectory, ProgramActivity, TargetGroupPreventionMessage, \
+    District, Ward, UserProfile, OtherQuestion, DACAValidation, PITMEOValidation
 from .models import ActivityReportForm, IECMaterial
+from django.forms import ValidationError
 from dal import autocomplete
+
+
+class NationalOrganisationModelForm(forms.ModelForm):
+
+    def clean(self):
+        cleaned_data = super().clean()
+        organisation_name = cleaned_data.get("organisation_name")
+        organisation_address = cleaned_data.get("organisation_address")
+        organisation_contact_email = cleaned_data.get("organisation_contact_email")
+
+        if not (organisation_name and organisation_address and organisation_contact_email):
+            raise forms.ValidationError('The System requires you to enter all fields.')
+    
+    class Meta: 
+        model =NationalOrganisation
+        fields = '__all__'
 
 class StakeholderDirectoryModelForm(forms.ModelForm):
 
@@ -22,6 +39,15 @@ class StakeholderDirectoryModelForm(forms.ModelForm):
         }
 
 class UserProfileModelForm(forms.ModelForm):
+
+    def clean(self):
+        cleaned_data = super().clean()
+        national_organisation = cleaned_data.get("national_organisation")
+        stakeholder = cleaned_data.get("stakeholder")
+
+        if not (national_organisation and stakeholder):
+            raise forms.ValidationError('Please complete the User profile by selecting National organisation and stakeholder.')
+        
     class Meta:
         model = UserProfile
         fields = ('__all__')
@@ -33,14 +59,27 @@ class UserProfileModelForm(forms.ModelForm):
         }
 
 class ActivityReportFormModelForm(forms.ModelForm):
-    #quarter_been_reported = forms.CharField(choice=year_quarter_tuple(),)
     class Meta:
         model = ActivityReportForm
         fields = ['report_date',]
-        
         widgets = {
             'report_date' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD', 'type':'date',}),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        form_quarter_been_reported = cleaned_data.get('quarter_been_reported')
+        form_stake_holder_name = cleaned_data.get('stake_holder_name')
+        if self.instance.pk: 
+            #If the form already exists, only check if the quarter is selected in other similar forms whose pk is different
+            existing_sarf_for_quarter = ActivityReportForm.objects.filter(quarter_been_reported=form_quarter_been_reported, stake_holder_name=form_stake_holder_name).exclude(pk=self.instance.pk)
+            if existing_sarf_for_quarter:
+                raise ValidationError("A Stakeholder Activity Report Form for this stakeholder: '%s' has already been recorded for %s"%(form_stake_holder_name, existing_sarf_for_quarter[0].get_quarter_been_reported_display()))
+            return
+        else: #No ID, this is a new form so we should run the quarters validation to make sure it is not duplication another form for the same quarter.
+            existing_sarf_for_quarter = ActivityReportForm.objects.filter(quarter_been_reported=form_quarter_been_reported, stake_holder_name=form_stake_holder_name)
+            if existing_sarf_for_quarter:
+                raise ValidationError("A Stakeholder Activity Report Form for this stakeholder: '%s' has already been recorded for %s"%(form_stake_holder_name, existing_sarf_for_quarter[0].get_quarter_been_reported_display()))
 
 class ProgramActivityModelForm(forms.ModelForm):
     # organisation_district
@@ -53,6 +92,7 @@ class ProgramActivityModelForm(forms.ModelForm):
             'areas_of_support2': autocomplete.ModelSelect2Multiple(url='supportbyarea-autocomplete'),
             'ward':  autocomplete.ModelSelect2(url='ward-autocomplete', forward=['organisation_district'])
         }
+
 
 class OtherQuestionModelForm(forms.ModelForm):
     class Meta:
@@ -96,19 +136,11 @@ class DACAValidationForm(forms.ModelForm):
     class Meta:
         model = DACAValidation
         fields = '__all__'
-        widgets = {
-            'acknowledgement': forms.Textarea(attrs={'class':'hide_acknowledgement'}),
-            'daca_initials': forms.TextInput(attrs={'class':'hide_acknowledgement'})
-        }
 
 class PITMEOValidationForm(forms.ModelForm):
     class Meta:
         model = PITMEOValidation
         fields = '__all__'
-        widgets = {
-            'acknowledgement': forms.Textarea(attrs={'class':'hide_acknowledgement'}),
-            'pitmeo_initials': forms.TextInput(attrs={'class':'hide_acknowledgement'})
-        }
 
 class MyForm(forms.Form):
     subject = forms.CharField(max_length=100)
