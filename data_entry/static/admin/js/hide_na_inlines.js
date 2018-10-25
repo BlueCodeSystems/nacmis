@@ -1,4 +1,4 @@
-jQuery(document).ready(function(){jQuery
+jQuery(document).ready(function(){
   jQuery(".grey_out_checkbox").on("click", function(){
       if(this.checked){
 	      sibling_div = jQuery(this).siblings(".tabular, .stacked_inline")
