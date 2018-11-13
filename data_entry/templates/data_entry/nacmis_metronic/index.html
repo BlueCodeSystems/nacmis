@@ -1,4 +1,5 @@
 {% extends "data_entry/nacmis_metronic/base.html" %}
+{% load static %}
 
 {% block content_title %} 
 About NACMIS
@@ -17,5 +18,8 @@ About NACMIS
             </p>
             
             <p>Thank you for partnering in the response to HIV/AIDS.</p>
+    </div>
+    <div class = "lead">
+        <img  style="display:block; margin: 50px auto 10px; " src="{% static 'data_entry/img/joint_logo.png' %}" />
     </div>
 {% endblock content %}
