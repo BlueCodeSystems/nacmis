@@ -20,8 +20,14 @@ create or replace view vw_organisationtarget as
 
 create or replace view vw_activityreportform as
   select st.*, 
-    arf.report_date as activityreportform_report_date, 
-    arf.quarter_been_reported as activityreportform_quarter_been_reported, 
+    arf.report_date as activityreportform_report_date,
+    CASE 
+      WHEN (arf.quarter_been_reported ~ '\d{4}01') THEN 'Q1 '||substring(arf.quarter_been_reported, 1, 4)
+      WHEN (arf.quarter_been_reported ~ '\d{4}02') THEN 'Q2 '||substring(arf.quarter_been_reported, 1, 4)
+      WHEN (arf.quarter_been_reported ~ '\d{4}03') THEN 'Q3 '||substring(arf.quarter_been_reported, 1, 4)
+      WHEN (arf.quarter_been_reported ~ '\d{4}04') THEN 'Q4 '||substring(arf.quarter_been_reported, 1, 4)
+      ELSE arf.quarter_been_reported
+    END AS activityreportform_quarter_been_reported,
     arf.name as activityreportform_name,
     arf.telephone_number as activityreportform_telephone_number, 
     arf.email_address as activityreportform_email_address, 
