@@ -595,7 +595,7 @@ begin
         insert into temp_reportedcase
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.reported_female_less_10, 
+            ('9 and less', 'Female', row.reported_female_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Female', row.reported_female_10_14, 
              row.activity_form_id),
@@ -605,7 +605,7 @@ begin
              row.activity_form_id),
             ('25 plus', 'Female', row.reported_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.reported_male_less_10, 
+            ('9 and less', 'Male', row.reported_male_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Male', row.reported_male_10_14, 
              row.activity_form_id),
@@ -653,7 +653,7 @@ begin
         insert into temp_experiencedphysicalviolence
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.physical_female_less_10, 
+            ('9 and less', 'Female', row.physical_female_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Female', row.physical_female_10_14, 
              row.activity_form_id),
@@ -663,7 +663,7 @@ begin
              row.activity_form_id),
             ('25 plus', 'Female', row.physical_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.physical_male_less_10, 
+            ('9 and less', 'Male', row.physical_male_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Male', row.physical_male_10_14, 
              row.activity_form_id),
@@ -711,7 +711,7 @@ begin
         insert into temp_experiencedsexualviolence
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.sexual_female_less_10, 
+            ('9 and less', 'Female', row.sexual_female_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Female', row.sexual_female_10_14, 
              row.activity_form_id),
@@ -721,7 +721,7 @@ begin
              row.activity_form_id),
             ('25 plus', 'Female', row.sexual_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.sexual_male_less_10, 
+            ('9 and less', 'Male', row.sexual_male_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Male', row.sexual_male_10_14, 
              row.activity_form_id),
@@ -769,7 +769,7 @@ begin
         insert into temp_postexposureprophylaxis
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.accessed_pep_female_less_10, 
+            ('9 and less', 'Female', row.accessed_pep_female_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Female', row.accessed_pep_female_10_14, 
              row.activity_form_id),
@@ -779,7 +779,7 @@ begin
              row.activity_form_id),
             ('25 plus', 'Female', row.accessed_pep_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.accessed_pep_male_less_10, 
+            ('9 and less', 'Male', row.accessed_pep_male_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Male', row.accessed_pep_male_10_14, 
              row.activity_form_id),
@@ -827,7 +827,7 @@ begin
         insert into temp_individualcurrentlyenrolled
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.individuals_enrolled_female_10_less,
+            ('9 and less', 'Female', row.individuals_enrolled_female_10_less,
             	row.activity_form_id),
 
             ('10 to 14', 'Female', row.individuals_enrolled_female_10_14, 
@@ -838,7 +838,7 @@ begin
              row.activity_form_id),
             ('25 and above', 'Female', row.individuals_enrolled_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.individuals_enrolled_female_10_less,
+            ('9 and less', 'Male', row.individuals_enrolled_female_10_less,
             	row.activity_form_id),
 
             ('10 to 14', 'Male', row.individuals_enrolled_male_10_14, 
@@ -887,7 +887,7 @@ begin
         insert into temp_vulnerablepeople
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.ovc_female_less_10, 
+            ('9 and less', 'Female', row.ovc_female_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Female', row.ovc_female_10_14, 
              row.activity_form_id),
@@ -897,7 +897,7 @@ begin
              row.activity_form_id),
             ('25 plus', 'Female', row.ovc_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.ovc_male_less_10, 
+            ('9 and less', 'Male', row.ovc_male_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Male', row.ovc_male_10_14, 
              row.activity_form_id),
