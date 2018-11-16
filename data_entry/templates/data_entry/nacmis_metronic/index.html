@@ -1,5 +1,277 @@
 {% extends "data_entry/nacmis_metronic/base.html" %}
 {% load static %}
+{% block custom_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-array/1.2.2/d3-array.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-array/1.2.2/d3-array.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-geo/1.9.1/d3-geo.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-selection/1.2.0/d3-selection.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.0/mustache.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+ $(document).ready(function(){
+     //Datagrouper
+    var DataGrouper = (function() {
+    var has = function(obj, target) {
+        return _.any(obj, function(value) {
+            return _.isEqual(value, target);
+        });
+    };
+
+    var keys = function(data, names) {
+        return _.reduce(data, function(memo, item) {
+            var key = _.pick(item, names);
+            if (!has(memo, key)) {
+                memo.push(key);
+            }
+            return memo;
+        }, []);
+    };
+
+    var group = function(data, names) {
+        var stems = keys(data, names);
+        return _.map(stems, function(stem) {
+            return {
+                key: stem,
+                vals:_.map(_.where(data, stem), function(item) {
+                    return _.omit(item, names);
+                })
+            };
+        });
+    };
+
+    group.register = function(name, converter) {
+        return group[name] = function(data, names) {
+            return _.map(group(data, names), converter);
+        };
+    };
+
+    return group;
+}());
+
+DataGrouper.register("sum", function(item) {
+    return _.extend({}, item.key, {Value: _.reduce(item.vals, function(memo, node) {
+        return memo + Number(node.Value);
+    }, 0)});
+});
+//Datagrouper
+     var hiv_prevalence = {
+         "Central": 13.4,
+         "Copperbelt": 14.2,
+         "Eastern": 8.2,
+         "Luapula": 9.3,
+         "Lusaka": 16.1,
+         "Muchinga": 5.9,
+         "Northern": 9.7,
+         "North-Western": 6.9,
+         "Southern": 13.4,
+         "Western": 16
+     }
+
+     big_box_width = 800
+     big_box_height = 800
+     small_box_width = 450
+     small_box_height = 300
+     default_map_color = "#deebf7"
+     var main_map_svg = d3.select("#main_map").append("svg").attr("width", big_box_width).attr("height", big_box_height)
+     var first_mini_map_svg = d3.select("#first_mini_map").append("svg").attr("width", small_box_width).attr("height", small_box_height)
+     var second_mini_map_svg = d3.select("#second_mini_map").append("svg").attr("width", small_box_width).attr("height", small_box_height)
+
+    var tooltip = d3.select("body")
+    .append("div")
+    .attr("id", "tooltip")
+    .style("position", "absolute")
+    .style("background-color", "#c7e9c0")
+    .style("padding", "4px")
+    .style("text-align", "left")
+    .style("opacity", "0.8")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+
+        function setPrevalenceColorFill(element){
+            LowestValue = 0
+            HighestValue = 0
+            allResults = _.values(hiv_prevalence)
+            LowestValue = d3.min(allResults)
+            HighestValue = d3.max(allResults)
+            //Set up the scale
+            var d3Scale = d3.scaleQuantize()
+            .domain([LowestValue, HighestValue])
+            .range(["#fee5d9", "#fcbba1", "#fb6a4a", "#d32d26", "#a50f15"])
+
+
+          var locationName = element.id
+          data_for_province = hiv_prevalence[locationName]
+          return d3Scale(data_for_province)
+        }
+
+    var tooltip_mouseover = function(tooltip, locationName, locationType){
+        tooltip.style("visibility", "visible")
+
+        var table = $("<table>").attr("id", "tooltip_table")
+        prevalence_data_for_location = hiv_prevalence[locationName]
+        $(table).append("<tr><td><b>"+locationName+" Province: </b>"+prevalence_data_for_location+"% HIV Prevalence </td></tr>")
+        $("#tooltip").append(table)
+        return tooltip
+    }
+
+    function visualize_provinces(zambiaMap, map_svg, province_to_highlight, indicatorID, dataForPeriod, d3Scale){
+        feature_collection = topojson.feature(zambiaMap, zambiaMap.objects.provinces, function(a, b){return a !== b ; })
+        var projection = d3.geoMercator().fitSize([map_svg.attr("width"), map_svg.attr("height")], feature_collection)
+        var path = d3.geoPath().projection(projection)
+
+
+        map_svg.select("#provinces").remove()
+        var provinceMap = map_svg.append("g").attr("id", "provinces")
+
+        provinceMap.selectAll("path")
+        .data(feature_collection.features)
+        .enter().append("path")
+        .attr("stroke", "#929293")
+        .style("fill", function(d){
+            if (province_to_highlight){
+                if (d["id"] == province_to_highlight){
+                    return "#4286f4"
+                } else {
+                    return default_map_color
+                }
+            } else {
+                    return default_map_color
+            }
+        })
+        .style("fill", function(d){ return setPrevalenceColorFill(d)})
+        .on("mouseover", function(d){tooltip_mouseover(tooltip, d.id, "Province")})
+        .on("mousemove", function(d, i){
+            return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",
+                                                                        (d3.event.pageX+10)+"px");
+        })
+        .on("mouseout", function(d, i){
+            tooltip =  d3.select("#tooltip")
+            $("#tooltip_table").remove()
+            tooltip.style("visibility", "hidden");
+            return
+        })
+        .attr("id", function(d) { return d.id; })
+        .attr("d", path)
+        //update_legend(d3Scale)
+
+        var labels = map_svg.append("g").attr("class", "province_label-group");
+        labels.selectAll(".province_label")
+            .data(feature_collection.features)
+            .enter()
+            .append("text")
+            .attr("class", "province_label")
+            .attr("x", function(d) {
+                return path.centroid(d)[0];
+            })
+            .attr("y", function(d) {
+                return path.centroid(d)[1];
+            })
+            .text(function(d) {
+                return d["id"];
+            });
+        }
+
+     function visualize_single_province(map_svg, province_name, district_to_highlight){
+          map_svg.selectAll("*").remove()
+          var single_province_map = map_svg.append("g").attr("id", province_name)
+          axios.get("province_geojsons/"+province_name+".json")
+          .then(function(response){
+            single_province_geojson = response['data']
+
+            var projection = d3.geoMercator().fitSize([map_svg.attr("width"), map_svg.attr("height")], single_province_geojson)
+
+            var path = d3.geoPath()
+            .projection(projection)
+
+            single_province_map.selectAll("path")
+            .data(single_province_geojson.features)
+                .enter().append("path")
+                .attr("stroke", "#929293")
+                .style("fill", function(d){
+                    if (district_to_highlight){
+                        if (d.properties["NAME"] == district_to_highlight){
+                            return "#4286f4"
+                        } else {
+                            return default_map_color
+                        }
+                    } else {
+                            return default_map_color
+                    }
+                })
+                //.style("fill", function(d){ return setColorFill(d, indicatorID,
+                //  dataForPeriod, d3Scale)})
+                .on("mouseover", function(d){tooltip_mouseover(tooltip, d.properties["NAME"], "District")})
+                .on("mousemove", function(d, i){
+                    return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",
+                                                                                (d3.event.pageX+10)+"px");
+                })
+                .on("mouseout", function(d, i){
+                    tooltip =  d3.select("#tooltip")
+                    $("#tooltip_table").remove()
+                    tooltip.style("visibility", "hidden");
+                    return
+                })
+                .on("click", function(d, i){
+                    tooltip =  d3.select("#tooltip")
+                    $("#tooltip_table").remove()
+                    tooltip.style("visibility", "hidden");
+                    //Project the selected district on the main map and project
+                    visualize_single_province(second_mini_map_svg, province_name, d.properties["NAME"])
+
+                })
+                .attr("id", function(d) { return d.id; })
+                .attr("d", path)
+                //update_legend(d3Scale)
+
+
+            var labels = map_svg.append("g").attr("class", "label-group");
+            labels.selectAll(".label")
+                .data(single_province_geojson.features)
+                .enter()
+                .append("text")
+                .attr("class", "label")
+                .attr("x", function(d) {
+                    return path.centroid(d)[0];
+                })
+                .attr("y", function(d) {
+                    return path.centroid(d)[1];
+                })
+                .text(function(d) {
+                    return d.properties.NAME;
+                });
+
+          })}
+
+        function visualize_blank_map(zambiaMap, blankScale){
+          //By default, show the map at province level and in the box for the main map
+          visualize_provinces(zambiaMap, main_map_svg, null, null, null, blankScale)
+        }
+
+
+        axios.get("{% static 'data_entry/js/zambia.json' %}")
+        .then(function(response){
+          var zambiaMap = response["data"]
+          //Zambia map districts
+
+          //Show default map
+          var blankScale = d3.scaleQuantize()
+          .domain([0, 0])
+          .range(["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"])
+
+          visualize_blank_map(zambiaMap, blankScale)
+        })
+        .catch(function(error){
+            console.log(error)
+        })
+    });
+</script>
+{% endblock custom_js %}
+
 
 {% block content_title %} 
 About NACMIS
@@ -19,6 +291,12 @@ About NACMIS
             
             <p>Thank you for partnering in the response to HIV/AIDS.</p>
     </div>
+    <h4>Nationwide HIV Prevalence rates</h4>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+                <div id="main_map"></div>
+            </div>
+        </div>
     <div class="lead" >
         <div style="display:block; width: 600px; margin: 50px auto 10px;">
             <!--<img style="display:block; margin: 50px auto 10px; width: 740px; height: 50px;" src="{% static 'data_entry/img/joint_logo.png' %}" /> -->

@@ -1,0 +1,863 @@
+<!-- MAP -->
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>DHIS DASHBOARD</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta name = "viewport" content="width=device-width, initial-scale=1">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/plugins.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/jquery-ui.css">
+    <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
+
+  </head>
+
+  <!-- map css -->
+  <style>
+
+    .caption {
+      font-weight: bold;
+    }
+
+    .key path {
+      display: none;
+    }
+
+    .key line {
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+    label {
+      font-weight:400;
+      color: red;
+    }
+  </style>
+  <body style="background-color:#276696;">
+    <!-- Background style -->
+    <div class = "background">
+      <!-- Navigation Bar -->
+      <div class="nab_section">
+
+        <!--Begin Navigation Bar-->
+        <ul class="nav navbar-nav">
+
+          <li class="active"><a href="../home.html">Home </a></li>
+
+          <li class="dropdown">
+            <a href="../alerts/alert.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Alerts<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="../alerts/alerts-reporting.html">eMTCT Monitoring Reports</a></li>
+
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">eMTCT<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="../emtct/emtct_testing.html">eMTCT Testing</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="../emtct/emtct_cascade.html">eMTCT Cascade</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="../emtct/emtct_test_compare.html">eMTCT Testing Compare</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="../emtct/emtct_initiated_art.html">eMTCT On ART</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">HEI <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="../hei/hei_testing.html">HEI Testing</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="../hei/hei_cascade.html">HEI Cascade</a></li>
+
+            </ul>
+          </li>
+
+          <li ><a href="../map/map.html">Map </a></li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="../sign/signin.html">Sign in</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="../sign/signup.html">Sign Up</a></li>
+            </ul>
+          </li>
+
+        </ul>
+        <!--End Nazigation Bar-->
+
+        <div class="border_space">
+        </div>
+      </div>
+      <!-- End Navigation Bar -->
+
+
+      <!-- Content Section-->
+      <div class="margin_space">
+        <!-- Title of Content -->
+        <div class="container-fluid">
+          <div class="row">
+            <h3>eMTCT Program and Stock Indicators </h3>
+            </br>
+            </br>
+          </div>
+
+          <div class="row">
+            <div class="row">
+              <div id="map" class="col-md-9 col-sm-9">
+              </div>
+
+              <!-- Begin accordion -->
+              <div class="col-md-3 col-sm-3">
+                <div class="row" align="center" style="margin-bottom: 30px;">
+                  <button id="printer" class="btn btn-success" type="button" onclick=""> Print </button>
+                </div>
+
+                <ul class="nav nav-tabs">
+                  <li class="active col-md-4">
+                    <a data-toggle="tab" href="#IndicatorUnit">Indicators</a></li>
+                  <li class="col-md-4">
+                    <a data-toggle="tab" href="#orgUnit">Organisation Unit</a></li>
+                  <li class="col-md-4">
+                    <a data-toggle="tab" href="#timeUnit">Time Unit</a></li>
+                </ul>
+
+                <div class="tab-content">
+
+                  <!-- Begin Time Unit -->
+                  <div id="IndicatorUnit" class="tab-pane fade in active">
+                    <!-- SideBar Two -->
+                    <div class="full_padding">
+                      <div class="portlet box green">
+
+                        <div class="portlet-body">
+                          <div class="panel-group accordion form-inline" id="accordion1">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h4 class="panel-title">
+                                  <a class="accordion-toggle"
+                                    data-toggle="collapse"
+                                    data-parent="#accordion1"
+                                    href="#collapse_10">Program Indicators</a>
+                                </h4>
+                              </div>
+                            </div>
+                            <div id="collapse_10" class="panel-collapse in">
+                              <div class="panel-body">
+                                  <div class="form-group" v-for="indicator in programIndicators">
+                                  <label class="control-label">
+                                      <input type="radio" name="programIndicator"
+                                      v-bind:value="indicator.value"
+                                      v-bind:id="indicator.value" class="form-control"/>
+                                      {{indicator.text}}
+                                  </label>
+                                  </div>
+                              </div>
+
+                            </div>
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h4 class="panel-title">
+                                  <a class="accordion-toggle"
+                                    data-toggle="collapse"
+                                    data-parent="#accordion1"
+                                    href="#collapse_11">Stock Indicators</a>
+                                </h4>
+                              </div>
+                              <div id="collapse_11" class="panel-collapse collapse">
+                                <div class="panel-body" >
+                                  <div class="form-group" v-for="indicator in stockIndicators">
+                                  <label class="control-label">
+                                      <input type="radio" name="programIndicator"
+                                      v-bind:value="indicator.value"
+                                      v-bind:id="indicator.value" class="form-control"/>
+                                      {{indicator.text}}
+                                  </label>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Begin Org Unit -->
+                  <div id="orgUnit" class="tab-pane fade">
+                    <!-- SideBar One -->
+                    <div class="full_padding">
+                      <div class="portlet box green">
+
+                        <div class="portlet-body">
+
+                          <div class="panel-group accordion" id="accordion1">
+
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h4 class="panel-title">
+                                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse_9" for="orglevel">ORGANIZATIONAL LEVEL</a>
+                                </h4>
+                              </div>
+                              <div id="collapse_9" class="panel-collapse in">
+                                <div id="provinces" class="panel-body">
+
+                                  <label >Select list (select one):</label>
+                                  <select class="form-control org_level_select" id="orgLevel">
+                                    <option value="Province">Province</option>
+                                    <option value="District">District</option>
+                                  </select>
+
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End SideBar One -->
+                  </div>
+                  <!-- Start Org Unit -->
+
+                  <!-- Begin Time Unit -->
+                  <div id="timeUnit" class="tab-pane fade">
+                    <!-- SideBar Two -->
+                    <div class="full_padding">
+                      <div class="portlet box green">
+
+                        <div class="portlet-body">
+                          <div class="panel-group accordion" id="accordion1">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h4 class="panel-title">
+                                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse_5">YEAR</a>
+                                </h4>
+                              </div>
+                              <div id="collapse_5" class="panel-collapse in">
+                                <div class="panel-body">
+                                  <form class="years" name="name_years" id="yrs">
+                                    <div class="checkbox">
+                                      <label><input type="radio" value="2014" name="optYear">2014</label>
+                                    </div>
+                                    <div class="checkbox">
+                                      <label><input type="radio" value="2015" name="optYear">2015</label>
+                                    </div>
+                                    <div class="checkbox">
+                                      <label><input type="radio" value="2016" name="optYear">2016</label>
+                                    </div>
+                                    <div class="checkbox">
+                                      <label><input type="radio" value="2017" name="optYear">2017</label>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+
+
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h4 class="panel-title">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse_6">MONTH</a>
+                                  </h4>
+                                </div>
+                                <div id="collapse_6" class="panel-collapse
+                                  collapse in">
+                                  <div class="panel-body">
+                                    <form class="months" name="name_months" id="mnt">
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="01">January</label>
+                                      </div>
+
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="02">February</label>
+                                      </div>
+
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="03">March</label>
+                                      </div>
+
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="04">April</label>
+                                      </div>
+
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="05">May</label>
+                                      </div>
+
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="06">June</label>
+                                      </div>
+
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="07">July</label>
+                                      </div>
+
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="08">August</label>
+                                      </div>
+
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="09">September</label>
+                                      </div>
+
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="10">October</label>
+                                      </div>
+
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="11">November</label>
+                                      </div>
+
+                                      <div class="checkbox">
+                                        <label><input type="radio"  name="optMonth" value="12">December</label>
+                                      </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+                      <!-- End SideBar Two -->
+                    </div>
+                    <!-- End Org Unit -->
+                  </div>
+                  <div align="center">
+                    <button id="goButton" class="btn btn-danger" type="button">Go</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+              <table id="table" class="table" style="visibility:hidden">
+                <caption>Districts not included on map</caption>
+                <thead>
+                   <td>Location</td>
+                   <td>Value</td>
+                </thead>
+
+              </table>
+            </div>
+            </div>
+            <!-- span id="accordion-content"></span -->
+            <!-- End accordion -->
+          </div>
+
+        </div>
+      </div>
+      <!--end -->
+
+
+    </div>
+
+
+  </div>
+
+</div>
+  </body>
+
+
+
+  <!-- map -->
+  <script src="../js/javascript.js" type="text/javascript"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/jquery-ui.js"></script>
+  <script src="../js/vue.min.js"></script>
+  <script src="../js/lodash.min.js"></script>
+  <script src="../js/d3-selection.v1.min.js" type="text/javascript"></script/>
+  <script src="../js/d3.v4.js"></script>
+  <script src="../js/topojson.v1.min.js"></script>
+  <script src="../js/d3-queue.v3.min.js"></script>
+  <script src="../js/d3-geo.v1.min.js"></script>
+  <script src="../js/d3-array.v1.min.js"></script>
+  <script src="../js/d3-legend.js"></script>
+	<script src="../js/printThis-master/printThis.js"></script>
+  <script>
+    $("#printer").click(function(){
+      $("#map").printThis();
+    });
+</script>
+  <script>
+    var programIndicators = [
+      { value: "tested_first_anc", text: "Estimated Percent Pregnant Women Tested at 1st ANC"},
+      { value: "tested_positive", text: "Percent Woment Tested Positive at ANC"},
+      { value: "tested_positive_LD", text: "Positivity of Women Tested at L&D"},
+      { value: "tested_positive_72hrs", text: "Positivity of Women Tested within 72 Hours"},
+      { value: "known_hiv_positive_at_first_anc", text: "Postivity at Entry"+
+        " (Percent Known HIV Positive at Entry)"},
+      { value: "male_partners_tested", text: "Positivity of Male Partners Tested at ANC and L&D"},
+      { value: "assessed_with_cd4", text: "Percent Assessed for CD4"},
+      { value: "received_arvs", text: "HIV+ Women Receiving ART at ANC, L&D and within 72hrs"},
+      { value: "HEI_alive_at_two_months_and_on_CTX", text: "HEI: On CTX by 2m"}
+      ]
+
+    var stockIndicators = [
+      { value: "", text: "Percent of Facilities with Stockout of ARV"},
+      { value: "", text: "Percent of Facilities with Understock of ARV"},
+      { value: "", text: "Percent of Facilities with Stockout of Atripla"},
+      { value: "", text: "Percent of Facilities with Understock of NVP Syrup"},
+      { value: "", text: "Percent of Facilities with Stockout of NVP Syrup"},
+      { value: "", text: "Percent of Facilities with Understock of HIV Rapid Tests Kits"},
+      { value: "", text: "Percent of Facilities with Stockout of HIV Rapid Test Kits"},
+      { value: "", text: "Percent of Facilities with Understock of DBS Test Kits"},
+      { value: "", text: "Percent of Facilities with Stockout of Lab Testing Commodities"},
+      { value: "", text: "Percent of Facilities with Understock of Lab Testing Commodities"},
+      { value: "", text: "Percent of Facilities with On-Time R&R"}
+      ]
+
+    var indicatorSelectorVue = new Vue({
+      el: "#IndicatorUnit",
+      data: {
+        programIndicators: programIndicators,
+        stockIndicators: stockIndicators
+      }
+    })
+
+  </script>
+    <script>
+      (function(){
+        //Set global variables visible only in this function
+        var indicatorGroups
+        var indicatorVariables
+        //Bad practice with the globals but need them to record
+        //highest/lowest figures to be used for the legend domain
+        var HighestValue = 0
+        var LowestValue = 1000//Set to a high number so that any sensible value
+        var zmDistrictList
+        //will place it in the domain that we need.
+
+        function getResult(locationName, indicatorID, dataForPeriod){
+          var indicatorVars = get_indicator_variables(indicatorID)
+          var result = indicator_value(locationName, indicatorVars[0], indicatorVars[1], dataForPeriod)
+          return result
+        }
+
+        function get_all_indicator_results(dataForPeriod, indicatorID){
+          allResults = []
+          for (locationName in dataForPeriod){
+            result = getResult(locationName, indicatorID, dataForPeriod)
+            allResults.push(result)
+          }
+          return allResults
+        }
+
+        function setColorFill(element, indicatorID, dataForPeriod, d3Scale){
+          var locationName = element.id
+          if (dataForPeriod == null){
+            return "none"
+          }
+          result = getResult(element.id, indicatorID, dataForPeriod)
+          if (result > 100){
+            return "#e41a1c" //Show red if the figure is over 100
+          }
+          return d3Scale(result)
+        }
+
+
+        function visualize_provinces(path, zambiaMap, indicatorID, dataForPeriod, d3Scale){
+          table = $("#table")
+          table.css("visibility", "hidden")
+
+          var svg = d3.select("svg")
+          svg.select("#provinces").remove()
+          var provinceMap = svg.append("g").attr("id", "provinces")
+
+          provinceMap.selectAll("path")
+          .data(topojson.feature(zambiaMap, zambiaMap.objects.provinces, function(a, b){
+            return a !== b ; }).features)
+            .enter().append("path")
+            .attr("stroke", "#252526")
+            //.attr("stroke-dasharray", "5, 10")
+            .style("fill", function(d){ return setColorFill(d, indicatorID,
+                                                            dataForPeriod,
+                                                            d3Scale)})
+            .on("mouseover", function(d){tooltip_mouseover(tooltip, d, indicatorID,
+            dataForPeriod, "Province")})
+            .on("mousemove", function(d, i){
+              return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",
+                                                                          (d3.event.pageX+10)+"px");
+            })
+            .on("mouseout", function(d, i){
+              tooltip =  d3.select("#tooltip")
+              return tooltip.style("visibility", "hidden");
+            })
+            .attr("id", function(d) { return d.id; })
+            .attr("d", path)
+            update_legend(d3Scale)
+        }
+
+        function visualize_districts(path, zambiaMap, indicatorID, dataForPeriod, d3Scale){
+          var svg = d3.select("svg")
+          svg.select("#districts").remove()
+          var districtMap = svg.append("g").attr("id", "districts")
+
+          districtMap.selectAll("path")
+          .data(topojson.feature(zambiaMap, zambiaMap.objects.districts, function(a, b){
+            return a !== b ; }).features)
+            .enter().append("path")
+            .attr("stroke", "#929293")
+            //.attr("stroke-dasharray", "5, 10")
+            .style("fill", function(d){ return setColorFill(d, indicatorID,
+              dataForPeriod, d3Scale)})
+              .on("mouseover", function(d){tooltip_mouseover(tooltip, d,
+            indicatorID,
+            dataForPeriod,
+            "District")})
+            .on("mousemove", function(d, i){
+              return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",
+                                                                          (d3.event.pageX+10)+"px");
+            })
+            .on("mouseout", function(d, i){
+              tooltip =  d3.select("#tooltip")
+              return tooltip.style("visibility", "hidden");
+            })
+            .attr("id", function(d) { return d.id; })
+            .attr("d", path)
+
+            update_legend(d3Scale)
+        }
+
+        // function to update the legend caption
+        function update_legend(d3Scale){
+          var svg = d3.select("svg");
+
+          svg.append("g")
+          .attr("class", "legendLinear")
+          .attr("transform", "translate(20, 145)");
+
+          var legendLinear = d3.legendColor()
+          .shapeWidth(100)
+          .cells(5)
+          .labelFormat(function(num){return d3.format(".1f")(num)+"%"})
+          .orient("horizontal")
+          .scale(d3Scale);
+
+          svg.select(".legendLinear")
+          .call(legendLinear);
+
+          //Add the other black/red legend
+          var redBlackScale = d3.scaleOrdinal()
+          .domain(["Data Missing", "More than 100%"])
+          .range(["#00000", "#e41a1c"])
+
+          svg.append("g")
+          .attr("class", "legendBlackRed")
+          .attr("transform", "translate(20, 195)");
+
+          var legendBlackRed = d3.legendColor()
+          .shapeWidth(100)
+          .cells(2)
+          .orient("horizontal")
+          .scale(redBlackScale);
+
+          svg.select(".legendBlackRed")
+          .call(legendBlackRed);
+
+
+          chartTitle = ""
+          var indicatorEl = d3.select("input[name='programIndicator']:checked").node()
+          orgLevel = d3.select("#orgLevel").node().value
+          if (indicatorEl != null){
+            var indicatorName = indicatorEl.nextSibling.wholeText
+            var yearEl = d3.select("input[name='optYear']:checked").node();
+            var monthEl = d3.select("input[name='optMonth']:checked").node();
+            var orgLevel = d3.select("#orgLevel").node().value
+            var chartTitle = indicatorName +" by "+orgLevel
+            var chartTime = monthEl.nextSibling.wholeText+" "+yearEl.nextSibling.wholeText
+            //$("#locationString").text("Zambia "+ orgLevel+" Map")
+            //$("#timeString").text(monthEl.nextSibling.wholeText+" "+yearEl.nextSibling.wholeText)
+          }
+
+
+          d3.select("#chart-title").remove()
+          svg.append("text")
+            .attr("id", "chart-title")
+            .attr("x", 1110/2)
+            .style("font-size", "22px")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate(20, 30)")
+            .html(chartTitle)
+
+          d3.select("#chart-time").remove()
+          svg.append("text")
+            .attr("id", "chart-time")
+            .attr("x", 1110/2)
+            .style("font-size", "22px")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate(20, 55)")
+            .html(chartTime)
+        }
+
+        function visualize_blank_map(path, zambiaMap, blankScale){
+          //By default, show the blank provinces, districts.
+          visualize_districts(path, zambiaMap, null, null, blankScale)
+          visualize_provinces(path, zambiaMap, null, null, blankScale)
+        }
+
+        var tooltip = d3.select("body")
+        .append("div")
+        .attr("id", "tooltip")
+        .style("position", "absolute")
+        .style("background-color", "#c7e9c0")
+        .style("padding", "4px")
+        .style("text-align", "center")
+        .style("opacity", "0.8")
+        .style("z-index", "10")
+        .style("visibility", "hidden")
+        .text("a simple tooltip")
+
+        var tooltip_mouseover = function(tooltip, element, indicatorID,
+      dataForPeriod, locationType){
+        tooltip.style("visibility", "visible")
+        locationName = element.id;
+        //if no data is passed in, ask user to select
+        if (dataForPeriod == null){
+          return tooltip.html("No search parameters selected")
+        }
+        result = getResult(element.id, indicatorID, dataForPeriod)
+
+        if (isNaN(result)){
+          return tooltip.html(locationName+" "+locationType+"<br />"+ "Data missing");
+        } else {
+          return tooltip.html(locationName+" "+locationType+": "+Number(result).toFixed(1)+"%");
+        }
+      }
+
+
+      // This function returns the indicator variables when given the indicator id.
+      function get_indicator_variables(indicatorID){
+        var variable1 = indicatorVariables[indicatorID]["var1"];
+        var variable2 = indicatorVariables[indicatorID]["var2"];
+        return [variable1, variable2];
+      }
+      // Map groupings function takes indicator id as input and returns groupings data for that indicator.
+      var group_colors = {
+        "group1": "#5A46CB",
+        "group2": "#495AD5",
+        "group3": "#4B77BE",
+        "group4": "#49A4D5",
+        "group5": "#46BFCB"}
+
+        function map_groupings(indicatorID){
+          var groupings = indicatorGroups[indicatorID];
+          return groupings;
+        }
+
+        function get_group_domain(indicatorid){
+          var groupings = groups[indicatorid];
+          x0 = groupings["group1"]["min"];
+          x1 = groupings["group2"]["min"];
+          x2 = groupings["group3"]["min"];
+          x3 = groupings["group4"]["min"];
+          x4 = groupings["group5"]["min"];
+          return [x4, x3, x2, x1, x0];
+        }
+
+        function indicator_value(locationName, variable1, variable2, dataForPeriod){
+          //Return null if nothing if variable is not found..
+          if (locationName == "Shangombo"){
+            locationName = "Shang'ombo"
+          }
+
+          if (locationName == "Shiwangandu"){
+            locationName = "Shiwang'andu"
+          }
+          if (locationName == "Working"){
+            return null
+          }
+          if (locationName == "Test"){
+            return null
+          }
+          var result;
+          try {
+            var numerator = dataForPeriod[locationName][variable1];
+            var denominator = dataForPeriod[locationName][variable2];
+          } catch(err) {
+            return null
+          }
+
+          result = (numerator / denominator)*100;
+
+          orgLevel = d3.select("#orgLevel").node().value
+          if (orgLevel == "District"){
+            if (!_.includes(zmDistrictList, locationName)){
+              table = $("#table")
+              table.css("visibility", "visible")
+              row = table.append("<tr></tr>")
+              if (isNaN(result)){
+                row.append("<tr><td>"+locationName+"</td><td>Missing data</td></tr>")
+              } else {
+                row.append("<tr><td>"+locationName+"</td><td>"+result.toFixed(1)+"%</td></tr>")
+              }
+            }
+          }
+          return result;
+        }
+
+        function get_group_color(val, grouping){
+          var id_color;
+          for (g in grouping){
+            if (grouping[g]["min"] < val && val <= grouping[g]["max"]){
+              id_color = group_colors[g];
+            }
+          }
+          return id_color;
+        }
+
+        function getSelectedPeriod(){
+          var year = $("input[name=optYear]:checked").val();
+          var month = $("input[name=optMonth]:checked").val();
+          return year+month
+        }
+
+        var q = d3.queue()
+        .defer(d3.json, "zambia.json")
+        .defer(d3.json, "../js/ProvinceData.json")
+        .defer(d3.json, "../js/DistrictData.json")
+        .defer(d3.json, "indicator_groups.json")
+        .defer(d3.json, "indicator_vars.json")
+        .awaitAll(function(error, data){
+          if (error) throw error;
+          var zambiaMap = data[0]
+          //Zambia map districts
+          zmDistrictList  = _.map(zambiaMap.objects.districts.geometries,
+                                  function(geo){
+                                    return geo.id
+                                  })
+          var provinceData = data[1]
+          var districtData = data[2]
+          indicatorGroups = data[3] //Set as global var within the function
+          indicatorVariables = data[4] //Set as global var within the function
+
+          var svg = d3.select("#map").append("svg").attr("width", 1110).attr("height",800)
+          var projection = d3.geoMercator()
+          .scale(3900)
+          .translate([-1300, -475]);
+
+          var path = d3.geoPath()
+          .projection(projection)
+
+          //Show default map
+          var blankScale = d3.scaleQuantize()
+          .domain([0, 0])
+          .range(["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"])
+          visualize_blank_map(path, zambiaMap, blankScale)
+
+
+          //Now attach the event listeners
+          d3.select("#goButton").on("click", function(e){
+            table = $("#table")
+            table.children("tbody").empty()
+            var indicatorEl = d3.select("input[name='programIndicator']:checked").node()
+            if (indicatorEl == null){
+              alert("Please choose an indicator")
+              return;
+            }
+
+            var yearEl = d3.select("input[name='optYear']:checked").node();
+            var monthEl = d3.select("input[name='optMonth']:checked").node();
+
+            if ((yearEl == null)||(monthEl == null)){
+              alert("Please choose year and month")
+              return;
+            }
+
+            orgLevel = d3.select("#orgLevel").node().value
+            indicatorID = indicatorEl.id
+            year = yearEl.value
+            month = monthEl.value
+            districtDataForPeriod = districtData[year+month]
+            provinceDataForPeriod = provinceData[year+month]
+
+
+            //Update the title
+            switch (orgLevel){
+              case "National":    // visualizing data at National level
+                LowestValue = 0
+                HighestValue = 0
+                allResults = get_all_indicator_results(districtDataForPeriod, indicatorID)
+                LowestValue = d3.min(allResults)
+                HighestValue = d3.max(allResults)
+                //Set up the scale
+                if (HighestValue > 100){
+                  HighestValue = 100
+                }
+                var d3Scale = d3.scaleQuantize()
+                .domain([LowestValue, HighestValue])
+                .range(["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"])
+
+                visualize_districts(path, zambiaMap, indicatorID,
+                                    districtData[year+month], d3Scale)
+                visualize_provinces(path, zambiaMap, null, null);
+                break;
+              case "Province":    // visualizing data at province level
+                LowestValue = 0
+                HighestValue = 0
+                allResults = get_all_indicator_results(provinceDataForPeriod, indicatorID)
+                LowestValue = d3.min(allResults)
+                HighestValue = d3.max(allResults)
+                //Set up the scale
+                if (HighestValue > 100){
+                  HighestValue = 100
+                }
+                var d3Scale = d3.scaleQuantize()
+                .domain([LowestValue, HighestValue])
+                .range(["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"])
+                //Clean the province names by removing the first three
+                //characters and the word 'province'
+                dataForPeriod = provinceData[year+month]
+              var reformattedData = {}
+              for (provinceName in dataForPeriod ){
+                reformattedProvinceName = provinceName
+                //Handle Norther Western province by putting in a - since the
+                //map expects one.
+                if (reformattedProvinceName == "North Western"){
+                  nameParts = reformattedProvinceName.split(" ")
+                  reformattedProvinceName = nameParts[0]+"-"+nameParts[1]
+                }
+                reformattedData[reformattedProvinceName] = dataForPeriod[provinceName]
+
+              }
+              visualize_provinces(path, zambiaMap, indicatorID,
+                                  reformattedData, d3Scale);
+              //update_legend(indicator_id);
+              break;
+              case "District":    // visualizing data at district level
+                LowestValue = 0
+                HighestValue = 0
+                allResults = get_all_indicator_results(districtDataForPeriod, indicatorID)
+                LowestValue = d3.min(allResults)
+                HighestValue = d3.max(allResults)
+                //Set up the scale
+                if (HighestValue > 100){
+                  HighestValue = 100
+                }
+                var d3Scale = d3.scaleQuantize()
+                .domain([LowestValue, HighestValue])
+                .range(["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"])
+
+                visualize_districts(path, zambiaMap, indicatorID, districtData[year+month], d3Scale)
+              break;
+            }
+
+          });
+        });
+
+      })();
+    </script>
+  </html>
+
