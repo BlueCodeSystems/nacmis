@@ -28,7 +28,8 @@ create or replace view vw_activityreportform as
     arf.id as activityreportform_id
   from data_entry_activityreportform arf
   left outer join vw_stakeholderdirectory st
-    on st.id = arf.stake_holder_name_id;
+    on st.id = arf.stake_holder_name_id
+  WHERE arf.quarter_been_reported >= '201801';
 
 -- join child tables with vw_activityreportform
 
