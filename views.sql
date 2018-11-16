@@ -18,6 +18,7 @@ create or replace view vw_organisationtarget as
   left outer join vw_stakeholderdirectory st
     on st.id = stot.stakeholderdirectory_id;
 
+drop view if exists vw_activityreportform CASCADE;
 create or replace view vw_activityreportform as
   select st.*, 
     arf.report_date as activityreportform_report_date,
