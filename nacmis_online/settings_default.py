@@ -25,7 +25,6 @@ SECRET_KEY = 's+y0dj3r&2x4wd^5t(2^=tx#=tq7ju#w7=mutqibkgoka!x2t#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -33,7 +32,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'dal',
     'dal_select2',
-    #'admin_view_permission',
+    'admin_view_permission',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -139,7 +138,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-ALLOWED_HOSTS = ['52.91.14.106', 'localhost', '127.0.0.1', 'nacmis.bluecodeltd.com']
+ALLOWED_HOSTS = ['www.nacmis.org.zm', 'www.nacmiszambia.com', 'nacmiszambia.com', '52.91.14.106', 'localhost', '127.0.0.1', 'nacmis.bluecodeltd.com']
 
 # django-phonenumber-field (country code settings)
 # https://github.com/stefanfoulis/django-phonenumber-field
