@@ -61,7 +61,8 @@ class UserProfileModelForm(forms.ModelForm):
 class ActivityReportFormModelForm(forms.ModelForm):
     class Meta:
         model = ActivityReportForm
-        fields = ['report_date',]
+        #fields = ['report_date', 'quarter_been_reported', 'stake_holder_name', 'name', 'telephone_number', 'email_address',]
+        fields = ('__all__')
         widgets = {
             'report_date' : forms.TextInput(attrs={'placeholder':'YYYY-MM-DD', 'type':'date',}),
         }
@@ -124,11 +125,9 @@ class TargetGroupPreventionMessageModelForm(forms.ModelForm):
         }
 
 class IECMaterialModelForm(forms.ModelForm):
-
     class Meta:
         model = IECMaterial
         fields = '__all__'
-        
         widgets = {
             'targeted_audience': autocomplete.ModelSelect2Multiple(url='organisationtarget-autocomplete'),
         }
