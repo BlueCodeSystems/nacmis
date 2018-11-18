@@ -18,7 +18,7 @@ from django.contrib import admin
 from data_entry import views
 from data_entry.views import SupportFieldAutocomplete, SupportByAreaAutocomplete, SourcesOfInformationAutocomplete, \
     NationalOrganisationAutocomplete, DistrictAutocomplete, WardAutocomplete, OrganisationTargetAutocomplete, \
-    PreventionMessageListAutocomplete, comingSoonView, StakeholderAutocomplete
+    PreventionMessageListAutocomplete, comingSoonView, StakeholderAutocomplete, MapDashboardJSON
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin-landing'),
@@ -51,6 +51,7 @@ urlpatterns = [
     path('ward-autocomplete/', WardAutocomplete.as_view(), name='ward-autocomplete'),
     path('stakeholder-autocomplete/', StakeholderAutocomplete.as_view(), name='stakeholder-autocomplete'),
     path('national-organisation-autocomplete/', NationalOrganisationAutocomplete.as_view(), name='national-organisation-autocomplete'),
+    path('map-json/', MapDashboardJSON.as_view(), name='map-json'),
 
     # urls for password reset implementation
     path('', include('django.contrib.auth.urls')),
