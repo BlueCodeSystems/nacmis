@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NACMIS online</title>
+    {{ form.media.css }}
+    <link rel="stylesheet" type="text/css" href="{% static 'data_entry/css/style.css' %}" />
+</head>
+<body>
+    <h1>Site Coming Soon!</h1>
+    <p class=working>This is a test</p>
+
+    <form action="/your-name/" method="post">
+        {% csrf_token %}
+        <table>
+            {{ the_insert.as_table }}
+        </table>
+        <br>
+        <input type="submit" value="Submit" />
+    </form>
+    {{ form.media.js }}
+</body>
+</html>

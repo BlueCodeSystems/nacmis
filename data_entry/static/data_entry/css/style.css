@@ -1,0 +1,36 @@
+@font-face {
+    font-family: dehasta_momentos;
+    src: url('fonts/dehasta_momentos/Dehasta Momentos Italic.otf'),
+        url('fonts/dehasta_momentos/Dehasta Momentos Regular.otf');
+}
+
+@font-face {
+    font-family: patty_sans;
+    src: url('fonts/patty_sans/Patty Sans.otf'), 
+        url('fonts/patty_sans/Patty Sans.ttf');
+}
+
+h1 {
+    color: blue;
+    font-family: patty_sans;
+    font-size: 55pt;
+    text-align: center;
+    margin-bottom: 30px
+}
+
+p.working {
+    color: green;
+    font-family: dehasta_momentos;
+}
+
+#imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+form {
+    border: 3px solid #f1f1f1;
+    margin: 180px auto;
+    width: 1000px;
+    padding: 10px;
+}

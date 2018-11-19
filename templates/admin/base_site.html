@@ -1,0 +1,42 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block title %}NACMIS{% endblock %}
+    
+{% block extrastyle %}
+<style>
+    #header {
+        background-color: hsl(146, 100%, 29%); /* NAC base color (equivalent to #009240)*/
+        height: 95px;
+    }
+
+    div.breadcrumbs {
+        background-color: #199d52;
+    }
+
+    .module caption, .module h2, .submit-row input, .submit-row input.default {
+        background-color: #009240;
+        text-transform: unset;
+    }
+
+    .inline-related .module h2, div[data-inline-type="stacked"] .module h2 {
+        background-color: #199d52;
+    }
+    
+    div[data-inline-type="stacked"] .module h3 {
+        display: none;
+    }
+</style>
+
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'home-view' %}">
+    <div>
+        <div style="max-width: 100px;">
+            <img src="{% static 'data_entry/assets/demo/demo2/media/img/logo/logo.png' %}" alt="NACMIS" style="width:100%;" />
+        </div>
+    </div>
+</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

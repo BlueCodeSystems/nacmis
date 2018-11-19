@@ -1,0 +1,12 @@
+{% load static %}
+<html>
+<head>
+    <!-- <title>NACMIS Online</title> -->
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<img src="{% static "images/sitelogo.png" %}" alt="Logo" />
+{% block content %}{% endblock %}
+    <p>Hello, Welcome to index template</p>
+</body>
+</html>
