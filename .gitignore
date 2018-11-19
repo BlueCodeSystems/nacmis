@@ -1,0 +1,25 @@
+# Visual Studio folders and files #
+###################################
+.vscode/
+
+# Logs and databases #
+######################
+*.log
+.static_storage/
+.media/
+local_settings.py
+*.pyc
+# Settings folder for a django databases #
+##########################################
+nacmis_online/settings.py
+
+# private binary folders#
+# folder/** ignores all folders and files recursively
+##########################
+**/__pycache__/
+nacmis_online/__pycache__/*.pyc
+
+# private folders and files for local user #
+##########################################
+data_entry/static/data_entry/sources
+*.pyc
