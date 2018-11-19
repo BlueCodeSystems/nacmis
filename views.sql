@@ -18,17 +18,25 @@ create or replace view vw_organisationtarget as
   left outer join vw_stakeholderdirectory st
     on st.id = stot.stakeholderdirectory_id;
 
+drop view if exists vw_activityreportform CASCADE;
 create or replace view vw_activityreportform as
   select st.*, 
-    arf.report_date as activityreportform_report_date, 
-    arf.quarter_been_reported as activityreportform_quarter_been_reported, 
+    arf.report_date as activityreportform_report_date,
+    CASE 
+      WHEN (arf.quarter_been_reported ~ '\d{4}01') THEN 'Q1 '||substring(arf.quarter_been_reported, 1, 4)
+      WHEN (arf.quarter_been_reported ~ '\d{4}02') THEN 'Q2 '||substring(arf.quarter_been_reported, 1, 4)
+      WHEN (arf.quarter_been_reported ~ '\d{4}03') THEN 'Q3 '||substring(arf.quarter_been_reported, 1, 4)
+      WHEN (arf.quarter_been_reported ~ '\d{4}04') THEN 'Q4 '||substring(arf.quarter_been_reported, 1, 4)
+      ELSE arf.quarter_been_reported
+    END AS activityreportform_quarter_been_reported,
     arf.name as activityreportform_name,
     arf.telephone_number as activityreportform_telephone_number, 
     arf.email_address as activityreportform_email_address, 
     arf.id as activityreportform_id
   from data_entry_activityreportform arf
   left outer join vw_stakeholderdirectory st
-    on st.id = arf.stake_holder_name_id;
+    on st.id = arf.stake_holder_name_id
+  WHERE arf.quarter_been_reported >= '201801';
 
 -- join child tables with vw_activityreportform
 
@@ -594,7 +602,7 @@ begin
         insert into temp_reportedcase
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.reported_female_less_10, 
+            ('9 and less', 'Female', row.reported_female_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Female', row.reported_female_10_14, 
              row.activity_form_id),
@@ -604,7 +612,7 @@ begin
              row.activity_form_id),
             ('25 plus', 'Female', row.reported_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.reported_male_less_10, 
+            ('9 and less', 'Male', row.reported_male_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Male', row.reported_male_10_14, 
              row.activity_form_id),
@@ -652,7 +660,7 @@ begin
         insert into temp_experiencedphysicalviolence
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.physical_female_less_10, 
+            ('9 and less', 'Female', row.physical_female_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Female', row.physical_female_10_14, 
              row.activity_form_id),
@@ -662,7 +670,7 @@ begin
              row.activity_form_id),
             ('25 plus', 'Female', row.physical_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.physical_male_less_10, 
+            ('9 and less', 'Male', row.physical_male_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Male', row.physical_male_10_14, 
              row.activity_form_id),
@@ -710,7 +718,7 @@ begin
         insert into temp_experiencedsexualviolence
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.sexual_female_less_10, 
+            ('9 and less', 'Female', row.sexual_female_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Female', row.sexual_female_10_14, 
              row.activity_form_id),
@@ -720,7 +728,7 @@ begin
              row.activity_form_id),
             ('25 plus', 'Female', row.sexual_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.sexual_male_less_10, 
+            ('9 and less', 'Male', row.sexual_male_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Male', row.sexual_male_10_14, 
              row.activity_form_id),
@@ -768,7 +776,7 @@ begin
         insert into temp_postexposureprophylaxis
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.accessed_pep_female_less_10, 
+            ('9 and less', 'Female', row.accessed_pep_female_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Female', row.accessed_pep_female_10_14, 
              row.activity_form_id),
@@ -778,7 +786,7 @@ begin
              row.activity_form_id),
             ('25 plus', 'Female', row.accessed_pep_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.accessed_pep_male_less_10, 
+            ('9 and less', 'Male', row.accessed_pep_male_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Male', row.accessed_pep_male_10_14, 
              row.activity_form_id),
@@ -826,7 +834,7 @@ begin
         insert into temp_individualcurrentlyenrolled
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.individuals_enrolled_female_10_less,
+            ('9 and less', 'Female', row.individuals_enrolled_female_10_less,
             	row.activity_form_id),
 
             ('10 to 14', 'Female', row.individuals_enrolled_female_10_14, 
@@ -837,7 +845,7 @@ begin
              row.activity_form_id),
             ('25 and above', 'Female', row.individuals_enrolled_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.individuals_enrolled_female_10_less,
+            ('9 and less', 'Male', row.individuals_enrolled_female_10_less,
             	row.activity_form_id),
 
             ('10 to 14', 'Male', row.individuals_enrolled_male_10_14, 
@@ -886,7 +894,7 @@ begin
         insert into temp_vulnerablepeople
             (age_group, sex, value, activity_report_form_id)
         values 
-            ('10 and less', 'Female', row.ovc_female_less_10, 
+            ('9 and less', 'Female', row.ovc_female_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Female', row.ovc_female_10_14, 
              row.activity_form_id),
@@ -896,7 +904,7 @@ begin
              row.activity_form_id),
             ('25 plus', 'Female', row.ovc_female_25_plus, 
              row.activity_form_id),
-            ('10 and less', 'Male', row.ovc_male_less_10, 
+            ('9 and less', 'Male', row.ovc_male_less_10, 
              row.activity_form_id),
             ('10 to 14', 'Male', row.ovc_male_10_14, 
              row.activity_form_id),

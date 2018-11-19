@@ -126,8 +126,8 @@ def gen_quarters():
         ending (and including) the current year and current quarter. """
     curr_year = current_year()
     curr_quarter = current_quarter()
-    year = 2018
-    quarter = 1
+    year = 2017
+    quarter = 2
     while True:
         yield year, quarter
         if year == curr_year and quarter == curr_quarter:
@@ -332,12 +332,16 @@ class ZambiaHMIS:
             district_name = orgUnit['displayName'][3:-9] #Strip out the province prefix and the 'District' part.
             try:
                 province_name = cached_district_provinces[district_name]
-            except KeyError:
+            except KeyError as e:
                 if district_name == "Itezhi-tezhi":
                     district_name = "Itezhi Tezhi"
+                    province_name = cached_district_provinces[district_name]
                 elif district_name == "Kapiri-Mposhi":
                     district_name = "Kapiri Mposhi"
-                province_name = cached_district_provinces[district_name]
+                    province_name = cached_district_provinces[district_name]
+                else:
+                    print("Unable to load %s district. Because of %s"%(district_name, e))
+                    continue
 
             d = DataEtl(data_element_name=self.dataElementsById[dv['dataElement']],
                         data_element_id=dv['dataElement'],

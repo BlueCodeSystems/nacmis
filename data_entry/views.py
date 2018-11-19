@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views import generic, View
 from dal import autocomplete
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+from django.core import serializers
 from .models import NationalOrganisation, District, Ward, OrganisationTarget, \
     PreventionMessageList, SupportField, SupportByArea, SourcesOfInformation, \
-    UserProfile, StakeholderDirectory
+    UserProfile, StakeholderDirectory, Geosupport
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
@@ -511,3 +512,17 @@ def get_nameinmodel(request):
 def myform_test(request):
     formsample = MyForm()
     return render(request, 'data_entry/index.html', {'the_insert': formsample} )
+
+@method_decorator(login_required, name='dispatch')
+class MapDashboardView(generic.TemplateView):
+    template_name = 'data_entry/nacmis_metronic/map.html'
+
+
+@method_decorator(login_required, name='dispatch')
+class MapDashboardJSON(View):
+    def get(self, context, *response_kwargs):
+        data = list(Geosupport.objects.values("organisation", "area_of_support", "district", "ward_name", "province"))
+        jsdata = data
+        return JsonResponse(jsdata, safe=False)
+
+
