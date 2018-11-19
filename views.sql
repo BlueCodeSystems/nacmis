@@ -978,3 +978,72 @@ left outer join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id
   order by age_group;
 
+CREATE OR REPLACE VIEW vw_keypop_export AS
+SELECT vw_activityreportform.id,
+       organisation,
+       organisation_address AS "organisation_address",
+       start_year AS "start_year",
+       gps AS "gps",
+       website AS "website",
+       description_of_organisation AS "description_of_organisation",
+       key_contact_name AS "key_contact_name",
+       position_within_organisation AS "position_within_organisation",
+       telephone_number AS "telephone_number",
+       telephone_number_alternative AS "telephone_number_alternative",
+       email_address AS "email_address", 
+       permanent_employee_female AS "permanent_employee_female",
+       permanent_employee_male AS "permanent_employee_male",
+       temporary_employee_female AS "temporary_employee_female",
+       temporary_employee_male AS "temporary_employee_male",
+       volunteer_employee_female AS "volunteer_employee_female",
+       volunteer_employee_male AS "volunteer_employee_male",
+       organisation_type AS "organisation_type",
+       national_organisation_id AS "national_organisation_id",
+       organisation_province_id AS "organisation_province_id",
+       organisation_district_id AS "organisation_district_id",
+       province_name AS "province_name",
+       district_name AS "district_name",
+       activityreportform_report_date,
+       activityreportform_quarter_been_reported,
+       activityreportform_name,
+       activityreportform_telephone_number,
+       activityreportform_email_address,
+       activityreportform_id,
+       
+       data_entry_inmate.inmates_female_num,
+       data_entry_inmate.inmates_male_num,
+       data_entry_sexworker.sex_workers_male_10_14 AS "Sex_worker_Male_10_14",
+       data_entry_sexworker.sex_workers_male_15_19 AS "Sex_worker_Male_15_19",
+       data_entry_sexworker.sex_workers_male_20_24 AS "Sex_worker_Male_20_24",
+       data_entry_sexworker.sex_workers_male_25_29 AS "Sex_worker_Male_25_29",
+       data_entry_sexworker.sex_workers_male_30_34 AS "Sex_worker_Male_30_34",
+       data_entry_sexworker.sex_workers_male_35_plus AS "Sex_worker_Male_35_plus",
+       data_entry_sexworker.sex_workers_female_10_14 AS "Sex_worker_Female_10_14",
+       data_entry_sexworker.sex_workers_female_15_19 AS "Sex_worker_Female_15_19",
+       data_entry_sexworker.sex_workers_female_20_24 AS "Sex_worker_Female_20_24",
+       data_entry_sexworker.sex_workers_female_25_29 AS "Sex_worker_Female_25_29",
+       data_entry_sexworker.sex_workers_female_30_34 AS "Sex_worker_Female_30_34",
+       data_entry_sexworker.sex_workers_female_35_plus AS "Sex_worker_Female_35_plus",
+       data_entry_inmate.inmates_female_num AS "Inmate_Female_Number",
+       data_entry_inmate.inmates_male_num AS "Inmate_Male_Number",
+       data_entry_personswithdisabilty.pwd_female_num AS "PWD_Female_Number",
+       data_entry_personswithdisabilty.pwd_male_num AS "PWD_Male_Number", 
+       data_entry_mobileworker.mobile_workers_female_num AS "Mobile_Workers_Female_Number",
+       data_entry_mobileworker.mobile_workers_male_num AS "Mobile_Workers_Male_Number",
+       data_entry_mobilepopulation.other_mobile_population AS "Mobile_Population",
+       data_entry_menwithmen.men_with_men AS "Men_with_Men",
+       data_entry_transgenderindividual.transgender_num AS "Transgender_Number",
+       data_entry_peoplewhoinjectdrug.pwid_male AS "PWID_Male",
+       data_entry_peoplewhoinjectdrug.pwid_female AS "PWID_Female"
+       FROM vw_activityreportform
+       LEFT OUTER JOIN data_entry_supportfield ON vw_activityreportform.id = data_entry_supportfield.id
+       LEFT OUTER JOIN data_entry_peoplewhoinjectdrug ON vw_activityreportform.id = data_entry_peoplewhoinjectdrug.activity_form_id
+       LEFT OUTER JOIN data_entry_transgenderindividual ON vw_activityreportform.id = data_entry_transgenderindividual.activity_form_id
+       LEFT OUTER JOIN data_entry_menwithmen ON vw_activityreportform.id = data_entry_menwithmen.activity_form_id
+       LEFT OUTER JOIN data_entry_personswithdisabilty ON vw_activityreportform.id = data_entry_personswithdisabilty.activity_form_id
+       LEFT OUTER JOIN data_entry_mobilepopulation ON vw_activityreportform.id = data_entry_mobilepopulation.id
+       LEFT OUTER JOIN data_entry_mobileworker ON vw_activityreportform.id = data_entry_mobileworker.activity_form_id
+       LEFT OUTER JOIN data_entry_sexworker ON vw_activityreportform.id = data_entry_sexworker.activity_form_id
+       LEFT OUTER JOIN data_entry_inmate ON vw_activityreportform.id = data_entry_inmate.activity_form_id
+       
+--GROUP BY organisaton.data_entry_iecmaterial
