@@ -1,0 +1,21 @@
+{% extends "data_entry/nacmis_metronic/base.html" %}
+{% load has_group %}
+
+{% block content %}
+<iframe
+  height="13000px"
+  width="100%"
+  seamless
+  frameBorder="0"
+  scrolling="no"
+  {% if not request.user|has_group:"Stakeholder" %}
+    {% if userProfile.province and userProfile.district %}
+    src="https://nacmis-data.bluecodeltd.com/superset/dashboard/3/?standalone=true&preselect_filters={'45':{'province_name':['{{ userProfile.province }}'],'district_name':['{{ userProfile.district }}']}}"
+    {% else %}
+    src="https://nacmis-data.bluecodeltd.com/superset/dashboard/3/?standalone=true&preselect_filters={'45':{'province_name':['{{ userProfile.province }}'],'district_name':[]}}"
+    {% endif %}
+  {% endif %}
+>
+</iframe>
+<script>iFrameResize({log:true}, 'iframe')</script>
+{% endblock content %}
