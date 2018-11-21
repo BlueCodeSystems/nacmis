@@ -7,9 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from django.core import serializers
+from django.db.models import Count
 from .models import NationalOrganisation, District, Ward, OrganisationTarget, \
     PreventionMessageList, SupportField, SupportByArea, SourcesOfInformation, \
-    UserProfile, StakeholderDirectory, Geosupport
+    UserProfile, StakeholderDirectory, ProgramActivity, Province
 from .forms import StakeholderDirectoryModelForm, ProgramActivityModelForm, MyForm
 
 # Create your views here.
@@ -521,7 +522,37 @@ class MapDashboardView(generic.TemplateView):
 @method_decorator(login_required, name='dispatch')
 class MapDashboardJSON(View):
     def get(self, context, *response_kwargs):
-        data = list(Geosupport.objects.values("organisation", "area_of_support", "district", "ward_name", "province"))
+        data = {}
+        data["districtData"] = {}
+        data["provinceData"] = {}
+        data["wardData"] = {}
+        for province in Province.objects.all():
+            programActivities = ProgramActivity.objects.filter(
+                ward__district__province=province).exclude(
+                    areas_of_support2__support_given_at_area=None).values_list(
+                        "areas_of_support2__support_given_at_area").annotate(
+                            number=Count("areas_of_support2__support_given_at_area"))
+            data["provinceData"][province.name] = []
+            for activity in programActivities:
+                data["provinceData"][province.name].append({"service":activity[0], "number": activity[1]})
+        for district in District.objects.all():
+            programActivities = ProgramActivity.objects.filter(
+                ward__district=district).exclude(
+                    areas_of_support2__support_given_at_area=None).values_list(
+                        "areas_of_support2__support_given_at_area", "organisation__organisation").annotate(
+                            number=Count("areas_of_support2__support_given_at_area"))
+            data["districtData"][district.name] = []
+            for activity in programActivities:
+                data["districtData"][district.name].append({"service":activity[0], "number": activity[1]})
+        for ward in Ward.objects.all():
+            programActivities = ProgramActivity.objects.filter(
+                ward=ward).exclude(
+                    areas_of_support2__support_given_at_area=None).values_list(
+                        "areas_of_support2__support_given_at_area", "organisation__organisation")
+            data["wardData"][ward.name] = []
+            for activity in programActivities:
+                data["wardData"][ward.name].append({"service":activity[0], "number": activity[1]})
+        print(data)
         jsdata = data
         return JsonResponse(jsdata, safe=False)
 
