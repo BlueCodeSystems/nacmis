@@ -18,7 +18,6 @@ create or replace view vw_organisationtarget as
   left outer join vw_stakeholderdirectory st
     on st.id = stot.stakeholderdirectory_id;
 
-drop view if exists vw_activityreportform CASCADE;
 create or replace view vw_activityreportform as
   select st.*, 
     arf.report_date as activityreportform_report_date,
@@ -977,4 +976,239 @@ from sp_pre_exposure_prophylaxis_by_age_and_sex() vw
 left outer join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id
   order by age_group;
+
+CREATE OR REPLACE VIEW vw_keypop_export AS
+SELECT vw_activityreportform.id,
+       organisation,
+       organisation_address AS "organisation_address",
+       start_year AS "start_year",
+       gps AS "gps",
+       website AS "website",
+       description_of_organisation AS "description_of_organisation",
+       key_contact_name AS "key_contact_name",
+       position_within_organisation AS "position_within_organisation",
+       telephone_number AS "telephone_number",
+       telephone_number_alternative AS "telephone_number_alternative",
+       email_address AS "email_address", 
+       permanent_employee_female AS "permanent_employee_female",
+       permanent_employee_male AS "permanent_employee_male",
+       temporary_employee_female AS "temporary_employee_female",
+       temporary_employee_male AS "temporary_employee_male",
+       volunteer_employee_female AS "volunteer_employee_female",
+       volunteer_employee_male AS "volunteer_employee_male",
+       organisation_type AS "organisation_type",
+       national_organisation_id AS "national_organisation_id",
+       organisation_province_id AS "organisation_province_id",
+       organisation_district_id AS "organisation_district_id",
+       province_name AS "province_name",
+       district_name AS "district_name",
+       activityreportform_report_date,
+       activityreportform_quarter_been_reported,
+       activityreportform_name,
+       activityreportform_telephone_number,
+       activityreportform_email_address,
+       activityreportform_id,
+       
+       data_entry_inmate.inmates_female_num,
+       data_entry_inmate.inmates_male_num,
+       data_entry_sexworker.sex_workers_male_10_14 AS "Sex_worker_Male_10_14",
+       data_entry_sexworker.sex_workers_male_15_19 AS "Sex_worker_Male_15_19",
+       data_entry_sexworker.sex_workers_male_20_24 AS "Sex_worker_Male_20_24",
+       data_entry_sexworker.sex_workers_male_25_29 AS "Sex_worker_Male_25_29",
+       data_entry_sexworker.sex_workers_male_30_34 AS "Sex_worker_Male_30_34",
+       data_entry_sexworker.sex_workers_male_35_plus AS "Sex_worker_Male_35_plus",
+       data_entry_sexworker.sex_workers_female_10_14 AS "Sex_worker_Female_10_14",
+       data_entry_sexworker.sex_workers_female_15_19 AS "Sex_worker_Female_15_19",
+       data_entry_sexworker.sex_workers_female_20_24 AS "Sex_worker_Female_20_24",
+       data_entry_sexworker.sex_workers_female_25_29 AS "Sex_worker_Female_25_29",
+       data_entry_sexworker.sex_workers_female_30_34 AS "Sex_worker_Female_30_34",
+       data_entry_sexworker.sex_workers_female_35_plus AS "Sex_worker_Female_35_plus",
+       data_entry_inmate.inmates_female_num AS "Inmate_Female_Number",
+       data_entry_inmate.inmates_male_num AS "Inmate_Male_Number",
+       data_entry_personswithdisabilty.pwd_female_num AS "PWD_Female_Number",
+       data_entry_personswithdisabilty.pwd_male_num AS "PWD_Male_Number", 
+       data_entry_mobileworker.mobile_workers_female_num AS "Mobile_Workers_Female_Number",
+       data_entry_mobileworker.mobile_workers_male_num AS "Mobile_Workers_Male_Number",
+       data_entry_mobilepopulation.other_mobile_population AS "Mobile_Population",
+       data_entry_menwithmen.men_with_men AS "Men_with_Men",
+       data_entry_transgenderindividual.transgender_num AS "Transgender_Number",
+       data_entry_peoplewhoinjectdrug.pwid_male AS "PWID_Male",
+       data_entry_peoplewhoinjectdrug.pwid_female AS "PWID_Female"
+       FROM vw_activityreportform
+       LEFT OUTER JOIN data_entry_supportfield ON vw_activityreportform.id = data_entry_supportfield.id
+       LEFT OUTER JOIN data_entry_peoplewhoinjectdrug ON vw_activityreportform.id = data_entry_peoplewhoinjectdrug.activity_form_id
+       LEFT OUTER JOIN data_entry_transgenderindividual ON vw_activityreportform.id = data_entry_transgenderindividual.activity_form_id
+       LEFT OUTER JOIN data_entry_menwithmen ON vw_activityreportform.id = data_entry_menwithmen.activity_form_id
+       LEFT OUTER JOIN data_entry_personswithdisabilty ON vw_activityreportform.id = data_entry_personswithdisabilty.activity_form_id
+       LEFT OUTER JOIN data_entry_mobilepopulation ON vw_activityreportform.id = data_entry_mobilepopulation.id
+       LEFT OUTER JOIN data_entry_mobileworker ON vw_activityreportform.id = data_entry_mobileworker.activity_form_id
+       LEFT OUTER JOIN data_entry_sexworker ON vw_activityreportform.id = data_entry_sexworker.activity_form_id
+       LEFT OUTER JOIN data_entry_inmate ON vw_activityreportform.id = data_entry_inmate.activity_form_id
+       --GROUP BY organisaton.data_entry_iecmaterial
+
+       CREATE OR REPLACE VIEW vw_sarf_export AS
+SELECT vw_activityreportform.id,
+       organisation,
+       organisation_address AS "organisation_address",
+       start_year AS "start_year",
+       gps AS "gps",
+       website AS "website",
+       description_of_organisation AS "description_of_organisation",
+       key_contact_name AS "key_contact_name",
+       position_within_organisation AS "position_within_organisation",
+       telephone_number AS "telephone_number",
+       telephone_number_alternative AS "telephone_number_alternative",
+       email_address AS "email_address", 
+       permanent_employee_female AS "permanent_employee_female",
+       permanent_employee_male AS "permanent_employee_male",
+       temporary_employee_female AS "temporary_employee_female",
+       temporary_employee_male AS "temporary_employee_male",
+       volunteer_employee_female AS "volunteer_employee_female",
+       volunteer_employee_male AS "volunteer_employee_male",
+       organisation_type AS "organisation_type",
+       national_organisation_id AS "national_organisation_id",
+       organisation_province_id AS "organisation_province_id",
+       organisation_district_id AS "organisation_district_id",
+       province_name AS "province_name",
+       district_name AS "district_name",
+       activityreportform_report_date,
+       activityreportform_quarter_been_reported,
+       activityreportform_name,
+       activityreportform_telephone_number,
+       activityreportform_email_address,
+       activityreportform_id,
+       data_entry_iecmaterial.material_type AS "material_type",
+       data_entry_iecmaterial.number_distributed AS "number_distributed",
+       data_entry_iecmaterial.localized AS "localized",
+       data_entry_iecmaterial2_target_audience.iecmaterial2_id,
+       data_entry_iecmaterial2_target_audience.organisationtarget_id AS "Organisation_Target_ID",
+       data_entry_iecmaterial2.other_target_audience AS "Other_Target_Audience",
+       data_entry_inmate.inmates_female_num,
+       data_entry_inmate.inmates_male_num,
+       data_entry_teachers.teachers_female AS "female_teachers",
+       data_entry_teachers.teachers_male AS "male_teachers",
+       data_entry_outofschool.out_school_female_10_14 AS "Out_of_school_Female_10_14",
+       data_entry_outofschool.out_school_female_15_19 AS "Out_of_school_Female_15_19",
+       data_entry_outofschool.out_school_female_20_24 AS "Out_of_school_Female_20_24",
+       data_entry_outofschool.out_school_male_10_14 AS "Out_of_school_Male_10_14",
+       data_entry_outofschool.out_school_male_15_19 AS "Out_of_school_Male_15_19",
+       data_entry_outofschool.out_school_male_20_24 AS "Out_of_school_Male_20_24",
+       data_entry_sexworker.sex_workers_male_10_14 AS "Sex_worker_Male_10_14",
+       data_entry_sexworker.sex_workers_male_15_19 AS "Sex_worker_Male_15_19",
+       data_entry_sexworker.sex_workers_male_20_24 AS "Sex_worker_Male_20_24",
+       data_entry_sexworker.sex_workers_male_25_29 AS "Sex_worker_Male_25_29",
+       data_entry_sexworker.sex_workers_male_30_34 AS "Sex_worker_Male_30_34",
+       data_entry_sexworker.sex_workers_male_35_plus AS "Sex_worker_Male_35_plus",
+       data_entry_sexworker.sex_workers_female_10_14 AS "Sex_worker_Female_10_14",
+       data_entry_sexworker.sex_workers_female_15_19 AS "Sex_worker_Female_15_19",
+       data_entry_sexworker.sex_workers_female_20_24 AS "Sex_worker_Female_20_24",
+       data_entry_sexworker.sex_workers_female_25_29 AS "Sex_worker_Female_25_29",
+       data_entry_sexworker.sex_workers_female_30_34 AS "Sex_worker_Female_30_34",
+       data_entry_sexworker.sex_workers_female_35_plus AS "Sex_worker_Female_35_plus",
+       data_entry_personswithdisabilty.pwd_female_num AS "PWD_Female_Number",
+       data_entry_personswithdisabilty.pwd_male_num AS "PWD_Male_Number", 
+       data_entry_mobileworker.mobile_workers_female_num AS "Mobile_Workers_Female_Number",
+       data_entry_mobileworker.mobile_workers_male_num AS "Mobile_Workers_Male_Number",
+       --data_entry_mobilepopulationtype.mobile_population_type AS "Mobile_Population_Type",//RETURNING NO DATA
+       data_entry_menwithmen.men_with_men AS "Men_with_Men",
+       data_entry_transgenderindividual.transgender_num AS "Transgender_Number",
+       data_entry_peoplewhoinjectdrug.pwid_male AS "PWID_Male",
+       data_entry_peoplewhoinjectdrug.pwid_female AS "PWID_Female",
+       data_entry_condomprogramming.condom_dist_point_num AS "Condom_Distribution_Point_Number",
+       data_entry_condomprogramming2.female_condom_distributed_num AS "Female_Condom_Distributed_Number",
+       data_entry_condomprogramming2.male_condom_distributed_num AS "Male_Condom_Distributed_Number",
+       data_entry_experiencedphysicalviolence.physical_female_less_10 AS "Physical_Female_Less_10",
+       data_entry_experiencedphysicalviolence.physical_female_10_14 AS "Physical_Female_10_14",
+       data_entry_experiencedphysicalviolence.physical_female_15_19 AS "Physical_Female_15_19",
+       data_entry_experiencedphysicalviolence.physical_female_20_24 AS "Physical_Female_20_24",
+       data_entry_experiencedphysicalviolence.physical_female_25_plus AS "Physical_Female_25_plus",
+       data_entry_experiencedphysicalviolence.physical_male_less_10 AS "Physical_Male_Less_10",
+       data_entry_experiencedphysicalviolence.physical_male_10_14 AS "Physical_Male_10_14",
+       data_entry_experiencedphysicalviolence.physical_male_15_19 AS "Physical_Male_15_19",
+       data_entry_experiencedphysicalviolence.physical_male_20_24 AS "Physical_Male_20_24",
+       data_entry_experiencedphysicalviolence.physical_male_25_plus AS "Physical_Male_25_plus",
+       data_entry_experiencedsexualviolence.sexual_female_less_10 AS "Sexual_Female_Less_10",
+       data_entry_experiencedSexualviolence.sexual_female_10_14 AS "Sexual_Female_10_14",
+       data_entry_experiencedSexualviolence.Sexual_female_15_19 AS "Sexua_Female_15_19",
+       data_entry_experiencedSexualviolence.Sexual_female_20_24 AS "Sexual_Female_20_24",
+       data_entry_experiencedSexualviolence.Sexual_female_25_plus AS "Sexual_Female_25_plus",
+       data_entry_experiencedSexualviolence.Sexual_male_less_10 AS "Sexual_Male_Less_10",
+       data_entry_experiencedSexualviolence.Sexual_male_10_14 AS "Sexual_Male_10_14",
+       data_entry_experiencedSexualviolence.Sexual_male_15_19 AS "Sexual_Male_15_19",
+       data_entry_experiencedSexualviolence.Sexual_male_20_24 AS "Sexual_Male_20_24",
+       data_entry_experiencedSexualviolence.Sexual_male_25_plus AS "Sexual_Male_25_plus",
+       data_entry_postexposureprophylaxis.accessed_pep_male_less_10 AS "Accessed_PEP_Male_less_10",
+       data_entry_postexposureprophylaxis.accessed_pep_male_10_14 AS "Accessed_PEP_Male_10_14",
+       data_entry_postexposureprophylaxis.accessed_pep_male_15_19 AS "Accessed_PEP_Male_15_19",
+       data_entry_postexposureprophylaxis.accessed_pep_male_20_24 AS "Accessed_PEP_Male_20_24",
+       data_entry_postexposureprophylaxis.accessed_pep_male_25_plus AS "Accessed_PEP_Male_25_plus",
+        data_entry_postexposureprophylaxis.accessed_pep_female_less_10 AS "Accessed_PEP_Female_less_10",
+       data_entry_postexposureprophylaxis.accessed_pep_female_10_14 AS "Aceessed_PEP_Femal_10_14",
+       data_entry_postexposureprophylaxis.accessed_pep_female_15_19 AS "Accessed_PEP_Female_15_19",
+       data_entry_postexposureprophylaxis.accessed_pep_female_20_24 AS "Accessed_PEP_Female_20_24",
+       data_entry_postexposureprophylaxis.accessed_pep_female_25_plus AS "Accessed_PEP_Female_25_plus",
+       data_entry_preexposureprophylaxis.referred_pep_male_15_19 AS "Referred_PEP_Male_15_19",
+       data_entry_preexposureprophylaxis.referred_pep_male_20_24 AS "Referred_PEP_Male_20_24",
+       data_entry_preexposureprophylaxis.referred_pep_male_25_plus AS "Referred_PEP_Male_25_plus",
+       data_entry_preexposureprophylaxis.referred_pep_female_15_19 AS "Referred_PEP_Female_15_19",
+       data_entry_preexposureprophylaxis.referred_pep_female_20_24 AS "Referred_PEP_Female_20_24",
+       data_entry_preexposureprophylaxis.referred_pep_female_25_plus AS "Referred_PEP_Female_25_plus",
+       data_entry_supportgroupsetup.support_groups AS "Support_Groups",
+       data_entry_individualcurrentlyenrolled.individuals_enrolled_male_10_14 AS "Individuals_Enrolled_Male_10_14",
+       data_entry_individualcurrentlyenrolled.individuals_enrolled_male_15_19 AS "Individuals_Enrolled_Male_15_19",
+       data_entry_individualcurrentlyenrolled.individuals_enrolled_male_20_24 AS "Individuals_Enrolled_Male_20_24",
+       data_entry_individualcurrentlyenrolled.individuals_enrolled_male_25_plus AS "Individuals_Enroled_Male_25",
+        data_entry_individualcurrentlyenrolled.individuals_enrolled_female_10_14 AS "Individuals_Enrolled_Female_10_14",
+       data_entry_individualcurrentlyenrolled.individuals_enrolled_female_15_19 AS "Individuals_Enrolled_Female_15_19",
+       data_entry_individualcurrentlyenrolled.individuals_enrolled_female_20_24 AS "Individuals_Enrolled_Female_20_24",
+       data_entry_individualcurrentlyenrolled.individuals_enrolled_female_25_plus AS "Individuals_Enroled_Female_25",
+       data_entry_vulnerablepeople.ovc_male_less_10 AS "OVC_Male_Less_10",
+       data_entry_vulnerablepeople.ovc_male_10_14 AS "OVC_Male_10_14",
+       data_entry_vulnerablepeople.ovc_male_15_19 AS "OVC_Male_15_19",
+       data_entry_vulnerablepeople.ovc_male_20_24 AS "OVC_Male_20_24",
+       data_entry_vulnerablepeople.ovc_male_25_plus AS "OVC_Male_25_plus",
+       data_entry_vulnerablepeople.ovc_female_less_10 AS "OVC_Female_Less_10",
+       data_entry_vulnerablepeople.ovc_female_10_14 AS "OVC_Female_10_14",
+       data_entry_vulnerablepeople.ovc_female_15_19 AS "OVC_Female_15_19",
+       data_entry_vulnerablepeople.ovc_female_20_24 AS "OVC_Female_20_24",
+       data_entry_vulnerablepeople.ovc_female_25_plus AS "OVC_Female_25_plus",
+       data_entry_stakeholderverification.acknowledgement AS "Stakeholder_Acknowledgement",
+       data_entry_stakeholderverification.stakeholder_initials AS "Stakeholder_Initials", 
+       data_entry_supportfield.area_of_support AS "Area_of_Support", 
+      data_entry_dacavalidation.validation_date AS "DACA_Validation_Date",
+      data_entry_dacavalidation.validated_by_id AS "DACA_Validated_By_ID",
+      data_entry_dacavalidation.validation_status AS "DACA_Validation_Status",
+      data_entry_dacavalidation.acknowledgement AS "DACA_Acknowledgement",
+      data_entry_dacavalidation.daca_initials AS "DACA_Initials",
+      data_entry_pitmeovalidation.validation_date AS "PITMEO_Validation_Date",
+      data_entry_pitmeovalidation.validation_status AS "PITMEO_Validation_Status",
+      data_entry_pitmeovalidation.acknowledgement AS "PITMEO_Acknowledgement"
+       FROM vw_activityreportform
+       LEFT OUTER JOIN data_entry_dacavalidation ON vw_activityreportform.id = data_entry_dacavalidation.activity_form_id
+       LEFT OUTER JOIN data_entry_pitmeovalidation ON vw_activityreportform.id = data_entry_pitmeovalidation.activity_form_id
+       LEFT OUTER JOIN data_entry_supportfield ON vw_activityreportform.id = data_entry_supportfield.id
+       LEFT OUTER JOIN data_entry_stakeholderverification ON vw_activityreportform.id = data_entry_stakeholderverification.activity_form_id
+       LEFT OUTER JOIN data_entry_vulnerablepeople ON vw_activityreportform.id = data_entry_vulnerablepeople.activity_form_id
+       LEFT OUTER JOIN data_entry_individualcurrentlyenrolled ON vw_activityreportform.id = data_entry_individualcurrentlyenrolled.activity_form_id
+       LEFT OUTER JOIN data_entry_supportgroupsetup ON vw_activityreportform.id = data_entry_supportgroupsetup.activity_form_id
+       LEFT OUTER JOIN data_entry_preexposureprophylaxis ON vw_activityreportform.id = data_entry_preexposureprophylaxis.activity_form_id
+       LEFT OUTER JOIN data_entry_postexposureprophylaxis ON vw_activityreportform.id = data_entry_postexposureprophylaxis.activity_form_id
+       LEFT OUTER JOIN data_entry_experiencedphysicalviolence ON vw_activityreportform.id = data_entry_experiencedphysicalviolence.activity_form_id
+       LEFT OUTER JOIN data_entry_experiencedsexualviolence ON vw_activityreportform.id = data_entry_experiencedsexualviolence.activity_form_id
+       LEFT OUTER JOIN data_entry_condomprogramming2 ON vw_activityreportform.id = data_entry_condomprogramming2.activity_form_id
+       LEFT OUTER JOIN data_entry_condomprogramming ON vw_activityreportform.id = data_entry_condomprogramming.activity_form_id
+       LEFT OUTER JOIN data_entry_peoplewhoinjectdrug ON vw_activityreportform.id = data_entry_peoplewhoinjectdrug.activity_form_id
+       LEFT OUTER JOIN data_entry_transgenderindividual ON vw_activityreportform.id = data_entry_transgenderindividual.activity_form_id
+       LEFT OUTER JOIN data_entry_menwithmen ON vw_activityreportform.id = data_entry_menwithmen.activity_form_id
+       LEFT OUTER JOIN data_entry_personswithdisabilty ON vw_activityreportform.id = data_entry_personswithdisabilty.activity_form_id
+       LEFT OUTER JOIN data_entry_mobilepopulationtype ON vw_activityreportform.id = data_entry_mobilepopulationtype.id
+       LEFT OUTER JOIN data_entry_mobileworker ON vw_activityreportform.id = data_entry_mobileworker.activity_form_id
+LEFT OUTER JOIN data_entry_sexworker ON vw_activityreportform.id = data_entry_sexworker.activity_form_id
+LEFT OUTER JOIN data_entry_outofschool ON vw_activityreportform.id = data_entry_outofschool.activity_form_id
+LEFT OUTER JOIN data_entry_iecmaterial ON vw_activityreportform.id = data_entry_iecmaterial.activity_form_id
+LEFT OUTER JOIN data_entry_iecmaterial2_target_audience ON vw_activityreportform.id = data_entry_iecmaterial2_target_audience.id
+LEFT OUTER JOIN data_entry_iecmaterial2 ON vw_activityreportform.id = data_entry_iecmaterial2.activity_form_id
+LEFT OUTER JOIN data_entry_inmate ON vw_activityreportform.id = data_entry_inmate.activity_form_id
+LEFT OUTER JOIN data_entry_teachers ON vw_activityreportform.id = data_entry_teachers.activity_form_id
+--GROUP BY organisaton.data_entry_iecmaterial
 
