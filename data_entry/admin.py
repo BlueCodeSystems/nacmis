@@ -711,9 +711,9 @@ class UserAdmin(BaseUserAdmin):
             return qs.none()
         else: 
             if request.user.groups.filter(name="DACA"):
-                qs = qs.filter(Q(userprofile__district=userProfile.district)|Q(userprofile__created_by=request.user))
+                qs = qs.filter(userprofile__district=userProfile.district)
                 #Filter to only show stakeholder users.
-                qs = qs.filter(groups__name="Stakeholder")
+                #qs = qs.filter(groups__name="Stakeholder")
         return qs
 
     def get_fieldsets(self, request, obj=None):
