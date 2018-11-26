@@ -100,8 +100,10 @@ class DistrictAutocomplete(autocomplete.Select2QuerySetView):
             else: 
                 if self.request.user.groups.filter(name="Stakeholder"):
                     qs = qs.filter(id=userProfile.stakeholder.id)
-                #if self.request.user.groups.filter(name="DACA"):
-                    #qs = qs.filter(name=userProfile.district.name)
+                if self.request.user.groups.filter(name="DACA"):
+                    qs = qs.filter(name=userProfile.district.name)
+                if self.request.user.groups.filter(name="PACA"):
+                    qs = qs.filter(name=userProfile.district.province.name)
 
         province = self.forwarded.get('organisation_province', None) or self.forwarded.get('province', None)
 
