@@ -45,8 +45,6 @@ class UserProfileModelForm(forms.ModelForm):
         national_organisation = cleaned_data.get("national_organisation")
         stakeholder = cleaned_data.get("stakeholder")
 
-        if not (national_organisation and stakeholder):
-            raise forms.ValidationError('Please complete the User profile by selecting National organisation and stakeholder.')
         
     class Meta:
         model = UserProfile
