@@ -675,12 +675,17 @@ class UserAdmin(BaseUserAdmin):
             user=obj,
             defaults={'created_by':request.user, 'district':creators_profile.district, 'province':creators_profile.province}
             )
-        if created:
+        if created and (request.user != obj):
             obj.is_active = True
             obj.is_staff = True
             #We won't put this in an error exception since it should be a very bad/fatal failure.
             obj.groups.add(Group.objects.get(name="Stakeholder"))
             obj.save()
+        daca_group = Group.objects.get(name="DACA")
+        if daca_group in request.user.groups.all() and request.user == obj:
+            obj.groups.add(daca_group)
+            obj.save()
+        
 
         return super(UserAdmin, self).save_model(request, obj, form, change)
 
@@ -711,9 +716,9 @@ class UserAdmin(BaseUserAdmin):
             return qs.none()
         else: 
             if request.user.groups.filter(name="DACA"):
-                qs = qs.filter(Q(userprofile__district=userProfile.district)|Q(userprofile__created_by=request.user))
+                qs = qs.filter(userprofile__district=userProfile.district)
                 #Filter to only show stakeholder users.
-                qs = qs.filter(groups__name="Stakeholder")
+                #qs = qs.filter(groups__name="Stakeholder")
         return qs
 
     def get_fieldsets(self, request, obj=None):
@@ -727,8 +732,7 @@ class UserAdmin(BaseUserAdmin):
                 self.fieldsets = (
                 (_('Credentials'), {'fields': ('username', 'password')}),
                 (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
-                (_('Permissions'), {'fields': ('is_active', 'is_staff', 
-                                                'groups')}),
+                (_('Permissions'), {'fields': ('is_active', 'is_staff')}),
                 )
             else:
                 self.fieldsets = (
