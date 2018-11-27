@@ -253,7 +253,7 @@ DataGrouper.register("sum", function(item) {
         }
 
 
-        axios.get("{% static 'data_entry/js/zambia.json' %}")
+        axios.get("{% static 'data_entry/js/maps/zambia.json' %}")
         .then(function(response){
           var zambiaMap = response["data"]
           //Zambia map districts

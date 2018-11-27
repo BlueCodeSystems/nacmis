@@ -5,6 +5,7 @@ from dal import autocomplete
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.views.decorators.gzip import gzip_page
 
 from django.core import serializers
 from django.db.models import Count
@@ -519,6 +520,7 @@ class MapDashboardView(generic.TemplateView):
     template_name = 'data_entry/nacmis_metronic/map.html'
 
 
+@method_decorator(gzip_page, name='dispatch')
 @method_decorator(login_required, name='dispatch')
 class MapDashboardJSON(View):
     def get(self, context, *response_kwargs):
@@ -539,7 +541,7 @@ class MapDashboardJSON(View):
             programActivities = ProgramActivity.objects.filter(
                 ward__district=district).exclude(
                     areas_of_support2__support_given_at_area=None).values_list(
-                        "areas_of_support2__support_given_at_area", "organisation__organisation").annotate(
+                        "areas_of_support2__support_given_at_area").annotate(
                             number=Count("areas_of_support2__support_given_at_area"))
             data["districtData"][district.name] = []
             for activity in programActivities:
@@ -548,11 +550,11 @@ class MapDashboardJSON(View):
             programActivities = ProgramActivity.objects.filter(
                 ward=ward).exclude(
                     areas_of_support2__support_given_at_area=None).values_list(
-                        "areas_of_support2__support_given_at_area", "organisation__organisation")
+                        "areas_of_support2__support_given_at_area").annotate(
+                            number=Count("areas_of_support2__support_given_at_area"))
             data["wardData"][ward.name] = []
             for activity in programActivities:
                 data["wardData"][ward.name].append({"service":activity[0], "number": activity[1]})
-        print(data)
         jsdata = data
         return JsonResponse(jsdata, safe=False)
 
