@@ -33,6 +33,7 @@ urlpatterns = [
     path('paca-dashboard', views.PACADashboardView.as_view(), name='paca-dashboard-view'),
     path('pitmeo-dashboard', views.PITMEODashboardView.as_view(), name='pitmeo-dashboard-view'),
     path('daca-dashboard', views.DACADashboardView.as_view(), name='daca-dashboard-view'),
+    path('ureport-dashboard', views.UReportDashboardView.as_view(), name='ureport-dashboard-view'),
     path('help/', views.HelpView.as_view(), name='help-view'),
     path('resources/', views.ResourcesView.as_view(), name='resources-view'),
 

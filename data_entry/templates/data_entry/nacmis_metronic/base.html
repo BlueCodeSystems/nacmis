@@ -150,6 +150,14 @@ License: You must have a valid license purchased only from themeforest(the above
 																	</a>
 																</li>
 																{% endif %}
+																<li class="m-nav__separator m-nav__separator--fit"></li>
+																<li class="m-nav__item">
+																	<a href="{% url 'ureport-dashboard-view' %}" class="m-nav__link">
+																		<span class="m-nav__link-text">
+																			Ureport Dashboard
+																		</span>
+																	</a>
+																</li>
 																{% if request.user.is_authenticated and request.user|has_group:"NAC- central m and e" or request.user.is_superuser %}
 																<li class="m-nav__separator m-nav__separator--fit"></li>
 																<li class="m-nav__item">
