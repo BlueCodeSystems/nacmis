@@ -1,23 +1,332 @@
 {% extends "data_entry/nacmis_metronic/base.html" %}
-{% load has_group %}
+{% load static %}
+{% block custom_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-array/1.2.2/d3-array.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-array/1.2.2/d3-array.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-geo/1.9.1/d3-geo.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-selection/1.2.0/d3-selection.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.0/mustache.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+ $(document).ready(function(){
+     var mapData = {}
+     var provinceMapData = {}
+     var provinceDistrictMapping = {}
+     var districtWardMapping = {}
+
+     var districtData = {}
+     var provinceData = {}
+     var wardData = {}
+
+     var provinceTotals = {}
+     var districtTotals = {}
+
+     big_box_width = 800
+     big_box_height = 800
+     small_box_width = 450
+     small_box_height = 300
+     default_map_color = "#deebf7"
+     var main_map_svg = d3.select("#main_map").append("svg").attr("width", big_box_width).attr("height", big_box_height)
+     var first_mini_map_svg = d3.select("#first_mini_map").append("svg").attr("width", small_box_width).attr("height", small_box_height)
+     var second_mini_map_svg = d3.select("#second_mini_map").append("svg").attr("width", small_box_width).attr("height", small_box_height)
+
+    var tooltip = d3.select("body")
+    .append("div")
+    .attr("id", "tooltip")
+    .style("position", "absolute")
+    .style("background-color", "#c7e9c0")
+    .style("padding", "4px")
+    .style("text-align", "left")
+    .style("opacity", "0.8")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+
+    function draw_ward_table(districtName){
+        $("#districtName").text(districtName+" District")
+        wardsInDistrict = districtWardMapping[districtName]
+        var table = $("<table>").attr("id", "ward_data")
+        _.each(wardsInDistrict, function(ward){
+            $(table).append("<tr><td><b>"+ward+" Ward</b>"+"</td></tr>")
+            wardServices = wardData[ward]
+            _.each(wardServices, function(wardService){
+                $(table).append("<tr><td>"+wardService["service"]+": <b>"+wardService["number"]+" Partner(s) </b></td></tr>")
+            })
+        })
+          main_map_svg.selectAll("*").remove()
+        $("#ward_table_div").empty()
+        $("#ward_table_div").append(table)
+    }
+
+        function setColorFill(element, locationType, parent_location){
+
+            allValues = []
+            LowestValue = 0
+            HighestValue = 0
+            if (locationType == "Province"){
+               var locationName = element.id
+                dataForLocation = provinceTotals[locationName]
+                allValues = _.values(provinceTotals)
+            } else {
+                var locationName = element.properties["NAME"]
+                //Filter to only calculate colorfill based on selected province
+                districtsInCurrentProvince = _.pick(districtTotals, function(val, districtName){
+                    return _.contains(provinceDistrictMapping[parent_location], districtName)
+                })
+                dataForLocation = districtsInCurrentProvince[locationName]
+
+                allValues = _.values(districtsInCurrentProvince)
+            }
+            LowestValue = d3.min(allValues)
+            HighestValue = d3.max(allValues)
+            //Set up the scale
+            var d3Scale = d3.scaleQuantize()
+            .domain([LowestValue, HighestValue])
+            .range(["#fef0d9", "#fdd49e", "#fdbb84", "#fc8d59", "#e34a33", "#b30000"])
+            
+          return d3Scale(dataForLocation)
+        }
+
+    var tooltip_mouseover = function(tooltip, locationName, locationType){
+        tooltip.style("visibility", "visible")
+
+        var table = $("<table>").attr("id", "tooltip_table")
+        if (locationType == "Province"){
+            dataForLocation = provinceData[locationName]
+        } else {
+            dataForLocation = districtData[locationName]
+        }
+        $(table).append("<tr><td><b>"+locationName+" "+locationType+"</b>"+"</td></tr>")
+        _.each(dataForLocation, function(serviceTypeData){
+            $(table).append("<tr><td>"+serviceTypeData["service"]+": <b>"+serviceTypeData["number"]+" Partner(s) </b></td></tr>")
+        })
+        $("#tooltip").append(table)
+        return tooltip
+    }
+
+    function visualize_provinces(zambiaMap, map_svg, province_to_highlight, indicatorID, dataForPeriod, d3Scale){
+        $("#provinceName").empty()
+        $("#districtName").empty()
+        feature_collection = topojson.feature(zambiaMap, zambiaMap.objects.provinces, function(a, b){return a !== b ; })
+        var projection = d3.geoMercator().fitSize([map_svg.attr("width"), map_svg.attr("height")], feature_collection)
+        var path = d3.geoPath().projection(projection)
+
+
+        map_svg.select("#provinces").remove()
+        $("#ward_data").remove()
+        var provinceMap = map_svg.append("g").attr("id", "provinces")
+
+        provinceMap.selectAll("path")
+        .data(feature_collection.features)
+        .enter().append("path")
+        .attr("stroke", "#929293")
+        .style("fill", function(d){
+            if (province_to_highlight){
+                if (d["id"] == province_to_highlight){
+                    return "#4286f4"
+                } else {
+                    return default_map_color
+                }
+            } else {
+                    return default_map_color
+            }
+        })
+        .style("fill", function(d){ return setColorFill(d, "Province")})
+        .on("mouseover", function(d){tooltip_mouseover(tooltip, d.id, "Province")})
+        .on("mousemove", function(d, i){
+            return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",
+                                                                        (d3.event.pageX+10)+"px");
+        })
+        .on("mouseout", function(d, i){
+            tooltip =  d3.select("#tooltip")
+            $("#tooltip_table").remove()
+            tooltip.style("visibility", "hidden");
+            return
+        })
+        .on("click", function(d, i){
+            //Project the selected province on  the main map, and project the zambia map
+            //on the small map
+            visualize_provinces(zambiaMap, first_mini_map_svg, d["id"], indicatorID, dataForPeriod, d3Scale)
+            visualize_single_province(main_map_svg, d["id"])
+            visualize_single_province(second_mini_map_svg, d["id"])
+
+            tooltip =  d3.select("#tooltip")
+            $("#tooltip_table").remove()
+            tooltip.style("visibility", "hidden");
+        })
+        .attr("id", function(d) { return d.id; })
+        .attr("d", path)
+        //update_legend(d3Scale)
+
+        var labels = map_svg.append("g").attr("class", "province_label-group");
+        labels.selectAll(".province_label")
+            .data(feature_collection.features)
+            .enter()
+            .append("text")
+            .attr("class", "province_label")
+            .attr("x", function(d) {
+                return path.centroid(d)[0];
+            })
+            .attr("y", function(d) {
+                return path.centroid(d)[1];
+            })
+            .text(function(d) {
+                return d["id"];
+            });
+        }
+
+     function visualize_single_province(map_svg, province_name, district_to_highlight){
+          map_svg.selectAll("*").remove()
+          $("#ward_data").remove()
+          $("#provinceName").text(province_name+" Province")
+          var single_province_map = map_svg.append("g").attr("id", province_name)
+          
+          var single_province_geojson = provinceMapData[province_name]
+
+          var projection = d3.geoMercator().fitSize([map_svg.attr("width"), map_svg.attr("height")], single_province_geojson)
+
+            var path = d3.geoPath()
+            .projection(projection)
+
+            single_province_map.selectAll("path")
+            .data(single_province_geojson.features)
+                .enter().append("path")
+                .attr("stroke", "#929293")
+                .style("fill", function(d){
+                    if (district_to_highlight){
+                        if (d.properties["NAME"] == district_to_highlight){
+                            return "#4286f4"
+                        } else {
+                            return default_map_color
+                        }
+                    } else {
+                            return default_map_color
+                    }
+                })
+                .style("fill", function(d){ return setColorFill(d, "District", province_name)})
+                .on("mouseover", function(d){tooltip_mouseover(tooltip, d.properties["NAME"], "District")})
+                .on("mousemove", function(d, i){
+                    return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",
+                                                                                (d3.event.pageX+10)+"px");
+                })
+                .on("mouseout", function(d, i){
+                    tooltip =  d3.select("#tooltip")
+                    $("#tooltip_table").remove()
+                    tooltip.style("visibility", "hidden");
+                    return
+                })
+                .on("click", function(d, i){
+                    tooltip =  d3.select("#tooltip")
+                    $("#tooltip_table").remove()
+                    tooltip.style("visibility", "hidden");
+                    //Project the selected district on the main map and project
+                    visualize_single_province(second_mini_map_svg, province_name, d.properties["NAME"])
+                    draw_ward_table(d.properties["NAME"])
+
+                })
+                .attr("id", function(d) { return d.id; })
+                .attr("d", path)
+                //update_legend(d3Scale)
+
+
+            var labels = map_svg.append("g").attr("class", "label-group");
+            labels.selectAll(".label")
+                .data(single_province_geojson.features)
+                .enter()
+                .append("text")
+                .attr("class", "label")
+                .attr("x", function(d) {
+                    return path.centroid(d)[0];
+                })
+                .attr("y", function(d) {
+                    return path.centroid(d)[1];
+                })
+                .text(function(d) {
+                    return d.properties.NAME;
+                });
+
+         }
+
+        function visualize_blank_map(zambiaMap, blankScale){
+          //By default, show the map at province level and in the box for the main map
+          visualize_provinces(zambiaMap, main_map_svg, null, null, null, blankScale)
+        }
+
+        Promise.all([
+            axios.get("{% static 'data_entry/js/province_district_mapping.json' %}"),
+            axios.get("{% static 'data_entry/js/district_ward_mapping.json' %}"),
+            axios.get("/map-json"),
+            axios.get("{% static 'data_entry/js/maps/zambia.json' %}"),
+            axios.get("{% static 'data_entry/js/maps/lusaka.json' %}"),
+            axios.get("{% static 'data_entry/js/maps/copperbelt.json' %}"),
+            axios.get("{% static 'data_entry/js/maps/central.json' %}"),
+            axios.get("{% static 'data_entry/js/maps/luapula.json' %}"),
+            axios.get("{% static 'data_entry/js/maps/eastern.json' %}"),
+            axios.get("{% static 'data_entry/js/maps/north-western.json' %}"),
+            axios.get("{% static 'data_entry/js/maps/northern.json' %}"),
+            axios.get("{% static 'data_entry/js/maps/muchinga.json' %}"),
+            axios.get("{% static 'data_entry/js/maps/western.json' %}"),
+            axios.get("{% static 'data_entry/js/maps/southern.json' %}")
+        ])
+        .then(([pDM, dWM, mapData, zambiaMap, lusakaMap, copperbeltMap, centralMap, luapulaMap, easternMap, northWMap, northernMap, muchingaMap, westernMap, southernMap]) => {
+
+          provinceDistrictMapping = pDM["data"] 
+          districtWardMapping = dWM["data"] 
+          var zambiaMap = zambiaMap["data"]
+          provinceMapData["Lusaka"] = lusakaMap["data"]
+          provinceMapData["Copperbelt"] = copperbeltMap["data"]
+          provinceMapData["Central"] = centralMap["data"]
+          provinceMapData["Luapula"] = luapulaMap["data"]
+          provinceMapData["Eastern"] = easternMap["data"]
+          provinceMapData["North-Western"] = northWMap["data"]
+          provinceMapData["Northern"] = northernMap["data"]
+          provinceMapData["Muchinga"] = muchingaMap["data"]
+          provinceMapData["Western"] = westernMap["data"]
+          provinceMapData["Southern"] = southernMap["data"]
+        
+          districtData = mapData["data"]["districtData"]
+          provinceData = mapData["data"]["provinceData"]
+          wardData = mapData["data"]["wardData"]
+          
+            provinceTotals = {}
+            _.each(provinceData, function(locationServices, provinceName){
+                provinceTotals[provinceName] = _.reduce(locationServices, function(acc, service){ return acc + service.number}, 0)
+            })
+            districtTotals = {}
+            _.each(districtData, function(locationServices, districtName){
+                districtTotals[districtName] = _.reduce(locationServices, function(acc, service){ return acc + service.number}, 0)
+            })
+
+          //Show default map
+          var blankScale = d3.scaleQuantize()
+          .domain([0, 0])
+          .range(["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"])
+
+          visualize_blank_map(zambiaMap, blankScale)
+        })
+        .catch(function(error){
+            console.log(error)
+        })
+    })
+</script>
+{% endblock custom_js %}
 
 {% block content %}
-<iframe
-  height="3900px"
-  width="100%"
-  seamless
-  frameBorder="0"
-  scrolling="no"
-  {% if not request.user|has_group:"Stakeholder" %}
-    {% if userProfile.province and userProfile.district %}
-    src="https://nacmis-data.bluecodeltd.com/superset/dashboard/2/?standalone=true&preselect_filters={'54':{'province_name':['
-      {{ userProfile.province }}'],'district_name':['{{ userProfile.district }}']}}"
-    {% else %}
-    src="https://nacmis-data.bluecodeltd.com/superset/dashboard/2/?standalone=true&preselect_filters={'54':{'province_name':['
-      {{ userProfile.province }}'],'district_name':[]}}"
-    {% endif %}
-  {% endif %}
->
-</iframe>
-<script>iFrameResize({log:true}, 'iframe')</script>
+        <div class="row">
+            <div class="col-md-7 col-md-offset-1">
+                <h3 id="provinceName"></h3>
+                <h4 id="districtName"></h4>
+                <div id="ward_table_div"></div>
+                <div id="main_map"></div>
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+                <div id="first_mini_map"></div>
+                <div style="height:60px;"></div>
+                <div id="second_mini_map"></div>
+            </div>
+        </div>
 {% endblock content %}
