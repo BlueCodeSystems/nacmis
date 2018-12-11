@@ -35,6 +35,7 @@ urlpatterns = [
     path('daca-dashboard', views.DACADashboardView.as_view(), name='daca-dashboard-view'),
     path('help/', views.HelpView.as_view(), name='help-view'),
     path('resources/', views.ResourcesView.as_view(), name='resources-view'),
+    path('ureport/', views.UReportView.as_view(), name='ureport-view'),
 
     # urls for autocompletes implementation
     path('supportfield-autocomplete/', SupportFieldAutocomplete.as_view(), 

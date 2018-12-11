@@ -489,6 +489,27 @@ class HelpView(View):
                 userProfile = None
         return render(request, self.template_name, {'form': form})
 
+class UReportView(View):
+    form_class = MyForm
+    #form_class = None
+    initial = {'key': 'value'}
+    template_name = 'data_entry/nacmis_metronic/ureportdashboard.html'
+
+    # GET logic
+    def get(self, request, *args, **kwargs):
+        if self.form_class:
+            form = self.form_class(initial=self.initial)
+        else:
+            form = forms.Form()
+        return render(request, self.template_name, {'form': form})
+    
+    # POST logic
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
+
 # test classes
 
 class IndexView(generic.ListView):
