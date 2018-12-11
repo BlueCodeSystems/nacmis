@@ -6,7 +6,11 @@
   seamless
   frameBorder="0"
   scrolling="no"
+  {% if userProfile.province and userProfile.district %}
   src="https://data.zambiaureport.com/superset/dashboard/ureportmetrics/"
+  {% else %}
+  src="https://data.zambiaureport.com/superset/dashboard/ureportmetrics/"
+  {% endif %}
 >
 </iframe>
 <script>iFrameResize({log:true}, 'iframe')</script>
