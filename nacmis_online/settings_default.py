@@ -138,7 +138,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-ALLOWED_HOSTS = ['www.nacmis.org.zm', 'www.nacmiszambia.com', 'nacmiszambia.com', '52.91.14.106', 'localhost', '127.0.0.1', 'nacmis.bluecodeltd.com']
+ALLOWED_HOSTS = ['nacmis-data.org.zm', 'nacmis.org.zm', 'www.nacmis.org.zm', 'www.nacmiszambia.com', 'nacmiszambia.com', '52.91.14.106', 'localhost', '127.0.0.1', 'nacmis.bluecodeltd.com']
 
 # django-phonenumber-field (country code settings)
 # https://github.com/stefanfoulis/django-phonenumber-field
