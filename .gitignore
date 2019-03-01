@@ -1,6 +1,7 @@
 # Visual Studio folders and files #
 ###################################
 .vscode/
+*.code-workspace
 
 # Logs and databases #
 ######################
