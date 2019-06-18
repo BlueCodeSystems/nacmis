@@ -280,7 +280,7 @@ class ResourcesView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class StakeholdersView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -308,7 +308,7 @@ class StakeholdersView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class ActivityReportsView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -335,7 +335,7 @@ class ActivityReportsView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class KeyPopulationsView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -389,7 +389,7 @@ class InternalMonitoringView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class PACADashboardView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -416,7 +416,7 @@ class PACADashboardView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class PITMEODashboardView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -443,7 +443,7 @@ class PITMEODashboardView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class DACADashboardView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -538,13 +538,13 @@ def myform_test(request):
     formsample = MyForm()
     return render(request, 'data_entry/index.html', {'the_insert': formsample} )
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class MapDashboardView(generic.TemplateView):
     template_name = 'data_entry/nacmis_metronic/map.html'
 
 
+#@method_decorator(login_required, name='dispatch')
 @method_decorator(gzip_page, name='dispatch')
-@method_decorator(login_required, name='dispatch')
 class MapDashboardJSON(View):
     def get(self, context, *response_kwargs):
         data = {}
