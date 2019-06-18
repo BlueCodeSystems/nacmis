@@ -33,5 +33,5 @@ simplegeneric==0.8.1
 simplejson==3.16.0
 six==1.11.0
 traitlets==4.3.2
-urllib3==1.23
+urllib3==1.24.2
 wcwidth==0.1.7
