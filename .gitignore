@@ -24,3 +24,5 @@ nacmis_online/__pycache__/*.pyc
 ##########################################
 data_entry/static/data_entry/sources
 *.pyc
+static/
+*.sql
