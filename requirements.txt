@@ -28,7 +28,7 @@ django-select2==6.0.2
 django-sendgrid-v5==0.6.892
 docutils==0.14
 et-xmlfile==1.0.1
-Flask==0.12.2
+Flask==1.0
 Flask-AppBuilder==1.10.0
 Flask-Babel==0.11.1
 Flask-Caching==1.4.0
