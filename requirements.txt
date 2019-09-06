@@ -18,7 +18,7 @@ contextlib2==0.5.5
 cryptography==2.7
 decorator==4.3.0
 defusedxml==0.5.0
-Django==2.1.11
+Django==2.2.5
 -e git+https://github.com/BlueCodeSystems/django-admin-view-permission@a5b039c11fdeb0718c1355843d4f0edebc84e781#egg=django_admin_view_permission
 django-appconf==1.0.2
 django-autocomplete-light==3.3.2
@@ -28,7 +28,7 @@ django-select2==6.0.2
 django-sendgrid-v5==0.6.892
 docutils==0.14
 et-xmlfile==1.0.1
-Flask==0.12.2
+Flask==1.1.1
 Flask-AppBuilder==1.10.0
 Flask-Babel==0.11.1
 Flask-Caching==1.4.0
@@ -57,7 +57,7 @@ isodate==0.6.0
 itsdangerous==0.24
 jdcal==1.4
 jedi==0.12.0
-Jinja2==2.10
+Jinja2==2.10.1
 jmespath==0.9.3
 jsonlines==1.2.0
 jsonschema==2.6.0
@@ -115,6 +115,6 @@ urllib3==1.25.3
 vine==1.1.4
 wcwidth==0.1.7
 webencodings==0.5.1
-Werkzeug==0.15.3
+Werkzeug==0.15.5
 WTForms==2.2.1
 xlrd==1.1.0
