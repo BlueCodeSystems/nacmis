@@ -22,10 +22,10 @@ create or replace view vw_activityreportform as
   select st.*, 
     arf.report_date as activityreportform_report_date,
     CASE 
-      WHEN (arf.quarter_been_reported ~ '\d{4}01') THEN 'Q1 '||substring(arf.quarter_been_reported, 1, 4)
-      WHEN (arf.quarter_been_reported ~ '\d{4}02') THEN 'Q2 '||substring(arf.quarter_been_reported, 1, 4)
-      WHEN (arf.quarter_been_reported ~ '\d{4}03') THEN 'Q3 '||substring(arf.quarter_been_reported, 1, 4)
-      WHEN (arf.quarter_been_reported ~ '\d{4}04') THEN 'Q4 '||substring(arf.quarter_been_reported, 1, 4)
+      WHEN (arf.quarter_been_reported ~ 'Q1') THEN '\d{4}01'||substring(arf.quarter_been_reported, 1, 4)
+      WHEN (arf.quarter_been_reported ~ 'Q2') THEN '\d{4}02'||substring(arf.quarter_been_reported, 1, 4)
+      WHEN (arf.quarter_been_reported ~ 'Q3') THEN '\d{4}03'||substring(arf.quarter_been_reported, 1, 4)
+      WHEN (arf.quarter_been_reported ~ 'Q4') THEN '\d{4}04'||substring(arf.quarter_been_reported, 1, 4)
       ELSE arf.quarter_been_reported
     END AS activityreportform_quarter_been_reported,
     arf.name as activityreportform_name,
