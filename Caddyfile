@@ -1,0 +1,20 @@
+nacmis-data.nacmis.org.zm {
+	log ./access.log
+	errors ./caddy_errors.log
+	tls info@bluecodeltd.com
+	proxy / localhost:8088 {
+		transparent
+	}
+	gzip
+}
+
+nacmis.org.zm, nacmis.bluecodeltd.com, www.nacmis.org.zm {
+	log ./access.log
+	errors ./caddy_errors.log
+	tls info@bluecodeltd.com
+	proxy / localhost:9005 {
+		transparent
+	}
+	gzip
+}
+

@@ -1,0 +1,18 @@
+[Unit]
+Description=Superset
+Documentation=https://github.com/apache/incubator-superset
+After=multi-user.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/.virtualenvs/nacmis
+LimitNOFILE=4096
+PIDFile=/home/ubuntu/superset.pid
+ExecStart=/home/ubuntu/.virtualenvs/nacmis/bin/gunicorn -w 6 --timeout 60 -b  0.0.0.0:8088 --limit-request-line 0 --limit-request-field_size 0 superset:app
+Restart=on-failure
+StartLimitInterval=600
+
+[Install]
+WantedBy=multi-user.target
+
