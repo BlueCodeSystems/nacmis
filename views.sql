@@ -35,7 +35,11 @@ create or replace view vw_activityreportform as
   from data_entry_activityreportform arf
   left outer join vw_stakeholderdirectory st
     on st.id = arf.stake_holder_name_id
-  WHERE arf.quarter_been_reported >= '201801';
+ left outer join data_entry_dacavalidation 
+    on data_entry_dacavalidation.activity_form_id = arf.id 
+  left outer join data_entry_pitmeovalidation
+    on data_entry_pitmeovalidation.activity_form_id = arf.id
+  WHERE arf.quarter_been_reported >= '201801' AND data_entry_dacavalidation.validation_status = 'approved' AND data_entry_pitmeovalidation.validation_status = 'approved';
 
 -- join child tables with vw_activityreportform
 
@@ -572,7 +576,7 @@ $$ language plpgsql;
 
 create or replace view vw_inmate_by_age_and_sex as
 select ac.*, vw.*
-from sp_inmate_by_age_and_sex() vw
+from sp_inmates_by_age_and_sex() vw
 left join vw_activityreportform ac
   on ac.id = vw.activity_report_form_id
   Order by age_group;
@@ -1043,10 +1047,10 @@ SELECT vw_activityreportform.id,
        LEFT OUTER JOIN data_entry_mobilepopulation ON vw_activityreportform.id = data_entry_mobilepopulation.id
        LEFT OUTER JOIN data_entry_mobileworker ON vw_activityreportform.id = data_entry_mobileworker.activity_form_id
        LEFT OUTER JOIN data_entry_sexworker ON vw_activityreportform.id = data_entry_sexworker.activity_form_id
-       LEFT OUTER JOIN data_entry_inmate ON vw_activityreportform.id = data_entry_inmate.activity_form_id
+       LEFT OUTER JOIN data_entry_inmate ON vw_activityreportform.id = data_entry_inmate.activity_form_id;
        --GROUP BY organisaton.data_entry_iecmaterial
 
-       CREATE OR REPLACE VIEW vw_sarf_export AS
+CREATE OR REPLACE VIEW vw_sarf_export AS
 SELECT vw_activityreportform.id,
        organisation,
        organisation_address AS "organisation_address",

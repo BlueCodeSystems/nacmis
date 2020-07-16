@@ -1,0 +1,17 @@
+{% extends "data_entry/nacmis_metronic/base.html" %}
+
+{% block content %}
+<iframe
+  style="height: 3600px; width: 100%; "
+  seamless
+  frameBorder="0"
+  scrolling="no"
+  {% if userProfile.province and userProfile.district %}
+  src="https://data.zambiaureport.com/superset/dashboard/ureportmetrics/"
+  {% else %}
+  src="https://data.zambiaureport.com/superset/dashboard/ureportmetrics/"
+  {% endif %}
+>
+</iframe>
+<script>iFrameResize({log:true}, 'iframe')</script>
+{% endblock content %}

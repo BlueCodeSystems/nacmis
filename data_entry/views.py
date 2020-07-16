@@ -29,8 +29,7 @@ class SupportFieldAutocomplete(autocomplete.Select2QuerySetView):
         return qs
 
 class SupportByAreaAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        
+    def get_queryset(self):        
         #if not self.request.user.is_authenticated():
         #    return SupportField.objects.none()
 
@@ -280,7 +279,7 @@ class ResourcesView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class StakeholdersView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -308,7 +307,7 @@ class StakeholdersView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class ActivityReportsView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -335,7 +334,7 @@ class ActivityReportsView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class KeyPopulationsView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -389,7 +388,7 @@ class InternalMonitoringView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class PACADashboardView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -416,7 +415,7 @@ class PACADashboardView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class PITMEODashboardView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -443,7 +442,7 @@ class PITMEODashboardView(View):
             # <process form cleaned data>
             return HttpResponseRedirect('/success/')
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class DACADashboardView(View):
     form_class = None
     initial = {'key': 'value'}
@@ -489,6 +488,27 @@ class HelpView(View):
                 userProfile = None
         return render(request, self.template_name, {'form': form})
 
+class UReportView(View):
+    form_class = MyForm
+    #form_class = None
+    initial = {'key': 'value'}
+    template_name = 'data_entry/nacmis_metronic/ureportdashboard.html'
+
+    # GET logic
+    def get(self, request, *args, **kwargs):
+        if self.form_class:
+            form = self.form_class(initial=self.initial)
+        else:
+            form = forms.Form()
+        return render(request, self.template_name, {'form': form})
+    
+    # POST logic
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
+
 # test classes
 
 class IndexView(generic.ListView):
@@ -517,13 +537,13 @@ def myform_test(request):
     formsample = MyForm()
     return render(request, 'data_entry/index.html', {'the_insert': formsample} )
 
-@method_decorator(login_required, name='dispatch')
+#@method_decorator(login_required, name='dispatch')
 class MapDashboardView(generic.TemplateView):
     template_name = 'data_entry/nacmis_metronic/map.html'
 
 
+#@method_decorator(login_required, name='dispatch')
 @method_decorator(gzip_page, name='dispatch')
-@method_decorator(login_required, name='dispatch')
 class MapDashboardJSON(View):
     def get(self, context, *response_kwargs):
         data = {}

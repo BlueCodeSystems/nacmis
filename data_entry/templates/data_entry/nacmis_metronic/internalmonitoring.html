@@ -3,13 +3,12 @@
 
 {% block content %}
 <iframe
-  height="1000px"
-  width="100%"
+  style="height: 1000px; width: 100%; "
   seamless
   frameBorder="0"
   scrolling="no"
   {% if request.user.is_authenticated and not request.user|has_group:"Stakeholder" %}
-  src="https://nacmis-data.bluecodeltd.com/superset/dashboard/14/?standalone=true"
+  src="https://nacmis-data.nacmis.org.zm/superset/dashboard/14/?standalone=true"
   {% endif %}
 >
 </iframe>
