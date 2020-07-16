@@ -128,16 +128,19 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATIC_URL = '/static/'
+from .settings_default import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'nacmis',
-        'USER': 'nacmis',
-        'PASSWORD': 'nacmis',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': os.environ['POSTGRES_DATABASE'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        #'HOST': '127.0.0.1',
+        'HOST': os.environ['POSTGRES_HOST'],
+        'PORT': os.environ['POSTGRES_PORT'],
     }
 }
+SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY']
 ALLOWED_HOSTS = ['nacmis-data.org.zm', 'nacmis.org.zm', 'www.nacmis.org.zm', 'www.nacmiszambia.com', 'nacmiszambia.com', '52.91.14.106', 'localhost', '127.0.0.1', 'nacmis.bluecodeltd.com']
 
 # django-phonenumber-field (country code settings)

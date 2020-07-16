@@ -129,7 +129,11 @@ def gen_quarters():
     year = 2017
     quarter = 2
     while True:
-        yield year, quarter
+        #yield year, quarter
+        try:
+            yield year, quarter
+        except StopIteration:
+            return
         if year == curr_year and quarter == curr_quarter:
             raise StopIteration
         quarter += 1
