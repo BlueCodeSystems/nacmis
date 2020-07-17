@@ -1,6 +1,10 @@
-FROM python:3.6
+FROM python:3.8.4
 
 ENV PYTHONUNBUFFERED 1
+RUN apt-get update && \
+        apt-get install -yq python3-dev \
+        libsasl2-dev \
+        && apt-get clean
 RUN mkdir /src
 WORKDIR /src
 COPY . nacmis/
