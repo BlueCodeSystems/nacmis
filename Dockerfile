@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM amancevice/pandas:1.0.5
 
 ENV PYTHONUNBUFFERED 1
 RUN apt-get update && \
