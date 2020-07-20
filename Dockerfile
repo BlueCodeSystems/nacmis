@@ -1,4 +1,4 @@
-FROM amancevice/pandas:1.0.5
+FROM python:3.8-buster
 
 ENV PYTHONUNBUFFERED 1
 RUN apt-get update && \
