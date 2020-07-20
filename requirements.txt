@@ -56,7 +56,6 @@ Markdown==2.6.11
 MarkupSafe==1.1.1
 numpy==1.14.5
 openpyxl==2.4.11
-pandas==0.23.1
 parsedatetime==2.0
 parso==0.4.0
 pathlib2==2.3.0
