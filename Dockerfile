@@ -4,6 +4,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update && \
         apt-get install -yq python3-dev \
         libsasl2-dev \
+        libffi-dev \
         && apt-get clean
 RUN mkdir /src
 WORKDIR /src
