@@ -6,7 +6,7 @@ RUN mkdir /src
 WORKDIR /src
 COPY . nacmis/
 WORKDIR /src/nacmis
-ENV PYTHONPATH="$PYTHONPATH:/src/nacmis"
+ENV PYTHONPATH="/:$PYTHONPATH"
 ENV DJANGO_SETTINGS_MODULE=nacmis_online.settings
 RUN pip install -r requirements.txt
 
