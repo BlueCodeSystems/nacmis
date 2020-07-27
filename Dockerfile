@@ -5,7 +5,9 @@ RUN apt-get update && apt-get install -y gcc python3-dev libsasl2-dev libffi-dev
 RUN mkdir /src
 WORKDIR /src
 COPY . nacmis/
-RUN pip install -r nacmis/requirements.txt
+WORKDIR /src/nacmis
+ENV DJANGO_SETTINGS_MODULE=nacmis_online.settings
+RUN pip install -r requirements.txt
 
 EXPOSE 8000
 CMD ["python", "nacmis/manage.py", "runserver", "0.0.0.0:8000"]

@@ -1,0 +1,126 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nacmis-config
+  labels:
+    app: nacmis-app
+data:
+  nacmis-database: nacmis
+  postgres-username: nacmis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  labels:
+    app: nacmis-app
+spec:
+  ports:
+  - port: 5432
+  selector:
+    app: nacmis-app
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-app
+  labels:
+    app: nacmis-app
+spec:
+  serviceName: postgres-service
+  selector:
+    matchLabels:
+      app: nacmis-app
+  template:
+    metadata:
+      labels:
+        app: nacmis-app
+    spec:
+      containers:
+      - image: postgres:10.13
+        name: postgres-container
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nacmis-secrets
+              key: postgres-password
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: nacmis-config
+              key: postgres-username
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: nacmis-config
+              key: nacmis-database
+        ports:
+        - containerPort: 5432
+          name: postgres-port
+        volumeMounts:
+        - name: postgres-persistent-storage
+          mountPath: /var/lib/postgresql/data/pgdata
+      volumes:
+      - name: postgres-persistent-storage
+        persistentVolumeClaim:
+          claimName: postgres-pv-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-app
+  labels:
+    app: nacmis-app
+spec:
+  selector:
+    matchLabels:
+      app: nacmis-app
+  template:
+    metadata:
+      labels:
+        app: nacmis-app
+    spec:
+      containers:
+      - image: bluecodesystems/nacmis:latest
+        name: django-container
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nacmis-secrets
+              key: postgres-password
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: nacmis-config
+              key: postgres-username
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: nacmis-config
+              key: nacmis-database
+        - name: POSTGRES_HOST
+          value: $(postgres-service)
+        - name: SENDGRID_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: nacmis-secrets
+              key: sendgrid-api-key
+        - name: DJANGO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: nacmis-secrets
+              key: django-secret-key
+        ports:
+        - containerPort: 8000
+          name: django-port
+        volumeMounts:
+        - name: django-static-storage
+          mountPath: /usr/django_static
+      volumes:
+      - name: django-static-storage
+        persistentVolumeClaim:
+          claimName: django-pv-claim

@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+    name: nacmis-ingress
+spec:
+  rules:
+  - host: nacmis.bluecodeltd.com
+    http:
+      paths:
+      - path:
+        backend:
+          serviceName: nacmis-service
+          servicePort: 8080
