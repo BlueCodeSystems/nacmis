@@ -135,7 +135,7 @@ def gen_quarters():
         except StopIteration:
             return
         if year == curr_year and quarter == curr_quarter:
-            raise StopIteration
+            return
         quarter += 1
         if quarter > 4:
             year += 1

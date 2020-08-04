@@ -7,8 +7,8 @@ WORKDIR /src
 COPY . nacmis/
 WORKDIR /src/nacmis
 ENV PYTHONPATH="/:$PYTHONPATH"
+RUN pip install --no-cache-dir -r requirements.txt
 ENV DJANGO_SETTINGS_MODULE=nacmis_online.settings
-RUN pip install -r requirements.txt
 
 EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -57,12 +57,14 @@ spec:
             configMapKeyRef:
               name: nacmis-config
               key: nacmis-database
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
         ports:
         - containerPort: 5432
           name: postgres-port
         volumeMounts:
         - name: postgres-persistent-storage
-          mountPath: /var/lib/postgresql/data/pgdata
+          mountPath: /var/lib/postgresql/data
       volumes:
       - name: postgres-persistent-storage
         persistentVolumeClaim:
@@ -84,7 +86,7 @@ spec:
         app: nacmis-app
     spec:
       containers:
-      - image: bluecodesystems/nacmis:latest
+      - image: bluecodesystems/nacmis:release-0.4.3
         name: django-container
         env:
         - name: POSTGRES_PASSWORD
@@ -114,6 +116,8 @@ spec:
             secretKeyRef:
               name: nacmis-secrets
               key: django-secret-key
+        - name: DJANGO_SETTINGS_MODULE
+          value: nacmis_online.settings
         ports:
         - containerPort: 8000
           name: django-port
