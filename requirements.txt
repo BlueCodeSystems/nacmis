@@ -100,3 +100,4 @@ webencodings==0.5.1
 Werkzeug==0.15.5
 WTForms==2.2.1
 xlrd==1.1.0
+gunicorn

@@ -9,9 +9,9 @@ spec:
   selector:
     matchLabels:
       app: nacmis-app
-  storageClassName: manual
+  storageClassName: local-storage
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
@@ -26,9 +26,9 @@ spec:
   selector:
     matchLabels:
       app: nacmis-app
-  storageClassName: manual
+  storageClassName: local-storage
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 500Mi
