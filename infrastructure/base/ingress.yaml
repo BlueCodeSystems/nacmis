@@ -2,12 +2,21 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
     name: nacmis-ingress
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - host: nacmis.bluecodeltd.com
     http:
       paths:
-      - path:
+      - path: /
+        pathType: Prefix
         backend:
           serviceName: nacmis-service
-          servicePort: 8080
+          servicePort: 8000
+      - path: /static
+        pathType: Prefix
+        backend:
+          serviceName: nacmis-statics-service
+          servicePort: 80
+---

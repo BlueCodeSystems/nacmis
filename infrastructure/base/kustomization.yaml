@@ -3,3 +3,18 @@ resources:
   - deployment.yaml
   - secrets.yaml
   - ingress.yaml
+vars:
+  - name: postgres-service
+    objref:
+      kind: Service
+      name: postgres-service
+      apiVersion: v1
+    fieldref:
+      fieldpath: metadata.name
+  - name: nacmis-service
+    objref:
+      kind: Service
+      name: nacmis-service
+      apiVersion: v1
+    fieldref:
+      fieldpath: metadata.name

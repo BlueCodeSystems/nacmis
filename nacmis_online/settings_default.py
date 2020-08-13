@@ -125,7 +125,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+#STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.getenv('DJANGO_STATIC_DIR', '')
 
 STATIC_URL = '/static/'
 from .settings_default import *
@@ -137,7 +138,7 @@ DATABASES = {
         'PASSWORD': os.environ['POSTGRES_PASSWORD'],
         #'HOST': '127.0.0.1',
         'HOST': os.environ['POSTGRES_HOST'],
-        'PORT': os.environ['POSTGRES_PORT'],
+        'PORT': 5432,
     }
 }
 SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY']

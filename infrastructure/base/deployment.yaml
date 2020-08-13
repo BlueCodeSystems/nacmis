@@ -70,6 +70,20 @@ spec:
         persistentVolumeClaim:
           claimName: postgres-pv-claim
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacmis-service
+  labels:
+    app: nacmis-app
+spec:
+  ports:
+  - port: 8000
+  selector:
+    app: nacmis-app
+  type:
+    LoadBalancer
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -86,8 +100,9 @@ spec:
         app: nacmis-app
     spec:
       containers:
-      - image: bluecodesystems/nacmis:release-0.4.3
+      - image: bluecodesystems/nacmis:0.4.8
         name: django-container
+        command: ["gunicorn", "nacmis_online.wsgi", "--workers=6", "--threads=4", "--worker-class=gthread", "--bind=0.0.0.0:8000"]
         env:
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -118,12 +133,60 @@ spec:
               key: django-secret-key
         - name: DJANGO_SETTINGS_MODULE
           value: nacmis_online.settings
+        - name: DJANGO_STATIC_DIR
+          value: "/usr/django_static"
         ports:
         - containerPort: 8000
           name: django-port
         volumeMounts:
         - name: django-static-storage
           mountPath: /usr/django_static
+      volumes:
+      - name: django-static-storage
+        persistentVolumeClaim:
+          claimName: django-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacmis-statics-service
+  labels:
+    app: nacmis-app
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: nginx-app
+  type:
+    LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-app
+  labels:
+    app: nacmis-app
+spec:
+  selector:
+    matchLabels:
+      app: nginx-app
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+      containers:
+      - image: nginx:1.19.1
+        name: nginx-container
+        env:
+        - name: NGINX_PORT
+          value: "80"
+        ports:
+        - containerPort: 80
+          name: nginx-port
+        volumeMounts:
+        - name: django-static-storage
+          mountPath: /usr/share/nginx/html
       volumes:
       - name: django-static-storage
         persistentVolumeClaim:
