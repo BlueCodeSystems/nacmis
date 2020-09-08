@@ -4,9 +4,12 @@ metadata:
     name: nacmis-ingress
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/issuer: "letsencrypt-production"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   rules:
-  - host: nacmis.bluecodeltd.com
+  - host: www.nacmis.org.zm
     http:
       paths:
       - path: /
@@ -14,9 +17,29 @@ spec:
         backend:
           serviceName: nacmis-service
           servicePort: 8000
-      - path: /static
+      - path: /static/
         pathType: Prefix
         backend:
           serviceName: nacmis-statics-service
           servicePort: 80
----
+  - host: nacmis.org.zm
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: nacmis-service
+          servicePort: 8000
+      - path: /static/
+        pathType: Prefix
+        backend:
+          serviceName: nacmis-statics-service
+          servicePort: 80
+  - host: nacmis-data.bluecodeltd.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: superset-service
+          servicePort: 8088

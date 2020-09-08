@@ -32,3 +32,37 @@ spec:
   resources:
     requests:
       storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: superset-pv-claim
+  labels:
+    app: nacmis-app
+spec:
+  selector:
+    matchLabels:
+      app: nacmis-app
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pv-claim
+  labels:
+    app: nacmis-app
+spec:
+  selector:
+    matchLabels:
+      app: nacmis-app
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

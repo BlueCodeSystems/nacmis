@@ -18,3 +18,17 @@ vars:
       apiVersion: v1
     fieldref:
       fieldpath: metadata.name
+  - name: superset-service
+    objref:
+      kind: Service
+      name: superset-service
+      apiVersion: v1
+    fieldref:
+      fieldpath: metadata.name
+  - name: redis-service
+    objref:
+      kind: Service
+      name: redis-service
+      apiVersion: v1
+    fieldref:
+      fieldpath: metadata.name

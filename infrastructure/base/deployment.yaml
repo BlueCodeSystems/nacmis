@@ -22,6 +22,24 @@ spec:
     app: nacmis-app
   clusterIP: None
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init-script
+  labels:
+    app: zeir-app
+data:
+  postgres-init.sh: |
+    #!/bin/bash
+    if psql  -U $POSTGRES_USER -lqt | cut -d \| -f 1 | grep -qw superset ; then
+        echo "Database superset already created"
+    else
+        echo "Creating Database superset"
+        psql -U $POSTGRES_USER -c "CREATE DATABASE superset";
+        psql -U $POSTGRES_USER -c "CREATE USER superset WITH SUPERUSER PASSWORD '$SUPERSET_DB_PASSWORD'";
+        psql -U $POSTGRES_USER -c "GRANT ALL PRIVILEGES ON DATABASE superset TO superset";
+    fi
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -42,6 +60,11 @@ spec:
       - image: postgres:10.13
         name: postgres-container
         env:
+        - name: SUPERSET_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nacmis-secrets
+              key: superset-db-password
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -65,10 +88,16 @@ spec:
         volumeMounts:
         - name: postgres-persistent-storage
           mountPath: /var/lib/postgresql/data
+        - name: postgres-init-volume
+          mountPath: /docker-entrypoint-initdb.d
+          readOnly: true
       volumes:
       - name: postgres-persistent-storage
         persistentVolumeClaim:
           claimName: postgres-pv-claim
+      - name: postgres-init-volume
+        configMap:
+          name: postgres-init-script
 ---
 apiVersion: v1
 kind: Service
@@ -100,7 +129,7 @@ spec:
         app: nacmis-app
     spec:
       containers:
-      - image: bluecodesystems/nacmis:0.4.8
+      - image: bluecodesystems/nacmis:0.5.0
         name: django-container
         command: ["gunicorn", "nacmis_online.wsgi", "--workers=6", "--threads=4", "--worker-class=gthread", "--bind=0.0.0.0:8000"]
         env:
@@ -134,13 +163,13 @@ spec:
         - name: DJANGO_SETTINGS_MODULE
           value: nacmis_online.settings
         - name: DJANGO_STATIC_DIR
-          value: "/usr/django_static"
+          value: "/usr/django_static/static"
         ports:
         - containerPort: 8000
           name: django-port
         volumeMounts:
         - name: django-static-storage
-          mountPath: /usr/django_static
+          mountPath: /usr/django_static/static
       volumes:
       - name: django-static-storage
         persistentVolumeClaim:
@@ -186,8 +215,167 @@ spec:
           name: nginx-port
         volumeMounts:
         - name: django-static-storage
-          mountPath: /usr/share/nginx/html
+          mountPath: /usr/share/nginx/html/static
       volumes:
       - name: django-static-storage
         persistentVolumeClaim:
           claimName: django-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  labels:
+    app: nacmis-app
+spec:
+  ports:
+  - port: 6379
+  selector:
+    app: redis-app
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  labels:
+    app: nacmis-app
+spec:
+  serviceName: "redis-service"
+  selector:
+    matchLabels:
+      app: redis-app
+  template:
+    metadata:
+      labels:
+        app: redis-app
+    spec:
+      containers:
+      - image: redis:6.0.5
+        name: redis-container
+        command: ["redis-server"]
+        args: ["--requirepass", "$(REDIS_PASSWORD)"]
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nacmis-secrets
+              key: redis-password
+        ports:
+        - containerPort: 6379
+          name: redis-port
+        volumeMounts:
+        - name: redis-storage
+          mountPath: /usr/local/etc/redis/redis
+      volumes:
+      - name: redis-storage
+        persistentVolumeClaim:
+          claimName: redis-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: superset-service
+  labels:
+    app: zeir-app
+spec:
+  ports:
+  - port: 8088
+  selector:
+    app: superset-app
+  type:
+    LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: superset-config
+  labels:
+    app: zeir-app
+data:
+  superset_config.py: |
+    import os
+    MAPBOX_API_KEY = os.getenv('MAPBOX_API_KEY', '')
+    CACHE_CONFIG = {
+      'CACHE_TYPE': 'redis',
+      'CACHE_DEFAULT_TIMEOUT': 300,
+      'CACHE_KEY_PREFIX': 'superset_',
+      'CACHE_REDIS_HOST': os.getenv('REDIS_HOST', ''),
+      'CACHE_REDIS_PORT': 6379,
+      'CACHE_REDIS_DB': 2,
+      'CACHE_REDIS_URL': 'redis://:{0}@{1}:6379/2'.format(os.getenv('REDIS_PASSWORD',''), os.getenv('REDIS_HOST', ''))
+
+    }
+    superset_db_password = os.getenv('SUPERSET_DB_PASSWORD', '')
+    postgres_host = os.getenv('POSTGRES_HOST', '')
+    SQLALCHEMY_DATABASE_URI='postgresql+psycopg2://superset:{0}@{1}:5432/superset'.format(superset_db_password,postgres_host)
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    SECRET_KEY = os.getenv('SECRET_KEY', '')
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superset-app
+  labels:
+    app: nacmis-app
+spec:
+  selector:
+    matchLabels:
+      app: superset-app
+  template:
+    metadata:
+      labels:
+        app: superset-app
+    spec:
+      containers:
+      - image: amancevice/superset:0.37.0
+        imagePullPolicy: Always
+        name: superset-container
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: nacmis-secrets
+              key: superset-secret-key
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nacmis-secrets
+              key: postgres-password
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: nacmis-config
+              key: postgres-username
+        - name: POSTGRES_HOST
+          value: $(postgres-service)
+        - name: REDIS_HOST
+          value: $(redis-service)
+        - name: REDIS_URL
+          value: redis://$(redis-service):6379/2
+        - name: SUPERSET_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nacmis-secrets
+              key: superset-db-password
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nacmis-secrets
+              key: redis-password
+        ports:
+        - containerPort: 8088
+          name: superset-port
+        volumeMounts:
+        - name: superset-config
+          mountPath: /etc/superset
+        - name: superset-data-storage
+          mountPath: /var/lib/superset
+      volumes:
+      - name: superset-config
+        configMap:
+          name: superset-config
+      - name: superset-data-storage
+        persistentVolumeClaim:
+          claimName: superset-pv-claim
+
