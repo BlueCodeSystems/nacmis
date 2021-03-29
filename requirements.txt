@@ -65,7 +65,7 @@ psycopg2-binary==2.7.4
 ptyprocess==0.5.2
 pycparser==2.18
 pydruid==0.4.4
-Pygments==2.2.0
+Pygments==2.7.4
 PyHive==0.5.1
 python-dateutil==2.6.1
 python-editor==1.0.3
